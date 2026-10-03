@@ -21,7 +21,8 @@ class RenderSettingsTests(SimpleTestCase):
             "DJANGO_ALLOWED_HOSTS": "rejestr.example.org", "RENDER_GIT_COMMIT": "a" * 40,
             "DYNA_DATA_DIR": "/var/data",
             "DATABASE_URL": "postgresql://dyna:fixture-password@dpg-fixture/dyna",
-            "RENDER_PROXY_CIDRS": "10.0.0.0/8,203.0.113.0/24",
+            "RENDER_PROXY_CIDRS": "10.0.0.0/8,172.64.0.0/13",
+            "RENDER_EDGE_CIDRS": "172.64.0.0/13",
         }
         self.current = {
             "LOCAL": False, "DEBUG": False, "SECRET_KEY": secrets.token_urlsafe(64),
@@ -49,6 +50,9 @@ class RenderSettingsTests(SimpleTestCase):
             ("DYNA_DATA_DIR", "var"), ("DYNA_DATA_DIR", "/opt/render/project/src/data"),
             ("RENDER_PROXY_CIDRS", "0.0.0.0/0"), ("RENDER_PROXY_CIDRS", "::/0"),
             ("RENDER_PROXY_CIDRS", ""), ("DYNA_ENV", "local"),
+            ("RENDER_EDGE_CIDRS", ""), ("RENDER_EDGE_CIDRS", "0.0.0.0/0"),
+            ("RENDER_EDGE_CIDRS", "10.0.0.0/8"),
+            ("RENDER_EDGE_CIDRS", "173.245.48.0/20"),
         ]:
             with self.subTest(key=key, value=value), self.assertRaises(ImproperlyConfigured):
                 build_settings({**self.environment, key: value}, self.current)
@@ -70,7 +74,8 @@ class RenderSettingsTests(SimpleTestCase):
 
 
 @override_settings(RENDER_PROXY_NETWORKS=(ipaddress.ip_network("10.0.0.0/8"),
-                                        ipaddress.ip_network("203.0.113.0/24")))
+                                        ipaddress.ip_network("172.64.0.0/13")),
+                   RENDER_EDGE_NETWORKS=(ipaddress.ip_network("172.64.0.0/13"),))
 class RenderProxyTests(SimpleTestCase):
     def setUp(self):
         self.factory = RequestFactory()
@@ -81,12 +86,12 @@ class RenderProxyTests(SimpleTestCase):
         self.received.append(request.META.copy())
         return JsonResponse({"ip": request.META["REMOTE_ADDR"], "secure": request.is_secure()})
 
-    def request(self, chain="198.51.100.7, 203.0.113.8", **kwargs):
+    def request(self, chain="198.51.100.7, 172.68.159.218", **kwargs):
         return self.factory.get("/", REMOTE_ADDR="10.1.2.3", HTTP_X_FORWARDED_FOR=chain,
                                 HTTP_X_FORWARDED_PROTO="https", **kwargs)
 
     def test_spoofed_prefix_is_ignored_and_custom_identity_headers_removed(self):
-        response = self.middleware(self.request("192.0.2.99, 198.51.100.7, 203.0.113.8",
+        response = self.middleware(self.request("192.0.2.99, 198.51.100.7, 172.68.159.218",
                                   HTTP_CF_CONNECTING_IP="192.0.2.99", HTTP_X_FORWARDED_HOST="evil.example"))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.received[0]["REMOTE_ADDR"], "198.51.100.7")
@@ -98,14 +103,27 @@ class RenderProxyTests(SimpleTestCase):
         self.assertEqual(self.middleware(request).status_code, 400)
         self.assertEqual(self.received, [])
 
+    def test_dynamic_private_render_peer_requires_verified_edge_chain(self):
+        for peer in ("10.24.79.42", "10.27.113.2", "10.28.5.9"):
+            request = self.request(); request.META["REMOTE_ADDR"] = peer
+            self.assertEqual(self.middleware(request).status_code, 200)
+            self.assertEqual(self.received[-1]["REMOTE_ADDR"], "198.51.100.7")
+
+    def test_private_peer_cannot_claim_client_without_cloudflare_edge(self):
+        for chain in ("198.51.100.7", "198.51.100.7,10.24.79.42",
+                      "198.51.100.7,203.0.113.8"):
+            with self.subTest(chain=chain):
+                self.assertEqual(self.middleware(self.request(chain)).status_code, 400)
+        self.assertEqual(self.received, [])
+
     def test_malformed_empty_all_trusted_and_overlong_chains_fail_closed(self):
-        for chain in ["", "not-an-ip", "10.1.2.3, 203.0.113.8", ",198.51.100.7,", "," * 21]:
+        for chain in ["", "not-an-ip", "10.1.2.3, 172.68.159.218", ",198.51.100.7,", "," * 21]:
             with self.subTest(chain=chain):
                 self.assertEqual(self.middleware(self.request(chain)).status_code, 400)
         self.assertEqual(self.received, [])
 
     def test_ipv6_client_survives_normalization(self):
-        self.assertEqual(self.middleware(self.request("2001:db8::7,203.0.113.8")).status_code, 200)
+        self.assertEqual(self.middleware(self.request("2001:db8::7,172.68.159.218")).status_code, 200)
         self.assertEqual(self.received[0]["REMOTE_ADDR"], "2001:db8::7")
 
     def test_health_probe_without_forwarded_identity_is_limited_to_health(self):

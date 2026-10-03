@@ -10,6 +10,7 @@ class RenderProxyMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         self.networks = settings.RENDER_PROXY_NETWORKS
+        self.edges = settings.RENDER_EDGE_NETWORKS
 
     def trusted(self, address):
         return any(address in network for network in self.networks)
@@ -25,6 +26,11 @@ class RenderProxyMiddleware:
             else:
                 parts = forwarded.split(",")
                 if len(parts) > 20 or len(forwarded) > 1024:
+                    raise ValueError
+                # Publiczna trasa Render kończy XFF adresem Cloudflare. Sam
+                # prywatny peer nie wystarcza do przyjęcia tożsamości klienta.
+                edge = ipaddress.ip_address(parts[-1].strip())
+                if not any(edge in network for network in self.edges):
                     raise ValueError
                 client = None
                 for value in reversed(parts):

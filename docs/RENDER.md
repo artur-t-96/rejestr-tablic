@@ -186,6 +186,17 @@ Wdrożenie z dyskiem wymaga krótkiej przerwy, bez deklaracji zero downtime.
 
 ## Wykonane sprawdzenia lokalne
 
+Build instaluje klienty PostgreSQL 18.6 z oficjalnego repozytorium PGDG,
+ponieważ [natywny runtime Render](https://render.com/docs/native-runtimes)
+dokumentuje Debian 12 i domyślne klienty 12–14. Pakiety amd64 oraz `libpq`
+mają przypięte rozmiary i SHA-256 w `deploy/render_postgres_tools.py`,
+z pochodzeniem zapisanym w `third_party/render-postgresql-client-18.json`.
+Ekstrakcja do `.render-postgres` nie wymaga sudo i nie wykonuje skryptów
+instalacyjnych. Oddzielne wrappery zapewniają właściwą bibliotekę klienta;
+start odmawia uruchomienia przed migracją, jeśli wersja/receipt są niepoprawne.
+Hosted CI w Debian 12 wykonuje rzeczywisty dump i restore do nowej bazy.
+Nie jest to jeszcze dowód odtworzenia danych na instancji Render.
+
 17/17 testów profilu, proxy, granicy plików statycznych i regresji konfiguracji
 on-prem PASS. Wśród prób: podszyty prefiks XFF, niezaufany peer, IPv6,
 uszkodzony/długi łańcuch, brak mount przed migracją, zakaz wildcardów,

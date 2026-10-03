@@ -1,0 +1,23 @@
+{
+  "source": "https://apt.postgresql.org/pub/repos/apt/dists/bookworm-pgdg/main/binary-amd64/Packages.gz",
+  "publisher": "PostgreSQL Global Development Group",
+  "observed_at": "2026-10-03",
+  "platform": "Debian 12 amd64 (Render native runtime)",
+  "version": "18.6-1.pgdg12+2",
+  "packages": [
+    {
+      "name": "libpq5",
+      "url": "https://apt.postgresql.org/pub/repos/apt/pool/main/p/postgresql-18/libpq5_18.6-1.pgdg12+2_amd64.deb",
+      "bytes": 265280,
+      "sha256": "9dc15f3f41090e632e0449693323f18c96bfd25794c439d8bcde06af6c5012f6"
+    },
+    {
+      "name": "postgresql-client-18",
+      "url": "https://apt.postgresql.org/pub/repos/apt/pool/main/p/postgresql-18/postgresql-client-18_18.6-1.pgdg12+2_amd64.deb",
+      "bytes": 2134056,
+      "sha256": "6105a64b8166ae06c2b6c681d7e600458c598151c08b0f10bf5fa25ac711d6b9"
+    }
+  ],
+  "installation": "Pinned HTTPS downloads, byte count and SHA-256 verification, metadata check, dpkg-deb extraction only. Maintainer scripts are not executed. License/copyright files remain in extracted usr/share/doc directories.",
+  "isolation": "Dedicated binary wrappers use extracted libpq only for their subprocess. No system-wide installation, no global LD_LIBRARY_PATH change, no local container."
+}

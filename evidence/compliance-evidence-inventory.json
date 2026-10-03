@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-03T13:23:17.324160+00:00",
+  "checked_at": "2026-10-03T13:37:11.695993+00:00",
   "base_revision": "855358b7ab48059ff03d711c7d61b7eb4dd78e6c",
   "scope": "Saved artifact hash/JSON verification, retaining historical scope metadata. Actual Chrome CAPTCHA completion and error/expiry/retry accepted locally; spoken VoiceOver output and full AA remain unverified. No new external API acceptance. Local Render profile prepared/tested; GitHub and Render publication still deferred. Mobile CAPTCHA error at measured 320x900 accepted; reader output remains unavailable and publication deferred.",
   "objective_sha256": "13780efcd40ec9a100fabd29f0adb71f66343ce5c9595bf5f50dd80fcccbea4b",
@@ -889,8 +889,8 @@
     {
       "path": "docs/RENDER.md",
       "saved_scope": "Local Render-profile preparation supplement; no real cloud or reader/AA acceptance.",
-      "sha256": "218c5e5e762f4d5eaf072c30d0769de6ab2038c3e8acb4489b6ca4c6d00b9d04",
-      "bytes": 13297
+      "sha256": "c0d7199ebb37742b7d826fa01c3f3b5a98068466f5fe67082dd42c8cd513e43e",
+      "bytes": 14050
     },
     {
       "path": "evidence/render-profile-proof.json",
@@ -949,8 +949,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 4587,
-      "sha256": "fb804a28ea8d549c332426940f40a4756fe55480b8294f919b461e803cd13886"
+      "bytes": 6828,
+      "sha256": "35978a6f0a7348f81a7807104f538ffc5fe307a85e1e7e20f8254d970ae514db"
     },
     {
       "path": "deploy/microsoft-mail-rbac.ps1",
@@ -988,5 +988,6 @@
       "sha256": "d97a2676ba1577e102d09a7e5d57aa453dbab07ea0ee1b66b8828c7d2353dbe8"
     }
   ],
-  "publication_instruction": "User authorized Render deployment and accepted 13.55 USD/month plus taxes/overage. GitHub repository supplied and bot write verified. Source upload awaits repository visibility choice. Microsoft shared mailbox created; app registration policy acceptance and scoped mail access remain pending. No deployed or email-delivery proof. Prepared immutable-mailbox RBAC script and 14 simulated safety scenarios; no tenant grant applied. Clean local delivery clone is based on the remote bootstrap commit; source still not uploaded."
+  "publication_instruction": "User authorized Render deployment and accepted 13.55 USD/month plus taxes/overage. GitHub repository supplied and bot write verified. Source upload awaits repository visibility choice. Microsoft shared mailbox created; app registration policy acceptance and scoped mail access remain pending. No deployed or email-delivery proof. Prepared immutable-mailbox RBAC script and 14 simulated safety scenarios; no tenant grant applied. Clean local delivery clone is based on the remote bootstrap commit; source still not uploaded.",
+  "hash_refresh_note": "Updated Render/CI artifact hashes after adding pinned PostgreSQL 18.6 client packaging. Historical acceptance scope is preserved; production remains unverified."
 }

@@ -11,8 +11,8 @@
 
 - Role technicznego administratora i merytorycznego UMP są oddzielone.
 - Konto urzędnika powiązane z urzędem i dopuszczoną domeną, zakładane przez administratora.
-- Jednorazowy kod e-mail: ważność 10 minut, 5 prób; limit wysyłek i sesja 60 minut.
-- Rezerwacja 14 dni, UMP może przedłużyć z uzasadnieniem. Wygaśnięcie zwalnia wyłącznie rezerwacje i wnioski w toku, nigdy wydane numery.
+- Jednorazowy kod e-mail (8 cyfr): ważność 10 minut, 5 prób; limit wysyłek i sesja 60 minut. Kod działa w sesji, która go zamówiła; żądanie z innego urządzenia go nie unieważnia (`USPRAWNIENIA-PRACY-URZEDOW.md`).
+- Rezerwacja 14 dni, UMP może przedłużyć z uzasadnieniem albo przywrócić wygasły wniosek, dopóki numer jest wolny; przypomnienie 3 dni przed terminem. Wygaśnięcie zwalnia wyłącznie rezerwacje i wnioski w toku, nigdy wydane numery.
 - Sprzedaż pojazdu nie zwalnia numeru. Zwolnienie przydziału ustawia UMP z powodem; historia zostaje.
 - Nie gromadzimy PESEL ani REGON. Właściciel: nazwa i adres; nabywca: nazwa.
 - Pula III należy do urzędu, stacja opcjonalna, okres konfigurowalny.

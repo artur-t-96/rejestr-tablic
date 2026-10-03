@@ -160,6 +160,10 @@ def role_cases(obj):
         {"days": 7, "reason": "Fikcyjne przedłużenie"},
     )
     add("/panel/eksport/", business_list)
+    for scope in ("wnioski", "pule"):
+        add(f"/panel/eksport/?co={scope}", business_list)
+    add("/panel/eksport/?co=urzedy", (302, 403, 200, 403, 403))
+    add("/panel/urzedy/", (302, 403, 200, 403, 403))
     add("/panel/import/", (302, 403, 200, 403, 403))
     add("/panel/import/pule/", (302, 403, 200, 403, 403))
     add("/panel/pule/", business_list)

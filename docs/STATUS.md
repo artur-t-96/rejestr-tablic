@@ -18,6 +18,9 @@ e-Doręczeń, kwalifikowanego podpisu ani infrastruktury konkretnego urzędu.
 Dokładne dostępy i kroki są wskazane w raporcie. Nie zgłaszano się
 w imieniu urzędu bez jego upoważnienia.
 
+Po przeglądzie funkcji względem specyfikacji dodano usprawnienia pracy UMP i
+urzędów: [USPRAWNIENIA-PRACY-URZEDOW.md](USPRAWNIENIA-PRACY-URZEDOW.md).
+
 Poniżej zachowano chronologię wcześniejszych prac. Sformułowania o
 oczekiwaniu na publikację, aplikację Microsoft i CI dotyczą dawnych etapów.
 

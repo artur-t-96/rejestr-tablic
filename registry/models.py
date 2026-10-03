@@ -218,6 +218,8 @@ class PlateRecord(models.Model):
     buyer = models.CharField(max_length=180, blank=True)
     allocated_at = models.DateTimeField(null=True, blank=True)
     reservation_until = models.DateTimeField(null=True, blank=True)
+    # Termin rezerwacji, dla którego wysłano już przypomnienie (przedłużenie pozwala na kolejne).
+    reminded_until = models.DateTimeField(null=True, blank=True)
     letter_number = models.CharField(max_length=100, blank=True)
     note = models.TextField(blank=True)
     version = models.PositiveIntegerField(default=1)
@@ -309,6 +311,7 @@ class Pool(models.Model):
     valid_from = models.DateField()
     valid_until = models.DateField(null=True, blank=True)
     station = models.CharField(max_length=180, blank=True)
+    alerted_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -355,6 +358,19 @@ class PoolSlot(models.Model):
         ordering = ["ordinal"]
 
 
+class FlaggedWord(models.Model):
+    """Słownik ostrzeżeń dla UMP; ocena treści wyróżnika pozostaje decyzją urzędnika."""
+
+    word = models.CharField(max_length=5, unique=True)
+    note = models.CharField(max_length=200, blank=True)
+
+    class Meta:
+        ordering = ["word"]
+
+    def __str__(self):
+        return self.word
+
+
 class LetterTemplate(models.Model):
     kind = models.CharField(max_length=20, unique=True)
     title = models.CharField(max_length=180)
@@ -385,6 +401,10 @@ class Letter(models.Model):
     signed_at = models.DateTimeField(null=True)
     signed_by = models.ForeignKey(User, null=True, on_delete=models.PROTECT, related_name="signed_letters")
     ezd_id = models.CharField(max_length=150, blank=True)
+    # Wysyłka papierowa odnotowana przez urząd nadawcy; nie jest dowodem doręczenia.
+    posted_at = models.DateField(null=True, blank=True)
+    posted_reference = models.CharField(max_length=60, blank=True)
+    posted_by = models.ForeignKey(User, null=True, on_delete=models.PROTECT, related_name="posted_letters")
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

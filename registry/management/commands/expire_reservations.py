@@ -3,6 +3,7 @@ import time
 from django.core.management.base import BaseCommand, CommandError
 from django.db import close_old_connections
 
+from registry.notifications import send_reservation_reminders
 from registry.services import expire_reservations
 
 
@@ -21,6 +22,7 @@ class Command(BaseCommand):
             raise CommandError("Przerwa musi wynosić 1–3600 sekund.")
         if not options["watch"]:
             self.stdout.write(f"Zwolniono {expire_reservations()} rezerwacji.")
+            self.stdout.write(f"Wysłano {send_reservation_reminders()} przypomnień o terminie.")
             return
         self.stdout.write(f"Proces wygaszania rezerwacji działa; kontrola co {interval} sekund.")
         try:
@@ -29,6 +31,9 @@ class Command(BaseCommand):
                 count = expire_reservations()
                 if count:
                     self.stdout.write(f"Zwolniono {count} rezerwacji.")
+                reminded = send_reservation_reminders()
+                if reminded:
+                    self.stdout.write(f"Wysłano {reminded} przypomnień o terminie.")
                 close_old_connections()
                 time.sleep(interval)
         except KeyboardInterrupt:

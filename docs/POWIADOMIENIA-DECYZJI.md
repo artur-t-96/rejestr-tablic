@@ -1,5 +1,9 @@
 # Moduł III — okres puli i powiadomienia o decyzji
 
+> Stan po `USPRAWNIENIA-PRACY-URZEDOW.md`: powiadomienie autora obejmuje moduły
+> I, II i III, a nieudaną wysyłkę UMP ponawia przyciskiem „Ponów powiadomienie".
+> Poniższy opis zachowuje zakres i dowody pierwotnego etapu III.
+
 Stan: 03.10.2026. Implementacja `cadcce794de4ce4a51451deacb79b562128ff198`.
 Cały cel pozostaje **W TOKU**. Ten etap nie potwierdza kategorii prawnej III,
 rzeczywistego SMTP urzędu, zewnętrznych API ani pełnej zgodności produktu.

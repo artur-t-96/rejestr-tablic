@@ -28,6 +28,9 @@ IP generowania pism, wznowień i błędu OTP: [AUDYT-IP.md](docs/AUDYT-IP.md).
 Paginacja list, filtry i pełny eksport: [PAGINACJA-LIST.md](docs/PAGINACJA-LIST.md).
 Przegląd 67 wymagań, konta i otwarte czynności:
 [RAPORT-ODBIORU-LOKALNEGO.md](docs/RAPORT-ODBIORU-LOKALNEGO.md).
+Kolejka decyzji, weryfikacja numeru, przypomnienia, wysyłka pocztą, przegląd
+urzędów i ochrona logowania:
+[USPRAWNIENIA-PRACY-URZEDOW.md](docs/USPRAWNIENIA-PRACY-URZEDOW.md).
 
 System wdrożono na Renderze. Przebiegi trzech modułów i lokalne testy dokumentów, importów,
 uprawnień oraz kopii opisują powyższe raporty. CAPTCHA ukończono w rzeczywistym
@@ -62,7 +65,7 @@ Lokalne wiadomości są zapisywane do `var/mail`. Po zamówieniu kodu w przeglą
 
 Konta mają nieużywalne hasła; logowanie odbywa się wyłącznie kodem. Przy ponownym uruchomieniu dane pokazowe nie są usuwane.
 
-Lokalny skrypt uruchamia też automatyczne powiadomienia o decyzjach III.
+Lokalny skrypt uruchamia też automatyczne powiadomienia autora o decyzjach.
 Przy ręcznym starcie serwera uruchom osobno `manage.py process_integrations
 --watch --interval 30 --provider SMTP --operation DECISION_NOTICE`.
 Okres puli, odbiór powiadomień, migracja 0009 i ograniczenia transportu:

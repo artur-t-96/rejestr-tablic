@@ -59,13 +59,13 @@ class ReservationDeadlineTests(TestCase):
     def test_otp_for_administrator_without_office(self):
         token = LoginCode.objects.create(
             user=self.admin,
-            digest=make_password("123456"),
+            digest=make_password("12345678"),
             expires_at=timezone.now() + timedelta(minutes=1),
         )
         session = self.client.session
         session["login_code_id"] = token.pk
         session.save()
-        self.assertEqual(self.client.post("/logowanie/kod/", {"code": "123456"}).status_code, 302)
+        self.assertEqual(self.client.post("/logowanie/kod/", {"code": "12345678"}).status_code, 302)
         token.refresh_from_db()
         self.assertTrue(token.used)
         self.assertEqual(int(self.client.session["_auth_user_id"]), self.admin.pk)

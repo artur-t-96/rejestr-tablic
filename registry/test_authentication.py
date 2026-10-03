@@ -50,7 +50,7 @@ class AuthenticationFlowTests(TestCase):
             reverse("login_email"), {"email": email or self.a.email, "next": next_path}
         )
         self.assertRedirects(response, reverse("login_code"))
-        return re.search(r"Kod: (\d{6})", mail.outbox[-1].body).group(1)
+        return re.search(r"Kod: (\d{8})", mail.outbox[-1].body).group(1)
 
     def test_otp_returns_to_protected_request_and_rotates_session(self):
         req = create_request(self.a, data())
@@ -114,7 +114,7 @@ class AuthenticationFlowTests(TestCase):
             reverse("login_email"), {"email": self.a.email, "csrfmiddlewaretoken": old_csrf}
         )
         self.assertEqual(response.status_code, 302)
-        code = re.search(r"Kod: (\d{6})", mail.outbox[-1].body).group(1)
+        code = re.search(r"Kod: (\d{8})", mail.outbox[-1].body).group(1)
         self.client.post(reverse("login_code"), {"code": code, "csrfmiddlewaretoken": old_csrf})
         self.assertNotEqual(old_csrf, self.client.cookies["csrftoken"].value)
         response = self.client.post(reverse("request_new"), {**data(), "csrfmiddlewaretoken": old_csrf})

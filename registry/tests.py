@@ -291,12 +291,12 @@ class CoreTests(TestCase):
 
     def test_single_use_otp_and_disabled_office(self):
         token = LoginCode.objects.create(
-            user=self.a, digest=make_password("123456"), expires_at=timezone.now() + timedelta(minutes=1)
+            user=self.a, digest=make_password("12345678"), expires_at=timezone.now() + timedelta(minutes=1)
         )
         session = self.client.session
         session["login_code_id"] = token.pk
         session.save()
-        response = self.client.post("/logowanie/kod/", {"code": "123456"})
+        response = self.client.post("/logowanie/kod/", {"code": "12345678"})
         self.assertEqual(response.status_code, 302)
         token.refresh_from_db()
         self.assertTrue(token.used)

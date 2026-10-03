@@ -1,6 +1,5 @@
 import hashlib
 import json
-import sqlite3
 import tempfile
 from datetime import timedelta
 from email import policy
@@ -290,8 +289,9 @@ class NoticeBackupTests(TransactionTestCase):
                 self.assertEqual(message["Message-ID"], f"<{job.uuid}@dyna-rejestr.local>")
                 self.assertEqual(list(message.iter_attachments()), [])
                 self.assertIn(str(req.uuid), message.get_content())
-            call_command("restore_registry", str(backup), target=str(target), stdout=StringIO())
-            with sqlite3.connect(target / "registry.sqlite3") as db:
+            from ._backup_test_helpers import restored_database
+
+            with restored_database(backup, target) as (db, _):
                 status, payload, sha = db.execute(
                     "SELECT status,payload,payload_sha256 FROM registry_integrationjob WHERE operation='DECISION_NOTICE'"
                 ).fetchone()

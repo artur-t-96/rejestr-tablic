@@ -2,7 +2,6 @@
 
 import hashlib
 import json
-import sqlite3
 import tempfile
 import uuid
 from concurrent.futures import ThreadPoolExecutor
@@ -467,8 +466,9 @@ class IncomingBackupTests(TransactionTestCase):
             archive = Path(temp) / "backup.zip"
             target = Path(temp) / "restore"
             call_command("backup_registry", output=str(archive), stdout=StringIO())
-            call_command("restore_registry", str(archive), target=str(target), stdout=StringIO())
-            with sqlite3.connect(target / "registry.sqlite3") as db:
+            from ._backup_test_helpers import restored_database
+
+            with restored_database(archive, target) as (db, _):
                 content, digest = db.execute(
                     "SELECT content,sha256 FROM registry_ezdincomingdocument"
                 ).fetchone()

@@ -124,7 +124,7 @@ class SecurityRetentionTests(TestCase):
     def test_inventory_reports_aggregates_without_loading_contents_or_mutating_data(self):
         output = StringIO()
         # Nawet nietypowa wartość z dawnego/importowanego źródła nie jest drukowana.
-        PlateRecord.objects.filter(pk=self.request.record_id).update(status="PRIVATE_STATE_SENTINEL")
+        PlateRecord.objects.filter(pk=self.request.record_id).update(status="PRIVATE_X")
         before = self.state(include_security=True)
         with CaptureQueriesContext(connection) as queries:
             call_command("retention_inventory", stdout=output)

@@ -1,6 +1,5 @@
 import hashlib
 import json
-import sqlite3
 import tempfile
 from io import StringIO
 from pathlib import Path
@@ -9,6 +8,7 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TransactionTestCase
 
+from ._backup_test_helpers import restored_database
 from .edor_delivery import unsent_block_reason
 from .integrations import enqueue
 from .models import DeliveryEvidence, IntegrationJob, PublicChallenge
@@ -61,8 +61,7 @@ class IntegrationRestoreTests(TransactionTestCase):
             IntegrationJob.objects.filter(pk=job.pk).update(status="ACCEPTED")
             # Dawny CONFIG_ERROR mógł już zostać naprawiony i wysłany po kopii.
             IntegrationJob.objects.filter(pk=failed.pk).update(status="MONITORING")
-            call_command("restore_registry", str(backup), target=str(target), stdout=StringIO())
-            with sqlite3.connect(target / "registry.sqlite3") as db:
+            with restored_database(backup, target) as (db, placeholder):
                 self.assertEqual(
                     db.execute(
                         "SELECT COUNT(*) FROM registry_publicchallenge WHERE consumed_at IS NULL"
@@ -77,10 +76,11 @@ class IntegrationRestoreTests(TransactionTestCase):
                     self.assertIn(status, {"REVIEW_REQUIRED", "CONFIG_ERROR"})
                     self.assertEqual(hashlib.sha256(payload).hexdigest(), sha)
                 restored_status, result = db.execute(
-                    "SELECT status,result FROM registry_integrationjob WHERE id=?", [failed.pk]
+                    f"SELECT status,result FROM registry_integrationjob WHERE id={placeholder}", [failed.pk]
                 ).fetchone()
                 self.assertEqual(restored_status, "CONFIG_ERROR")
-                failed.status, failed.result = restored_status, json.loads(result)
+                failed.status = restored_status
+                failed.result = json.loads(result) if isinstance(result, str) else result
                 self.assertIs(failed.result["restore_requires_reconciliation"], True)
                 self.assertIn("Odtworzona kopia", unsent_block_reason(failed))
                 payload, sha = db.execute("SELECT content,sha256 FROM registry_deliveryevidence").fetchone()

@@ -1,0 +1,117 @@
+Creating test database for alias 'default'...
+Destroying old test database for alias 'default'...
+FFF.FFFEEEE
+======================================================================
+ERROR: test_invalid_interval_fails_before_processing (registry.test_reservation_completion.ReservationWatcherTests.test_invalid_interval_fails_before_processing) (value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_reservation_completion.py", line 126, in test_invalid_interval_fails_before_processing
+    call_command("expire_reservations", watch=True, interval=value, stdout=StringIO())
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/core/management/__init__.py", line 180, in call_command
+    raise TypeError(
+TypeError: Unknown option(s) for expire_reservations command: interval, watch. Valid options are: force_color, help, no_color, pythonpath, settings, skip_checks, stderr, stdout, traceback, verbosity, version.
+
+======================================================================
+ERROR: test_invalid_interval_fails_before_processing (registry.test_reservation_completion.ReservationWatcherTests.test_invalid_interval_fails_before_processing) (value=-1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_reservation_completion.py", line 126, in test_invalid_interval_fails_before_processing
+    call_command("expire_reservations", watch=True, interval=value, stdout=StringIO())
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/core/management/__init__.py", line 180, in call_command
+    raise TypeError(
+TypeError: Unknown option(s) for expire_reservations command: interval, watch. Valid options are: force_color, help, no_color, pythonpath, settings, skip_checks, stderr, stdout, traceback, verbosity, version.
+
+======================================================================
+ERROR: test_invalid_interval_fails_before_processing (registry.test_reservation_completion.ReservationWatcherTests.test_invalid_interval_fails_before_processing) (value=3601)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_reservation_completion.py", line 126, in test_invalid_interval_fails_before_processing
+    call_command("expire_reservations", watch=True, interval=value, stdout=StringIO())
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/core/management/__init__.py", line 180, in call_command
+    raise TypeError(
+TypeError: Unknown option(s) for expire_reservations command: interval, watch. Valid options are: force_color, help, no_color, pythonpath, settings, skip_checks, stderr, stdout, traceback, verbosity, version.
+
+======================================================================
+ERROR: test_watcher_expires_without_read_request_and_stops_on_interrupt (registry.test_reservation_completion.ReservationWatcherTests.test_watcher_expires_without_read_request_and_stops_on_interrupt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_reservation_completion.py", line 113, in test_watcher_expires_without_read_request_and_stops_on_interrupt
+    with patch("registry.management.commands.expire_reservations.time.sleep", side_effect=KeyboardInterrupt):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1451, in __enter__
+    self.target = self.getter()
+                  ^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pkgutil.py", line 528, in resolve_name
+    result = getattr(result, p)
+             ^^^^^^^^^^^^^^^^^^
+AttributeError: module 'registry.management.commands.expire_reservations' has no attribute 'time'
+
+======================================================================
+FAIL: test_direct_record_page_removes_expired_reservation_actions (registry.test_reservation_completion.ReservationCompletionTests.test_direct_record_page_removes_expired_reservation_actions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_reservation_completion.py", line 55, in test_direct_record_page_removes_expired_reservation_actions
+    self.assertEqual(page.context["record"].status, "RELEASED")
+AssertionError: 'SENT' != 'RELEASED'
+- SENT
++ RELEASED
+
+
+======================================================================
+FAIL: test_direct_request_page_expires_before_render_and_preserves_letters (registry.test_reservation_completion.ReservationCompletionTests.test_direct_request_page_expires_before_render_and_preserves_letters)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_reservation_completion.py", line 36, in test_direct_request_page_expires_before_render_and_preserves_letters
+    self.assertEqual(page.context["req"].status, "EXPIRED")
+AssertionError: 'SENT' != 'EXPIRED'
+- SENT
++ EXPIRED
+
+
+======================================================================
+FAIL: test_expiry_audit_failure_rolls_back_both_states_and_history (registry.test_reservation_completion.ReservationCompletionTests.test_expiry_audit_failure_rolls_back_both_states_and_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_reservation_completion.py", line 89, in test_expiry_audit_failure_rolls_back_both_states_and_history
+    with self.assertRaises(RuntimeError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_record_api_expires_before_read_without_prior_panel_visit (registry.test_reservation_completion.ReservationCompletionTests.test_record_api_expires_before_read_without_prior_panel_visit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_reservation_completion.py", line 70, in test_record_api_expires_before_read_without_prior_panel_visit
+    self.assertEqual(response.json()["status"], "RELEASED")
+AssertionError: 'SENT' != 'RELEASED'
+- SENT
++ RELEASED
+
+
+======================================================================
+FAIL: test_request_api_expires_without_prior_panel_visit (registry.test_reservation_completion.ReservationCompletionTests.test_request_api_expires_without_prior_panel_visit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_reservation_completion.py", line 77, in test_request_api_expires_without_prior_panel_visit
+    self.assertEqual(self.client.get("/api/requests/").json()["items"][0]["status"], "EXPIRED")
+AssertionError: 'SENT' != 'EXPIRED'
+- SENT
++ EXPIRED
+
+
+======================================================================
+FAIL: test_request_list_and_api_do_not_keep_overdue_request_pending (registry.test_reservation_completion.ReservationCompletionTests.test_request_list_and_api_do_not_keep_overdue_request_pending)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_reservation_completion.py", line 63, in test_request_list_and_api_do_not_keep_overdue_request_pending
+    self.assertContains(page, req.reference)
+AssertionError: False is not true : Couldn't find 'W/2026/00001' in the following response
+b'<!doctype html>\n<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Wnioski \xc2\xb7 Dyna Rejestr Tablic</title><link rel="stylesheet" href="/static/registry/app.css?v=8"><script src="/static/registry/app.js?v=5" defer></script><script src="/static/registry/session.js?v=5" defer></script></head>\n<body><a class="skip" href="#main">Przejd\xc5\xba do tre\xc5\x9bci</a>\n<div class="environment">\xc5\x9arodowisko lokalne \xc2\xb7 dane fikcyjne \xc2\xb7 integracje zewn\xc4\x99trzne wymagaj\xc4\x85 konfiguracji</div>\n<header class="topbar"><a class="brand" href="/"><span class="brand-icon" aria-hidden="true">D</span><span>Dyna<span class="brand-sub">Rejestr Tablic \xc2\xb7 Wielkopolska</span></span></a><nav aria-label="Nawigacja g\xc5\x82\xc3\xb3wna"><a href="/">Sprawd\xc5\xba tablic\xc4\x99</a><a href="/panel/">Panel urz\xc4\x99du</a><button class="link" type="button" data-session-extend-now hidden>Przed\xc5\x82u\xc5\xbc logowanie</button><form action="/wyloguj/" method="post" class="inline"><input type="hidden" name="csrfmiddlewaretoken" value="gmKfEmqzm72ducXaMyhmmFvCuq6C0ZAQXuStlik6yt8kVudixo5CfFUd2cGdeTFY"><button class="link" type="submit">Wyloguj</button></form></nav></header>\n<div class="layout ">\n<aside class="sidebar"><p class="eyebrow">Panel urz\xc4\x99du</p><strong>a@test.invalid</strong><p class="muted">Urz\xc4\x99dnik powiatowy<br>Urz\xc4\x85d A</p><nav aria-label="Menu panelu"><a href="/panel/">Przegl\xc4\x85d</a><a href="/panel/wnioski/">Wnioski</a><a href="/panel/ewidencja/">Ewidencja</a><a href="/panel/pule/">Pule numer\xc3\xb3w</a><a href="/panel/pisma/">Pisma i dokumenty</a><a href="/panel/integracje/">Integracje</a><a href="/panel/audyt/">Dziennik audytowy</a></nav><div class="sidebar-bottom">Wsp\xc3\xb3lna ewidencja wojew\xc3\xb3dztwa<br>35 urz\xc4\x99d\xc3\xb3w \xc2\xb7 3 modu\xc5\x82y</div></aside>\n<main id="main" tabindex="-1">\n<div class="page-head"><div><p class="eyebrow">Modu\xc5\x82y I, II i III</p><h1>Wnioski</h1></div><a class="button" href="/panel/wnioski/nowy/">+ Nowy wniosek</a></div><section class="card"><form method="get" class="filters"><div><label for="q">Szukaj</label><input id="q" name="q" value="" placeholder="Numer, sprawa lub urz\xc4\x85d"></div><div><label for="status">Status</label><select id="status" name="status"><option value="">Wszystkie</option><option value="DRAFT" >Szkic</option><option value="SENT" >Oczekuje na decyzj\xc4\x99</option><option value="APPROVED" >Zaakceptowany</option><option value="REJECTED" >Odrzucony</option><option value="WITHDRAWN" >Wycofany</option><option value="EXPIRED" selected>Rezerwacja wygas\xc5\x82a</option></select></div><button>Filtruj</button></form><div class="table-wrap"><table><caption class="sr-only">Lista wniosk\xc3\xb3w</caption><thead><tr><th>Wniosek</th><th>Urz\xc4\x85d</th><th>Przedmiot</th><th>Status</th><th>Data</th></tr></thead><tbody><tr><td colspan="5" class="empty">Brak wniosk\xc3\xb3w spe\xc5\x82niaj\xc4\x85cych kryteria.</td></tr></tbody></table></div>\n</section></main></div>\n\n<section id="session-notice" class="session-notice" hidden tabindex="-1" aria-labelledby="session-notice-title"\n  data-session-owner="3:COUNTY:a" data-status-url="/api/session/" data-extend-url="/api/session/extend/">\n  <h2 id="session-notice-title">Ko\xc5\x84czy si\xc4\x99 czas logowania</h2>\n  <p data-session-message>Przed\xc5\x82u\xc5\xbc czas, aby kontynuowa\xc4\x87 prac\xc4\x99. Wpisane dane pozostan\xc4\x85 w formularzu.</p>\n  <form data-session-extend method="post" action="/api/session/extend/">\n    <input type="hidden" name="csrfmiddlewaretoken" value="gmKfEmqzm72ducXaMyhmmFvCuq6C0ZAQXuStlik6yt8kVudixo5CfFUd2cGdeTFY"><input type="hidden" name="session_owner" value="3:COUNTY:a">\n    <input type="hidden" name="return_to" value="/panel/wnioski/?status=EXPIRED">\n    <button type="submit">Przed\xc5\x82u\xc5\xbc czas logowania</button>\n  </form>\n  <a data-session-login class="button" hidden href="/logowanie/?next=/panel/wnioski/%3Fstatus%3DEXPIRED" target="_blank" rel="noopener">Zaloguj w nowej karcie</a>\n</section>\n<noscript><section class="card"><h2>Czas logowania</h2><p>Przed przed\xc5\x82u\xc5\xbceniem czasu zapisz formularz \xe2\x80\x94 strona zostanie od\xc5\x9bwie\xc5\xbcona.</p>\n  <form method="post" action="/api/session/extend/"><input type="hidden" name="csrfmiddlewaretoken" value="gmKfEmqzm72ducXaMyhmmFvCuq6C0ZAQXuStlik6yt8kVudixo5CfFUd2cGdeTFY">\n    <input type="hidden" name="session_owner" value="3:COUNTY:a"><input type="hidden" name="return_to" value="/panel/wnioski/?status=EXPIRED">\n    <button type="submit">Przed\xc5\x82u\xc5\xbc czas logowania</button>\n  </form>\n</section></noscript>\n\n<footer>Wojew\xc3\xb3dzka ewidencja tablic rejestracyjnych \xc2\xb7 Dyna Rejestr Tablic</footer></body></html>\n'
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.250s
+
+FAILED (failures=6, errors=4)
+Destroying test database for alias 'default'...
+Found 9 test(s).
+System check identified no issues (0 silenced).

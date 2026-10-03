@@ -1,0 +1,35 @@
+{
+  "baseline": "var/backups/2026-10-03-numbering.zip",
+  "comparison": {
+    "registry_request": {
+      "unchanged": true,
+      "before_count": 5,
+      "after_count": 5
+    },
+    "registry_platerecord": {
+      "unchanged": true,
+      "before_count": 5,
+      "after_count": 5
+    },
+    "registry_letter": {
+      "unchanged": true,
+      "before_count": 12,
+      "after_count": 12
+    },
+    "registry_pool": {
+      "unchanged": true,
+      "before_count": 1,
+      "after_count": 1
+    },
+    "registry_poolslot": {
+      "unchanged": true,
+      "before_count": 30,
+      "after_count": 30
+    },
+    "registry_numbersequence": {
+      "unchanged": true,
+      "before_count": 3,
+      "after_count": 3
+    }
+  }
+}

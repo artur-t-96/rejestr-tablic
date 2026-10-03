@@ -1,0 +1,795 @@
+openapi: 3.0.2
+info:
+  title: Search Engine API
+  version: 4.0.5
+
+paths:
+  /search/bae_search:
+    post:
+      summary: Advanced search.
+      tags:
+        - 'Search Engine'
+      parameters:
+        - name: ClientCert-Subject
+          in: header
+          required: false
+          schema:
+            $ref: '#/components/schemas/ClientCertSubject'
+      requestBody:
+        description: Search criteria.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaeSearch'
+      responses:
+        200:
+          description: Search results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        400:
+          $ref: '#/components/schemas/SearchEngineError'
+
+  /search/eda-confirmation:
+    post:
+      summary: Single EDA confirmation.
+      tags:
+        - 'Search Engine'
+      parameters:
+        - name: ClientCert-Subject
+          in: header
+          required: false
+          schema:
+            $ref: '#/components/schemas/ClientCertSubject'
+      requestBody:
+        description: Search criteria for EDA confirmation.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EdaConfirmation'
+      responses:
+        200:
+          description: Search results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EdaConfirmationResponse'
+        400:
+          $ref: '#/components/schemas/SearchEngineError'
+
+  /search/eda-search:
+    post:
+      summary: Multiple EDA search.
+      tags:
+        - 'Search Engine'
+      parameters:
+        - name: ClientCert-Subject
+          in: header
+          required: false
+          schema:
+            $ref: '#/components/schemas/ClientCertSubject'
+      requestBody:
+        description: Search criteria for multiple EDA search.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EdaSearch'
+      responses:
+        200:
+          description: Search results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EdaSearchResponses'
+        400:
+          $ref: '#/components/schemas/SearchEngineError'
+
+components:
+  schemas:
+    EdaConfirmation:
+      required:
+        - recipientEda
+        - senderEda
+      type: object
+      properties:
+        recipientEda:
+          type: string
+          description: Recipient's EDA.
+          example: AE:PL-12345-67890-ABCDE-10
+        senderEda:
+          type: string
+          description: Sender's EDA.
+          example: AE:PL-12345-67890-ABCDE-12
+
+    EdaConfirmationResponse:
+      type: object
+      properties:
+        recipientEda:
+          $ref: '#/components/schemas/EdaConfirmationRecipientEda'
+        recipient:
+          $ref: '#/components/schemas/EdaConfirmationRecipient'
+
+    EdaConfirmationRecipientEda:
+      type: object
+      description: Recipient's EDA data.
+      required:
+        - recipientEda
+        - assignmentDegree
+        - edaStatus
+        - designatedOperator
+      properties:
+        recipientEda:
+          type: string
+          description: EDA
+          example: AE:PL-98765-43210-SFVYC-19
+        isMainEda:
+          type: boolean
+          description: Indicates whether public entity’s EDA is main or additional.
+          example: true
+        assignmentDegree:
+          $ref: '#/components/schemas/AssignmentDegreeEnum'
+        edaStatus:
+          $ref: '#/components/schemas/EdaStatusEnum'
+        designatedOperator:
+          type: boolean
+          description: Indicates whether EDA is assigned to the public e-Delivery service.
+          example: true
+        dateOfEnteringToBAE:
+          type: string
+          description: Date of entering EDA into the electronic address database.
+        dateOfRemovalFromBAE:
+          type: string
+          description: Date of removal of EDA from the electronic address database.
+
+    EdaConfirmationRecipient:
+      type: object
+      required:
+        - isPublic
+      properties:
+        name:
+          type: string
+          description: Name.
+          example: ADAM
+          maxLength: 240
+        surname:
+          type: string
+          description: Surname.
+          example: MALINOWSKI
+          maxLength: 300
+        professionalTitle:
+          type: string
+          description: Property of court enforcement officers or natural persons who perform professions of public trust.
+          example: ADWOKAT
+          maxLength: 256
+        legalForm:
+          type: string
+          description: Legal form.
+          example: ZWIĄZEK_ZAWODOWY
+        isPublic:
+          type: boolean
+          description: Indicates whether the entity is public.
+          example: false
+        entityName:
+          type: string
+          maxLength: 2000
+          description: Private or public entity name.
+          example: NAZWA PODMIOTU
+        officialIds:
+          type: array
+          description: List of reference registry IDs (PESEL, REGON, etc.).
+          items:
+            $ref: '#/components/schemas/OfficialId'
+        nipStatus:
+          type: string
+          enum: [ ASSIGNED, BLANK, CANCELLED, REVOKED ]
+          description: NIP status.
+          example: ASSIGNED
+        address:
+          type: array
+          description: List of correspondence and headquarters addresses.
+          items:
+            $ref: '#/components/schemas/AddressDataResponse'
+          maxItems: 2
+
+    BaeSearch:
+      required:
+        - recipientEdasOnly
+        - senderEda
+      type: object
+      properties:
+        recipientEdasOnly:
+          type: boolean
+          description: If true, then only "recipientEdas" search parameter should be given. If false, then searchCategory and other search parameters should be given.
+          example: false
+        searchCategory:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchCategoryEnum'
+          minItems: 1
+        entityName:
+          type: string
+          description: Name of public or private entity.
+          example: MINISTERSTWO POCZT I TELEGRAFÓW
+          minLength: 2
+          maxLength: 2000
+        name:
+          type: string
+          description: Name
+          example: ADAM
+          minLength: 2
+          maxLength: 240
+        surname:
+          type: string
+          description: Surname
+          example: MALINOWSKI
+          minLength: 2
+          maxLength: 300
+        recipientEdas:
+          type: array
+          description: List of recipient's EDAs.
+          example: AE:PL-12345-67890-ABCDE-10,AE:PL-12345-67890-ABCDE-11
+          items:
+            type: string
+          maxItems: 50
+        senderEda:
+          type: string
+          description: Sender's EDA.
+          example: AE:PL-12345-67890-ABCDE-12
+        searchByParentIds:
+          type: boolean
+          default: false
+          example: false
+          description: Specifies whether to search for organizational units separated within a given public entity based on its identifier REGON, KRS, NIP.
+        officialIds:
+          type: array
+          description: List of reference registry IDs (PESEL, REGON, etc.).
+          maxItems: 4
+          items:
+            $ref: '#/components/schemas/OfficialId'
+        address:
+          type: array
+          description: Correspondence or headquarters address.
+          items:
+            $ref: '#/components/schemas/AddressData'
+        offset:
+          type: integer
+          description: Page number. Minimum 0. If not provided, default values will be used.
+          example: 0
+          minimum: 0
+          default: 0
+        limit:
+          type: integer
+          description: Number of results to be returned.
+          example: 20
+          minimum: 1
+          maximum: 50
+          default: 20
+
+    SearchResponse:
+      type: object
+      properties:
+        baeSearchResponses:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaeSearchResponse'
+        totalResults:
+          type: integer
+          format: int32
+          description: Number of results found. Can be greater than limit.
+          example: 1
+
+    BaeSearchResponse:
+      type: object
+      properties:
+        recipientEda:
+          $ref: '#/components/schemas/RecipientEda'
+        baeSearchData:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaeSearchData'
+          description: List of results.
+
+    BaeSearchData:
+      type: object
+      required:
+        - index
+        - isPublic
+      properties:
+        index:
+          type: number
+          description: Version number in chronological order. The index is used to sort the search results within an entity in order from current to oldest. Value = 1 current version.
+          example: 1
+        name:
+          type: string
+          description: Name.
+          example: ADAM
+          maxLength: 240
+        surname:
+          type: string
+          description: Surname.
+          example: MALINOWSKI
+          maxLength: 300
+        professionalTitle:
+          type: string
+          description: Property of court enforcement officers or natural persons who perform professions of public trust.
+          example: ADWOKAT
+          maxLength: 256
+        legalForm:
+          type: string
+          description: Legal form.
+          example: ZWIĄZEK_ZAWODOWY
+        isPublic:
+          type: boolean
+          description: Indicates whether the entity is public.
+          example: false
+        entityName:
+          type: string
+          maxLength: 2000
+          description: Private or public entity name.
+          example: NAZWA PODMIOTU
+        officialIds:
+          type: array
+          description: List of reference registry IDs (PESEL, REGON, etc.).
+          items:
+            $ref: '#/components/schemas/OfficialId'
+        nipStatus:
+          type: string
+          enum: [ ASSIGNED, BLANK, CANCELLED, REVOKED ]
+          description: NIP status.
+          example: ASSIGNED
+        address:
+          type: array
+          description: List of correspondence and headquarters addresses.
+          items:
+            $ref: '#/components/schemas/AddressDataResponse'
+          maxItems: 2
+
+    EdaSearch:
+      required:
+        - recipientEdas
+        - senderEda
+      type: object
+      properties:
+        recipientEdas:
+          type: array
+          description: List of recipient's EDAs.
+          example: AE:PL-12345-67890-ABCDE-10,AE:PL-12345-67890-ABCDE-11
+          items:
+            type: string
+          maxItems: 1000
+        senderEda:
+          type: string
+          description: Sender's EDA.
+          example: AE:PL-12345-67890-ABCDE-12
+        offset:
+          type: integer
+          description: Page number. Minimum 0. If not provided, default values will be used.
+          example: 0
+          minimum: 0
+          default: 0
+        limit:
+          type: integer
+          description: Number of results to be returned.
+          example: 20
+          minimum: 1
+          maximum: 1000
+          default: 20
+
+    EdaSearchResponses:
+      type: object
+      properties:
+        edaSearchResponses:
+          type: array
+          items:
+            $ref: '#/components/schemas/EdaSearchResponse'
+        totalResults:
+          type: integer
+          format: int32
+          description: Number of results found. Can be greater than limit.
+          example: 1
+
+    EdaSearchResponse:
+      properties:
+        recipientEda:
+          $ref: '#/components/schemas/EdaSearchRecipientEda'
+        recipient:
+          $ref: '#/components/schemas/EdaSearchRecipient'
+
+    EdaSearchRecipientEda:
+      type: object
+      description: Recipient's EDA data.
+      required:
+        - recipientEda
+        - edaStatus
+        - designatedOperator
+      properties:
+        recipientEda:
+          type: string
+          description: EDA
+          example: AE:PL-98765-43210-SFVYC-19
+        edaStatus:
+          $ref: '#/components/schemas/EdaStatusEnum'
+        warning:
+          $ref: '#/components/schemas/Warning'
+        designatedOperator:
+          type: boolean
+          description: Indicates whether EDA is assigned to the public e-Delivery service.
+          example: true
+
+    EdaSearchRecipient:
+      type: object
+      required:
+        - isPublic
+      properties:
+        name:
+          type: string
+          description: Name.
+          example: ADAM
+          maxLength: 240
+        surname:
+          type: string
+          description: Surname.
+          example: MALINOWSKI
+          maxLength: 300
+        professionalTitle:
+          type: string
+          description: Property of court enforcement officers or natural persons who perform professions of public trust.
+          example: ADWOKAT
+          maxLength: 256
+        legalForm:
+          type: string
+          description: Legal form.
+          example: ZWIĄZEK_ZAWODOWY
+        isPublic:
+          type: boolean
+          description: Indicates whether the entity is public.
+          example: false
+        entityName:
+          type: string
+          maxLength: 2000
+          description: Private or public entity name.
+          example: NAZWA PODMIOTU
+        officialIds:
+          type: array
+          description: List of reference registry IDs (PESEL, REGON, etc.).
+          items:
+            $ref: '#/components/schemas/OfficialId'
+        nipStatus:
+          type: string
+          enum: [ ASSIGNED, BLANK, CANCELLED, REVOKED ]
+          description: NIP status.
+          example: ASSIGNED
+
+    AdditionalServiceOW:
+      type: object
+      properties:
+        activationDate:
+          type: string
+          description: Start date of additional service usage.
+        resignationDate:
+          type: string
+          description: End date of additional service usage.
+
+    AddressData:
+      type: object
+      description: Correspondence or headquarters address.
+      required:
+        - countryCode
+        - city
+      properties:
+        addressType:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressTypeEnum'
+          description: List of address types.
+        countryCode:
+          $ref: '#/components/schemas/CountryCodeEnum'
+        street:
+          type: string
+          maxLength: 512
+          description: Street.
+          example: POLNA
+        typeOfStreet:
+          type: string
+          enum: [STREET, AVENUE, PLAZA, SQUARE, BOULEVARD, ROUNDABOUT, PARK, MARKET, ROUTE, ROAD, ESTATE, GARDEN, ISLAND, COAST, OTHER]
+          readOnly: true
+          description: Type of street.
+          example: STREET
+        postalCode:
+          type: string
+          maxLength: 128
+          description: Postal code.
+          example: 05-569
+        city:
+          type: string
+          maxLength: 512
+          description: City.
+          example: WARSZAWA
+        buildingNumber:
+          type: string
+          maxLength: 128
+          description: Building number.
+          example: 12AA
+        flatNumber:
+          type: string
+          maxLength: 128
+          description: Flat number.
+          example: 123A
+        postalOffice:
+          type: string
+          readOnly: true
+          maxLength: 64
+          description: Postal office.
+          example: Warszawa
+        postOfficeBox:
+          type: string
+          readOnly: true
+          maxLength: 10
+          description: Post office box.
+          example: 46
+        voivodeship:
+          type: string
+          readOnly: true
+          maxLength: 36
+          description: Voivodeship.
+          example: MAZOWIECKIE
+        district:
+          type: string
+          readOnly: true
+          maxLength: 36
+          description: Disctrict.
+          example: MIŃSKI
+        community:
+          type: string
+          readOnly: true
+          maxLength: 64
+          description: Community.
+          example: HALINÓW
+
+    AddressDataResponse:
+      type: object
+      description: Correspondence or headquarters address.
+      required:
+        - addressType
+        - countryCode
+        - city
+      properties:
+        addressType:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressTypeEnum'
+          description: List of address types.
+        countryCode:
+          $ref: '#/components/schemas/CountryCodeEnum'
+        street:
+          type: string
+          maxLength: 512
+          description: Street.
+          example: POLNA
+        typeOfStreet:
+          type: string
+          enum: [ STREET, AVENUE, PLAZA, SQUARE, BOULEVARD, ROUNDABOUT, PARK, MARKET, ROUTE, ROAD, ESTATE, GARDEN, ISLAND, COAST, OTHER ]
+          readOnly: true
+          description: Type of street.
+          example: STREET
+        postalCode:
+          type: string
+          maxLength: 128
+          description: Postal code.
+          example: 05-569
+        city:
+          type: string
+          maxLength: 512
+          description: City.
+          example: WARSZAWA
+        buildingNumber:
+          type: string
+          maxLength: 128
+          description: Building number.
+          example: 12AA
+        flatNumber:
+          type: string
+          maxLength: 128
+          description: Flat number.
+          example: 123A
+        postalOffice:
+          type: string
+          readOnly: true
+          maxLength: 64
+          description: Postal office.
+          example: Warszawa
+        postOfficeBox:
+          type: string
+          readOnly: true
+          maxLength: 64
+          description: Post office box.
+          example: 46
+        voivodeship:
+          type: string
+          readOnly: true
+          maxLength: 36
+          description: Voivodeship.
+          example: MAZOWIECKIE
+        district:
+          type: string
+          readOnly: true
+          maxLength: 36
+          description: Disctrict.
+          example: MIŃSKI
+        community:
+          type: string
+          readOnly: true
+          maxLength: 64
+          description: Community.
+          example: HALINÓW
+
+    OfficialId:
+      required:
+        - id
+        - referenceRegistry
+      type: object
+      properties:
+        id:
+          type: string
+          description: Reference registry ID.
+          example: 5232958825
+        referenceRegistry:
+          $ref: '#/components/schemas/ReferenceRegistryEnum'
+
+    RecipientEda:
+      type: object
+      description: Recipient's EDA data.
+      required:
+        - recipientEda
+        - assignmentDegree
+        - edaStatus
+        - designatedOperator
+      properties:
+        recipientEda:
+          type: string
+          description: EDA
+          example: AE:PL-98765-43210-SFVYC-19
+        isMainEda:
+          type: boolean
+          description: Indicates whether public entity’s EDA is main or additional.
+          example: true
+        assignmentDegree:
+          $ref: '#/components/schemas/AssignmentDegreeEnum'
+        edaStatus:
+          $ref: '#/components/schemas/EdaStatusEnum'
+        warning:
+          $ref: '#/components/schemas/Warning'
+        designatedOperator:
+          type: boolean
+          description: Indicates whether EDA is assigned to the public e-Delivery service.
+          example: true
+        dateOfEnteringToBAE:
+          type: string
+          description: Date of entering EDA into the electronic address database.
+        dateOfRemovalFromBAE:
+          type: string
+          description: Date of removal of EDA from the electronic address database.
+        additionalServiceOW:
+          $ref: '#/components/schemas/AdditionalServiceOW'
+
+    Warning:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Warning code.
+          example: SEAPI-INFO-00001
+        type:
+          type: string
+          enum: [ NOT_BLOCK_WARNING, BLOCK_WARNING ]
+          description: Type of warning.
+          example: NOT_BLOCK_WARNING
+        description:
+          type: string
+          maxLength: 256
+          description: Validation result to warn the sender.
+          example: Sending may fail between non-public sender or recipient, if public ERDS is in use.
+
+    AddressTypeEnum:
+      type: string
+      enum: [correspondence,
+             headquarters]
+      description: Address type.
+      example: correspondence
+
+    AssignmentDegreeEnum:
+      type: string
+      enum: [ 0, 1, 2, 3 ]
+      description: 'Assignment degree: 0 - EDA PROPOSAL, 1 - EDA IN THE MAKING, 2 - EDA UNDISCLOSED, 3 - EDA DISCLOSED.'
+      example: 3
+
+    CountryCodeEnum:
+      type: string
+      enum: [ 'AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AO', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AW', 'AX', 'AZ', 'BA', 'BB', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BL', 'BM', 'BN', 'BO', 'BQ', 'BR', 'BS', 'BT', 'BV', 'BW', 'BY', 'BZ', 'CA', 'CC', 'CD', 'CF', 'CG', 'CH', 'CI', 'CK', 'CL', 'CM', 'CN', 'CO', 'CR', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ', 'DE', 'DJ', 'DK', 'DM', 'DO', 'DZ', 'EC', 'EE', 'EG', 'EH', 'ER', 'ES', 'ET', 'FI', 'FJ', 'FK', 'FM', 'FO', 'FR', 'GA', 'GB', 'GD', 'GE', 'GF', 'GG', 'GH', 'GI', 'GL', 'GM', 'GN', 'GP', 'GQ', 'GR', 'GS', 'GT', 'GU', 'GW', 'GY', 'HK', 'HM', 'HN', 'HR', 'HT', 'HU', 'ID', 'IE', 'IL', 'IM', 'IN', 'IO', 'IQ', 'IR', 'IS', 'IT', 'JE', 'JM', 'JO', 'JP', 'KE', 'KG', 'KH', 'KI', 'KM', 'KN', 'KP', 'KR', 'KW', 'KY', 'KZ', 'LA', 'LB', 'LC', 'LI', 'LK', 'LR', 'LS', 'LT', 'LU', 'LV', 'LY', 'MA', 'MC', 'MD', 'ME', 'MF', 'MG', 'MH', 'MK', 'ML', 'MM', 'MN', 'MO', 'MP', 'MQ', 'MR', 'MS', 'MT', 'MU', 'MV', 'MW', 'MX', 'MY', 'MZ', 'NA', 'NC', 'NE', 'NF', 'NG', 'NI', 'NL', 'NO', 'NP', 'NR', 'NU', 'NZ', 'OM', 'PA', 'PE', 'PF', 'PG', 'PH', 'PK', 'PL', 'PM', 'PN', 'PR', 'PS', 'PT', 'PW', 'PY', 'QA', 'RE', 'RO', 'RS', 'RU', 'RW', 'SA', 'SB', 'SC', 'SD', 'SE', 'SG', 'SH', 'SI', 'SJ', 'SK', 'SL', 'SM', 'SN', 'SO', 'SR', 'SS', 'ST', 'SV', 'SX', 'SY', 'SZ', 'TC', 'TD', 'TF', 'TG', 'TH', 'TJ', 'TK', 'TL', 'TM', 'TN', 'TO', 'TR', 'TT', 'TV', 'TW', 'TZ', 'UA', 'UG', 'UM', 'US', 'UY', 'UZ', 'VA', 'VC', 'VE', 'VG', 'VI', 'VN', 'VU', 'WF', 'WS', 'YE', 'YT', 'ZA', 'ZM', 'ZW' ]
+      description: Country code - in accordance with ISO 3166-1 alfa-2
+      example: PL
+
+    EdaStatusEnum:
+      type: string
+      enum: [ ACTIVE, CLOSED_RECOVERABLE, CLOSED_UNRECOVERABLE, STRUCK_OFF ]
+      description: EDA status.
+      example: ACTIVE
+
+    ReferenceRegistryEnum:
+      type: string
+      enum: [pesel,
+             regon,
+             krs,
+             nip,
+             ue,
+             kppId]
+      description: Reference registry.
+      example: nip
+
+    SearchCategoryEnum:
+      type: string
+      enum: [INDIVIDUAL,
+             ADVOCATE,
+             LEGAL_ADVISOR,
+             TAX_ADVISOR,
+             RESTRUCTURING_ADVISOR,
+             PATENT_ATTORNEY,
+             NOTARY,
+             COUNSELLOR_OF_GCRP,
+             PUBLIC_INSTITUTION,
+             COURT_ENFORCEMENT_OFFICER,
+             COMPANY,
+             ORGANISATION]
+      description: Search categories.
+      example: INDIVIDUAL
+
+    SearchEngineError:
+      required:
+        - httpCode
+        - id
+        - errorCodes
+      type: object
+      properties:
+        httpCode:
+          type: string
+          maxLength: 50
+          description: HTTP code for the generated error.
+          example: 400
+        id:
+          type: string
+          description: Unique identifier of the event.
+          example: 7770c1c4-e07b-479d-a496-a69eb9488366
+        errorCodes:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ErrorCode'
+
+    ErrorCode:
+      type: object
+      required:
+        - errorCode
+        - language
+        - message
+      properties:
+        errorCode:
+          type: string
+          maxLength: 50
+          description: Technical identifier.
+          example: SEAPI-00002
+        language:
+          type: string
+          maxLength: 50
+          description: Language of the message - in accordance with ISO 3166-1 alfa-2.
+          example: GB
+        message:
+          type: string
+          maxLength: 2000
+          description: Error message.
+          example: No arguments provided to conduct searching.
+
+    ClientCertSubject:
+      description: DN of the user certificate.
+      example: C=PL,O=MSWIA,OU=SRP,CN=Jan Kowalski,SN=73081886298
+      type: string

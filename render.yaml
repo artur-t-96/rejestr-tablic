@@ -1,0 +1,60 @@
+# Użytkownik zatwierdził publikację i koszt 13,55 USD/mies. + podatki/ponadlimitowe użycie.
+services:
+  - type: web
+    name: dyna-rejestr-tablic
+    runtime: python
+    region: frankfurt
+    plan: 0.5c-512mb
+    autoDeployTrigger: "off"
+    buildCommand: sh deploy/render-build.sh
+    startCommand: python deploy/render_start.py
+    healthCheckPath: /api/health/
+    disk:
+      name: dyna-dokumenty
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.14
+      - key: DYNA_ENV
+        value: render
+      - key: DYNA_DATA_DIR
+        value: /var/data
+      - key: DJANGO_SETTINGS_MODULE
+        value: config.settings_render
+      - key: DJANGO_SECRET_KEY
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: DJANGO_ALLOWED_HOSTS
+        sync: false
+      - key: RENDER_PROXY_CIDRS
+        sync: false
+      - key: EMAIL_BACKEND
+        value: registry.microsoft_mail.EmailBackend
+      - key: MS_MAIL_TENANT_ID
+        sync: false
+      - key: MS_MAIL_CLIENT_ID
+        sync: false
+      - key: MS_MAIL_MAILBOX_ID
+        sync: false
+      - key: MS_MAIL_CERTIFICATE
+        sync: false
+      - key: MS_MAIL_PRIVATE_KEY
+        sync: false
+      - key: DEFAULT_FROM_EMAIL
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dyna-rejestr-db
+          property: connectionString
+databases:
+  - name: dyna-rejestr-db
+    region: frankfurt
+    plan: 0.1c-256mb
+    diskSizeGB: 1
+    storageAutoscalingEnabled: false
+    postgresMajorVersion: "18"
+    databaseName: dyna_rejestr
+    user: dyna
+    ipAllowList: []

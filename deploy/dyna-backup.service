@@ -1,0 +1,19 @@
+[Unit]
+Description=Dyna Rejestr Tablic - kopia bazy i dokumentow
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=dyna
+Group=dyna
+WorkingDirectory=/opt/dyna/current
+EnvironmentFile=/etc/dyna/runtime.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/dyna/current/.venv/bin/python deploy/create-backup.py
+TimeoutStartSec=15min
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/dyna /var/backups/dyna

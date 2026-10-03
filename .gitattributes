@@ -1,0 +1,2 @@
+# Oficjalne kontrakty zachowują bajty i białe znaki oryginału operatora.
+docs/api/*.yaml -text whitespace=-blank-at-eol,-blank-at-eof

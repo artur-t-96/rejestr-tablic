@@ -1,0 +1,907 @@
+{
+  "checked_at": "2026-10-03T09:36:09.906936+00:00",
+  "code_revision": "855358b7ab48059ff03d711c7d61b7eb4dd78e6c",
+  "main_health_at_review": {
+    "status": "ok",
+    "service": "dyna-rejestr-tablic",
+    "mode": "local",
+    "revision": "855358b7ab48059ff03d711c7d61b7eb4dd78e6c"
+  },
+  "scope": "Requirement-by-requirement review of the full local goal and specification sections 1-10; concrete evidence and limits are documented in the human report. Not a full functional rerun or external/production acceptance. Current CAPTCHA supplement updates B04/B05 and report; other functional scenarios were not rerun. Render-profile preparation supplement: no core functional rerun or cloud deployment.",
+  "objective_sha256": "13780efcd40ec9a100fabd29f0adb71f66343ce5c9595bf5f50dd80fcccbea4b",
+  "source_html_sha256": {
+    "Specyfikacja_flow_tablice.html": "db1826c1e4835d6072fded20aa0098364e1673e293b7144f30175da3116dbde7",
+    "Demo_Rejestr_Tablic.html": "d0170a1c73f2f045d3917e425695796a05869510304889c9ca510e11c99e4ab8"
+  },
+  "report_sha256": "6fb637ee72ca7ea486ba64e717159845c2e9ab4d55f5d744ffc6671514483f78",
+  "requirement_count": 67,
+  "requirements": [
+    {
+      "id": "Z01",
+      "source": "cel 1, spec. 1",
+      "requirement": "Jedna instancja Wielkopolski, jeden UMP i 34 urzędy",
+      "assessment": "Lokalny dowód: bieżąca baza 1 MAIN, 31 COUNTY, 3 CITY; `KONTA-I-ZAPROSZENIA.md`, `WDROZENIE-URZEDOWE.md`.",
+      "documentation": [
+        "docs/KONTA-I-ZAPROSZENIA.md",
+        "docs/WDROZENIE-URZEDOWE.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "Z02",
+      "source": "cel 1, spec. 2",
+      "requirement": "Wielu użytkowników w każdym urzędzie",
+      "assessment": "Lokalny dowód: konta powiązane FK z urzędem, tworzenie przez A0, brak limitu jednego konta; `KONTA-I-ZAPROSZENIA.md`.",
+      "documentation": [
+        "docs/KONTA-I-ZAPROSZENIA.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "Z03",
+      "source": "cel 1",
+      "requirement": "Instalacja na infrastrukturze urzędu, brak wymaganej naszej chmury",
+      "assessment": "Przygotowany profil PostgreSQL/Gunicorn/Nginx/systemd; natywny Gunicorn/PG sprawdzony na macOS. Linux i TLS urzędu: zależność, `WDROZENIE-URZEDOWE.md`.",
+      "documentation": [
+        "docs/WDROZENIE-URZEDOWE.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "Z04",
+      "source": "cel 1, spec. 1",
+      "requirement": "Moduły I, II i III",
+      "assessment": "Lokalny dowód trzech procesów Chrome: `ODBIOR-TRZECH-MODULOW.md`.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "Z05",
+      "source": "cel 1, spec. 2–3",
+      "requirement": "Serwis publiczny i panele A2/A3/A0",
+      "assessment": "Lokalny dowód wszystkich ról, administracji i procesów; `ROLE-I-TRASY.md`, `KONTA-I-ZAPROSZENIA.md`, `ODBIOR-TRZECH-MODULOW.md`.",
+      "documentation": [
+        "docs/ROLE-I-TRASY.md",
+        "docs/KONTA-I-ZAPROSZENIA.md",
+        "docs/ODBIOR-TRZECH-MODULOW.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F01",
+      "source": "cel 2, spec. 8",
+      "requirement": "Backend i trwała baza",
+      "assessment": "Django, bieżące migracje 0001–0010; SQLite lokalnie, PostgreSQL w profilu urzędu; `ODBIOR-BAZY-I-AKTUALIZACJI.md`.",
+      "documentation": [
+        "docs/ODBIOR-BAZY-I-AKTUALIZACJI.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F02",
+      "source": "cel 2, spec. 4.3/7",
+      "requirement": "Logowanie e-mail/OTP, bez kont obywateli",
+      "assessment": "Lokalny dowód OTP w Chrome/HTTP; `LOGOWANIE-I-SESJE.md`. Zewnętrzny SMTP: zależność.",
+      "documentation": [
+        "docs/LOGOWANIE-I-SESJE.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F03",
+      "source": "cel 2, spec. 2/7",
+      "requirement": "Konta przez administratora, zaproszenia, domeny i aktywność urzędu",
+      "assessment": "Lokalny dowód A0, trwałe zaproszenia, kontrola całej domeny i istniejących sesji; `KONTA-I-ZAPROSZENIA.md`.",
+      "documentation": [
+        "docs/KONTA-I-ZAPROSZENIA.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F04",
+      "source": "cel 2, spec. 3",
+      "requirement": "Uprawnienia w API i izolacja office_id",
+      "assessment": "47 tras, 70 par metoda–trasa, 480 scenariuszy testowych oraz 442 rzeczywiste HTTP; `ROLE-I-TRASY.md`. Kontrola rodzaju wniosku uzupełniona: II/III tylko A2, osiem odmów tworzenia/złożenia bez zapisów i zachowane I UMP; `ROLE-WNIOSKOW-PUL.md`.",
+      "documentation": [
+        "docs/ROLE-I-TRASY.md",
+        "docs/ROLE-WNIOSKOW-PUL.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F05",
+      "source": "spec. 3",
+      "requirement": "A0 bez decyzji i danych ewidencji, audyt A2 własnych akcji",
+      "assessment": "Lokalny dowód odmów i zakresu audytu; `ROLE-I-TRASY.md`, `AUDYT-I-HISTORIA.md`. Kontrolę wiersza „Wniosek o nową pulę” uzupełnia `ROLE-WNIOSKOW-PUL.md`; sama wcześniejsza macierz tras nie wykryła różnicy między I i II/III.",
+      "documentation": [
+        "docs/ROLE-I-TRASY.md",
+        "docs/AUDYT-I-HISTORIA.md",
+        "docs/ROLE-WNIOSKOW-PUL.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F06",
+      "source": "spec. 4.1/9",
+      "requirement": "Wspólna walidacja numeru i unikalność pełnego numeru",
+      "assessment": "Wspólna walidacja, częściowy unikalny indeks aktywnych numerów; testy SQLite/PG. Rozbieżności regulacyjne jawne w `NUMERACJA-PRZEPISY.md` i `DECYZJE.md`.",
+      "documentation": [
+        "docs/NUMERACJA-PRZEPISY.md",
+        "docs/DECYZJE.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F07",
+      "source": "cel 2, spec. 4.2",
+      "requirement": "Sprawdzenie wybranej cyfry lub wszystkich 0–9",
+      "assessment": "Lokalny HTML/API i Chrome; `REZERWACJE-W-SPRAWDZARCE.md`, `SUGESTIE-WYROZNIKOW.md`.",
+      "documentation": [
+        "docs/REZERWACJE-W-SPRAWDZARCE.md",
+        "docs/SUGESTIE-WYROZNIKOW.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F08",
+      "source": "spec. 4.2",
+      "requirement": "Wynik publiczny tylko dostępny/niedostępny, bez właściciela",
+      "assessment": "Lokalny dowód po zbyciu i zwolnieniu oraz macierz ról; `ODBIOR-TRZECH-MODULOW.md`, `ROLE-I-TRASY.md`.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md",
+        "docs/ROLE-I-TRASY.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F09",
+      "source": "spec. 4.2",
+      "requirement": "Sugestie innych cyfr, skrócenia, wydłużenia i podmiany, wyłącznie wolne",
+      "assessment": "Poprawione generowanie, wykluczenie wyników i zajętości; `SUGESTIE-WYROZNIKOW.md`. Niepoprawne sześcioliterowe przykłady specyfikacji nie znoszą reguły 3–5 znaków.",
+      "documentation": [
+        "docs/SUGESTIE-WYROZNIKOW.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F10",
+      "source": "spec. 4.2",
+      "requirement": "Wynik informacyjny, instrukcja urzędu, bez rezerwacji",
+      "assessment": "Lokalny dowód i porównanie tabel po zapytaniu; `SUGESTIE-WYROZNIKOW.md`, `ODBIOR-TRZECH-MODULOW.md`.",
+      "documentation": [
+        "docs/SUGESTIE-WYROZNIKOW.md",
+        "docs/ODBIOR-TRZECH-MODULOW.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F11",
+      "source": "spec. 4.3",
+      "requirement": "A2 widzi własne „zarezerwowany — wniosek w toku”",
+      "assessment": "Lokalny dowód dwóch powiatów, UMP i anonimowego użytkownika; `REZERWACJE-W-SPRAWDZARCE.md`.",
+      "documentation": [
+        "docs/REZERWACJE-W-SPRAWDZARCE.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F12",
+      "source": "cel 2, spec. 4.3",
+      "requirement": "Wniosek z właścicielem, pojazdem jeśli znany i znakiem sprawy",
+      "assessment": "Lokalny pełny proces I w Chrome i ścisła walidacja API; `ODBIOR-TRZECH-MODULOW.md`, `API-OPERACJE.md`.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md",
+        "docs/API-OPERACJE.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F13",
+      "source": "cel 2, spec. 4.3/9",
+      "requirement": "Atomowa rezerwacja 14 dni i kolizja dwóch urzędów",
+      "assessment": "Lokalny Chrome z terminem oraz rzeczywiste równoległe transakcje PG; `ODBIOR-TRZECH-MODULOW.md`, `ODBIOR-BAZY-I-AKTUALIZACJI.md`.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md",
+        "docs/ODBIOR-BAZY-I-AKTUALIZACJI.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F14",
+      "source": "spec. 4.3/4.5",
+      "requirement": "Złożenie i lista własnych wniosków",
+      "assessment": "Lokalny Chrome/HTTP; DRAFT→SENT, historia numeru i wniosku; `ODBIOR-TRZECH-MODULOW.md`, `API-OPERACJE.md`.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md",
+        "docs/API-OPERACJE.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F15",
+      "source": "cel 2, spec. 4.4",
+      "requirement": "Weryfikacja UMP, akceptacja i odmowa z powodem",
+      "assessment": "Lokalny dowód zgody i odmowy, zwolnienia po odmowie; `ODBIOR-TRZECH-MODULOW.md`, `REZERWACJE-I-ODMOWA.md`.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md",
+        "docs/REZERWACJE-I-ODMOWA.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F16",
+      "source": "spec. 4.4/8",
+      "requirement": "Ewidencja numer→właściciel→pismo→data",
+      "assessment": "Lokalny dowód przydziału, archiwum pism i kart; `ODBIOR-TRZECH-MODULOW.md`, `PISMA-PDF.md`.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md",
+        "docs/PISMA-PDF.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F17",
+      "source": "cel 2, spec. 4.4",
+      "requirement": "Pojazd, rejestracja i wydanie",
+      "assessment": "Lokalny Chrome i API, obowiązkowy VIN/data przy wydaniu; `ODBIOR-TRZECH-MODULOW.md`, `API-OPERACJE.md`.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md",
+        "docs/API-OPERACJE.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F18",
+      "source": "cel 2, spec. 4.4/4.5",
+      "requirement": "Zbycie, nabywca i brak automatycznego zwolnienia",
+      "assessment": "Lokalny Chrome SOLD i publiczna niedostępność; `ODBIOR-TRZECH-MODULOW.md`.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F19",
+      "source": "cel 2, spec. 4.5",
+      "requirement": "Wycofanie i wygasanie rezerwacji",
+      "assessment": "Lokalny Chrome, natywny watcher bez ruchu WWW, test dwóch workerów PG; `REZERWACJE-I-ODMOWA.md`.",
+      "documentation": [
+        "docs/REZERWACJE-I-ODMOWA.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F20",
+      "source": "cel 2",
+      "requirement": "Przedłużenie rezerwacji przez UMP",
+      "assessment": "Lokalny Chrome, uzasadnienie i przed/po terminu; `REZERWACJE-I-ODMOWA.md`.",
+      "documentation": [
+        "docs/REZERWACJE-I-ODMOWA.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F21",
+      "source": "cel 2, spec. 4.6",
+      "requirement": "Korekty UMP z powodem i historią wszystkich zmienionych pól",
+      "assessment": "Lokalny Chrome, ścisły PATCH, ochrona wersji i niezmienny numer; `API-KOREKTY.md`, `AUDYT-I-HISTORIA.md`.",
+      "documentation": [
+        "docs/API-KOREKTY.md",
+        "docs/AUDYT-I-HISTORIA.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F22",
+      "source": "spec. 4.6",
+      "requirement": "A2 tylko własny pojazd/zbycie, zmiana urzędu zachowuje historię",
+      "assessment": "Lokalny dowód i testy przekazania; `WERYFIKACJA-PRZEKAZANIA.md`, `CZYNNOSCI-WPISU.md`.",
+      "documentation": [
+        "docs/WERYFIKACJA-PRZEKAZANIA.md",
+        "docs/CZYNNOSCI-WPISU.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F23",
+      "source": "cel 2, spec. 4.6",
+      "requirement": "Zwolnienie tylko UMP, powód, aktywny wniosek i kolizja przywrócenia",
+      "assessment": "Lokalny przebieg zwolnienia i testy rdzenia/operacji; `WERYFIKACJA-PROCESOW.md`, `API-KOREKTY.md`.",
+      "documentation": [
+        "docs/WERYFIKACJA-PROCESOW.md",
+        "docs/API-KOREKTY.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F24",
+      "source": "cel 2, spec. 5",
+      "requirement": "Pula II bezpośrednio lub po wniosku, zakres/lista, termin, pismo",
+      "assessment": "Lokalny Chrome/HTTP i import wykazów; `ODBIOR-TRZECH-MODULOW.md`, `IMPORT-PUL.md`, `API-OPERACJE.md`.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md",
+        "docs/IMPORT-PUL.md",
+        "docs/API-OPERACJE.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F25",
+      "source": "cel 2, spec. 5",
+      "requirement": "Brak nakładania pul i ponownego wydania numeru, również współbieżnie",
+      "assessment": "Unikalne sloty i transakcje, rzeczywisty PG, kolizja bez częściowego zapisu; `ODBIOR-BAZY-I-AKTUALIZACJI.md`, `KOLEJNOSC-PUL-II.md`.",
+      "documentation": [
+        "docs/ODBIOR-BAZY-I-AKTUALIZACJI.md",
+        "docs/KOLEJNOSC-PUL-II.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F26",
+      "source": "cel 2, spec. 5",
+      "requirement": "Rejestrowanie wydania, pozostałe numery, procent i alert ≥80%",
+      "assessment": "Lokalny Chrome 4/5 i alert II, 1/2 III; `ODBIOR-TRZECH-MODULOW.md`.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F27",
+      "source": "cel 2, spec. 6",
+      "requirement": "III zawsze na wniosek, liczba, uzasadnienie, urząd, opcjonalna stacja",
+      "assessment": "Lokalny pełny proces III i walidacja bezpośredniego przydziału; `ODBIOR-TRZECH-MODULOW.md`, `API-OPERACJE.md`. Tworzenie i złożenie wyłącznie A2, także przy starym szkicu UMP: `ROLE-WNIOSKOW-PUL.md`.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md",
+        "docs/API-OPERACJE.md",
+        "docs/ROLE-WNIOSKOW-PUL.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F28",
+      "source": "cel 2, spec. 6",
+      "requirement": "Okres III, przydział/odmowa, pismo i e-mail autora",
+      "assessment": "Lokalny proces z okresem, pismem i rzeczywistym plikiem MIME; `POWIADOMIENIA-DECYZJI.md`, `ODBIOR-TRZECH-MODULOW.md`. Odbiór zewnętrznego e-maila: zależność.",
+      "documentation": [
+        "docs/POWIADOMIENIA-DECYZJI.md",
+        "docs/ODBIOR-TRZECH-MODULOW.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F29",
+      "source": "cel 2, spec. 4.6",
+      "requirement": "Wyszukiwanie numeru/właściciela/VIN, filtry urzędu i statusu",
+      "assessment": "Kod filtrowania wspólny dla ewidencji/eksportu; lokalne testy i Chrome list; `PAGINACJA-LIST.md`.",
+      "documentation": [
+        "docs/PAGINACJA-LIST.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F30",
+      "source": "cel 2, spec. 4.6",
+      "requirement": "Eksport wszystkich filtrowanych wyników CSV",
+      "assessment": "Rzeczywiste pobranie 305 wierszy z ostatniej strony; `PAGINACJA-LIST.md`.",
+      "documentation": [
+        "docs/PAGINACJA-LIST.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F31",
+      "source": "cel 2, spec. 9",
+      "requirement": "Import Excel/innego systemu, podgląd, mapowanie, kolizje i atomowość",
+      "assessment": "Lokalny XLSX/CSV, 13 pól, arkusze, źródła, replay i PG; `IMPORT-XLSX.md`, `IMPORT-EWIDENCJI.md`, `IMPORT-PUL.md`. Plik urzędu: zależność.",
+      "documentation": [
+        "docs/IMPORT-XLSX.md",
+        "docs/IMPORT-EWIDENCJI.md",
+        "docs/IMPORT-PUL.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "F32",
+      "source": "cel 2, spec. 8/9",
+      "requirement": "Historia i pełny audyt kto/co/kiedy/IP/obiekt/przed/po/powód",
+      "assessment": "Lokalny dowód prezentacji, zakresów i paginacji; uzupełnione IP pism/wznowień/OTP, `AUDYT-I-HISTORIA.md`, `AUDYT-IP.md`. Zdarzenia systemowe bez żądania nie otrzymują wymyślonego IP.",
+      "documentation": [
+        "docs/AUDYT-I-HISTORIA.md",
+        "docs/AUDYT-IP.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "B01",
+      "source": "cel 2, spec. 9",
+      "requirement": "Minimalizacja danych osobowych",
+      "assessment": "Bez PESEL/REGON, własny zakres A2, A3 województwo, A0 bez biznesowych wartości; `RETENCJA-DANYCH.md`, `ROLE-I-TRASY.md`.",
+      "documentation": [
+        "docs/RETENCJA-DANYCH.md",
+        "docs/ROLE-I-TRASY.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "B02",
+      "source": "cel 2, spec. 7/9",
+      "requirement": "Ochrona sesji, OTP, domeny, blokada prób i CSRF",
+      "assessment": "Lokalny OTP, wygasanie/ostrzeżenie, przedłużenie, stale formularze i odmowy; `LOGOWANIE-I-SESJE.md`, `KONTA-I-ZAPROSZENIA.md`.",
+      "documentation": [
+        "docs/LOGOWANIE-I-SESJE.md",
+        "docs/KONTA-I-ZAPROSZENIA.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "B03",
+      "source": "cel 2/3, spec. 9",
+      "requirement": "Sekrety poza Git, uprawnienia plików, HTTPS",
+      "assessment": "Chronione profile/klucze, przypięte zależności i profil HTTPS; `ZALEZNOSCI.md`, `WDROZENIE-URZEDOWE.md`. Rzeczywisty certyfikat/Nginx: zależność.",
+      "documentation": [
+        "docs/ZALEZNOSCI.md",
+        "docs/WDROZENIE-URZEDOWE.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "B04",
+      "source": "cel 2, spec. 4.2/9",
+      "requirement": "Rate-limit i CAPTCHA po progu",
+      "assessment": "Lokalny dowód: trzy zużyte wyzwania, naturalne wygaśnięcie, klawiatura, anulowanie oraz rzeczywisty błąd i ponowienie w Chrome; `ODBIOR-CAPTCHA.md`, `OCHRONA-PUBLICZNA.md`.",
+      "documentation": [
+        "docs/OCHRONA-PUBLICZNA.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass. Updated by actual Chrome CAPTCHA supplement on application772378a."
+    },
+    {
+      "id": "B05",
+      "source": "cel 2, spec. 9",
+      "requirement": "WCAG 2.1 AA serwisu publicznego",
+      "assessment": "**Otwarte**: macierz wszystkich 50 kryteriów i wykonane automaty/ręczne próby w `WCAG-PUBLICZNY.md`; stany CAPTCHA uzupełnione w `ODBIOR-CAPTCHA.md`; rzeczywiste ogłoszenia czytnika niepotwierdzone.",
+      "documentation": [
+        "docs/WCAG-PUBLICZNY.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass. Updated by actual Chrome CAPTCHA supplement on application772378a."
+    },
+    {
+      "id": "B06",
+      "source": "spec. 9/10",
+      "requirement": "Retencja do ustalenia",
+      "assessment": "Inwentaryzacja 19 klas, podgląd i opcjonalne porządkowanie techniczne; biznesowa polityka: decyzja urzędu, `RETENCJA-DANYCH.md`.",
+      "documentation": [
+        "docs/RETENCJA-DANYCH.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "D01",
+      "source": "cel 3, spec. 4/7",
+      "requirement": "Generowanie i archiwizacja rzeczywistych PDF",
+      "assessment": "Sześć ostatnich PDF/stron obejrzanych, wcześniejsze długie próbki, hashe i archiwum; `ODBIOR-TRZECH-MODULOW.md`, `PISMA-PDF.md`.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md",
+        "docs/PISMA-PDF.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "D02",
+      "source": "cel 3, spec. 4/7",
+      "requirement": "Pobranie i druk",
+      "assessment": "Dwa pobrania identyczne z archiwum oraz natywny podgląd druku jednej strony; `ODBIOR-TRZECH-MODULOW.md`, `PISMA-PDF.md`. Drukarka fizyczna nie była testowana.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md",
+        "docs/PISMA-PDF.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "D03",
+      "source": "cel 3, spec. 7",
+      "requirement": "Edytowalne szablony i zmienne",
+      "assessment": "Lokalna walidacja, nowe PDF, aktualizacja tylko pierwotnych wzorów; `PISMA-PDF.md`. Treść urzędowa wymaga zatwierdzenia.",
+      "documentation": [
+        "docs/PISMA-PDF.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "D04",
+      "source": "cel 3, spec. 8",
+      "requirement": "Numeracja i powiązanie pisma ze sprawą/historią",
+      "assessment": "Liczniki roczne per urząd, UUID, QR, link, rollback, PG i zachowane stare dokumenty; `NUMERACJA.md`, `PISMA-PDF.md`.",
+      "documentation": [
+        "docs/NUMERACJA.md",
+        "docs/PISMA-PDF.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "I01",
+      "source": "cel 3, spec. 7",
+      "requirement": "Konektor EZD RP, dokument i metadane, powiązanie spraw",
+      "assessment": "Kod i lokalne testy kontraktu; rzeczywiste API: zależność, `EZD-RP.md`, `DOSTEP-EZD-RP.md`.",
+      "documentation": [
+        "docs/EZD-RP.md",
+        "docs/DOSTEP-EZD-RP.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "I02",
+      "source": "cel 3, spec. 4.4/7",
+      "requirement": "EZD→aplikacja, wpływ i link do konkretnego wniosku po logowaniu",
+      "assessment": "Kod RPW/archiwum/linku i lokalne testy; rzeczywisty wpływ i kliknięcie w EZD: zależność, `WPLYWY-EZD.md`.",
+      "documentation": [
+        "docs/WPLYWY-EZD.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "I03",
+      "source": "cel 3",
+      "requirement": "e-Doręczenia: uwierzytelnianie i wyszukiwanie ADE",
+      "assessment": "Kod JWT i SE API, lokalne testy; INT/ADE/certyfikat: zależność, `E-DORECZENIA.md`, `DOSTEP-E-DORECZENIA.md`.",
+      "documentation": [
+        "docs/E-DORECZENIA.md",
+        "docs/DOSTEP-E-DORECZENIA.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "I04",
+      "source": "cel 3, spec. 7",
+      "requirement": "e-Doręczenia: wysyłka, status, dowody nadania/odbioru",
+      "assessment": "Kod UA, trwała kolejka i archiwum dowodów, testy MockTransport; rzeczywisty scenariusz operatora: zależność, `WERYFIKACJA-E-DORECZENIA.md`.",
+      "documentation": [
+        "docs/WERYFIKACJA-E-DORECZENIA.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "I05",
+      "source": "cel 3, spec. 6/7",
+      "requirement": "Poczta: OTP, zaproszenia, pisma i powiadomienia",
+      "assessment": "Kod SMTP oraz rzeczywisty lokalny MIME; test skrzynki urzędu: zależność, `KONTA-I-ZAPROSZENIA.md`, `POWIADOMIENIA-DECYZJI.md`.",
+      "documentation": [
+        "docs/KONTA-I-ZAPROSZENIA.md",
+        "docs/POWIADOMIENIA-DECYZJI.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "I06",
+      "source": "cel 3, spec. 7",
+      "requirement": "Podpisywanie i weryfikacja dokumentu",
+      "assessment": "Rzeczywisty PAdES DEMO, import podpisu, oryginał, CA/odwołanie i testy zmian; profil urzędu/kwalifikacja: zależność, `PODPISY.md`, `WERYFIKACJA-PODPISOW.md`.",
+      "documentation": [
+        "docs/PODPISY.md",
+        "docs/WERYFIKACJA-PODPISOW.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "I07",
+      "source": "cel 3",
+      "requirement": "Błędy, retry, deduplikacja i niepewne wysyłki",
+      "assessment": "Lokalny kod/testy, trwałe stany REVIEW_REQUIRED, wznowienie bez drugiego POST, PG; `WZNOWIENIE-E-DORECZEN.md`, `WSPOLBIEZNOSC-PODPISU.md`, `EZD-RP.md`.",
+      "documentation": [
+        "docs/WZNOWIENIE-E-DORECZEN.md",
+        "docs/WSPOLBIEZNOSC-PODPISU.md",
+        "docs/EZD-RP.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "I08",
+      "source": "cel 3",
+      "requirement": "Historia i diagnostyka operacji zewnętrznych",
+      "assessment": "Lokalny panel, audyt i pełne listy wyników; `PAGINACJA-LIST.md`, `AUDYT-IP.md`. Fixture operatora nie jest dowodem doręczenia.",
+      "documentation": [
+        "docs/PAGINACJA-LIST.md",
+        "docs/AUDYT-IP.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "I09",
+      "source": "cel 3",
+      "requirement": "Oficjalna dokumentacja i procedura dostępów testowych",
+      "assessment": "Kontrakty, źródła i przygotowane treści zgłoszeń; `DOSTEP-EZD-RP.md`, `DOSTEP-E-DORECZENIA.md`. Zgłoszeń nie wysłano.",
+      "documentation": [
+        "docs/DOSTEP-EZD-RP.md",
+        "docs/DOSTEP-E-DORECZENIA.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "I10",
+      "source": "cel 3/5",
+      "requirement": "Oddzielny stan kodu, testów lokalnych, API i instancji urzędu",
+      "assessment": "Rozdzielone w poniższej tabeli; żadna integracja zewnętrzna nie jest oznaczona jako zweryfikowana.",
+      "documentation": [],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "P01",
+      "source": "cel 4",
+      "requirement": "Dobór technologii, fikcyjne dane, bez Dockera",
+      "assessment": "Django/host-native, oddzielne kopie testowe; `README.md`, `DECYZJE.md`.",
+      "documentation": [
+        "README.md",
+        "docs/DECYZJE.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "P02",
+      "source": "cel 4",
+      "requirement": "Weryfikacja numeracji w aktualnych oficjalnych źródłach",
+      "assessment": "Zapisane źródła ELI i ich hashe z 03.10.2026, alfabet/P/M/pojemności; `NUMERACJA-PRZEPISY.md`, `POJEMNOSCI-PUL.md`. Nie jest to pełna opinia prawna.",
+      "documentation": [
+        "docs/NUMERACJA-PRZEPISY.md",
+        "docs/POJEMNOSCI-PUL.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "P03",
+      "source": "cel 4, spec. 10",
+      "requirement": "Założenia, rozbieżności i decyzje urzędu",
+      "assessment": "`DECYZJE.md`: OTP, 14 dni, sprzedaż, III, dane właściciela, numeracja i integracje. Logo/prezentacja/stoisko w pytaniach specyfikacji nie są osobnym modułem tego celu programistycznego.",
+      "documentation": [
+        "docs/DECYZJE.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "P04",
+      "source": "cel 4",
+      "requirement": "Zachowanie źródeł i istniejącej pracy",
+      "assessment": "Hashe obu HTML zachowane; główne dane porównane, brak resetu/odrzucenia WIP; bieżący zapis audytu w `../evidence/local-acceptance-audit.json`.",
+      "documentation": [],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "O01",
+      "source": "cel 5",
+      "requirement": "Role i pełny główny przebieg w Chrome",
+      "assessment": "Lokalny I: sprawdzenie→wniosek→rezerwacja→decyzja→pismo→wydanie→zbycie→korekta; II/III i A0/A2 obcy; `ODBIOR-TRZECH-MODULOW.md`.",
+      "documentation": [
+        "docs/ODBIOR-TRZECH-MODULOW.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "O02",
+      "source": "cel 5",
+      "requirement": "Testy izolacji, odmów i jednoczesnych przydziałów",
+      "assessment": "Macierz tras/metod i testy PG; `ROLE-I-TRASY.md`, `METODY-HTTP.md`, `ODBIOR-BAZY-I-AKTUALIZACJI.md`.",
+      "documentation": [
+        "docs/ROLE-I-TRASY.md",
+        "docs/METODY-HTTP.md",
+        "docs/ODBIOR-BAZY-I-AKTUALIZACJI.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "O03",
+      "source": "cel 5",
+      "requirement": "Testy wygaśnięcia, PDF, importu i eksportu",
+      "assessment": "Konkretne dowody wskazane w F19, F30/F31 i D01/D02; bez zamiany fixture na dowód operatora.",
+      "documentation": [],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "O04",
+      "source": "cel 5",
+      "requirement": "Kopia i rzeczywiste odtworzenie danych",
+      "assessment": "SQLite i PostgreSQL, podpis DEMO, wstrzymana kolejka, sesje oraz migracja PG 0005→0010; `ODBIOR-BAZY-I-AKTUALIZACJI.md`, `BACKUP-POSTGRESQL.md`.",
+      "documentation": [
+        "docs/ODBIOR-BAZY-I-AKTUALIZACJI.md",
+        "docs/BACKUP-POSTGRESQL.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "O05",
+      "source": "cel 5",
+      "requirement": "Instrukcje lokalne, instalacja urzędu, konfiguracja integracji i aktualizacja",
+      "assessment": "`README.md`, `WDROZENIE-URZEDOWE.md`, `EZD-RP.md`, `E-DORECZENIA.md`, `PODPISY.md`, `BACKUP-POSTGRESQL.md`.",
+      "documentation": [
+        "README.md",
+        "docs/WDROZENIE-URZEDOWE.md",
+        "docs/EZD-RP.md",
+        "docs/E-DORECZENIA.md",
+        "docs/PODPISY.md",
+        "docs/BACKUP-POSTGRESQL.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass."
+    },
+    {
+      "id": "O06",
+      "source": "cel 5",
+      "requirement": "Adres, konta testowe i raport zgodności",
+      "assessment": "Ten raport, `MACIERZ-ZGODNOSCI.md` i jawne dowody; końcowa deklaracja osiągnięcia celu czeka na zamknięcie B05; B04 ma lokalny dowód.",
+      "documentation": [
+        "docs/MACIERZ-ZGODNOSCI.md"
+      ],
+      "evidence_scope": "Human review of saved objective/specification, implementation and the cited local evidence; assessment applies to described scenarios and retains historical revisions. File existence/hash is not a functional pass. Updated by actual Chrome CAPTCHA supplement on application772378a."
+    }
+  ],
+  "inspected_saved_evidence": [
+    {
+      "path": "evidence/final-three-module-proof.json",
+      "sha256": "6b1f0d497e007489950cef07ec5225ed29fc9a2a41f186c9952ca935e1cf6a46",
+      "recorded_scope": "Three positive workflows in user Chrome on separate SQLite copy; six cross-office and six administrator object GET denials; native database audit and six actual archived PDFs. This is not a complete endpoint/method/role matrix."
+    },
+    {
+      "path": "evidence/final-backup-upgrade-proof.json",
+      "sha256": "94a49bd20b60099db0bbabdf271514a4199925bbe32d36facab8a68fef43f134",
+      "recorded_scope": "Native SQLite and PostgreSQL snapshot/restore, then PostgreSQL 0005 to 0010 upgrade on an isolated restored database; not full system acceptance"
+    },
+    {
+      "path": "evidence/excel-import-ui-proof.json",
+      "sha256": "a5dfc4ac2ee75f69f3ea0a2d60a8aefb578eae24f99c749578d65a74aa91e490",
+      "recorded_scope": "See original saved report for the exact scenarios, fixtures, transport and exclusions; no current full rerun claimed."
+    },
+    {
+      "path": "evidence/list-pagination-browser-report.json",
+      "sha256": "820268562ea42466529dc46022b519b63b33c58eff788533cd5c2e7f41c8901d",
+      "recorded_scope": "Chrome user profile, isolated synthetic copy localhost:8776; read navigation and CSV export; no remote API"
+    },
+    {
+      "path": "evidence/list-pagination-export-proof.json",
+      "sha256": "3a1467784aa71b1d014728f303a2541ba0a91b63916eadcbfff12f61d93374c0",
+      "recorded_scope": "See original saved report for the exact scenarios, fixtures, transport and exclusions; no current full rerun claimed."
+    },
+    {
+      "path": "evidence/account-invitation-browser-report.json",
+      "sha256": "6af0cb19cbbcb345753b1882751633000b98d3774fbdddbe91cd3c91452919ee",
+      "recorded_scope": "See original saved report for the exact scenarios, fixtures, transport and exclusions; no current full rerun claimed."
+    },
+    {
+      "path": "evidence/session-control-browser-report.json",
+      "sha256": "01489e99287f6fc91231143c990c77827ac11ac58c121469bcabcf83596419f3",
+      "recorded_scope": "See original saved report for the exact scenarios, fixtures, transport and exclusions; no current full rerun claimed."
+    },
+    {
+      "path": "evidence/reservation-ui-proof.json",
+      "sha256": "d374c0013dcc3256ef676140058c72dff579c6817328afd3aac15539a76399b3",
+      "recorded_scope": "isolated copy; fictional data; no external dispatch"
+    },
+    {
+      "path": "evidence/plate-numbering-legal-sources.json",
+      "sha256": "c34a6393950d99dc0f866e8400febc4bf86dfe794ea750bb6841e57404f69281",
+      "recorded_scope": "Alphabet and province choice for individual plates; comparison of temporary and professional categories. Not a legal opinion or full compliance audit."
+    },
+    {
+      "path": "evidence/ezd-incoming-contract.json",
+      "sha256": "460b0d1a8db6ae178133a1d91d972c2e28bdcd0b58ab74aa61930e093d62237d",
+      "recorded_scope": "See original saved report for the exact scenarios, fixtures, transport and exclusions; no current full rerun claimed."
+    },
+    {
+      "path": "evidence/edor-backup-proof.json",
+      "sha256": "c459246b3083edaa8e11d91ef341bcd9dbdbcec8ac9c18d4c2c3725235cb9f58",
+      "recorded_scope": "See original saved report for the exact scenarios, fixtures, transport and exclusions; no current full rerun claimed."
+    },
+    {
+      "path": "evidence/pades-verification.json",
+      "sha256": "cd1597f3eb9ccbdc8a5b86a3cf6864da079cccf0ffe419b9f267688cb425fa8d",
+      "recorded_scope": "See original saved report for the exact scenarios, fixtures, transport and exclusions; no current full rerun claimed."
+    },
+    {
+      "path": "evidence/onprem-gunicorn-postgres-smoke.json",
+      "sha256": "b8efc94412a5643ee40f9992009e1054c1625bce071bb446c92ee4104f444e51",
+      "recorded_scope": "native Gunicorn 23 + PostgreSQL 18.6; proxy headers supplied by test HTTP client, not actual Nginx/TLS"
+    },
+    {
+      "path": "evidence/route-role-http-proof.json",
+      "sha256": "e56fd508b0c710a5fae0441d96e526db2c7213171c3af728e67d3facfde90547",
+      "recorded_scope": "Actual HTTP/OTP/CSRF for readable pages, permission denials and empty-form validation boundaries. Valid positive writes separately tested with rollback. Existing synthetic objects include all modules, sender/recipient letters, local fake delivery evidence and fake matched EZD incoming."
+    },
+    {
+      "path": "evidence/route-role-matrix.json",
+      "sha256": "314dc52bb8ed6d444074fe9e8b240023dfe3492975c12fee915c8f6fbf361c07",
+      "recorded_scope": "See original saved report for the exact scenarios, fixtures, transport and exclusions; no current full rerun claimed."
+    },
+    {
+      "path": "evidence/letter-audit-ip-http-proof.json",
+      "sha256": "789f1254ac7e5d2313812d1db8c94e81e4cf1e52571a4c3ce1052c01fdb9372d",
+      "recorded_scope": "Actual native HTTP with two file OTP sessions and real CSRF; isolated synthetic SQLite; HTML/API application, I approval/rejection, nested II/III allocation, direct II allocation; actual REMOTE_ADDR recorded, spoofed X-Forwarded-For ignored. No operator calls, no new Chrome or IPv6 socket test."
+    },
+    {
+      "path": "evidence/public-wcag-axe.json",
+      "sha256": "d3fbce1015ad4796c4cb42f220ff6e2cc508d3936d88a6b6fa035b9f2096f548",
+      "recorded_scope": "Local Chrome axe WCAG A/AA scans plus manual keyboard, spacing, zoom, gating display; not full conformance or screen-reader/CAPTCHA-completion proof"
+    },
+    {
+      "path": "evidence/public-pointer-proof.json",
+      "sha256": "d7dcbb011b63dbbfa3b842fc99320115043eae25fca37b59fda407f7b29e7e9a",
+      "recorded_scope": "Actual native pointer drag in Chrome user profile on an isolated native server: press submit button, move out and release; then ordinary click. No script-dispatched events. No touch hardware, CAPTCHA interaction or screen reader test."
+    },
+    {
+      "path": "evidence/pool-request-roles-http-proof.json",
+      "sha256": "1561dbc149500f08a8064c9af4d66544e403332ba164a9ac60b9cc3925151395",
+      "recorded_scope": "Actual host-native HTTP, real local file OTP and CSRF, isolated SQLite copy, MAIN II/III creation and submission denied via API and forged HTML with all 27 tables unchanged; MAIN individual requests, COUNTY pool applications and MAIN decisions/direct II allocation. No browser/operator proof in this file."
+    },
+    {
+      "path": "evidence/pool-request-roles-browser-report.json",
+      "sha256": "91d675ebd1b71fb9e9cf72be767b06a357abb5546a0f5d55cba4b44f5c011ad5",
+      "recorded_scope": "Actual Chrome OTP login for MAIN and COUNTY on isolated SQLite copy; visible forms and two real business form submissions. Denied forged POSTs covered separately by native HTTP and tests; no CAPTCHA, reader, operator or production proof. These five screenshots precede the final submission guard; MAIN form and pools list did not subsequently change. Final draft submission UI is checked separately."
+    },
+    {
+      "path": "evidence/pool-request-submit-browser-report.json",
+      "sha256": "049976517aae81ff710d4bcac6692e4fe7edd9f67254a9560d5477d5189126b1",
+      "recorded_scope": "Final submission guard in actual Chrome; local OTP; COUNTY III draft prepared by host-native service as labelled fixture, viewed by MAIN with no submit button; existing MAIN individual draft actually submitted. No operator/production/CAPTCHA/reader proof."
+    }
+  ],
+  "latest_http_source_sha256": {
+    "registry/services.py": "68f752b39e8ea06d4b7733d8ab39af216167a463a9ed4ae040faba71fd72957e",
+    "registry/forms.py": "61dcf7ed33f83800ba400d48abf0edd28d6efe2a9c9f6687e783acd93eee6c22",
+    "registry/views.py": "a1c0a597d43104e2218ad51cecd32d6d2d3ea7153ce0c048927ed7745e449cab",
+    "registry/templates/registry/pools.html": "a98a9991a920b868e92f9f5a25c8e833e5a9d27046695a12a9643d58b392a254",
+    "registry/templates/registry/request_detail.html": "1ce11cec9b3c6967aa68845cbc37a36be9d64f95e6b0f4f4ab856c21701b71ba",
+    "registry/test_pool_request_roles.py": "c712e2ddb4252e1f36eec9346b8559068382d70667fef441c799e3563e1e9103"
+  },
+  "current_registry_migrations": [
+    "0001_initial",
+    "0002_integrationjob_claimed_until_integrationjob_payload_and_more",
+    "0003_letter_signature_report_letter_signed_at_and_more",
+    "0004_letter_replaces",
+    "0005_numbersequence_letter_number_ordinal_and_more",
+    "0006_public_challenge",
+    "0007_ezdincomingdocument",
+    "0008_refresh_builtin_templates",
+    "0009_require_finite_module_three_period",
+    "0010_account_invitation"
+  ],
+  "current_office_counts": {
+    "CITY": 3,
+    "COUNTY": 31,
+    "MAIN": 1
+  },
+  "main_tables_preserved": 27,
+  "latest_focused_tests": {
+    "path": "evidence/pool-request-roles-tests.txt",
+    "passed": 54,
+    "sha256": "02c8ac4e0074a292001d008d350a0ec2c1b412db6d075c4e6aa148847162ccf8"
+  },
+  "latest_native_http_business_posts": 17,
+  "latest_native_http_no_write_denials": 8,
+  "live_workers_observed": {
+    "expiry": 31604,
+    "invitations": 29307,
+    "decision_notices": 23957
+  },
+  "open_local_criteria": [
+    "B05: actual spoken screen-reader announcements remain unverified; permission received and temporary VoiceOver setting restored."
+  ],
+  "external_state": "EZD RP, e-Doręczenia, external SMTP, office signing profile and office infrastructure remain unverified; specific missing accesses and approval-ready application materials are documented. Public documentation is not authenticated operator proof.",
+  "git_remotes": "",
+  "production_deployed": false,
+  "goal_complete": false,
+  "historical_review": {
+    "checked_at": "2026-10-03T08:31:30.061104+00:00",
+    "code_revision": "176927740d467a41b866b6f58416c0474cdb7856",
+    "report_sha256": "0833af809461de17ec1335e9602b32d1996e4d778d470fa08351848b8c61d7dd",
+    "open_local_criteria": [
+      "B04: actual completion and states of public CAPTCHA pending action-time confirmation",
+      "B05: actual screen-reader announcements and complete CAPTCHA accessibility pending confirmations"
+    ]
+  },
+  "historical_worker_ids_correction": {
+    "previous_field": {
+      "expiry": 86246,
+      "invitations": 50175,
+      "decision_notices": 49293
+    },
+    "meaning": "Tool execution session IDs, not operating-system PIDs; corrected in current supplement."
+  },
+  "current_supplement": "evidence/final-public-acceptance-proof.json",
+  "render_supplement": "evidence/render-profile-proof.json"
+}

@@ -1,0 +1,98 @@
+{
+  "scope": "Chrome user profile, isolated synthetic copy localhost:8776; read navigation and CSV export; no remote API",
+  "base_revision": "ff2041e77f5eb27222d914b0469228f3bbcd7092",
+  "browser_scenarios": {
+    "requests": {
+      "filtered_count": 305,
+      "oldest_page": 7,
+      "oldest_reference": "TEST-LISTA/000",
+      "filters_preserved": true,
+      "enter_navigation": true,
+      "focus_after_navigation": "list-results",
+      "new_filter_resets_to_page_1": true
+    },
+    "records": {
+      "filtered_count": 305,
+      "oldest_page": 7,
+      "oldest_owner": "FIKCYJNY-PAGINACJA-000",
+      "export_rows": 305
+    },
+    "letters": {
+      "visible_count": 317,
+      "oldest_page": 7,
+      "oldest_synthetic_title": "Fikcyjne pismo listy 000"
+    },
+    "jobs": {
+      "visible_count": 156,
+      "oldest_page": 4,
+      "oldest_synthetic_result": "FIKCYJNY-WYNIK-000"
+    },
+    "ezd_incoming": {
+      "visible_count": 155,
+      "oldest_page": 4,
+      "oldest_synthetic_rpw": "1000/2026"
+    },
+    "navigation_320px": {
+      "viewport": 320,
+      "document_scroll_width": 320,
+      "navigation_width": 246,
+      "first_previous_buttons_wrap": true,
+      "keyboard_focus_visible": true,
+      "viewport_override_reset": true
+    }
+  },
+  "fixtures": "305 rejected requests/released records/list letters, 155 completed synthetic jobs and RPW rows. Letter PDF bytes copied from existing archive solely for list fixtures; no new document/PDF/SMTP/EZD validity claim. No dispatch worker for private copy.",
+  "copy_business_tables_unchanged_after_navigation": {
+    "registry_request": {
+      "rows": 310,
+      "sha256": "0f535664c99a07d4c350076927575ac19b198ee7709ffd1790cd6aae0f839ff1"
+    },
+    "registry_platerecord": {
+      "rows": 310,
+      "sha256": "7b9de5ef86d3e808e92530fad110c57b96cad125be46ce6b32ebe2ed03ec8ef1"
+    },
+    "registry_letter": {
+      "rows": 317,
+      "sha256": "ed3a7f0cea08ab780f9525591047c5e948ef3923f2686cb7761b993b4923a14c"
+    },
+    "registry_pool": {
+      "rows": 1,
+      "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+    },
+    "registry_poolslot": {
+      "rows": 30,
+      "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+    },
+    "registry_numbersequence": {
+      "rows": 3,
+      "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+    },
+    "registry_integrationjob": {
+      "rows": 156,
+      "sha256": "28ed8a2066c4f9505398339fb6aebf46f38327fb0087dc3334286c3c96f36d2c"
+    },
+    "registry_ezdincomingdocument": {
+      "rows": 155,
+      "sha256": "012f70e27d92e7bd9058013cb8c7999b346f08e0b9fdc095ec7c1ddc531bc87f"
+    },
+    "registry_deliveryevidence": {
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "old_audit_rows_unchanged": true,
+  "new_audit_actions": [
+    "auth.login",
+    "registry.exported",
+    "auth.login"
+  ],
+  "source_sha256": {
+    "registry/views.py": "c1855e8c3c02f2400be998f3500260f19d64e070ee180168a1480f1a3b213370",
+    "registry/pagination.py": "9dbf1ca6caefe3b6aa7b895cf16ef41851f4ccf52f71f11a20b5400e519ae2a1",
+    "registry/templates/registry/pagination.html": "b3f10e83fc32d6664c3344a65e81145a683f0eba9b340c65ab40fc3c3d3d6a01"
+  },
+  "screenshots": [
+    "evidence/private/116-list-pagination-oldest-requests.png",
+    "evidence/private/118-list-pagination-navigation-320.png"
+  ]
+}

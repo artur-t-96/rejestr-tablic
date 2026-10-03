@@ -1,0 +1,11 @@
+[Unit]
+Description=Dyna Rejestr Tablic - kopia dzienna
+
+[Timer]
+OnCalendar=*-*-* 02:15:00 Europe/Warsaw
+Persistent=true
+RandomizedDelaySec=5min
+Unit=dyna-backup.service
+
+[Install]
+WantedBy=timers.target

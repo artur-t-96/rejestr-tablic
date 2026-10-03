@@ -1,0 +1,51 @@
+Creating test database for alias 'default' ('test_drt_pg_local')...
+Got an error creating the test database: database "test_drt_pg_local" already exists
+Destroying old test database for alias 'default' ('test_drt_pg_local')...
+Found 10 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: auth, contenttypes, registry, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying registry.0001_initial... OK
+  Applying registry.0002_integrationjob_claimed_until_integrationjob_payload_and_more... OK
+  Applying registry.0003_letter_signature_report_letter_signed_at_and_more... OK
+  Applying registry.0004_letter_replaces... OK
+  Applying registry.0005_numbersequence_letter_number_ordinal_and_more... OK
+  Applying registry.0006_public_challenge... OK
+  Applying registry.0007_ezdincomingdocument... OK
+  Applying registry.0008_refresh_builtin_templates... OK
+  Applying sessions.0001_initial...test_edor_waits_for_signature_commit_and_queues_signed_bytes (registry.test_signature_concurrency.SignatureConcurrencyTests.test_edor_waits_for_signature_commit_and_queues_signed_bytes) ... ok
+test_ezd_waits_for_signature_commit_and_queues_signed_bytes (registry.test_signature_concurrency.SignatureConcurrencyTests.test_ezd_waits_for_signature_commit_and_queues_signed_bytes) ... ok
+test_queue_rollback_allows_waiting_signature_to_commit (registry.test_signature_concurrency.SignatureConcurrencyTests.test_queue_rollback_allows_waiting_signature_to_commit) ... ok
+test_signature_rollback_allows_waiting_queue_to_use_original (registry.test_signature_concurrency.SignatureConcurrencyTests.test_signature_rollback_allows_waiting_queue_to_use_original) ... ok
+test_signature_waits_for_edor_commit_and_cannot_change_queued_original (registry.test_signature_concurrency.SignatureConcurrencyTests.test_signature_waits_for_edor_commit_and_cannot_change_queued_original) ... ok
+test_signature_waits_for_ezd_commit_and_cannot_change_queued_original (registry.test_signature_concurrency.SignatureConcurrencyTests.test_signature_waits_for_ezd_commit_and_cannot_change_queued_original) ... ok
+test_signature_waits_for_smtp_commit_and_cannot_change_queued_original (registry.test_signature_concurrency.SignatureConcurrencyTests.test_signature_waits_for_smtp_commit_and_cannot_change_queued_original) ... ok
+test_slow_crypto_holds_no_transaction_and_queue_can_commit (registry.test_signature_concurrency.SignatureConcurrencyTests.test_slow_crypto_holds_no_transaction_and_queue_can_commit) ... ok
+test_smtp_waits_for_signature_commit_and_queues_signed_bytes (registry.test_signature_concurrency.SignatureConcurrencyTests.test_smtp_waits_for_signature_commit_and_queues_signed_bytes) ... ok
+test_two_verified_signatures_commit_only_one_and_preserve_archive (registry.test_signature_concurrency.SignatureConcurrencyTests.test_two_verified_signatures_commit_only_one_and_preserve_archive) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 4.755s
+
+OK
+Destroying test database for alias 'default' ('test_drt_pg_local')...
+ OK
+System check identified no issues (0 silenced).

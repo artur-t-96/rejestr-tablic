@@ -1,0 +1,148 @@
+{
+  "environment": "Chrome, isolated fictional SQLite copy localhost:8775",
+  "record_rows": 2,
+  "all_thirteen_record_fields_match_source": true,
+  "unselected_sheet_not_imported": true,
+  "record_source_sha256": "2d52b1d09e6174fbe4eee6b145de2f51714fc5bdbf48ea1a97c053d29417f7d2",
+  "pool_source_sha256": "e2747737f7655e6a30a2a7ab5eed0f3a268bd504400aeb3c32861c6e69333968",
+  "pool_numbers": [
+    "P700",
+    "P703"
+  ],
+  "missing_numbers_not_created": [
+    "P701",
+    "P702"
+  ],
+  "issued_on": "2025-02-01",
+  "case_number": "00011",
+  "original_issuer_unknown": true,
+  "source_format": "XLSX",
+  "source_sheet": "Ewidencja",
+  "new_business_rows": {
+    "registry_request": 0,
+    "registry_platerecord": 2,
+    "registry_letter": 0,
+    "registry_pool": 1,
+    "registry_poolslot": 2,
+    "registry_numbersequence": 0,
+    "registry_integrationjob": 0
+  },
+  "all_original_business_rows_preserved": {
+    "registry_request": true,
+    "registry_platerecord": true,
+    "registry_letter": true,
+    "registry_pool": true,
+    "registry_poolslot": true,
+    "registry_numbersequence": true,
+    "registry_integrationjob": true
+  },
+  "main_seven_business_tables_equal_before_migration_backup": {
+    "registry_request": true,
+    "registry_platerecord": true,
+    "registry_letter": true,
+    "registry_pool": true,
+    "registry_poolslot": true,
+    "registry_numbersequence": true,
+    "registry_integrationjob": true
+  },
+  "preview_no_write": {
+    "records": {
+      "all_seven_business_tables_unchanged": true,
+      "audit_count": 55
+    },
+    "pools": {
+      "six_tables_unchanged_since_copy_including_pools_and_slots": {
+        "registry_request": true,
+        "registry_letter": true,
+        "registry_pool": true,
+        "registry_poolslot": true,
+        "registry_numbersequence": true,
+        "registry_integrationjob": true
+      },
+      "audit_count": 57,
+      "plate_count": 7,
+      "pool_preview_did_not_write": true
+    }
+  },
+  "chrome": [
+    "explicit multi-sheet name required",
+    "one chosen sheet previewed",
+    "UMP confirmed record import",
+    "record dates/source card visually checked",
+    "single-sheet pool previewed and confirmed",
+    "expired pool no issue action",
+    "pool dates/zero-prefixed case/source card visually checked"
+  ],
+  "screenshots": [
+    "evidence/private/93-excel-record-preview.jpg",
+    "evidence/private/94-excel-record-source.jpg",
+    "evidence/private/95-excel-pool-preview.jpg",
+    "evidence/private/96-excel-pool-source.jpg"
+  ],
+  "restore": {
+    "backup_sha256": "fea764f3610c5a92428b1f81fc65b6c3c7f49d18fcd48a59e4827688b0eb7459",
+    "tables_identical": {
+      "registry_request": true,
+      "registry_platerecord": true,
+      "registry_letter": true,
+      "registry_pool": true,
+      "registry_poolslot": true,
+      "registry_numbersequence": true,
+      "registry_integrationjob": true,
+      "registry_auditlog": true
+    },
+    "table_summaries": {
+      "registry_request": {
+        "count": 5,
+        "sha256": "077a581043d28af86a1e0fd0a8ea001d1c40aefc69402ec2be0b0cca4ec32cab"
+      },
+      "registry_platerecord": {
+        "count": 7,
+        "sha256": "c350598955b920e7d6440add2aab5f613b5a9c10b84a2746b529fde67cd2bd83"
+      },
+      "registry_letter": {
+        "count": 12,
+        "sha256": "ee3c40e671d2d9e485755f148a1a497e164920a854354f21594bc301e63270da"
+      },
+      "registry_pool": {
+        "count": 2,
+        "sha256": "b32ca55692c58262c5d53ba6de058a9a2f1249783afd8ba4566c34e07001ec4e"
+      },
+      "registry_poolslot": {
+        "count": 32,
+        "sha256": "81f1a68e5c0492100b9519854a8d85500f9d177fe6e4f485ccc5863281327e56"
+      },
+      "registry_numbersequence": {
+        "count": 3,
+        "sha256": "ac99c7bf13e1ed4172d36eedc4c1a56306334d22d3b33304c290f51880220ea3"
+      },
+      "registry_integrationjob": {
+        "count": 1,
+        "sha256": "e3216bf9b65b89f13b60e22ce379a6d9e557d127dcbaf736c0f2046bcd71cfb3"
+      },
+      "registry_auditlog": {
+        "count": 58,
+        "sha256": "5841d4ea4b1922ce680bfc5471fde5dd08ac951f92dfb16e78b93401ce029db1"
+      }
+    },
+    "sessions_removed_and_codes_used": true,
+    "runtime_started": false
+  },
+  "tests": {
+    "sqlite": {
+      "run": 45,
+      "passed": 42,
+      "skipped_postgres_only": 3
+    },
+    "postgres": {
+      "run": 45,
+      "passed": 45
+    }
+  },
+  "limits": [
+    "Fictional prepared XLSX; no real office migration acceptance.",
+    "Original source files must be archived separately.",
+    "III Excel tested through Django HTTP, Chrome pool scenario II only.",
+    "No Linux execution or real integration API in this stage."
+  ]
+}

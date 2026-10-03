@@ -1,0 +1,1 @@
+Backup utworzony: /Users/arturtwardowski/Dyna Rejestr Tablic/var/excel-import-ui-after-20261003.zip. Spójność OK; SHA-256: 7ea8226bc6e52410b918acaea5344ed87a7d7ac328522ada8e19ba1aa0f0b7e8

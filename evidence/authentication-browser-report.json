@@ -1,0 +1,20 @@
+{
+  "synthetic_data": true,
+  "private_app": "http://127.0.0.1:8772",
+  "browser": "Chrome, profil użytkownika",
+  "deep_link": "/panel/wnioski/ff055024-8841-4938-a4c9-8dad6636c292/",
+  "otp_return_to_same_request_verified": true,
+  "otp_new_code_link_preserved_destination": true,
+  "stale_form_after_relogin_rejected": true,
+  "rejected_case_not_saved": true,
+  "rejected_number_not_reserved": true,
+  "request_count_after_stale_post": 3,
+  "session_expiry_verified_in_automated_test": true,
+  "one_hour_browser_wait_performed": false,
+  "timing_warning_or_draft_recovery_implemented": false,
+  "external_api_verified": false,
+  "screenshots": [
+    "evidence/private/36-otp-powrot-do-wniosku.jpg",
+    "evidence/private/37-odrzucony-stary-formularz.jpg"
+  ]
+}

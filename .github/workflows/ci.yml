@@ -1,0 +1,121 @@
+name: Registry CI
+
+"on":
+  pull_request:
+  push:
+    branches: [main, codex/local-registry]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: registry-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sqlite:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      DYNA_DATA_DIR: ${{ runner.temp }}/dyna-sqlite
+      DYNA_ENV: local
+      DJANGO_SETTINGS_MODULE: config.settings
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: 3.12.14
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install locked dependencies
+        run: |
+          python -m pip install --require-hashes --only-binary=:all: -r requirements.txt
+      - name: Check dependencies and pending migrations
+        run: |
+          python -m pip check
+          python manage.py check
+          python manage.py makemigrations --check --dry-run
+      - name: Build public static assets
+        run: python manage.py collectstatic --noinput
+      - name: Check mailbox configuration safety without external access
+        shell: pwsh
+        run: ./deploy/test-microsoft-mail-rbac.ps1
+      - name: Test SQLite workflows and permissions
+        shell: bash
+        run: |
+          set -o pipefail
+          python manage.py test registry --noinput --verbosity 2 2>&1 | tee "$RUNNER_TEMP/sqlite-tests.txt"
+      - name: Save test log
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: sqlite-tests
+          path: ${{ runner.temp }}/sqlite-tests.txt
+          if-no-files-found: ignore
+          retention-days: 7
+
+  postgres:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_DB: dyna_ci
+          POSTGRES_USER: dyna_ci
+          # Disposable CI database; this is not a deployment secret.
+          POSTGRES_PASSWORD: disposable-ci-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U dyna_ci -d dyna_ci"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      DYNA_DATA_DIR: ${{ runner.temp }}/dyna-postgres
+      DYNA_ENV: local
+      DJANGO_SETTINGS_MODULE: config.settings
+      PGHOST: 127.0.0.1
+      PGPORT: "5432"
+      PGDATABASE: dyna_ci
+      PGUSER: dyna_ci
+      PGPASSWORD: disposable-ci-only
+      DYNA_POSTGRES_BIN: /usr/lib/postgresql/18/bin
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: 3.12.14
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install locked dependencies
+        run: |
+          python -m pip install --require-hashes --only-binary=:all: -r requirements.txt
+      - name: Install matching PostgreSQL tools on hosted runner
+        shell: bash
+        run: |
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl --fail --silent --show-error https://www.postgresql.org/media/keys/ACCC4CF8.asc -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+          printf '%s\n' 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt noble-pgdg main' | sudo tee /etc/apt/sources.list.d/dyna-pgdg.list > /dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends postgresql-client-18
+          /usr/lib/postgresql/18/bin/pg_dump --version
+          /usr/lib/postgresql/18/bin/pg_restore --version
+      - name: Check migrations on PostgreSQL
+        run: |
+          python manage.py check
+          python manage.py migrate --noinput
+          python manage.py makemigrations --check --dry-run
+      - name: Test PostgreSQL workflows, locks and actual backup restore
+        shell: bash
+        run: |
+          set -o pipefail
+          python manage.py test registry --noinput --verbosity 2 2>&1 | tee "$RUNNER_TEMP/postgres-tests.txt"
+      - name: Save test log
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: postgres-tests
+          path: ${{ runner.temp }}/postgres-tests.txt
+          if-no-files-found: ignore
+          retention-days: 7

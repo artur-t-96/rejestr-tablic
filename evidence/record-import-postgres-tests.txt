@@ -1,0 +1,14 @@
+Creating test database for alias 'default'...
+E..............
+======================================================================
+ERROR: PlateAlphabetTests (unittest.loader._FailedTest.PlateAlphabetTests)
+----------------------------------------------------------------------
+AttributeError: module 'registry.tests_plate_alphabet' has no attribute 'PlateAlphabetTests'
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.405s
+
+FAILED (errors=1)
+Destroying test database for alias 'default'...
+Found 15 test(s).
+System check identified no issues (0 silenced).

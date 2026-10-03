@@ -1,0 +1,47 @@
+{
+  "backup_sha256": "3cdde19f01939cb6e4bdc2bf9f0399116ec67660762967e5b4dc4fc623e6089e",
+  "snapshot_database_sha256": "489fca71ac8d44f62781b0d41cc40de19d19022478d81a220c5da369503023ca",
+  "integrity_check": "ok",
+  "foreign_key_errors": 0,
+  "sessions_before_resume": 0,
+  "automatic_jobs_before_resume": 0,
+  "sequences_before_resume": [
+    [
+      "LETTER.gni",
+      2026,
+      1
+    ],
+    [
+      "LETTER.ump",
+      2026,
+      2
+    ],
+    [
+      "REQUEST",
+      2026,
+      5
+    ]
+  ],
+  "references_before_resume": [
+    [
+      "W/2026/00001"
+    ],
+    [
+      "W/2026/00002"
+    ],
+    [
+      "W/2026/00003"
+    ],
+    [
+      "W/2026/00004"
+    ],
+    [
+      "W/2026/00005"
+    ]
+  ],
+  "secrets_included": false,
+  "restored_database_only_resume": true,
+  "reference_after_resume": "W/2026/00006",
+  "letter_after_resume": "DRT/gni/2026/000002",
+  "external_transmission_performed": false
+}

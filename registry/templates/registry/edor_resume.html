@@ -1,0 +1,18 @@
+{% extends 'registry/base.html' %}
+{% block title %}Wznowienie e-Doręczeń · Dyna{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">Administracja integracji</p><h1>Wznowienie e-Doręczeń</h1><p>{{ job.uuid }} · {{ job.status_label }}</p></div></div>
+<section class="card form-card">
+{% if mode == 'UNSENT' %}
+<h2>Wznowienie niewysłanej operacji</h2>
+<p>W historii nie ma rozpoczętej wysyłki albo zapisano jednoznaczną odmowę przyjęcia. System sprawdzi konfigurację, aktywność urzędów, adres odbiorcy i sumę dokumentu, a następnie przywróci to samo zlecenie do kolejki.</p>
+<p>Wysyłkę wykona pracownik kolejki. Zachowane zostaną oryginalny dokument, adresat i treść. Nowe zlecenie nie powstanie.</p>
+{% elif mode == 'OBSERVATION' %}
+<h2>Wznowienie obserwacji przyjętego zadania</h2>
+<p>System zweryfikuje identyfikator zadania u operatora i wznowi odczyt statusów oraz dowodów. Pismo nie będzie ponownie wysłane.</p>
+{% else %}
+<div class="notice warning">Brak podstaw do bezpiecznego wznowienia z tego ekranu. Ustal wynik operacji z operatorem. Nie zmieniaj ręcznie statusu kolejki ani nie twórz drugiej wysyłki.</div>
+{% endif %}
+{% if mode %}<form method="post">{% csrf_token %}{{ form.as_div }}<div class="form-actions"><button type="submit">{% if mode == 'UNSENT' %}Przywróć zlecenie do kolejki{% else %}Wznów obserwację{% endif %}</button><a class="button secondary" href="{% url 'integrations' %}">Anuluj</a></div></form>{% else %}<a href="{% url 'integrations' %}">Wróć do integracji</a>{% endif %}
+</section>
+{% endblock %}

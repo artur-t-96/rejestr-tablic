@@ -1,0 +1,16 @@
+{
+  "backup_sha256": "2a4fb2d2c2422d11538d106261622a2910420b59a662f9fe22c833f7fc39e688",
+  "database_sha256": "0769d06a8894ffa42704cdd47ce7ec158fce3043bed0609127efb2095b610c7d",
+  "integrity_check": "ok",
+  "foreign_key_errors": 0,
+  "sessions": 0,
+  "active_login_codes": 0,
+  "automatic_queue_jobs": 0,
+  "signed_sha256_valid": true,
+  "original_sha256_valid": true,
+  "original_prefix_preserved": true,
+  "signature_status": "TEST_SIGNED",
+  "signature_report_preserved": true,
+  "has_previous_version": true,
+  "secrets_included": false
+}

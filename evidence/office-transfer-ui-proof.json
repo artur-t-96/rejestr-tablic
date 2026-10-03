@@ -1,0 +1,17 @@
+{
+  "database": "drt_transfer_ui_20261003",
+  "request": "0f6564ac-7b8f-4ca8-ac87-46eb938db65f",
+  "request_reference": "W/2026/00001",
+  "origin_office": "gni",
+  "record": "a9ad2a1c-b206-45ab-8edd-9ac5fc68ba49",
+  "current_office": "pil",
+  "record_version": 5,
+  "current_make": "Testowa marka Piła",
+  "transfer_actor": "ump@example.invalid",
+  "followup_actor": "pila@example.invalid",
+  "original_application_sha256": "5e318b076e4be36299f29d03fc2a4160e8f3fc2db36f8e13469b2b68c95d7159",
+  "original_application_owner_preserved": true,
+  "current_private_data_hidden_from_origin_chrome": true,
+  "origin_record_direct_link_chrome": "Not Found",
+  "current_office_update_chrome": true
+}

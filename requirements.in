@@ -1,0 +1,15 @@
+Django>=5.2,<5.3
+reportlab>=4.4,<5
+httpx>=0.28,<0.29
+cryptography>=46,<48
+PyJWT>=2.10,<3
+pypdf>=6,<7
+gunicorn>=23,<24
+psycopg[binary]>=3.2,<4
+pyHanko>=0.31,<0.36
+pyhanko-certvalidator>=0.31,<0.32
+asn1crypto>=1.5,<2
+altcha==2.1.0
+openpyxl>=3.1.5,<3.2
+defusedxml>=0.7.1,<0.8
+whitenoise==6.12.0

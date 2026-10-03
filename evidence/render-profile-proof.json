@@ -1,0 +1,89 @@
+{
+  "checked_at": "2026-10-03T09:49:52.412632+00:00",
+  "scope": "Local Render configuration, proxy/static-boundary tests and deployment-file preparation only; publication deferred until full local readiness.",
+  "source_sha256": {
+    "render.yaml": "22d47ac90c6c4fae59e520fc0b3b6a2f34ef9e58203217f994fd8f44c71c55fb",
+    "config/render.py": "feb57cbac1f79e248cd3e47017826c4c0c5be96bdbdae9d818ccba52531d9700",
+    "config/settings_render.py": "7afa60263cb0e766ff9b5806c77f0b277a585553b646b251c5506ae682cab8c1",
+    "config/settings_static_build.py": "486d729991a56ce35e13a2693a5e2b368c65e65f7de4e40c4fb8cdc2a1b36b94",
+    "deploy/render-build.sh": "4c5a01f12a789ceab996486a37951d043557864e9ece4063df5d0c02535c5d29",
+    "deploy/render-gunicorn.py": "63f3ef92411a1b0add46e56403171074ae3de90243b8eebf68060824df163a0a",
+    "deploy/render_start.py": "1e17f6f460648f5182a5c7cc51db2b8a681df5fbcbf3c10e61e62653034b23a2",
+    "registry/render_proxy.py": "2e60514e24d943dd265fb27e2cb2ea5d941b1008a385b9fef6aac53e21b10417",
+    "registry/test_render.py": "d908c7569812fb751412f63060635b23055ecfb7eeb361c277e6f50312169a60",
+    "requirements.in": "89e95aea8b3fad27bb1c85d4060871906649b8f0146a5020b7b66890bfeb9797",
+    "requirements.txt": "17cec87cca4a91a02cacc5cc7d20d1b48b2008d73f9b8f7b00c684a9ed3d4a15",
+    "requirements-qa.txt": "3fb68afd0b61ba7d0a1173e3df06a796d21feb2110869a44e2b95e3c3125cb5f"
+  },
+  "schema": {
+    "url": "https://render.com/schema/render.yaml.json",
+    "sha256": "a0d4e8a3eb119a1b63657741757e3c25c091b3ce463c4be8c90e8026678d8163",
+    "validation": "PASS using JSON Schema4.26.0/PyYAML6.0.3; local only"
+  },
+  "tests": {
+    "path": "evidence/render-profile-tests.txt",
+    "passed": 17,
+    "skipped": 0,
+    "coverage": [
+      "origin/config guards",
+      "proxy prefix spoof",
+      "untrusted peer",
+      "IPv6",
+      "malformed/too long chain",
+      "health-only probe exemption",
+      "private PDF not exposed by static server",
+      "missing mount prevents migration",
+      "onprem configuration regression"
+    ]
+  },
+  "static_build": "Native collectstatic PASS: 4 copied,6 unmodified,10 post-processed; no migration or DB access",
+  "syntax": "Python compilation and sh -n PASS",
+  "whitenoise": {
+    "version": "6.12.0",
+    "inventory": "third_party/whitenoise-render-20261003.json",
+    "pinned_hash_installation": true,
+    "other_runtime_qa_versions_preserved": true
+  },
+  "voiceover_revalidation": "System Settings off; Mute Speech0 in utility. Tool still provides no actual spoken result. No new VoiceOver setting activation or spoken test.",
+  "publication": {
+    "github_created": false,
+    "render_created": false,
+    "real_proxy_topology_verified": false,
+    "real_postgres_verified": false,
+    "real_smtp_verified": false,
+    "full_supervisor_process_verified": false,
+    "goal_complete": false
+  },
+  "official_sources": [
+    "https://render.com/docs/blueprint-spec",
+    "https://render.com/docs/deploy-django",
+    "https://render.com/docs/disks",
+    "https://render.com/docs/environment-variables",
+    "https://render.com/docs/postgresql-creating-connecting",
+    "https://whitenoise.readthedocs.io/en/stable/django.html"
+  ],
+  "directory": "Official CLI1.53.0/plugin0.3.5 attempted; provider search refused user agent; no spoofing or provisioning.",
+  "main_tables_preserved": 27,
+  "application_revision": "855358b7ab48059ff03d711c7d61b7eb4dd78e6c",
+  "main_health": {
+    "status": "ok",
+    "service": "dyna-rejestr-tablic",
+    "mode": "local",
+    "revision": "855358b7ab48059ff03d711c7d61b7eb4dd78e6c"
+  },
+  "actual_module_deploy_check": {
+    "errors": 0,
+    "warnings": [
+      "security.W005",
+      "security.W021"
+    ],
+    "settings": "config.settings_render; synthetic isolated configuration, no database connection",
+    "scope": "HSTS subdomains/preload are not enabled; warnings retained, not silenced. HTTPS/cookies/current origin guards remain enabled."
+  },
+  "pip_check": "PASS",
+  "workers_observed_pids": {
+    "expiry": 31604,
+    "invitations": 29307,
+    "decision_notices": 23957
+  }
+}

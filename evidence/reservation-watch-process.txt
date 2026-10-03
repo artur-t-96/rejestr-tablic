@@ -1,0 +1,7 @@
+Private copied SQLite database on localhost:8776; only fictional P6TERM deadline shortened.
+Native process session 50977; --watch --interval 1.
+State EXPIRED/RELEASED verified directly before any browser read of the shortened deadline.
+Captured stdout on graceful shutdown:
+Proces wygaszania rezerwacji działa; kontrola co 1 sekund.
+Zwolniono 1 rezerwacji.
+Proces wygaszania rezerwacji zatrzymany.

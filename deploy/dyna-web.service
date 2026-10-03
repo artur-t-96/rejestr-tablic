@@ -1,0 +1,30 @@
+[Unit]
+Description=Dyna Rejestr Tablic - aplikacja
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=dyna
+Group=dyna
+WorkingDirectory=/opt/dyna/current
+EnvironmentFile=/etc/dyna/runtime.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStartPre=/opt/dyna/current/.venv/bin/python manage.py check_onprem --database
+ExecStart=/opt/dyna/current/.venv/bin/gunicorn --config deploy/gunicorn.conf.py config.wsgi:application
+Restart=on-failure
+RestartSec=5s
+TimeoutStopSec=180s
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+ReadWritePaths=/var/lib/dyna
+
+[Install]
+WantedBy=multi-user.target

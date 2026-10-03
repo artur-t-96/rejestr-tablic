@@ -1,0 +1,24 @@
+{
+  "engine": "postgresql",
+  "database": "drt_pg_local",
+  "office_count": 35,
+  "request_id": "56a536a6-bb25-4f8a-9f85-58339bf997b6",
+  "reference": "W/2026/00004",
+  "request_status": "APPROVED",
+  "plate_status": "ALLOCATED",
+  "plate_number": "P4BAZA",
+  "letters": [
+    {
+      "id": "9fab69f6-2e79-489e-862f-18896de6fd43",
+      "number": "DRT/gni/2026/000004",
+      "sha256": "af046f250a4769f8c5c277e9aabba65e44c6c689daed519c59a6646055798912",
+      "pdf_integrity": true
+    },
+    {
+      "id": "719fb50e-4f1d-48a6-948a-55846df402ea",
+      "number": "DRT/ump/2026/000004",
+      "sha256": "2259cc280cef7c101d2210a85f0fb7b8e33cfd1beef22f9c2e1f702ff03ca6ae",
+      "pdf_integrity": true
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "backup": "var/backups/2026-10-03-postgres-final.zip",
+  "source_database": "drt_pg_local",
+  "counts_and_migrations_unchanged": true,
+  "database_properties_unchanged": true,
+  "job_state": "QUEUED",
+  "job_attempts": 0
+}

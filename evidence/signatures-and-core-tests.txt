@@ -1,0 +1,57 @@
+Creating test database for alias 'default'...
+Destroying old test database for alias 'default'...
+...........................................Validation error [cert context: Common Name: Podpis TESTOWY Urząd A]: The path could not be validated because no revocation information could be found for the end-entity certificate Common Name: Podpis TESTOWY Urząd A
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko/sign/validation/generic_cms.py", line 1238, in handle_certvalidator_errors
+    return CertvalidatorOperationResult(success_result=await coro)
+                                                       ^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko/sign/validation/generic_cms.py", line 635, in _check
+    path: ValidationPath = await find_valid_path(
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko_certvalidator/__init__.py", line 50, in find_valid_path
+    raise exceptions[0]
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko_certvalidator/__init__.py", line 33, in find_valid_path
+    await async_validate_path(
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko_certvalidator/validate.py", line 148, in async_validate_path
+    return await intl_validate_path(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko_certvalidator/validate.py", line 1086, in intl_validate_path
+    await _check_revocation(
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko_certvalidator/validate.py", line 1408, in _check_revocation
+    raise InsufficientRevinfoError.from_state(
+pyhanko_certvalidator.errors.InsufficientRevinfoError: The path could not be validated because no revocation information could be found for the end-entity certificate Common Name: Podpis TESTOWY Urząd A
+.....Validation error [cert context: Common Name: Podpis TESTOWY Urząd A]: CRL indicates the end-entity certificate was revoked at 23:32:32 on 2026-10-02, due to an unspecified reason.
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko/sign/validation/generic_cms.py", line 1238, in handle_certvalidator_errors
+    return CertvalidatorOperationResult(success_result=await coro)
+                                                       ^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko/sign/validation/generic_cms.py", line 635, in _check
+    path: ValidationPath = await find_valid_path(
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko_certvalidator/__init__.py", line 50, in find_valid_path
+    raise exceptions[0]
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko_certvalidator/__init__.py", line 33, in find_valid_path
+    await async_validate_path(
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko_certvalidator/validate.py", line 148, in async_validate_path
+    return await intl_validate_path(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko_certvalidator/validate.py", line 1086, in intl_validate_path
+    await _check_revocation(
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko_certvalidator/validate.py", line 1329, in _check_revocation
+    await verify_crl(
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko_certvalidator/revinfo/validate_crl.py", line 1062, in verify_crl
+    await _process(certificate_list_cont, delta_lists_by_issuer)
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko_certvalidator/revinfo/validate_crl.py", line 1040, in _process
+    interim_reasons = await _handle_single_crl(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/.venv/lib/python3.12/site-packages/pyhanko_certvalidator/revinfo/validate_crl.py", line 654, in _handle_single_crl
+    raise RevokedError.format(
+pyhanko_certvalidator.errors.RevokedError: CRL indicates the end-entity certificate was revoked at 23:32:32 on 2026-10-02, due to an unspecified reason.
+...............................
+----------------------------------------------------------------------
+Ran 79 tests in 7.359s
+
+OK
+Destroying test database for alias 'default'...
+Found 79 test(s).
+System check identified no issues (0 silenced).

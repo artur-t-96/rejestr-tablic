@@ -1,0 +1,11 @@
+[Unit]
+Description=Dyna Rejestr Tablic - kolejka co minute
+
+[Timer]
+OnBootSec=1min
+OnUnitInactiveSec=1min
+AccuracySec=10s
+Unit=dyna-jobs.service
+
+[Install]
+WantedBy=timers.target

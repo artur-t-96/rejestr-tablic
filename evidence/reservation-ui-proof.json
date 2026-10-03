@@ -1,0 +1,124 @@
+{
+  "scope": "isolated copy; fictional data; no external dispatch",
+  "requests": [
+    {
+      "number": "P6ODMW",
+      "request": "f6accd05-6ad7-448b-bc3d-2f68548d28d4",
+      "status": "REJECTED",
+      "plate_status": "RELEASED",
+      "created_at": "2026-10-03T05:26:34.468922+00:00",
+      "reservation_until": null,
+      "letters": [
+        {
+          "uuid": "bd184833-045e-45a5-96e7-04b0c8838771",
+          "kind": "APPLICATION",
+          "number": "DRT/gni/2026/000002",
+          "sha256": "6f1dc7f7a081eb33c43640ab91114cc21957b80ccfdf4495a30ab0603e892e6f",
+          "pages": 1
+        },
+        {
+          "uuid": "4bc98d7a-af85-4455-a10f-b5de7a301034",
+          "kind": "REJECTION",
+          "number": "DRT/ump/2026/000003",
+          "sha256": "faac161d8e1fc0ec32081f04c7fffb7f01f8d580c3cf40825eafea31c6772d4b",
+          "pages": 1,
+          "text": "Dyna Rejestr Tablic | DRT/ump/2026/000003\nStrona 1\nUrząd Miasta Poznania – Wydział Komunikacji\n Poznań, 03.10.2026\nNumer systemowy pisma: DRT/ump/2026/000003\nAdresat: Starostwo Powiatowe w Gnieźnie\nADE: nie skonfigurowano\nOdmowa przydziału\nW odpowiedzi na wniosek W/2026/00006, znak sprawy FIKCYJNE/ODMOWA/01, odmawiamy\nprzydziału: P6 ODMW.\nUzasadnienie: FIKCYJNE/ODMOWA/20261003 — odmowa w scenariuszu testowym\nPowiązanie ze sprawą: W/2026/00006\nIdentyfikator: f6accd05-6ad7-448b-bc3d-2f68548d28d4\nhttp://localhost:8776/panel/wnioski/f6accd05-6ad7-448b-bc3d-2f68548d28d4/\nOtworzenie sprawy wymaga zalogowania i uprawnień urzędu.\nDokument wygenerowany elektronicznie; sam wydruk nie potwierdza podpisu. Podpis sprawdź w czytniku PDF.\nŚRODOWISKO LOKALNE - dane fikcyjne. Wzór pisma wymaga zatwierdzenia przez urząd.\n"
+        }
+      ]
+    },
+    {
+      "number": "P6TERM",
+      "request": "a44ce010-d92f-481d-8514-5498d1d951ba",
+      "status": "SENT",
+      "plate_status": "SENT",
+      "created_at": "2026-10-03T05:26:45.366428+00:00",
+      "reservation_until": "2026-10-17T05:26:45.366320+00:00",
+      "letters": [
+        {
+          "uuid": "22ea7445-8952-4646-8aea-23add32444d4",
+          "kind": "APPLICATION",
+          "number": "DRT/gni/2026/000003",
+          "sha256": "feecc84a7f3a3233fb8dba00cdfe780de07598d6e2516a9e9cba0cb170cae4f9",
+          "pages": 1
+        }
+      ]
+    }
+  ],
+  "extension": {
+    "days": 7,
+    "until": "2026-10-24T05:26:45.366320+00:00",
+    "audit": [
+      {
+        "actor__email": "ump@example.invalid",
+        "before": {
+          "reservation_until": "2026-10-17T05:26:45.366320+00:00"
+        },
+        "after": {
+          "reservation_until": "2026-10-24T05:26:45.366320+00:00"
+        },
+        "reason": "FIKCYJNE/PRZEDLUZENIE/01"
+      }
+    ]
+  },
+  "expiry_test": {
+    "method": "shorten deadline only for fictional P6TERM in isolated DB; native watch process; no browser request until expiry verified",
+    "worker_session": 50977,
+    "scheduled_at": "2026-10-03T05:31:39.828205+00:00",
+    "shortened_until": "2026-10-03T05:31:42.828336+00:00",
+    "state_before_browser_read": {
+      "record": "RELEASED",
+      "request": "EXPIRED"
+    },
+    "audit": [
+      {
+        "action": "reservation.expired",
+        "object_type": "PlateRecord",
+        "object_id": "7",
+        "actor_id": null,
+        "office_id": "gni",
+        "before": {
+          "status": "SENT",
+          "reservation_until": "2026-10-03T05:31:42.828336+00:00"
+        },
+        "after": {
+          "status": "RELEASED"
+        },
+        "reason": "Upłynął termin rezerwacji",
+        "created_at": "2026-10-03 05:31:43.159738+00:00"
+      },
+      {
+        "action": "request.expired",
+        "object_type": "Request",
+        "object_id": "7",
+        "actor_id": null,
+        "office_id": "gni",
+        "before": {
+          "status": "SENT",
+          "reservation_until": "2026-10-03T05:31:42.828336+00:00"
+        },
+        "after": {
+          "status": "EXPIRED"
+        },
+        "reason": "Upłynął termin rezerwacji",
+        "created_at": "2026-10-03 05:31:43.157768+00:00"
+      }
+    ],
+    "original_pdf_unchanged": true,
+    "letter_count": 15,
+    "external_job_count": 1
+  },
+  "chrome": {
+    "role_A2_initial_no_extension": true,
+    "reject_without_reason_blocked": true,
+    "rejection_pdf_generated_and_visually_inspected": true,
+    "UMP_extension_seven_days": true,
+    "expiry_notice_and_no_decision_actions": true,
+    "expired_record_no_extension": true,
+    "public_without_login_ODMW_and_TERM_available": true,
+    "screenshots": [
+      "98-refusal-ui.png",
+      "99-reservation-extended-ui.png",
+      "100-reservation-expired-ui.png"
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-10-03T10:48:56.702317+00:00",
+  "scope": "Microsoft mail implementation and real mailbox setup; no production acceptance",
+  "mailbox": {
+    "address": "rejestr-tablic@dynaminds.eu",
+    "type": "SharedMailbox",
+    "account_disabled": true,
+    "delegates": 0,
+    "external_directory_object_id": "fe471ded-ed59-4f40-9724-4e6286adc80b"
+  },
+  "application_registered": false,
+  "certificate_registered": false,
+  "mail_send_granted": false,
+  "real_graph_send_verified": false,
+  "render_deployed": false,
+  "focused_tests": {
+    "run": 64,
+    "skipped_postgresql_only": 2,
+    "result": "OK",
+    "microsoft_http": "MockTransport"
+  },
+  "original_main_database": {
+    "tables": 27,
+    "unchanged": true
+  },
+  "main_runtime_health": {
+    "status": "ok",
+    "service": "dyna-rejestr-tablic",
+    "mode": "local",
+    "revision": "855358b7ab48059ff03d711c7d61b7eb4dd78e6c"
+  },
+  "specification_sha256": "db1826c1e4835d6072fded20aa0098364e1673e293b7144f30175da3116dbde7",
+  "cost_approved_usd_month": 13.55,
+  "github": "https://github.com/artur-t-96/rejestr-tablic",
+  "source_uploaded": false,
+  "source_revision": "0317d4707c9518f9f2a6a7780260e35620a8cde7"
+}

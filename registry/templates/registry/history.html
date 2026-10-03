@@ -1,0 +1,17 @@
+{% load audit_history %}
+<ol class="history" id="history">
+  {% for event in events %}
+    {% audit_event event %}
+  {% empty %}
+    <li>Brak zmian.</li>
+  {% endfor %}
+</ol>
+{% if history_page.has_other_pages %}
+<nav class="history-pages" aria-label="Strony historii zmian">
+  <p>Strona {{ history_page.number }} z {{ history_page.paginator.num_pages }} · liczba zdarzeń: {{ history_page.paginator.count }}.</p>
+  <div class="actions">
+    {% if history_page.has_previous %}<a class="button secondary" href="?history_page={{ history_page.previous_page_number }}#history">Nowsze zdarzenia</a>{% endif %}
+    {% if history_page.has_next %}<a class="button secondary" href="?history_page={{ history_page.next_page_number }}#history">Starsze zdarzenia</a>{% endif %}
+  </div>
+</nav>
+{% endif %}

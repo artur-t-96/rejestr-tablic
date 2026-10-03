@@ -1,0 +1,52 @@
+Creating test database for alias 'default'...
+Destroying old test database for alias 'default'...
+FEEFF
+======================================================================
+ERROR: test_read_failures_retry_without_resending_and_can_resume_after_limit (registry.test_edor.EDorTests.test_read_failures_retry_without_resending_and_can_resume_after_limit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_edor.py", line 355, in test_read_failures_retry_without_resending_and_can_resume_after_limit
+    job = resume_edor_observation(
+          ^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: resume_edor_observation() got an unexpected keyword argument 'ip'
+
+======================================================================
+ERROR: test_resume_unsent_after_config_repair_preserves_job_and_sends_once (registry.test_edor.EDorTests.test_resume_unsent_after_config_repair_preserves_job_and_sends_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_edor.py", line 588, in test_resume_unsent_after_config_repair_preserves_job_and_sends_once
+    resumed = resume_edor_unsent(
+              ^^^^^^^^^^^^^^^^^^^
+TypeError: resume_edor_unsent() got an unexpected keyword argument 'ip'
+
+======================================================================
+FAIL: test_failed_otp_mail_keeps_request_address_without_claiming_login (registry.test_letter_audit_ip.LetterAuditIpTests.test_failed_otp_mail_keeps_request_address_without_claiming_login)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 135, in test_failed_otp_mail_keeps_request_address_without_claiming_login
+    self.assertEqual(event.ip, "192.0.2.60")
+AssertionError: None != '192.0.2.60'
+
+======================================================================
+FAIL: test_admin_form_requires_csrf_reason_and_current_version (registry.test_edor.EDorTests.test_admin_form_requires_csrf_reason_and_current_version)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_edor.py", line 784, in test_admin_form_requires_csrf_reason_and_current_version
+    self.assertEqual(AuditLog.objects.get(action="edor.unsent.resumed").ip, "2001:db8::50")
+AssertionError: None != '2001:db8::50'
+
+======================================================================
+FAIL: test_admin_observation_form_keeps_ip_without_sending_again (registry.test_edor.EDorTests.test_admin_observation_form_keeps_ip_without_sending_again)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_edor.py", line 808, in test_admin_observation_form_keeps_ip_without_sending_again
+    self.assertEqual(AuditLog.objects.get(action="edor.observation.resumed").ip, "192.0.2.50")
+AssertionError: None != '192.0.2.50'
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.969s
+
+FAILED (failures=3, errors=2)
+Destroying test database for alias 'default'...
+Found 5 test(s).
+System check identified no issues (0 silenced).

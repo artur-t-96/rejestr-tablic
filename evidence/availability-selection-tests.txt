@@ -1,0 +1,77 @@
+Creating test database for alias 'default' ('/Users/arturtwardowski/Dyna Rejestr Tablic/var/test_registry.sqlite3')...
+Destroying old test database for alias 'default' ('/Users/arturtwardowski/Dyna Rejestr Tablic/var/test_registry.sqlite3')...
+Found 37 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: auth, contenttypes, registry, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying registry.0001_initial... OK
+  Applying registry.0002_integrationjob_claimed_until_integrationjob_payload_and_more... OK
+  Applying registry.0003_letter_signature_report_letter_signed_at_and_more... OK
+  Applying registry.0004_letter_replaces... OK
+  Applying registry.0005_numbersequence_letter_number_ordinal_and_more... OK
+  Applying registry.0006_public_challenge... OK
+  Applying registry.0007_ezdincomingdocument... OK
+  Applying registry.0008_refresh_builtin_templates... OK
+  Applying sessions.0001_initial...test_invalid_digit_is_rejected (registry.test_availability_selection.AvailabilitySelectionTests.test_invalid_digit_is_rejected) ... ok
+test_missing_and_foreign_request_have_same_safe_polish_message (registry.test_availability_selection.AvailabilitySelectionTests.test_missing_and_foreign_request_have_same_safe_polish_message) ... ok
+test_no_selection_keeps_all_ten_digits (registry.test_availability_selection.AvailabilitySelectionTests.test_no_selection_keeps_all_ten_digits) ... ok
+test_public_missing_page_has_recovery_link (registry.test_availability_selection.AvailabilitySelectionTests.test_public_missing_page_has_recovery_link) ... ok
+test_reserved_selected_number_is_unavailable_with_free_alternatives_only (registry.test_availability_selection.AvailabilitySelectionTests.test_reserved_selected_number_is_unavailable_with_free_alternatives_only) ... ok
+test_selected_digit_zero_and_seven_on_html_and_api (registry.test_availability_selection.AvailabilitySelectionTests.test_selected_digit_zero_and_seven_on_html_and_api) ... ok
+test_selection_preserves_prefix_and_does_not_reserve (registry.test_availability_selection.AvailabilitySelectionTests.test_selection_preserves_prefix_and_does_not_reserve) ... ok
+test_actual_pdf_contains_polish_text_and_reference (registry.tests.CoreTests.test_actual_pdf_contains_polish_text_and_reference) ... ok
+test_admin_cannot_access_business_records (registry.tests.CoreTests.test_admin_cannot_access_business_records) ... ok
+test_all_panel_pages_render_for_their_roles (registry.tests.CoreTests.test_all_panel_pages_render_for_their_roles) ... ok
+test_audit_is_immutable (registry.tests.CoreTests.test_audit_is_immutable) ... ok
+test_county_cannot_decide_or_override_owner (registry.tests.CoreTests.test_county_cannot_decide_or_override_owner) ... ok
+test_csrf_is_required_for_mutations (registry.tests.CoreTests.test_csrf_is_required_for_mutations) ... ok
+test_csv_export_filters_scope_and_escapes_formulas (registry.tests.CoreTests.test_csv_export_filters_scope_and_escapes_formulas) ... ok
+test_duplicate_reservation_is_blocked_by_service_and_database (registry.tests.CoreTests.test_duplicate_reservation_is_blocked_by_service_and_database) ... ok
+test_expiry_releases_reservation_and_expires_request (registry.tests.CoreTests.test_expiry_releases_reservation_and_expires_request) ... ok
+test_formats (registry.tests.CoreTests.test_formats) ... ok
+test_import_preview_and_atomic_apply (registry.tests.CoreTests.test_import_preview_and_atomic_apply) ... ok
+test_lifecycle_and_sale_does_not_release (registry.tests.CoreTests.test_lifecycle_and_sale_does_not_release) ... ok
+test_module_three_requires_request_and_matches_count (registry.tests.CoreTests.test_module_three_requires_request_and_matches_count) ... ok
+test_other_county_cannot_read_or_mutate_foreign_record (registry.tests.CoreTests.test_other_county_cannot_read_or_mutate_foreign_record) ... ok
+test_pool_overlap_and_duplicate_issue (registry.tests.CoreTests.test_pool_overlap_and_duplicate_issue) ... ok
+test_public_never_exposes_personal_data (registry.tests.CoreTests.test_public_never_exposes_personal_data) ... ok
+test_rejection_requires_reason_and_releases_number (registry.tests.CoreTests.test_rejection_requires_reason_and_releases_number) ... ok
+test_single_use_otp_and_disabled_office (registry.tests.CoreTests.test_single_use_otp_and_disabled_office) ... ok
+test_stale_version_is_rejected (registry.tests.CoreTests.test_stale_version_is_rejected) ... ok
+test_ump_can_extend_and_county_cannot (registry.tests.CoreTests.test_ump_can_extend_and_county_cannot) ... ok
+test_withdrawal_releases_and_retains_history (registry.tests.CoreTests.test_withdrawal_releases_and_retains_history) ... ok
+test_challenge_generation_limit_and_window_reset (registry.test_public_protection.PublicProtectionTests.test_challenge_generation_limit_and_window_reset) ... ok
+test_expiration_and_hard_limit_cannot_be_bypassed_by_valid_proof (registry.test_public_protection.PublicProtectionTests.test_expiration_and_hard_limit_cannot_be_bypassed_by_valid_proof) ... ok
+test_html_post_with_real_solution_and_csrf (registry.test_public_protection.PublicProtectionTests.test_html_post_with_real_solution_and_csrf) ... ok
+test_initial_page_and_shared_html_api_budget (registry.test_public_protection.PublicProtectionTests.test_initial_page_and_shared_html_api_budget) ... ok
+test_malformed_payloads_do_not_raise_or_consume_challenge (registry.test_public_protection.PublicProtectionTests.test_malformed_payloads_do_not_raise_or_consume_challenge) ... ok
+test_proof_is_bound_to_session_and_ip_and_ignores_forwarded_headers (registry.test_public_protection.PublicProtectionTests.test_proof_is_bound_to_session_and_ip_and_ignores_forwarded_headers) ... ok
+test_purge_is_preview_by_default_and_preserves_recent_security_state (registry.test_public_protection.PublicProtectionTests.test_purge_is_preview_by_default_and_preserves_recent_security_state) ... ok
+test_real_pow_allows_one_lookup_and_replay_is_rejected (registry.test_public_protection.PublicProtectionTests.test_real_pow_allows_one_lookup_and_replay_is_rejected) ... ok
+test_tampered_cost_signature_and_solution_are_rejected_before_expensive_work (registry.test_public_protection.PublicProtectionTests.test_tampered_cost_signature_and_solution_are_rejected_before_expensive_work) ... ok
+
+----------------------------------------------------------------------
+Ran 37 tests in 0.884s
+
+OK
+Destroying test database for alias 'default' ('/Users/arturtwardowski/Dyna Rejestr Tablic/var/test_registry.sqlite3')...
+ OK
+System check identified no issues (0 silenced).

@@ -1,0 +1,3569 @@
+openapi: 3.0.3
+servers: [ { url: '/api/v1' } ]
+info:
+  title: User Agent API
+  version: 3.0.8
+  description: |
+    <p>
+    Specyfikacja interfejsu skrzynek eDoręczeń
+    </p>
+    <br>
+    <p>
+    <b><font size="6"> Scenariusze:</fint></b> <br>
+    </p>
+    <p>
+    <b>Utwórz wiadomość roboczą</b> <br>
+    POST /{eDeliveryAddress}/drafts
+    </p>
+    <p>
+    <b>Dodaj załącznik</b> <br>
+    Załącznik dodajemy do wcześniej utworzonej wiadomości roboczej.  <br>
+    Dodawanie dużych zalaczników - patrz Zalączniki. <br>
+    POST /{eDeliveryAddress}/drafts/{messageId}/attachments
+    </p>
+    <p>
+    <b>Usuń załącznik</b> <br>
+    DELETE /{eDeliveryAddress}/drafts/{messageId}/attachments/{attachmentId}
+    </p>
+    <p>
+    <b>Pobierz wiadomości robocze</b> <br>
+    GET /{eDeliveryAddress}/drafts <br>
+    Wiadomości robocze można pobrać w trybie - metadata<br>
+    Domyślnie - metadata
+    </p>
+    <p>
+    <b>Pobierz wiadomość roboczą</b> <br>
+    GET /{eDeliveryAddress}/drafts/{messageId} <br>
+    Wiadomość roboczą można pobrać w trzech trybach - full, metadata, minimal <br>
+    Domyślnie - full
+    </p>
+    <p>
+    <b>Usuń wiadomość roboczą</b> <br>
+    DELETE /{eDeliveryAddress}/drafts/{messageId}
+    </p>
+    <p>
+    <b>Wyślij wiadomość/wiadomości</b> <br>
+    POST /{eDeliveryAddress}/messages
+    </p>
+    <p>
+    <b>Pobierz wiadomości</b> <br>
+    GET /{eDeliveryAddress}/messages <br>
+    Wiadomości można pobrać w dwóch trybach - metadata, minimal <br>
+    Domyślnie - minimal
+    </p>
+    <p>
+    <b>Odczytaj wiadomość</b> <br>
+    GET /{eDeliveryAddress}/messages/{messageId} <br>
+    Wiadomość można pobrać w czterech trybach - full, metadata, minimal, fullExtended. <br>
+    Domyślnie - full <br>
+    </p>
+    <p>
+    <b>Pobierz załącznik</b> <br>
+    Z wiadomości <br>
+    GET /{eDeliveryAddress}/messages/{messageId}/attachments/{attachmentId} <br>
+    Z wiadomości roboczej <br>
+    GET /{eDeliveryAddress}/drafts/{messageId}/attachments/{attachmentId}
+    </p>
+    <p>
+    <b>Prześlij wiadomość dalej</b> <br>
+    GET /{eDeliveryAddress}/messages/{messageId} <br>
+    Wyślij wiadomość zachowując threadId wiadomości źródłowej - MessageMetadata.threadId <br>
+    POST /{eDeliveryAddress}/messages
+    </p>
+    <p>
+    <b>Odpowiedz na wiadomość</b> <br>
+    GET /{eDeliveryAddress}/messages/{messageId} <br>
+    Wyślij wiadomość z threadId wiadomości źródłowej - MessageMetadata.threadId <br>
+    POST /{eDeliveryAddress}/messages
+    </p>
+    <p>
+    <b> Usuń wiadomość</b> <br>
+    DELETE /{eDeliveryAddress}/messages/{messageId}
+    </p>
+    <p>
+    <b>Pobierz potwierdzenia</b> <br>
+    GET /{eDeliveryAddress}/messages/{messageId}/evidences
+    </p>
+    <p>
+    <b><font size="6">Uprawnienia:</fint></b> <br>
+    </p>
+    <p>
+    <b>Sposoby uwierzytelniania i autoryzacji. </b> <br>
+    </p>
+    <p>
+    Rozwiązanie opiera się na standardach SAML 2.0, X.509, OAuth 2.0, UMA 2.0. <br>
+    </p>
+    <p>
+    <b>Uwierzytelnienie na serwerze autoryzacyjnym (Authorization Server): </b> <br>
+    </p>
+    <p>
+    W przypadku systemów klasy EZD oraz innych systemów, klient (Client) uwierzytelnia się na serwerze autoryzacyjnym (Authorization Server) certyfikatem X.509. <br>
+    <a href="https://datatracker.ietf.org/doc/draft-ietf-oauth-mtls/?include_text=1">OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens</a>
+
+    Obywatele (Resource Owner, Requesting Party), uwierzytelniają się  Węzłem Krajowym - SAML 2.0. <br>
+    <a href="https://datatracker.ietf.org/doc/rfc7522/?include_text=1">Security Assertion Markup Language (SAML) 2.0 Profile for OAuth 2.0 Client Authentication and Authorization Grants</a>
+    </p>
+    <p>
+    <b>Autoryzacja:</b> <br>
+    </p>
+    <p>
+    W zależności od kontekstu – potrzeba autoryzacji klienta (Client), bądź też osoby (Requesting Party), autoryzacja OAuth 2.0 lub UMA 2.0. <br>
+    </p>
+    <p>
+    <b>Deployment:</b> <br>
+    </p>
+    <p>
+    Możliwe są dwa podejścia do rozmieszczenia serwerów autoryzacyjnych: <br>
+    <ul>
+    <li>
+    Model scentralizowany – każdy dostawca skrzynek/usług jest zintegrowany z centralnym serwerem autoryzacyjnym. <br>
+    </li>
+    <li>
+    Model rozproszony – każdy dostawca integruje się z własnym/zaufanym serwerem autoryzacyjnym. <br>
+    </li>
+    </ul>
+    </p>
+    <p>
+    W każdym podejściu uwierzytelnianie odbywa się za pomocą certyfikatów X.509 lub Węzła Krajowego. W przyszłości możliwość integracji z innymi zaufanymi dostawcami tożsamości, eID, … <br>
+    </p>
+    <p>
+    <b>Definiowanie uprawnień:</b> <br>
+    </p>
+    <p>
+    Podstawowy model uprawnień zdefiniowany jest w sekcji securitySchemes.<br>
+    Model uprawnień do wiadomości można rozszerzyć bazując na strukturze Label.<br>
+
+    <b>Wzorzec definicji uprawnień do wiadomości:</b><br>
+    permission.[ labels =] gdzie permission to uprawnienie zdefiniowane w sekcji securitySchemes - dotyczy uprawnień na poziomie eDeliveryAddress, labels zdefiniowne w MessageControlData.labels
+
+    <b>Przykłady:</b><br>
+    <code>
+    {
+      "iss": https://authorization-server.gov.pl,
+      "aud": "https://epuap.mailbox.pl/abc123/messages",
+      "sub": "def456",
+      "scope": "write_messages",
+      "iat": 1458785432,
+      "exp": 1458872439
+    }
+    </code>
+    read write dla całej zawartości skrzynki<br>
+
+    <code>
+    {
+      "iss": "https://authorization-server.gov.pl",
+      "aud": "https://epuap.mailbox.pl/abc123/messages",
+      "sub": "def456",
+      "scope": "write_messages.labels=INVOICES",
+      "iat": 1458785432,
+      "exp": 1458872439
+    }
+    </code>
+    <br>
+    read write dla wiadomości opatrzonych etykietą "INVOICES"<br>
+
+    <code>
+    {
+      "iss": "https://authorization-server.gov.pl",
+      "aud": "https://epuap.mailbox.pl/abc123/messages",
+      "sub": "def456",
+      "scope": "write_messages.labels=EPUAP,ZUS",
+      "iat": 1458785432,
+      "exp": 1458872439
+    }
+    </code>
+    read write dla wiadomości opatrzonych etykietami "EPUAP" lub "ZUS"<br>
+
+    Analogicznie pozostale endpointy.
+    </p>
+    <p>
+    <b><font size="6"> Inne:</fint></b> <br>
+    </p>
+    <p>
+    <b>Wysyłka hybrydowa</b>
+    Różnica pomiędzy wysyłką elektroniczną a hybrydową polega wyłącznie na innej adresacji wiadomości
+    W przypadku przesyłki hybrydowej w messageAddressData podajemy Adress, który jest adresem fizycznym.
+    Następnie umieszczamy te dane w messageMetadatato. <br> Fizyczne dane adresowe nadawcy również muszą być uzupełnione podczas wysyłki hybrydowej - takie dane umieszczamy MessageMetadatafrom. <br> W przypadku przesyłki elektronicznej w MessageAddressData wypełniamy pole eDeliveryAddress, który jest adresem do wysyłki elektronicznej. <br> MessageMetadata.from jest zawsze adresem elektronicznym.
+    </p>
+
+tags:
+  - name: Messages
+    description: Wiadomości
+  - name: Drafts
+    description: Szkice
+  - name: Threads
+    description: Wątki
+  - name: Subscriptions
+    description: Subskrypcje
+  - name: Directories
+    description: Katalogi
+  - name: Attachments
+    description: Załączniki
+  - name: Settings
+    description: Ustawienia skrzynki
+  - name: Evidences
+    description: Potwierdzenia
+  - name: Rules
+    description: Reguły przenoszenia wiadomości do folderów definiowanych
+  - name: Archiving messages
+    description: Archwizacja wiadomości
+
+paths:
+  /{eDeliveryAddress}/messages:
+    get:
+      tags:
+        - Messages
+      summary: Lists messages.
+      description: Pobranie listy wiadomości.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          required: false
+          description: Liczba elementów, które należy pominąć.
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2000
+            default: 20
+          required: false
+          description: Liczba elementów które należy zwrócić.
+        - name: format
+          in: query
+          description: Format wiadomości - minimalny zakresdanych niezbędny do identyfikacji wiadomości, metadane wiadomości. Zakres trybu metadata - [opened, status, MessageType, labels, from, to ,subject, messageId, refToMessageId, threadId, timestamp, receiptDate, submissionDate, eventDate, shippingService, daysToReceive]
+          schema:
+            type: string
+            enum: [ metadata, minimal ]
+            default:
+              minimal
+        - name: sender
+          in: query
+          description: Nadawca - imię i nazwisko, nazwa albo ADE
+          schema:
+            type: string
+        - name: massMessagesGrouped
+          in: query
+          description: Element grupujący dla wiadomości wysłanych w trybie masowym. True - tak, false - nie
+          schema:
+            type: boolean
+            default: false
+        - name: massMessageId
+          in: query
+          description: Identyfikator wysyłki w trybie masowym.
+          schema:
+            type: string
+        - name: recipient
+          in: query
+          description: Adresat - imię i nazwisko, nazwa albo ADE
+          schema:
+            type: string
+        - name: subject
+          in: query
+          description: Temat wiadomości
+          schema:
+            type: string
+        - name: submissionDateFrom
+          in: query
+          description: Data od dla pola submissionDate
+          schema:
+            type: string
+            format: date-time
+        - name: submissionDateTo
+          in: query
+          description: Data do dla pola submissionDate.
+          schema:
+            type: string
+            format: date-time
+        - name: eventDateFrom
+          in: query
+          description: Data od dla pola eventDate
+          schema:
+            type: string
+            format: date-time
+        - name: eventDateTo
+          in: query
+          description: Data do dla pola eventDate
+          schema:
+            type: string
+            format: date-time
+        - name: receiptDateFrom
+          in: query
+          description: Data otrzymania od
+          schema:
+            type: string
+            format: date-time
+        - name: receiptDateTo
+          in: query
+          description: Data otrzymania do
+          schema:
+            type: string
+            format: date-time
+        - name: attachments
+          in: query
+          description: Wiadomość z załącznikiem
+          schema:
+            type: boolean
+        - name: label
+          in: query
+          description: Folder do pobrania listy wiadomości
+          schema:
+            type: string
+        - name: shippingService
+          in: query
+          description: Rodzaj usługi
+          schema:
+            type: string
+            enum: [ electronic, hybrid ]
+        - name: sortColumn
+          in: query
+          description: Kolumna po której ma się odbywać sortowanie
+          schema:
+            type: string
+            enum: [ sender, recipient, subject, submissionDate, eventDate, reciptDate, timestamp ]
+        - name: sortDirection
+          in: query
+          description: Kierunek sortowania
+          schema:
+            type: string
+            enum: [ asc, desc ]
+        - name: opened
+          in: query
+          description: Czy wiadomość została już odczytana (odczytanie to pobranie wiadomości po messageId w trybie FULL lub w trybie FULL Extended).
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessagesWrapper'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+    post:
+      tags:
+        - Messages
+      summary: Sends message.
+      description: Wysłanie wiadomości.
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Wiadomość
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Message"
+      responses:
+        202:
+          $ref: '#/components/responses/MassMessageResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/messages/{messageId}:
+    get:
+      tags:
+        - Messages
+      summary: Gets message.
+      description: Pobranie wiadomości o danym id.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          description: Identyfikator wiadomości
+          schema:
+            type: array
+            maxItems: 50
+            items:
+              type: string
+        - name: format
+          in: query
+          description: Format wiadomości - minimalny zakresdanych niezbędny do identyfikacji wiadomości, metadane wiadomości, pełna wiadomość z listą załączników (bez treści), pełna wiadomość z załącznikami. Zakres trybu metadata - [opened, status, MessageType, labels, from, to ,subject, messageId, refToMessageId, threadId, timestamp, receiptDate, submissionDate, eventDate, shippingService]
+          schema:
+            type: string
+            enum: [ fullExtended, full, metadata, minimal ]
+            default:
+              full
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+        202:
+          description: Operacja w toku
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessagePending'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+    delete:
+      tags:
+        - Messages
+      summary: Deletes message.
+      description: Usunięcie wiadomości o podanym id.
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          description: Identyfikator wiadomości
+          required: true
+          schema:
+            type: array
+            maxItems: 50
+            items:
+              type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MessageOperationResponseSingleWrapper'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/messages/tasks/{messageTaskId}:
+    get:
+      tags:
+        - Messages
+      summary: Get message task
+      description: Pobranie informacji o zadaniu wysłania wiadomości
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageTaskId
+          in: path
+          description: Identyfikator zadania wysłania wiadomości
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/MessageOperationResponseStatus'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/messages/tasks/{messageTaskId}/status:
+    get:
+      tags:
+        - Messages
+      summary: Get status of message task
+      description: Pobranie informacji o zadaniu wysłania wiadomości
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageTaskId
+          in: path
+          description: Identyfikator zadania wysłania wiadomości
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageTaskStatus"
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+  /{eDeliveryAddress}/threads:
+    get:
+      tags:
+        - Threads
+      summary: Get list of threads
+      description: Pobranie listy wątków
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: sender
+          in: query
+          description: Nadawca - imię i nazwisko, nazwa albo ADE
+          schema:
+            type: string
+        - name: recipient
+          in: query
+          description: Adresat - imię i nazwisko, nazwa albo ADE
+          schema:
+            type: string
+        - name: caseId
+          in: query
+          description: Numer sprawy
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          required: false
+          description: Liczba elementów, które należy pominąć.
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 2000
+            default: 10
+          required: false
+          description: Liczba elementów które należy zwrócić.
+        - name: submissionDateFrom
+          in: query
+          description: Data od dla pola submissionDate
+          schema:
+            type: string
+            format: date-time
+        - name: submissionDateTo
+          in: query
+          description: Data do dla pola submissionDate.
+          schema:
+            type: string
+            format: date-time
+        - name: eventDateFrom
+          in: query
+          description: Data od dla pola eventDate
+          schema:
+            type: string
+            format: date-time
+        - name: eventDateTo
+          in: query
+          description: Data do dla pola eventDate
+          schema:
+            type: string
+            format: date-time
+        - name: messageTitle
+          in: query
+          description: Tytuł wiadomości
+          schema:
+            type: string
+        - name: sortDirection
+          in: query
+          description: Kierunek sortowania
+          schema:
+            type: string
+            enum: [ asc, desc ]
+        - name: sortColumn
+          in: query
+          description: Kolumna po której ma się odbywać sortowanie
+          schema:
+            type: string
+            enum: [ firstMessageTitle, firstMessageSubmissionDate, firstMessageEventDate, lastMessageSubmissionDate, lastMessageEventDate ]
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Threads"
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/threads/{threadId}:
+    get:
+      tags:
+        - Threads
+      summary: Get thread by id
+      description: Pobranie wątku po identyfikatorze
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: threadId
+          in: path
+          description: Identyfikator wątku.
+          required: true
+          schema:
+            type: string
+        - name: sender
+          in: query
+          description: Nadawca - imię i nazwisko, nazwa albo ADE
+          schema:
+            type: string
+        - name: recipient
+          in: query
+          description: Adresat - imię i nazwisko, nazwa albo ADE
+          schema:
+            type: string
+        - name: caseId
+          in: query
+          description: Numer sprawy
+          schema:
+            type: string
+        - name: submissionDateFrom
+          in: query
+          description: Data od dla pola submissionDate
+          schema:
+            type: string
+            format: date-time
+        - name: submissionDateTo
+          in: query
+          description: Data do dla pola submissionDate.
+          schema:
+            type: string
+            format: date-time
+        - name: eventDateFrom
+          in: query
+          description: Data od dla pola eventDate
+          schema:
+            type: string
+            format: date-time
+        - name: eventDateTo
+          in: query
+          description: Data do dla pola eventDate
+          schema:
+            type: string
+            format: date-time
+        - name: messageTitle
+          in: query
+          description: Tytuł wiadomości
+          schema:
+            type: string
+        - name: sortDirection
+          in: query
+          description: Kierunek sortowania
+          schema:
+            type: string
+            enum: [ asc, desc ]
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          required: false
+          description: Liczba wiadomości, które należy pominąć.
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 50
+          description: Limit wiadomości
+        - name: sortColumn
+          in: query
+          description: Kolumna po której ma się odbywać sortowanie
+          schema:
+            type: string
+            enum: [ sender, recipient, caseID, submissionDate, eventDate, reciptDate, timestamp ]
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Thread"
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+
+  /{eDeliveryAddress}/message_notification:
+    get:
+      tags:
+        - Settings
+      summary: Get if notifications are enabled.
+      description: Pobranie informacji o włączonej usłudze powiadomień PUSH
+      security:
+        - oAuthUserAgent: [ read_settings ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/MessageNotificationResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+    patch:
+      tags:
+        - Settings
+      summary: Enable/disable message notifications.
+      description: Włącz/wyłącz usługę powiadomień PUSH
+      security:
+        - oAuthUserAgent: [ write_settings ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/MessageNotificationRequestPatch'
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/messages/{messageId}/message_control_data:
+    patch:
+      tags:
+        - Messages
+      summary: Update message control data.
+      description: Aktualizacja danych kontrolnych wiadomości.
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: array
+            maxItems: 50
+            items:
+              type: string
+          description: Identyfikator wiadomości.
+      requestBody:
+        $ref: "#/components/requestBodies/MessageControlDataPatch"
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MessageControlDataPatchResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/message-archive-task-list:
+    get:
+      tags:
+        - Archiving messages
+      summary: Lists message archive tasks.
+      description: Pobranie listy zadań archiwizacji wiadomości.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          required: false
+          description: Liczba elementów, które należy pominąć.
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          required: false
+          description: Liczba elementów które należy zwrócić.
+        - name: sortDirection
+          in: query
+          description: Kierunek sortowania
+          schema:
+            type: string
+            enum: [ asc, desc ]
+        - name: taskId
+          in: query
+          description: Identyfikator zadania archiwizacji.
+          schema:
+            type: string
+        - name: sortColumn
+          in: query
+          description: Kolumna, po której ma się odbywać sortowanie
+          schema:
+            type: string
+            enum: [ creationDate, dateForDownload ]
+      responses:
+        200:
+          $ref: '#/components/responses/MessageArchivingTaskWrapper'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/message-archive-task/{taskId}/download:
+    get:
+      tags:
+        - Archiving messages
+      summary: Gets ZIP file for multiple messages archive download.
+      description: Pobranie pliku archiwum wiadomości.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: taskId
+          in: path
+          required: true
+          description: Identyfikator zadania archiwizacji.
+          schema:
+            type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/message-archive-task:
+    post:
+      tags:
+        - Archiving messages
+      summary: Create message archive task
+      description: Utworzenie zadania archiwizacji wiadomości
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/MessageArchiveTaskPost"
+      responses:
+        202:
+          $ref: '#/components/responses/MessageArchiveTaskPostWrapper'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+    patch:
+      tags:
+        - Archiving messages
+      summary: Change message archive task status
+      description: Zmiana statusu zadania archiwizacji
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/MessageArchiveTaskPatch"
+      responses:
+        202:
+          $ref: '#/components/responses/MessageArchivingTaskWrapper'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+
+  /{eDeliveryAddress}/message_subscriptions:
+    delete:
+      tags:
+        - Subscriptions
+      summary: Deletes message subscription.
+      description: Usunięcie subskrypcji
+      security:
+        - oAuthUserAgent: [ write_settings ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+    get:
+      tags:
+        - Subscriptions
+      summary: Get info about subscriptions
+      description: Pobierz informacje o włączonych i wyłączonych subskrypcjach
+      security:
+        - oAuthUserAgent: [ read_settings ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/Subscriptions'
+
+    patch:
+      tags:
+        - Subscriptions
+      summary: Turn on/off subscription
+      description: Włącz/Wyłącz subskrypcje
+      security:
+        - oAuthUserAgent: [ write_settings ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/ManageSubscription"
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+
+    put:
+      tags:
+        - Subscriptions
+      summary: Creates message subscription.
+      description: Subskrypcja klienta w celu otrzymywania notyfikacji o zdarzeniach związanych z wiadomościami.
+      security:
+        - oAuthUserAgent: [ write_settings ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/SubscriptionCreate"
+      responses:
+        200:
+          $ref: '#/components/responses/SubscriptionCreateResponseWrapper'
+
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+      callbacks:
+        onMessage:
+          '{$request.body#/field-name/messageCallbackUrl}':
+            post:
+              requestBody:
+                description: Dane wiadomości
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/MessageStatement'
+              responses:
+                200:
+                  $ref: '#/components/responses/SuccessResponse'
+                400:
+                  $ref: '#/components/responses/ErrorResponse'
+        onEvidence:
+          '{$request.body#/field-name/evidenceCallbackUrl}':
+            post:
+              requestBody:
+                description: Dane wiadomości
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/MessageStatement'
+              responses:
+                200:
+                  $ref: '#/components/responses/SuccessResponse'
+                400:
+                  $ref: '#/components/responses/ErrorResponse'
+        onArchiveCreated:
+          '{$request.body#/field-name/archiveCreatedCallbackUrl}':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/ArchiveStatement'
+              responses:
+                200:
+                  $ref: '#/components/responses/SuccessResponse'
+                400:
+                  $ref: '#/components/responses/ErrorResponse'
+        onMessageCreated:
+          '{$request.body#/field-name/messageCreatedCallbackUrl}':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/MessageCreatedStatement'
+              responses:
+                200:
+                  $ref: '#/components/responses/SuccessResponse'
+                400:
+                  $ref: '#/components/responses/ErrorResponse'
+        onInbox:
+          '{$request.body#/field-name/inboxCallbackUrl}':
+            post:
+              requestBody:
+                description: Dane wiadomości
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/MessageStatement'
+              responses:
+                200:
+                  $ref: '#/components/responses/SuccessResponse'
+                400:
+                  $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/drafts:
+    get:
+      tags:
+        - Drafts
+      summary: Lists drafts.
+      description: Pobranie listy wersji roboczych wiadomości.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          required: false
+          description: Liczba elementów, które należy pominąć.
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          required: false
+          description: Liczba elementów które należy zwrócić.
+        - name: format
+          in: query
+          description: Format wiadomości - minimalny zakresdanych niezbędny do identyfikacji wiadomości, metadane wiadomości, pełna wiadomość. Zakres trybu metadata - [opened, status, MessageType, labels, from, to ,subject, messageId, refToMessageId, threadId, timestamp, receiptDate, submissionDate, eventDate, shippingService]
+          schema:
+            type: string
+            enum: [ metadata ]
+            default:
+              metadata
+        - name: recipient
+          in: query
+          description: Adresat
+          schema:
+            type: string
+        - name: subject
+          in: query
+          description: Temat wiadomości
+          schema:
+            type: string
+        - name: attachments
+          in: query
+          description: Wiadomość z załącznikiem
+          schema:
+            type: boolean
+        - name: label
+          in: query
+          description: Etykieta wiadomości
+          schema:
+            type: string
+        - name: shippingService
+          in: query
+          description: Rodzaj usługi
+          schema:
+            type: string
+            enum: [ electronic, hybrid ]
+        - name: sortColumn
+          in: query
+          description: Kolumna po której ma się odbywać sortowanie
+          schema:
+            type: string
+            enum: [ recipient, subject, timestamp ]
+        - name: sortDirection
+          in: query
+          description: Kierunek sortowania
+          schema:
+            type: string
+            enum: [ asc, desc ]
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessagesWrapper'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+    post:
+      tags:
+        - Drafts
+      summary: Creates draft.
+      description: Utworzenie wiadomości roboczej.
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Wiadomość robocza
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Message"
+      responses:
+        200:
+          $ref: '#/components/responses/MessageOperationResponseSinglePut'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/drafts/{messageId}:
+    get:
+      tags:
+        - Drafts
+      summary: Gets draft.
+      description: Pobranie wiadomości roboczej o podanym id.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Identyfikator wiadomości roboczej.
+        - name: format
+          in: query
+          description: Format wiadomości - minimalny zakresdanych niezbędny do identyfikacji wiadomości, metadane wiadomości, pełna wiadomość. Zakres trybu metadata - [opened, status, MessageType, labels, from, to ,subject, messageId, refToMessageId, threadId, timestamp, receiptDate, submissionDate, eventDate, shippingService]
+          schema:
+            type: string
+            enum: [ full, metadata, minimal ]
+            default:
+              full
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+    put:
+      tags:
+        - Drafts
+      summary: Update draft.
+      description: Aktualizacja wiadomości roboczej.
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Identyfikator wiadomości roboczej.
+      requestBody:
+        required: true
+        description: Wiadomość robocza
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Message"
+      responses:
+        200:
+          $ref: '#/components/responses/MessageOperationResponseSinglePut'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+    delete:
+      tags:
+        - Drafts
+      summary: Deletes draft.
+      description: Usunięcie wiadomości roboczej o podanym id.
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          description: Identyfikator wiadomości roboczej
+          required: true
+          schema:
+            type: array
+            maxItems: 50
+            items:
+              type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MessageOperationResponseSingleWrapper'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+  /{eDeliveryAddress}/directories/{directoryId}:
+    delete:
+      tags:
+        - Directories
+      summary: Delete directory.
+      description: Usunięcie katalogu.
+      security:
+        - oAuthUserAgent: [ write_settings ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: directoryId
+          in: path
+          description: Identyfikator katalogu.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+    patch:
+      tags:
+        - Directories
+      summary: Rename directory.
+      description: Zmiana nazwy katalogu.
+      security:
+        - oAuthUserAgent: [ write_settings ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: directoryId
+          in: path
+          description: Identyfikator katalogu.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/DirectoryPatch"
+
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+
+  /{eDeliveryAddress}/rule:
+    post:
+      tags:
+        - Rules
+      summary: Create rule.
+      description: Utworzenie reguły automatycznego przenoszenia wiadomości
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/CreateRule"
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/rule/{ruleId}:
+    patch:
+      tags:
+        - Rules
+      summary: Patch rule.
+      description: Aktualizacja reguły automatycznego przenoszenia wiadomości.
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: ruleId
+          in: path
+          description: Identyfikator reguły.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/PatchRule"
+      responses:
+        200:
+          $ref: '#/components/responses/RuleListWrapper'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+    delete:
+      tags:
+        - Rules
+      summary: Delete rule.
+      description: Usunięcie reguły automatycznego przenoszenia wiadomości.
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: ruleId
+          in: path
+          description: Identyfikator reguły.
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/rule_list:
+    get:
+      tags:
+        - Rules
+      summary: Lists rules.
+      description: Lista zdefiniowanych automatycznych reguł przenoszenia wiadomości
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          required: false
+          description: Liczba elementów, które należy pominąć.
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          required: false
+          description: Liczba elementów które należy zwrócić.
+      responses:
+        200:
+          $ref: '#/components/responses/RuleListWrapper'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+
+  /{eDeliveryAddress}/numberMessages:
+    get:
+      tags:
+        - Directories
+      summary: Get directories with number of messages.
+      description: Pobranie listy katalogów z liczbą wiadomości.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/DirectoriesExtendedGet'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/directories:
+    get:
+      tags:
+        - Directories
+      summary: Get directories.
+      description: Pobranie listy katalogów.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/DirectoriesGet'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+    post:
+      tags:
+        - Directories
+      summary: Add directory.
+      description: Utwórz katalog.
+      security:
+        - oAuthUserAgent: [ write_settings ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/DirectoryAdd"
+      responses:
+        200:
+          $ref: '#/components/responses/DirectoriesGet'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/drafts/send:
+    post:
+      tags:
+        - Drafts
+      summary: Sends draft.
+      description: Wysanie wiadomości roboczej o podanym id.
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Wiadomość robocza
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendDraft'
+      responses:
+        202:
+          $ref: '#/components/responses/MassMessageResponse'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/messages/{messageId}/attachments/{attachmentId}:
+    get:
+      tags:
+        - Attachments
+      summary: Gets message attachment.
+      description: Pobranie załącznika o podanym id.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          description: Identyfikator wiadomości
+          required: true
+          schema:
+            type: string
+        - name: attachmentId
+          in: path
+          description: Identyfikator załącznika
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachment'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/attachments/download:
+    post:
+      tags:
+        - Attachments
+      summary: Download attachment
+      description: Pobranie załącznika
+      operationId: downloadMessageAttachment
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Wiadomość robocza
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DownloadAttachment'
+      responses:
+        200:
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/{messageId}/attachments/upload:
+    post:
+      tags:
+        - Attachments
+      summary: Upload attachment
+      description: Wgranie załącznika.
+      operationId: uploadMessageAttachment
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          description: Identyfikator wiadomości
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AttachmentUploadRequestBody'
+
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileWrapper'
+
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+
+  /{eDeliveryAddress}/drafts/{messageId}/attachments/{attachmentId}:
+    get:
+      tags:
+        - Attachments
+      summary: Gets message attachment.
+      description: Pobranie załącznika o podanym id dla wiadomości roboczej.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          description: Identyfikator wiadomości roboczej
+          required: true
+          schema:
+            type: string
+        - name: attachmentId
+          in: path
+          description: Identyfikator załącznika
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachment'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+    delete:
+      tags:
+        - Attachments
+      summary: Deletes Attachment.
+      description: Usunięcie podanego załącznika z wiadomości roboczej.
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          description: Identyfikator wiadomości roboczej
+          required: true
+          schema:
+            type: string
+        - name: attachmentId
+          in: path
+          description: Identyfikator załącznika
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileMetadata'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/drafts/{messageId}/attachments:
+    post:
+      tags:
+        - Attachments
+      summary: Message attachment upload.
+      description: Przesłanie załącznika na serwer.
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          description: Identyfikator wiadomości roboczej
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/FileData"
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileWrapper'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+    delete:
+      tags:
+        - Attachments
+      summary: Deletes Attachment.
+      description: Usunięcie załączników z wiadomości.
+      security:
+        - oAuthUserAgent: [ write_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          description: Identyfikator wiadomości roboczej
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FileMetadata'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/messages/{messageId}/evidences:
+    get:
+      tags:
+        - Evidences
+      summary: Gets evidences.
+      description: Pobranie potwierdzeń dla danego adresu i wiadomości.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          description: Identyfikator wiadomości
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: Typ potwierdzenia - kod
+          schema:
+            type: string
+        - name: downloaded
+          in: query
+          description: Czy potwierdzenie było już pobrane
+          schema:
+            type: boolean
+        - name: sortColumn
+          in: query
+          description: Kolumna po której ma się odbywać sortowanie
+          schema:
+            type: string
+            enum: [ eventDate ]
+        - name: sortDirection
+          in: query
+          description: Kierunek sortowania
+          schema:
+            type: string
+            enum: [ asc, desc ]
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvidenceWrapper'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/evidences/{messageType}/{evidenceId}:
+    get:
+      tags:
+        - Evidences
+      summary: Download evidences for PURDE/PUH message
+      description: Pobranie dowodu dla wiadomości PURDE/PUH
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki
+          required: true
+          schema:
+            type: string
+        - name: messageType
+          in: path
+          description: Typ wiadomości (PURDE/PUH)
+          required: true
+          schema:
+            type: string
+            enum: [ puh, purde ]
+        - name: evidenceId
+          in: path
+          required: true
+          description: Identyfikator dowodu
+          schema:
+            type: string
+        - name: evidenceFormat    
+          in: query
+          description: W przypadku dowodu H.PN możliwość pobrania jego wizualizacji w formacie pdf poprzez przekazanie wartości PDF (case insensitive)
+          schema:
+            type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/evidences/puhepo/{messageId}:
+    get:
+      tags:
+        - Evidences
+      summary: Download EPO confirmation for PUH message
+      description: Pobranie potwierdzenia EPO dla wiadomości PUH
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          description: Identyfikator wiadomości
+          schema:
+            type: string
+        - name: evidenceFormat    
+          in: query
+          description: Możliwość pobrania wizualizacji dowodu w formacie pdf poprzez przekazanie wartości PDF (case insensitive)
+          schema:
+            type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+
+  /{eDeliveryAddress}/evidences/{messageId}/technical-evidences-file:
+    get:
+      tags:
+        - Evidences
+      summary: Gets ZIP file with technical evidences for single message archive download.
+      description: Pobranie pliku zip zawierającego techniczne dowody pojedynczej wiadomości do zapisania lokalnie.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          description: Identyfikator wiadomości
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/messages/evidences:
+    get:
+      tags:
+        - Evidences
+      summary: Gets evidences for address.
+      description: Pobranie potwierdzeń dla danego adresu do wiadomości, które nadal istnieją w SD
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: Typ potwierdzenia - kod
+          schema:
+            type: string
+        - name: downloaded
+          in: query
+          description: Czy potwierdzenie było już pobrane
+          schema:
+            type: boolean
+        - name: sortColumn
+          in: query
+          description: Kolumna po której ma się odbywać sortowanie
+          schema:
+            type: string
+            enum: [ eventDate ]
+        - name: sortDirection
+          in: query
+          description: Kierunek sortowania
+          schema:
+            type: string
+            enum: [ asc, desc ]
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvidenceWrapper'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/messages/evidences/{evidenceId}:
+    get:
+      tags:
+        - Evidences
+      summary: Gets evidence by ID.
+      description: Pobranie potwierdzenia po jego ID.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: evidenceId
+          in: path
+          description: Identyfikator potwierdzenia
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Evidence'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/settings:
+    get:
+      tags:
+        - Settings
+      summary: Gets mailbox settings.
+      description: Pobranie ustawień skrzynki.
+      security:
+        - oAuthUserAgent: [ read_settings ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settings'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+
+    patch:
+      tags:
+        - Settings
+      summary: Patches mailbox settings.
+      description: Modyfikacja ustawień skrzynki.
+      security:
+        - oAuthUserAgent: [ write_settings ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/SettingsPatch"
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Settings'
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /dictionary/countries:
+    get:
+      tags:
+        - Messages
+      summary: Gets names of countries.
+      description: Pobranie listy nazw państw.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  description: Nazwa państwa
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /{eDeliveryAddress}/messages/{messageId}/message-archive-file:
+    get:
+      tags:
+        - Archiving messages
+      summary: Gets ZIP file for single message archive download.
+      description: Pobranie pliku zip zawierającego zawartość pojedynczej wiadomości do zapisania lokalnie.
+      security:
+        - oAuthUserAgent: [ read_messages ]
+      parameters:
+        - name: eDeliveryAddress
+          in: path
+          description: Identyfikator adresu/skrzynki.
+          required: true
+          schema:
+            type: string
+        - name: messageId
+          in: path
+          required: true
+          description: Identyfikator wiadomości
+          schema:
+            type: string
+      responses:
+        200:
+          description: Operacja wykonana poprawnie
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        400:
+          $ref: '#/components/responses/ErrorResponse'
+
+components:
+  schemas:
+
+    FileWrapper:
+      type: object
+      properties:
+        attachmentId:
+          type: string
+          description: ID załącznika
+        warning:
+          type: string
+          description: Ostrzeżenie o przepełnieniu skrzynki
+        fileMetadata:
+          $ref: '#/components/schemas/FileMetadata'
+
+    EvidenceWrapper:
+      type: object
+      properties:
+        evidences:
+          type: array
+          items:
+            $ref: '#/components/schemas/Evidence'
+        warning:
+          type: string
+          description: Ostrzeżenie o przepełnieniu skrzynki
+
+    RuleListWrapper:
+      type: object
+      properties:
+        total:
+          type: number
+          description: Liczba wszystkich reguł.
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rule'
+
+    MessageArchivingTaskResponse:
+      type: object
+      properties:
+        total:
+          type: number
+          description: Liczba wszystkich zlecen archiwizacji.
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageArchivingTask'
+
+    Rule:
+      type: object
+      required:
+        - ruleId
+        - ruleName
+        - enableRule
+      properties:
+        ruleId:
+          type: string
+          description: Identyfikator reguły
+        ruleName:
+          type: string
+          description: Nazwa reguły
+        enableRule:
+          type: boolean
+          description: True - reguła włączona, false - reguła wyłączona
+        directory:
+          $ref: '#/components/schemas/Directory'
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Conditions'
+
+    DirectoryAdd:
+      type: object
+      properties:
+        directoryName:
+          type: string
+          maxLength: 30
+          description: Nazwa katalogu
+        directoryLabel:
+          type: string
+          description: Etykieta katalogu
+
+    CreateRule:
+      type: object
+      required:
+        - ruleName
+        - enableRule
+        - directoryId
+        - conditions
+      properties:
+        ruleName:
+          type: string
+          minLength: 3
+          maxLength: 128
+          description: Nazwa reguły
+        enableRule:
+          type: boolean
+          description: True - reguła włączona, false - reguła wyłączona
+        directoryId:
+          type: string
+          description: Identyfikator katalogu, do którego będą przenoszone wiadomości.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Conditions'
+
+    PatchRule:
+      type: object
+      properties:
+        ruleName:
+          type: string
+          description: Nazwa reguły
+        enableRule:
+          type: boolean
+          description: True - reguła włączona, false - reguła wyłączona
+        directoryId:
+          type: string
+          description: Identyfikator katalogu, do którego będą przenoszone wiadomości.
+        moveOrder:
+          type: number
+          description: Przesunięcie o wskazaną liczbę w górę (wartośc z -) albo w dół kolejności wykonywania reguły
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConditionsPatch'
+
+    DirectoryPatch:
+      type: object
+      properties:
+        newDirectoryName:
+          type: string
+          maxLength: 30
+          description: Nowa nazwa katalogu
+
+    SubscriptionCreate:
+      type: object
+      properties:
+        messageCallbackUrl:
+          type: string
+          format: uri
+          description: URL serwera do notyfikacji przychodzących wiadomości
+        messageCreatedCallbackUrl:
+          type: string
+          format: uri
+          description: URL serwera do notyfikacji o zakończeniu zadania wysłania wiadomości.
+        archiveCreatedCallbackUrl:
+          type: string
+          format: uri
+          description: URL serwera do notyfikacji o przygotowaniu pliku archiwum wiadomości.
+        evidenceCallbackUrl:
+          type: string
+          format: uri
+          description: URL serwera do notyfikacji przychodzących potwierdzeń
+        inboxCallbackUrl:
+          type: string
+          format: uri
+          description: URL serwera do notyfikacji zakończenia przekazywania wiadomości z usługi do skrzynki ADE
+
+    Contributor:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: Imię
+        lastName:
+          type: string
+          description: Nazwisko
+        companyName:
+          type: string
+          description: Nazwa firmy. PUH - max 50 znaków, PURDE - max 1900 znaków
+        companyNameContinued:
+          type: string
+          description: Nazwa firmy cd. PUH - max 100 znaków, PURDE - max 100 znaków
+
+    CrossborderInformation:
+      type: object
+      properties:
+        crossborderId:
+          type: string
+          description: Identyfikator kraju/dostawcy
+          example: DE
+        crossborderInternalAddress:
+          type: string
+          description: Adres transgraniczny
+          example: AE:DE-YYYYY-YYYYY-YYYYY-YY
+
+    Address:
+      type: object
+      description: headquarters address or correspondence address
+      required:
+        - country
+        - postalCode
+        - city
+        - street
+      properties:
+        country:
+          type: string
+          description: państwo
+        street:
+          type: string
+          description: ulica
+        postalCode:
+          type: string
+          description: kod pocztowy
+        city:
+          type: string
+          description: miasto
+        buildingNumber:
+          type: string
+          description: numer budynku
+        houseNumber:
+          type: string
+          description: numer mieszkania
+
+    MessageAddressData:
+      type: object
+      properties:
+        eDeliveryAddress:
+          type: string
+          description: Adres e-Delivery
+          example: mailbox_address
+        address:
+          $ref: '#/components/schemas/Address'
+        crossborderInformation:
+          $ref: '#/components/schemas/CrossborderInformation'
+        contributor:
+          $ref: '#/components/schemas/Contributor'
+    MessagePending:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+    FileMetadata:
+      required:
+        - fileId
+      type: object
+      properties:
+        fileId:
+          type: string
+          description: ID pliku
+          example: D41568F4-7175-42BB-9503-DAA282180D70
+        filename:
+          type: string
+          description: Nazwa pliku
+          example: document.pdf
+        contentType:
+          type: string
+          description: Typ MIME
+          example: text/plain
+        size:
+          type: integer
+          format: int64
+          description: Rozmiar pliku
+        alg:
+          type: string
+          description: Nazwa algorytmu haszującego, jedyny dozwolony SHA-3
+          example: SHA-3
+        hash:
+          type: string
+          description: Hasz pliku
+        description:
+          type: string
+          description: Opis pliku
+          example: Text document
+
+    FileData:
+      type: object
+      properties:
+        fileMetadata:
+          $ref: '#/components/schemas/FileMetadata'
+        file:
+          type: string
+
+    Label:
+      type: object
+      description: Folder w ADE, do którego jest przypisana wiadomość
+      properties:
+        label:
+          type: string
+          example: INBOX, SENT, UNREAD, PUBLIC_ADMINISTRATION, TAXES
+        messageLocation:
+          type: string
+          description: directoryLabel
+          example: MOJ_NOWY_FOLDER
+
+    MessageMetadata:
+      type: object
+      required:
+        - shippingService
+      properties:
+        from:
+          $ref: '#/components/schemas/MessageAddressData'
+        to:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageAddressData'
+        hybridShipment:
+          $ref: '#/components/schemas/HybridShipment'
+        subject:
+          type: string
+          description: Tytuł wiadomości
+        messageId:
+          type: string
+          description: ID wiadomości
+        refToMessageId:
+          type: string
+          description: ID wiadomości do której wiadomość się odnosi
+        threadId:
+          type: string
+          description: ID wątku
+        caseId:
+          type: string
+          description: ID sprawy
+        timestamp:
+          type: string
+          description: Data utworzenia - określana po stronie systemu obsługującego ADE
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+        receiptDate:
+          type: string
+          description: Data doręczenia z biznesowego potwierdzenia otrzymania lub dowodu H.EPO
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+        submissionDate:
+          type: string
+          description: Wartość Submission Date and Time (M03) z dowodu A1 lub H.PN
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+        eventDate:
+          type: string
+          description: Wartość Event Time (G05) z dowodu A1 lub H.PN
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+        shippingService:
+          type: string
+          enum: [ electronic, hybrid ]
+          description: |
+            Wskazuje typ usługi. Dozwolone wartości: electronic (usługa elektronicznego doręczenia - RDE), hybrid (usługa hybrydowa - PUH)
+        additionalData:
+          type: object
+          description: Dodatkowe dane - klucz -> wartość
+          additionalProperties:
+            type: string
+
+    MessageControlData:
+      type: object
+      properties:
+        massMessageId:
+          type: string
+          description: Identyfikator wysyłki w trybie masowym
+        messageTaskId:
+          type: string
+          description: Identyfikator zadania wysłania wiadomości
+        massMessage:
+          type: boolean
+          description: Określa, czy wiadomość wysłana w trybie masowym (true - tak, false - nie)
+        opened:
+          type: boolean
+          description: Czy wiadomość została już odczytana. Ustawiany wyłącznie po stronie systemu obsługującego ADE
+        status:
+          type: string
+          description: Status wiadomości. Ustawiany wyłącznie po stronie systemu obsługującego ADE
+          enum: [ "W trakcie weryfikacji", "Przekazana do realizacji", Odrzucona, Nadana, Wysłana, "Czeka na doręczenie", Doręczona, "Uznana za doręczoną", Niedoręczona ]
+        statusDescription:
+          type: string
+          description: Powód odrzucenia wiadomości. Może zawierać wiele opisów rozdzielonych średnikami (;)
+        messageType:
+          type: string
+          description: Typ wiadomości
+          enum: [ Message, Evidence, Stub, massMessageGrouped ]
+        daysToReceive:
+          type: integer
+          description: Liczba dni do fikcji doręczenia
+        labels:
+          type: array
+          description: Etykiety wskazujące na folder/lokalizację wiadomości
+          items:
+            $ref: '#/components/schemas/Label'
+
+    MessageControlDataPatchResponse:
+      type: object
+      properties:
+        messageId:
+          type: string
+          description: Identyfikator wiadomości
+        opened:
+          type: boolean
+          description: Czy wiadomość została już odczytana. Ustawiany wyłącznie po stronie systemu obsługującego ADE
+        status:
+          type: string
+          description: Status wiadomości. Ustawiany wyłącznie po stronie systemu obsługującego ADE
+          enum: [ "W trakcie weryfikacji", "Przekazana do realizacji", Odrzucona, Nadana, Wysłana, "Czeka na doręczenie", Doręczona, "Uznana za doręczoną", Niedoręczona ]
+        statusDescription:
+          type: string
+          description: Powód odrzucenia wiadomości. Może zawierać wiele opisów rozdzielonych średnikami (;)
+        messageType:
+          type: string
+          description: Typ wiadomości
+          enum: [ Message, Evidence, Stub, massMessageGrouped ]
+        labels:
+          type: array
+          description: Etykiety wskazujące na folder/lokalizację wiadomości
+          items:
+            $ref: '#/components/schemas/Label'
+
+    Message:
+      type: object
+      properties:
+        messageControlData:
+          $ref: '#/components/schemas/MessageControlData'
+        messageMetadata:
+          $ref: '#/components/schemas/MessageMetadata'
+        textBody:
+          type: string
+          maxLength: 5000
+          description: Tekstowa część wiadomości
+        attachments:
+          type: array
+          description: Załączniki
+          items:
+            $ref: '#/components/schemas/Attachment'
+        evidences:
+          type: array
+          description: Dowody nadania/odbioru
+          items:
+            $ref: '#/components/schemas/Evidence'
+
+
+    MessagesWrapper:
+      type: object
+      required:
+        - messages
+        - resultSize
+      properties:
+        messages:
+          type: array
+          description: Wiadomości
+          items:
+            $ref: '#/components/schemas/Message'
+        massMessageInfo:
+          type: object
+          properties:
+            newDraftId:
+              description: Identyfikator wiadomości roboczej z adresatami, dla których z powodów technicznych nie udało się utworzyć przesyłek w ramach wysyłki w trybie masowym.
+              type: string
+            massMessageSentCorrectly:
+              description: Liczba wiadomości poprawnie wysłanych w trybie masowym
+              type: integer
+            massMessageEndedWithError:
+              description: Liczba nieprzekazanych do nadania wiadomości.
+              type: integer
+            massMessageRejected:
+              description: Liczba wiadomości, dla których wysyłanie w trybie masowym zakończyło się błędem
+              type: integer
+            massMessageWaitingToSent:
+              description: Liczba wiadomości oczekujących na wysłanie w trybie masowym
+              type: integer
+            massMessageTotal:
+              description: Liczba wszystkich wiadomości zleconych do wysyłki w trybie masowym
+              type: integer
+        total:
+          description: Liczba wiadomości spełniających kryteria zapytania.
+          type: integer
+        electronicCount:
+          description: Liczba wiadomości oczekujących na pobranie z usługi PURDE.
+          type: integer
+        warning:
+          description: Ostrzeżenie o zbliżającym się przepełnieniu skrzynki
+          type: string
+
+    MessageInfo:
+      type: object
+      properties:
+        warning:
+          description: Ostrzeżenie o zbliżającym się przepełnieniu skrzynki
+          type: string
+        messageTaskId:
+          description: Identyfikator zadania wysłania wiadomości
+          type: string
+
+    Attachment:
+      type: object
+      properties:
+        order:
+          type: integer
+          description: Numer kolejny załącznika w ramach wiadomości
+        attachmentId:
+          type: string
+          description: ID załącznika
+          example: D41568F4-7175-42BB-9503-DAA282180D70
+        file:
+          $ref: '#/components/schemas/FileData'
+
+    AttachmentUploadMetadata:
+      type: object
+      properties:
+        order:
+          type: integer
+          description: Numer kolejny załącznika w ramach wiadomości
+        attachmentId:
+          type: string
+          description: ID załącznika
+          example: D41568F4-7175-42BB-9503-DAA282180D70
+        fileMetadata:
+          $ref: '#/components/schemas/FileMetadata'
+
+    AttachmentUploadRequestBody:
+      type: object
+      required:
+        - filename
+        - contentType
+        - file
+      properties:
+        filename:
+          description: "Nazwa załącznika"
+          type: string
+        contentType:
+          description: "text/plain"
+          type: string
+        size:
+          description: "Rozmiar"
+          type: string
+        alg:
+          type: string
+          description: "SHA-3"
+        description:
+          type: string
+          description: "Text document"
+        file:
+          description: "Zawartość pliku"
+          type: string
+          format: binary
+
+    Conditions:
+      required:
+        - typeConditions
+        - conditionText
+      type: object
+      properties:
+        conditionType:
+          type: string
+          enum: [ senderEda, senderName, caseId, subject ]
+          description: Rodzaj warunku
+        conditionText:
+          type: string
+          minLength: 3
+          maxLength: 128
+          description: Tekst warunku
+
+    ConditionsPatch:
+      type: object
+      properties:
+        conditionType:
+          type: string
+          enum: [ senderEda, senderName, caseId, subject ]
+          description: Rodzaj warunku
+        conditionText:
+          type: string
+          minLength: 3
+          maxLength: 128
+          description: Tekst warunku
+
+    Evidence:
+      required:
+        - evidenceId
+        - messageId
+      type: object
+      properties:
+        evidenceId:
+          type: string
+          description: ID potwierdzenia
+        messageId:
+          type: string
+          description: ID wiadomości
+        createDate:
+          type: string
+          description: Data utworzenia potwierdzenia
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+        eventDate:
+          type: string
+          description: Czas zdarzenia dla potwierdzenia
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+        reasonDetails:
+          type: array
+          items:
+            type: string
+          description: Szczegóły powodu
+        reasonId:
+          type: string
+          description: Numer identyfikacyjny powodu
+        externalData:
+          type: string
+          description: URL do wygenerowanego pliku potwierdzenia
+        downloaded:
+          type: boolean
+          description: Czy potwierdzenie było wcześniej pobrane
+        type:
+          type: string
+          description: Typ potwierdzenia - kod
+          enum: [ A.1, A.2, B.1, B.2, B.3, D.1, D.2, D.3, E.1, E.2,BP.WX, BP.WP, BP.OX, BP.OP, H.DW, H.PN, H.EPO,E1,BPOX,BPOP,BPWX,D,D1,B2,C2,A1, A2, B1, B3, D2, D3, E2,BPWP, HDW, HPN, HEPO ]
+
+        from:
+          $ref: '#/components/schemas/MessageAddressData'
+        to:
+          $ref: '#/components/schemas/MessageAddressData'
+
+
+    Settings:
+      properties:
+        phoneNumber:
+          type: string
+          description: numer telefonu - powiadomienia SMS
+        email:
+          type: string
+          format: email
+          description: email - powiadomienia email
+        settings:
+          type: object
+          description: Uzgodnione wartości klucz - totalCapacity (całkowita pojemność skrzynki w MB), usedCapacity - używana pojemność skrzynki w MB)
+          additionalProperties:
+            type: string
+
+    ArchiveStatement:
+      required:
+        - eDeliveryAddress
+        - notificationType
+      type: object
+      description: Dane
+      properties:
+        eDeliveryAddress:
+          type: string
+          description: Identyfikator adresu/skrzynki.
+        notificationType:
+          type: string
+        notification:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageArchivingTask'
+
+    MessageCreatedStatement:
+      required:
+        - eDeliveryAddress
+        - notificationType
+      type: object
+      description: Dane
+      properties:
+        eDeliveryAddress:
+          type: string
+          description: Identyfikator adresu/skrzynki.
+        notificationType:
+          type: string
+        notification:
+          type: array
+          items:
+            $ref: '#/components/schemas/notificationMessageCreatedCallback'
+
+    MessageStatement:
+      required:
+        - eDeliveryAddress
+        - notificationType
+      type: object
+      description: Dane
+      properties:
+        eDeliveryAddress:
+          type: string
+          description: Adres skrzynki ADE
+        notificationType:
+          type: string
+        electronicCount:
+          type: integer
+        notification:
+          type: array
+          items:
+            $ref: '#/components/schemas/notificationInboxCallback'
+
+    notificationInboxCallback:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID obiektu (w zależności od notyfikacji jest to ID wiadomości lub ID dowodu)
+        threadId:
+          type: string
+          description: ID wątku (wypełniane tylko dla notyfikacji InboxCallback)
+        type:
+          type: string
+          description: ID dowodu (wypełniane tylko dla notyfikacji NewEvidence
+
+    notificationMessageCreatedCallback:
+      required:
+        - messageTaskId
+      type: object
+      properties:
+        messageTaskId:
+          type: string
+          description: Identyfikator zadania wysłania wiadomości
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageOperationResponseWrapperStatus'
+
+    SuccessInfo:
+      required:
+        - status
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status
+        notificationId:
+          type: string
+          description: ID notyfikacji
+        eDeliveryAddress:
+          type: string
+          description: Adres e-Delivery - ADE adresata
+        notification:
+          type: string
+          description: Czy subskrypcja włączona/wyłączona
+          enum: [ on, off ]
+
+    MessageNotificationInfo:
+      required:
+        - pushNotification
+      type: object
+      properties:
+        pushNotification:
+          type: boolean
+          description: True – powiadomienia push włączone. False – powiadomienia push wyłączone.
+
+    SubscriptionCreateResponse:
+      required:
+        - subscriptionId
+      type: object
+      properties:
+        subscriptionId:
+          type: string
+          description: Identyfikator subskrypcji
+
+    Threads:
+      type: object
+      properties:
+        total:
+          description: Liczba wątków spełniających kryteria zapytania.
+          type: integer
+        Thread:
+          type: array
+          items:
+            $ref: "#/components/schemas/ThreadWrapper"
+
+    MessageTaskStatus:
+      type: object
+      required:
+        - messageTaskStatus
+      properties:
+        messageTaskStatus:
+          type: string
+          enum: [ FINISHED, PENDING ]
+          description: Stan przetwarzania zadania
+
+    ThreadWrapper:
+      type: object
+      properties:
+        opened:
+          type: boolean
+          description: Czy wątku są nieodczytane wiadomości. Ustawiany wyłącznie po stronie systemu obsługującego ADE.
+        threadId:
+          type: string
+          description: Identyfikator wątku
+        caseIDs:
+          type: array
+          description: Numery sprawy
+          items:
+            type: string
+        recipients:
+          type: array
+          description: Adresaci
+          items:
+            $ref: "#/components/schemas/Contributor"
+        senders:
+          type: array
+          description: Nadawcy
+          items:
+            $ref: "#/components/schemas/Contributor"
+        firstMessageTitle:
+          type: string
+          description: Tytuł pierwszej wiadomości
+        firstMessageSubmissionDate:
+          description: Submission date pierwszej wiadomości
+          type: string
+          format: date-time
+        firstMessagEventDate:
+          description: Event date pierwszej wiadomości
+          type: string
+          format: date-time
+        lastMessageSubmissionDate:
+          description: Submission date ostatniej wiadomości
+          type: string
+          format: date-time
+        lastMessagEventDate:
+          description: Event date ostatniej wiadomości
+          type: string
+          format: date-time
+        messagesCount:
+          type: number
+          description: Liczba wiadomości w wątku
+
+
+    Thread:
+      type: object
+      properties:
+        threadId:
+          type: string
+          description: Identyfikator wątku
+        messages:
+          $ref: '#/components/schemas/MessagesWrapper'
+
+    ErrorInfo:
+      required:
+        - error
+        - error_description
+      type: object
+      properties:
+        error:
+          type: string
+          description: Kod błędu
+          example: null
+        error_description:
+          type: string
+          description: Opis błędu
+          example: null
+        messageId:
+          type: string
+          description: ID wiadomości
+
+    DestinationDirectory:
+      type: object
+      properties:
+        directoryId:
+          type: string
+          description: Identyfikator katalogu
+        directoryName:
+          type: string
+          description: Nazwa katalogu
+        directoryLabel:
+          type: string
+          description: Etykieta katalogu
+
+    PatchBody:
+      type: array
+      maxItems: 1
+      items:
+        type: object
+        required:
+          - op
+          - path
+        properties:
+          op:
+            type: string
+            description: The operation to be performed
+            enum: [ add, remove, replace, move, copy, test ]
+          path:
+            type: string
+            description: A JSON-Pointer
+          value:
+            type: object
+            description: The value to be used within the operations.
+
+
+    MessageNotificationRequestPatchBody:
+      type: object
+      required:
+        - pushNotification
+      properties:
+        pushNotification:
+          type: boolean
+          description: True – powiadomienia push włączone. False – powiadomienia push wyłączone.
+
+
+    ManageSubscriptionBody:
+      type: object
+      description: Turn on/off subscription by id
+      required:
+        - subscriptionId
+        - status
+      properties:
+        subscriptionId:
+          type: string
+          description: Subscription ID
+        status:
+          type: boolean
+          description: Turn on/off subscription (true - on, false - off)
+
+    MessageArchiveTaskPatchBody:
+      type: object
+      required:
+        - taskId
+        - changeStatus
+      properties:
+        taskId:
+          type: string
+          description: Identyfikator zadania archiwizacji
+        changeStatus:
+          type: string
+          enum: [ CANCEL, FINISH_WITH_DELETING_MESSAGES, FINISH_WITHOUT_DELETING_MESSAGES ]
+
+    MessageArchiveTaskPostBody:
+      type: object
+      required:
+        - messageId
+      properties:
+        messageId:
+          type: array
+          items:
+            type: string
+            description: Identyfikator wiadomości
+        taskDescription:
+          type: string
+          maxLength: 255
+          description: Opis zadania wprowadzony przez użytkownika. Max 255 znaków
+
+    Directory:
+      type: object
+      properties:
+        directoryId:
+          type: string
+          description: Identyfikator katalogu
+        name:
+          type: string
+          description: Nazwa katalogu
+        label:
+          type: string
+          description: Etykieta katalogu
+        type:
+          type: string
+          description: Typ katalogu (definiowany/predefiniowany)
+          enum: [ predefined, defined ]
+
+    DirectoryExtended:
+      type: object
+      properties:
+        directoryId:
+          type: string
+          description: Identyfikator katalogu
+        name:
+          type: string
+          description: Nazwa katalogu
+        label:
+          type: string
+          description: Etykieta katalogu
+        type:
+          type: string
+          description: Typ katalogu (definiowany/predefiniowany)
+          enum: [ predefined, defined ]
+        numberOfUnreadMessages:
+          type: number
+          description: Liczba nieodczytanych wiadomości w katalogu
+        total:
+          type: number
+          description: Liczba wszystkich wiadomości w katalogu
+
+    MessageOperationResponseWrapper:
+      type: object
+      properties:
+        warning:
+          description: Ostrzeżenie o zbliżającym się przepełnieniu skrzynki
+          type: string
+        messageIds:
+          $ref: '#/components/schemas/MessageIds'
+
+    MessageOperationResponseSingleWrapper:
+      type: object
+      properties:
+        messageId:
+          description: Identyfikator wiadomości
+          type: string
+
+    MessageOperationResponseSingleWrapperPut:
+      type: object
+      properties:
+        messageId:
+          description: Identyfikator wiadomości
+          type: string
+        warning:
+          description: Ostrzeżenie o zbliżającym się przepełnieniu skrzynki
+          type: string
+
+    MessageOperationResponseWrapperStatus:
+      type: object
+      required:
+        - addresseeAde
+        - status
+      properties:
+        messageId:
+          type: string
+          description: Identyfikator wiadomości
+        addressee:
+          $ref: '#/components/schemas/MessageAddressData'
+        error:
+          type: string
+        error_description:
+          type: string
+
+
+    MessageIds:
+      type: object
+      properties:
+        messageIds:
+          type: array
+          description: Identyfikatory wiadomości
+          items:
+            type: string
+
+    SendDraft:
+      type: object
+      required:
+        - messageId
+      properties:
+        messageId:
+          type: string
+          description: Identyfikator wiadomości
+
+    DownloadAttachment:
+      type: object
+      required:
+        - messageId
+        - attachmentId
+      properties:
+        messageId:
+          type: string
+          description: Identyfikator wiadomości
+        attachmentId:
+          type: string
+          description: Identyfikator załacznika
+
+
+    Subscription:
+      type: object
+      required:
+        - id
+        - name
+        - url
+        - status
+      description: Subscription info
+      properties:
+        id:
+          type: string
+          description: Identyfikator subskrypcji
+        name:
+          type: string
+          description: Nazwa subskrypcji
+        url:
+          type: string
+          description: URL do subskrypcji
+        status:
+          type: boolean
+          description: Czy subskrypcja włączona (true - włączona, false - wyłączona)
+
+    MessageArchiveTaskPostResponse:
+      type: object
+      required:
+        - taskId
+      properties:
+        taskId:
+          type: string
+          description: Identyfikator zadania archiwizacji
+
+    MessageArchivingTask:
+      type: object
+      required:
+        - taskId
+        - creationDate
+        - taskStatus
+        - downloadAndChangeStatus
+        - numberMessages
+      properties:
+        taskId:
+          type: string
+          description: Identyfikator zadania archiwizacji
+        creationDate:
+          type: string
+          format: date-time
+          description: Data zarejestrowania zadania archiwizacji
+        dateForDownload:
+          type: string
+          format: date-time
+          description: Termin na pobranie przygotowanego archiwum wiadomości.
+        taskStatus:
+          type: string
+          enum: [ ARCHIVING_IN_PROGRESS, ERROR, READY_TO_DOWNLOAD, CANCEL_IN_PROGRESS, CANCELED, FINISHING_IN_PROGRESS, FINISHED, EXPIRED ]
+          description: Status zadania archiwizacji
+        numberMessages:
+          type: number
+          description: Liczba wiadomości ujetych w zadaniu archiwizacji
+        withDeletingMessages:
+          type: boolean
+          description: True - zakończenie zadania z usunięciem wiadomości, false - zakończenie zadania bez usuwania wiadomości
+        errorDescription:
+          type: string
+          description: Opis o przyczynie wystąpienia błędu podczas realizacji zadania archiwizacji
+        estimatedTimeToComplete:
+          type: string
+          description: Szacowany czas do zakończenia przygotowania pliku archiwum. Format HH:MM
+        downloadAndChangeStatus:
+          type: boolean
+          description: Uprawnienia do pobierania archiwum i zmiany statusu zadania archiwizacji. True - tak, false - nie.
+        taskDescription:
+          type: string
+          maxLength: 255
+          description: Opis zadania wprowadzony przez użytkownika zlecającego zadanie. Max 255 znaków
+
+    HybridShipment:
+      type: object
+      required:
+        - categoryService
+        - printingMode
+        - overprintMode
+        - returnService
+        - procedingType
+        - shippingMode
+      properties:
+        shipmentNumber:
+          type: string
+          description: Numer nadania przesyłki
+          maxLength: 32
+        procedingType:
+          type: string
+          enum: [ general, administrative, tax, court_civil, court_criminal ]
+          description: Nadanie przesyłki rejestrowanej na zasadach specjalnych
+        sendersInformation:
+          type: string
+          description: Pole 30-znakowe nadrukowywane na kopercie w polu nadawcy
+          maxLength: 30
+        categoryService:
+          type: string
+          enum: [ economic, priority ]
+          description: Termin doręczenia
+        formatService:
+          type: string
+          enum: [ XS, S, M, L ]
+          description: Format przesyłki
+        printingMode:
+          type: string
+          enum: [ duplex, simplex ]
+          description: Sposób wydruku (jednostronny, dwustronny)
+        overprintMode:
+          type: string
+          enum: [ monochrome, color ]
+          description: Rodzaj wydruku (biało-czarny, kolorowy)
+        returnService:
+          type: string
+          enum: [ returntosender, destroy ]
+          description: Sposób postępowania z przesyłką rejestrowaną w przypadku braku możliwości jej doręczenia
+        proofOfDelivery:
+          type: boolean
+          description: Potwierdzenie odbioru
+        posteRestante:
+          type: boolean
+          description: Poste Restante
+        caseContent:
+          type: string
+          description: Zawartość (tylko dla PUH krajowy rejestrowany, jeśli jest wybrany procedingType różne od General)
+          maxLength: 255
+        shippingMode:
+          type: string
+          enum: [ registered, notRegistered ]
+          description: Przyjmuje wartości rejestrowany, nierejestrowany w przypadku gdy shippingService = publiczna usuga hybrydowa
+
+  requestBodies:
+    MessageIds:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MessageIds'
+
+    SettingsPatch:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PatchBody'
+
+    ManageSubscription:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ManageSubscriptionBody'
+
+    MessageArchiveTaskPatch:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MessageArchiveTaskPatchBody'
+
+    MessageArchiveTaskPost:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MessageArchiveTaskPostBody'
+
+    ResourcePermissionPatch:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PatchBody'
+
+    MessagePatch:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PatchBody'
+
+    MessageControlDataPatch:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PatchBody'
+
+    MessageNotificationRequestPatch:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MessageNotificationRequestPatchBody'
+
+    FileData:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FileData'
+
+    DirectoryAdd:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/DirectoryAdd"
+
+    CreateRule:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CreateRule"
+
+    PatchRule:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/PatchRule"
+
+    DirectoryPatch:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/DirectoryPatch"
+
+    SubscriptionCreate:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/SubscriptionCreate"
+
+  responses:
+    MessageOperationResponse:
+      description: Message response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MessageOperationResponseWrapper'
+
+    RuleListWrapper:
+      description: Rules list response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RuleListWrapper'
+
+    MessageOperationResponseSinglePut:
+      description: Message response with single message ID
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MessageOperationResponseSingleWrapperPut'
+
+    MessageOperationResponseStatus:
+      description: Message response for messageTask status
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/MessageOperationResponseWrapperStatus'
+
+    SuccessResponse:
+      description: Success response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SuccessInfo'
+
+    MessageNotificationResponse:
+      description: Message notification response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MessageNotificationInfo'
+
+    SubscriptionCreateResponseWrapper:
+      description: Create subscription response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SubscriptionCreateResponse'
+
+    MassMessageResponse:
+      description: Mass message response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MessageInfo'
+
+    Subscriptions:
+      description: Subscriptions list response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Subscription'
+
+    MessageArchiveTaskPostWrapper:
+      description: Messache archive task POST response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MessageArchiveTaskPostResponse'
+
+
+    MessageArchivingTaskWrapper:
+      description: List archive message tasks
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MessageArchivingTaskResponse'
+
+    ErrorResponse:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ErrorInfo'
+
+    DirectoriesGet:
+      description: Directories list
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Directory'
+
+    DirectoriesExtendedGet:
+      description: Directories with number of messages list
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/DirectoryExtended'
+
+  securitySchemes:
+    oAuthUserAgent:
+      type: oauth2
+      description: Ten interfejs API używa OAuth 2.0 z przepływem authorizationCode.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://gov.pl/oauth2/authorize
+          tokenUrl: https://gov.pl/oauth2/token
+          refreshUrl: https://gov.pl/oauth2/refresh
+          scopes:
+            read_messages: read messages
+            write_messages: send messages
+            read_settings: read settings
+            write_settings: change settings
+

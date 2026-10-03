@@ -1,0 +1,62 @@
+{
+  "scope": "fictional copied database; browser reads only; OTP adds authentication audit",
+  "private_business_tables_unchanged": {
+    "registry_request": "20570ca104a0144aa5ff416234fd66876d6e1a2d076c1c07ad86a543415e0b13",
+    "registry_platerecord": "21121cff9a1ba5619be4d8cb0fecba6192f1f5d44902e4ea7503d70ab26d8259",
+    "registry_letter": "d777261f1de44bee59409eb09656bae03c50fb33f8ce4c31c8cc52a28489a551",
+    "registry_pool": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2",
+    "registry_poolslot": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0",
+    "registry_numbersequence": "8ddd7160e94a26cb77fb0f2c0e08b84a6460f2e6643824ee5f9eb183419e715b",
+    "registry_integrationjob": "9bf08358aeebd3bfd880b6aa9609ec1ed0bcc754169aecdec43ec61771bd1ffd"
+  },
+  "original_audit_rows_unchanged": true,
+  "new_audit_actions": [
+    "auth.login",
+    "auth.login"
+  ],
+  "existing_action_labels_covered": [
+    "auth.login",
+    "auth.session_extended",
+    "integration.queued",
+    "integration.result",
+    "letter.generated",
+    "letter.revised",
+    "letter.signed",
+    "plate.decided",
+    "plate.reserved",
+    "plate.submitted",
+    "pool.allocated",
+    "request.created",
+    "request.decided",
+    "request.expired",
+    "request.submitted",
+    "reservation.expired",
+    "reservation.extended",
+    "template.default.updated"
+  ],
+  "action_labels_total": 53,
+  "chrome": {
+    "COUNTY_request_and_record_history": true,
+    "Enter_expands_changes": true,
+    "ADMIN_before_after_and_owner_absent": true,
+    "ADMIN_older_page_count": 25,
+    "ADMIN_total_count": 75,
+    "pagination_older_link_followed": true
+  },
+  "reflow": {
+    "initial_page_scroll_width": 414,
+    "viewport_width": 320,
+    "final_page_scroll_width": 320,
+    "open_region_width": 220,
+    "table_scroll_width": 330,
+    "region_tabindex": 0,
+    "keyboard_arrowright_scroll_left": 40,
+    "viewport_reset": true
+  },
+  "screenshots": [
+    "106-readable-history-final.png",
+    "105-history-320px-final.png",
+    "107-admin-audit-no-business-values.png",
+    "108-audit-older-page.png"
+  ]
+}

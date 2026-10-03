@@ -1,0 +1,80 @@
+Creating test database for alias 'default'...
+Destroying old test database for alias 'default'...
+FFFFFFF.
+======================================================================
+FAIL: test_direct_pool_allocation_keeps_remote_address (registry.test_letter_audit_ip.LetterAuditIpTests.test_direct_pool_allocation_keeps_remote_address)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 95, in test_direct_pool_allocation_keeps_remote_address
+    self.assert_letter_event(
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 19, in assert_letter_event
+    self.assertEqual(event.ip, address)
+AssertionError: None != '192.0.2.30'
+
+======================================================================
+FAIL: test_html_and_api_applications_keep_remote_address_not_forwarded_header (registry.test_letter_audit_ip.LetterAuditIpTests.test_html_and_api_applications_keep_remote_address_not_forwarded_header) (address='192.0.2.10')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 41, in test_html_and_api_applications_keep_remote_address_not_forwarded_header
+    self.assert_letter_event(req.letters.get(kind="APPLICATION"), self.county, address)
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 19, in assert_letter_event
+    self.assertEqual(event.ip, address)
+AssertionError: None != '192.0.2.10'
+
+======================================================================
+FAIL: test_html_and_api_applications_keep_remote_address_not_forwarded_header (registry.test_letter_audit_ip.LetterAuditIpTests.test_html_and_api_applications_keep_remote_address_not_forwarded_header) (address='2001:db8::10')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 41, in test_html_and_api_applications_keep_remote_address_not_forwarded_header
+    self.assert_letter_event(req.letters.get(kind="APPLICATION"), self.county, address)
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 19, in assert_letter_event
+    self.assertEqual(event.ip, address)
+AssertionError: None != '2001:db8::10'
+
+======================================================================
+FAIL: test_individual_approval_and_rejection_keep_deciding_address (registry.test_letter_audit_ip.LetterAuditIpTests.test_individual_approval_and_rejection_keep_deciding_address) (approve=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 56, in test_individual_approval_and_rejection_keep_deciding_address
+    self.assert_letter_event(
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 19, in assert_letter_event
+    self.assertEqual(event.ip, address)
+AssertionError: None != '2001:db8::20'
+
+======================================================================
+FAIL: test_individual_approval_and_rejection_keep_deciding_address (registry.test_letter_audit_ip.LetterAuditIpTests.test_individual_approval_and_rejection_keep_deciding_address) (approve=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 56, in test_individual_approval_and_rejection_keep_deciding_address
+    self.assert_letter_event(
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 19, in assert_letter_event
+    self.assertEqual(event.ip, address)
+AssertionError: None != '2001:db8::20'
+
+======================================================================
+FAIL: test_pool_decisions_keep_address_through_nested_allocation (registry.test_letter_audit_ip.LetterAuditIpTests.test_pool_decisions_keep_address_through_nested_allocation) (kind='II')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 84, in test_pool_decisions_keep_address_through_nested_allocation
+    self.assert_letter_event(req.letters.get(kind="POOL"), self.ump, "192.0.2.20")
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 19, in assert_letter_event
+    self.assertEqual(event.ip, address)
+AssertionError: None != '192.0.2.20'
+
+======================================================================
+FAIL: test_pool_decisions_keep_address_through_nested_allocation (registry.test_letter_audit_ip.LetterAuditIpTests.test_pool_decisions_keep_address_through_nested_allocation) (kind='III')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 84, in test_pool_decisions_keep_address_through_nested_allocation
+    self.assert_letter_event(req.letters.get(kind="POOL"), self.ump, "192.0.2.20")
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_letter_audit_ip.py", line 19, in assert_letter_event
+    self.assertEqual(event.ip, address)
+AssertionError: None != '192.0.2.20'
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.308s
+
+FAILED (failures=7)
+Destroying test database for alias 'default'...
+Found 5 test(s).
+System check identified no issues (0 silenced).

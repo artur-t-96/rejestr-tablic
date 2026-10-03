@@ -1,0 +1,17 @@
+{
+  "checked_at": "2026-10-03",
+  "backup_sha256": "e16d871b6e327dd027f5e923e9d230f595ae33404796a26c4b68636e0112e927",
+  "old_documents": 9,
+  "all_archived_numbers_pdf_signatures_and_relations_unchanged": true,
+  "old_requests": 4,
+  "all_previous_references_and_case_numbers_preserved": true,
+  "number_sequences": [
+    [
+      "REQUEST",
+      2026,
+      4
+    ]
+  ],
+  "foreign_key_errors": 0,
+  "post_migration_integrity": "ok"
+}

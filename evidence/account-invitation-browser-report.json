@@ -1,0 +1,97 @@
+{
+  "environment": "isolated fictional SQLite copy localhost:8775",
+  "invitation": {
+    "uuid": "fbaf61eeec1548b091c4e488f1baab51",
+    "email": "fikcyjne.zaproszenie@example.invalid",
+    "status": "LOCAL_SAVED",
+    "attempts": 1,
+    "content_sha256": "3da98237ef825f487629b893912aa0786ae3f9619a3ede63efe3263ffa39408c"
+  },
+  "account": {
+    "email": "fikcyjne.zaproszenie@example.invalid",
+    "role": "COUNTY",
+    "office_id": "gni"
+  },
+  "local_file_messages": [
+    {
+      "filename": "20261003-065058-4413979776.log",
+      "sha256": "db2715310821090de3a0f5b9251eaf79a95b750c2a5c21897739f6e73e89f53a",
+      "message_id": "<account-fbaf61ee-ec15-48b0-91c4-e488f1baab51@dyna-rejestr.local>",
+      "recipient": "fikcyjne.zaproszenie@example.invalid",
+      "body": "Administrator utworzył dla Ciebie konto w Dyna Rejestr Tablic.\nRola: Urzędnik powiatowy\nUrząd: Starostwo Powiatowe w Gnieźnie\nOtwórz http://localhost:8775/logowanie/ i wpisz swój adres e-mail. Otrzymasz osobny kod ważny 10 minut. Ta wiadomość nie jest kodem logowania.\nJeśli nie oczekujesz dostępu, skontaktuj się z administratorem urzędu.\n-------------------------------------------------------------------------------\n"
+    }
+  ],
+  "copy_all_seven_business_tables_unchanged": {
+    "registry_request": true,
+    "registry_platerecord": true,
+    "registry_letter": true,
+    "registry_pool": true,
+    "registry_poolslot": true,
+    "registry_numbersequence": true,
+    "registry_integrationjob": true
+  },
+  "external_smtp_tested": false,
+  "browser": [
+    "A0 OTP sign-in",
+    "new fictional county account created",
+    "queued status visible",
+    "duplicate invitation refused",
+    "Gniezno allowed_domains example.invalid displayed",
+    "invitation file status visible",
+    "invited A2 separate OTP and own panel",
+    "A2 denied invitations (403)"
+  ],
+  "screenshots": [
+    "evidence/private/89-account-invitation-queued-styled.jpg",
+    "evidence/private/90-account-invitation-local-file.jpg",
+    "evidence/private/91-invited-county-dashboard.jpg",
+    "evidence/private/92-county-invitation-access-denied.jpg"
+  ],
+  "restore": {
+    "registry_tables_except_security_and_external_queue_unchanged": {
+      "registry_lettertemplate": true,
+      "registry_ratebucket": true,
+      "registry_user_groups": true,
+      "registry_user_user_permissions": true,
+      "registry_office": true,
+      "registry_auditlog": true,
+      "registry_platerecord": true,
+      "registry_poolslot": true,
+      "registry_deliveryevidence": true,
+      "registry_user": true,
+      "registry_ezdcaselink": true,
+      "registry_letter": true,
+      "registry_request": true,
+      "registry_numbersequence": true,
+      "registry_ezdincomingdocument": true,
+      "registry_pool": true,
+      "registry_accountinvitation": true
+    },
+    "completed_invitation_status": "LOCAL_SAVED",
+    "sessions_count": 0,
+    "unused_codes_count": 0
+  },
+  "main_business_users_offices_unchanged": {
+    "registry_request": true,
+    "registry_platerecord": true,
+    "registry_letter": true,
+    "registry_pool": true,
+    "registry_poolslot": true,
+    "registry_numbersequence": true,
+    "registry_integrationjob": true,
+    "registry_user": true,
+    "registry_office": true
+  },
+  "main_new_table_count": 0,
+  "final_tests": {
+    "sqlite": {
+      "run": 60,
+      "passed": 58,
+      "skipped_postgres_only": 2
+    },
+    "postgres": {
+      "run": 62,
+      "passed": 62
+    }
+  }
+}

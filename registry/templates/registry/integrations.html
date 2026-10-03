@@ -1,0 +1,30 @@
+{% extends 'registry/base.html' %}{% block title %}Integracje · Dyna Rejestr Tablic{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">Komunikacja zewnętrzna</p><h1>Integracje</h1></div></div>
+<div class="grid3">
+{% for provider in providers %}<section class="card">
+<h2>{{ provider.name }}</h2>
+<span class="status {% if provider.configured %}APPROVED{% else %}DRAFT{% endif %}">{% if provider.configured %}Skonfigurowana{% else %}Wymaga konfiguracji{% endif %}</span>
+<p>{{ provider.description }}</p><small>{{ provider.mode }}</small>
+{% if provider.id == 'EDOR' and user.role != 'ADMIN' %}<p><a href="{% url 'edor_search' %}">Wyszukaj adres urzędu</a></p>{% endif %}
+{% if provider.id == 'EZD' and user.role != 'ADMIN' %}<p><a href="{% url 'ezd_incoming' %}">Wpływy z EZD</a></p>{% endif %}
+</section>{% endfor %}
+</div>
+<section class="card" id="list-results" tabindex="-1"><h2>Operacje i wyniki</h2>
+<p>Zapis dokumentu w EZD, przyjęcie zadania e-Doręczeń i przyjęcie przez serwer pocztowy nie potwierdzają doręczenia. W trybie lokalnym e-maile trafiają do skrzynki plikowej.</p>
+<p>Dowody są archiwizowane w oryginalnym formacie z sumą SHA-256. Status pochodzi z API operatora. Walidacja podpisów dowodów nie jest jeszcze wdrożona.</p>
+<div class="table-wrap"><table><caption class="sr-only">Operacje integracyjne i dowody</caption><thead><tr><th>Pismo</th><th>Integracja</th><th>Status</th><th>Próby</th><th>Wynik i dowody</th></tr></thead><tbody>
+{% for job in jobs %}<tr>
+<td>{{ job.letter.number }}</td><td>{{ job.provider }}<small>{{ job.operation_label }}</small></td><td>{{ job.status_label }}</td><td>{{ job.attempts }}</td>
+<td>{{ job.remote_id }}
+{% if job.result.case_symbol %}<small>Sprawa EZD: {{ job.result.case_symbol }}</small>{% endif %}
+{% if job.result.task_id %}<small>Zadanie e-Doręczeń: {{ job.result.task_id }}</small>{% endif %}
+{% if job.result.remote_status %}<small>Status operatora: {{ job.result.remote_status }}</small>{% endif %}
+{% if job.result.environment %}<small>Środowisko: {{ job.result.environment }}</small>{% endif %}
+{% if job.result.submission_date %}<small>Nadanie: {{ job.result.submission_date }}</small>{% endif %}
+{% if job.result.receipt_date %}<small>Odbiór: {{ job.result.receipt_date }}</small>{% endif %}
+{% if user.role != 'ADMIN' %}{% for evidence in job.evidence.all %}<small><a href="{% url 'delivery_evidence' job.letter.uuid evidence.pk %}">Pobierz dowód {{ evidence.kind }}</a></small>{% endfor %}{% endif %}
+<small>{{ job.error }}</small>{% if user.role == 'ADMIN' and job.provider == 'EDOR' %}<small><a href="{% url 'edor_resume' job.uuid %}">Sprawdź możliwość wznowienia</a></small>{% endif %}</td></tr>
+{% empty %}<tr><td colspan="5" class="empty">Brak operacji integracyjnych. Wysyłkę wybierz przy piśmie.</td></tr>{% endfor %}
+</tbody></table></div>{% include 'registry/pagination.html' %}</section>
+{% endblock %}

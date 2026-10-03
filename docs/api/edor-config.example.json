@@ -1,0 +1,15 @@
+{
+  "offices": {
+    "ump": {
+      "environment": "INT",
+      "sender_ade": "AE:PL-00000-00000-XXXXX-00",
+      "system_name": "DYNA.REJESTR.TABLIC",
+      "ua_url": "https://uaapi-int-ow.poczta-polska.pl/api/v3",
+      "se_url": "https://int-ow.edoreczenia.gov.pl/api/se/v4",
+      "token_url": "https://int-ow.edoreczenia.gov.pl/auth/realms/EDOR/protocol/openid-connect/token",
+      "audience": "https://int-ow.edoreczenia.gov.pl/auth/realms/EDOR",
+      "private_key_file": "/etc/dyna-rejestr/secrets/ump-edor-key.pem",
+      "certificate_file": "/etc/dyna-rejestr/secrets/ump-edor-certificate.pem"
+    }
+  }
+}

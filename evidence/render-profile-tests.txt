@@ -1,0 +1,9 @@
+2026-10-03; host-native; isolated configuration tests; no Docker/cloud provisioning.
+Found 17 test(s).
+System check identified no issues (0 silenced).
+.................
+----------------------------------------------------------------------
+Ran 17 tests in 0.020s
+
+OK
+No real Render gateway/Postgres/SMTP/mounted disk or full subprocess supervisor scenario executed.

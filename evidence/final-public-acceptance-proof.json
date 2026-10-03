@@ -1,0 +1,489 @@
+{
+  "checked_at": "2026-10-03T09:34:44.537943+00:00",
+  "application_revision": "772378a8b0afc0f15973833fc4a6968e68632a9f",
+  "scope": "Actual local Chrome CAPTCHA completion, natural expiry, pointer cancellation with positive control, keyboard attribution, challenge rate error and retry. Separate fictional SQLite copies; no operator API or full screen-reader/AA acceptance.",
+  "default_threshold": 10,
+  "captcha_fixture_threshold": 1,
+  "captcha_cost": 5000,
+  "query_limit": 30,
+  "window_seconds": 60,
+  "source_sha256": {
+    "config/settings.py": "856705ea4d34a09223f22126fc0f3d909cc40802b4d3f48986ef2033f0e87a56",
+    "registry/views.py": "a1c0a597d43104e2218ad51cecd32d6d2d3ea7153ce0c048927ed7745e449cab",
+    "registry/services.py": "68f752b39e8ea06d4b7733d8ab39af216167a463a9ed4ae040faba71fd72957e",
+    "registry/forms.py": "61dcf7ed33f83800ba400d48abf0edd28d6efe2a9c9f6687e783acd93eee6c22",
+    "registry/suggestions.py": "c235e4ba55e7ad2d73e6e3dcf89cc34d1b7cb83fb333c694254b6516cc95d137",
+    "registry/public_protection.py": "7f7f8352bf8df4656cab88b3056253c8f76109dac0480f30578dde7d6668458e",
+    "registry/templates/registry/public.html": "b2888373bc574436c22f80a762d93a14af9479467c9ef310ac5e264bc37e8deb",
+    "registry/templates/registry/base.html": "eca397f246f66f87c7469f1f44bb1c62365c4bf974e9ffa33d5fe8a5a3ed30c1",
+    "registry/static/registry/app.css": "74777732d9def093b33d44c080a9246b0736a32bc33020bcdad943fe22e42182",
+    "registry/static/registry/app.js": "7237441c6f0fa4f94ea4f67e1a90a3de31edd1541dbb2edeefc1bc11cc7d2845",
+    "registry/static/registry/public-captcha.js": "41dca272437ee8f2f36ba91e266d424298389fa259bed9844cbda8c99537e928",
+    "registry/static/registry/altcha/widget.js": "d1f46180ad7f4f61bf9a3be10a92317c60a9e9020a128d0aae7d3c020cc55df8",
+    "registry/static/registry/altcha/widget.css": "03622256effb4e962d0c1da9a59684cf237f541f290703934c07a97dabcbad47",
+    "registry/static/registry/altcha/pl.js": "29bfc902b5354b97bdb94310d4b98c2d9d1749d0d7361a79c4fc86e8f402a408"
+  },
+  "health": {
+    "8765": {
+      "status": "ok",
+      "service": "dyna-rejestr-tablic",
+      "mode": "local",
+      "revision": "772378a8b0afc0f15973833fc4a6968e68632a9f"
+    },
+    "8787": {
+      "status": "ok",
+      "service": "dyna-rejestr-tablic",
+      "mode": "local",
+      "revision": "413f73ce70680da5d5177010bcbf17d0d271d91c"
+    },
+    "8788": {
+      "status": "ok",
+      "service": "dyna-rejestr-tablic",
+      "mode": "local",
+      "revision": "413f73ce70680da5d5177010bcbf17d0d271d91c"
+    }
+  },
+  "database_preservation": {
+    "main": {
+      "algorithm": "SHA256(repr(SELECT * ORDER BY rowid).encode())",
+      "tables": {
+        "auth_group": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth_group_permissions": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth_permission": {
+          "count": 88,
+          "sha256": "d81143864f71efc3402e1bcc9ae3f5421e18dcf9efee1edb61ce0c065326b8f5"
+        },
+        "django_content_type": {
+          "count": 22,
+          "sha256": "8a88284a944a715ba29ed2d49506f1674d855c2d8c812157958a86da9d142756"
+        },
+        "django_migrations": {
+          "count": 25,
+          "sha256": "d8d81d68ea43e616dbd98a42f2c73826a3530efc19a3500a7b0004be3c17f032"
+        },
+        "django_session": {
+          "count": 9,
+          "sha256": "304f9c9b770c229deb5a4a54ba9e497033a465bbfaac8be4e449e0a417349778"
+        },
+        "registry_accountinvitation": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_auditlog": {
+          "count": 58,
+          "sha256": "8939805567817df07a4d097f44b42faf3c5d6e5c09183ec6f41181d97fb0373f"
+        },
+        "registry_deliveryevidence": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_ezdcaselink": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_ezdincomingdocument": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_integrationjob": {
+          "count": 1,
+          "sha256": "9bf08358aeebd3bfd880b6aa9609ec1ed0bcc754169aecdec43ec61771bd1ffd"
+        },
+        "registry_letter": {
+          "count": 12,
+          "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+        },
+        "registry_lettertemplate": {
+          "count": 4,
+          "sha256": "584be4e2a1a6830345cddee84a64abfbece9dec48c34cce5770104d87dcd612b"
+        },
+        "registry_logincode": {
+          "count": 12,
+          "sha256": "19d674e2e3a2f6f2c6ae7117bd7f505e43deea96e527595373d19546d8f49973"
+        },
+        "registry_numbersequence": {
+          "count": 3,
+          "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+        },
+        "registry_office": {
+          "count": 35,
+          "sha256": "6b99103fa7f946d5173675317eb210944fd0d6576abed661da85f0812518ed04"
+        },
+        "registry_platerecord": {
+          "count": 5,
+          "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+        },
+        "registry_pool": {
+          "count": 1,
+          "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+        },
+        "registry_poolslot": {
+          "count": 30,
+          "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+        },
+        "registry_publicchallenge": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_ratebucket": {
+          "count": 7,
+          "sha256": "a56b8912307ed891ec4d66272711e3f964a7720960053743fce27395dd929332"
+        },
+        "registry_request": {
+          "count": 5,
+          "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+        },
+        "registry_user": {
+          "count": 4,
+          "sha256": "d9381e6f688a293e5039d35817d59710b844522709df43bf51a66781c8610e98"
+        },
+        "registry_user_groups": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_user_user_permissions": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "sqlite_sequence": {
+          "count": 16,
+          "sha256": "ae81bf39af2fadf38fa352d6be81f7903b36ebd9ab7a6e65e1bd576858de2283"
+        }
+      },
+      "changed_from_original_main_baseline": [],
+      "preserved_tables": 27
+    },
+    "captcha": {
+      "algorithm": "SHA256(repr(SELECT * ORDER BY rowid).encode())",
+      "tables": {
+        "auth_group": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth_group_permissions": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth_permission": {
+          "count": 88,
+          "sha256": "d81143864f71efc3402e1bcc9ae3f5421e18dcf9efee1edb61ce0c065326b8f5"
+        },
+        "django_content_type": {
+          "count": 22,
+          "sha256": "8a88284a944a715ba29ed2d49506f1674d855c2d8c812157958a86da9d142756"
+        },
+        "django_migrations": {
+          "count": 25,
+          "sha256": "d8d81d68ea43e616dbd98a42f2c73826a3530efc19a3500a7b0004be3c17f032"
+        },
+        "django_session": {
+          "count": 12,
+          "sha256": "61e634624320593ae728c30b8e5480e13752239650ca7e03c948673f4642876d"
+        },
+        "registry_accountinvitation": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_auditlog": {
+          "count": 58,
+          "sha256": "8939805567817df07a4d097f44b42faf3c5d6e5c09183ec6f41181d97fb0373f"
+        },
+        "registry_deliveryevidence": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_ezdcaselink": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_ezdincomingdocument": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_integrationjob": {
+          "count": 1,
+          "sha256": "9bf08358aeebd3bfd880b6aa9609ec1ed0bcc754169aecdec43ec61771bd1ffd"
+        },
+        "registry_letter": {
+          "count": 12,
+          "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+        },
+        "registry_lettertemplate": {
+          "count": 4,
+          "sha256": "584be4e2a1a6830345cddee84a64abfbece9dec48c34cce5770104d87dcd612b"
+        },
+        "registry_logincode": {
+          "count": 12,
+          "sha256": "19d674e2e3a2f6f2c6ae7117bd7f505e43deea96e527595373d19546d8f49973"
+        },
+        "registry_numbersequence": {
+          "count": 3,
+          "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+        },
+        "registry_office": {
+          "count": 35,
+          "sha256": "6b99103fa7f946d5173675317eb210944fd0d6576abed661da85f0812518ed04"
+        },
+        "registry_platerecord": {
+          "count": 5,
+          "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+        },
+        "registry_pool": {
+          "count": 1,
+          "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+        },
+        "registry_poolslot": {
+          "count": 30,
+          "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+        },
+        "registry_publicchallenge": {
+          "count": 24,
+          "sha256": "c879664f9d42ba9f0ce43e832bd8251171136c42b7c85295cf458aa426dd17b6"
+        },
+        "registry_ratebucket": {
+          "count": 8,
+          "sha256": "84b173a462d7f9d87d194810fa0f49c6e0ac922b70781d731eff573e7c7e2f1d"
+        },
+        "registry_request": {
+          "count": 5,
+          "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+        },
+        "registry_user": {
+          "count": 4,
+          "sha256": "d9381e6f688a293e5039d35817d59710b844522709df43bf51a66781c8610e98"
+        },
+        "registry_user_groups": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_user_user_permissions": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "sqlite_sequence": {
+          "count": 16,
+          "sha256": "1d86c5b750cbd5ab611c93955892a0d629620c2081f8b22a42242626c6395e8f"
+        }
+      },
+      "changed_from_original_main_baseline": [
+        "django_session",
+        "registry_publicchallenge",
+        "registry_ratebucket",
+        "sqlite_sequence"
+      ],
+      "preserved_tables": 23
+    },
+    "reader": {
+      "algorithm": "SHA256(repr(SELECT * ORDER BY rowid).encode())",
+      "tables": {
+        "auth_group": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth_group_permissions": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth_permission": {
+          "count": 88,
+          "sha256": "d81143864f71efc3402e1bcc9ae3f5421e18dcf9efee1edb61ce0c065326b8f5"
+        },
+        "django_content_type": {
+          "count": 22,
+          "sha256": "8a88284a944a715ba29ed2d49506f1674d855c2d8c812157958a86da9d142756"
+        },
+        "django_migrations": {
+          "count": 25,
+          "sha256": "d8d81d68ea43e616dbd98a42f2c73826a3530efc19a3500a7b0004be3c17f032"
+        },
+        "django_session": {
+          "count": 9,
+          "sha256": "304f9c9b770c229deb5a4a54ba9e497033a465bbfaac8be4e449e0a417349778"
+        },
+        "registry_accountinvitation": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_auditlog": {
+          "count": 58,
+          "sha256": "8939805567817df07a4d097f44b42faf3c5d6e5c09183ec6f41181d97fb0373f"
+        },
+        "registry_deliveryevidence": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_ezdcaselink": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_ezdincomingdocument": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_integrationjob": {
+          "count": 1,
+          "sha256": "9bf08358aeebd3bfd880b6aa9609ec1ed0bcc754169aecdec43ec61771bd1ffd"
+        },
+        "registry_letter": {
+          "count": 12,
+          "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+        },
+        "registry_lettertemplate": {
+          "count": 4,
+          "sha256": "584be4e2a1a6830345cddee84a64abfbece9dec48c34cce5770104d87dcd612b"
+        },
+        "registry_logincode": {
+          "count": 12,
+          "sha256": "19d674e2e3a2f6f2c6ae7117bd7f505e43deea96e527595373d19546d8f49973"
+        },
+        "registry_numbersequence": {
+          "count": 3,
+          "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+        },
+        "registry_office": {
+          "count": 35,
+          "sha256": "6b99103fa7f946d5173675317eb210944fd0d6576abed661da85f0812518ed04"
+        },
+        "registry_platerecord": {
+          "count": 5,
+          "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+        },
+        "registry_pool": {
+          "count": 1,
+          "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+        },
+        "registry_poolslot": {
+          "count": 30,
+          "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+        },
+        "registry_publicchallenge": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_ratebucket": {
+          "count": 7,
+          "sha256": "c44f582807b15c243ffe67ded6b5e4a4de4dc3268837380809a79ea6b4ad321b"
+        },
+        "registry_request": {
+          "count": 5,
+          "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+        },
+        "registry_user": {
+          "count": 4,
+          "sha256": "d9381e6f688a293e5039d35817d59710b844522709df43bf51a66781c8610e98"
+        },
+        "registry_user_groups": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_user_user_permissions": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "sqlite_sequence": {
+          "count": 16,
+          "sha256": "ae81bf39af2fadf38fa352d6be81f7903b36ebd9ab7a6e65e1bd576858de2283"
+        }
+      },
+      "changed_from_original_main_baseline": [
+        "registry_ratebucket"
+      ],
+      "preserved_tables": 26
+    }
+  },
+  "consumed_challenges": [
+    {
+      "id": "a861b7469d76407382ac8aefbf9dd168",
+      "expires_at_utc": "2026-10-03 09:13:07.094554",
+      "consumed_at_utc": "2026-10-03 09:08:21.764314"
+    },
+    {
+      "id": "d7eb1cfa297b43979f2acf5a85a8bfa0",
+      "expires_at_utc": "2026-10-03 09:26:14.875110",
+      "consumed_at_utc": "2026-10-03 09:21:31.072524"
+    },
+    {
+      "id": "657762c444e84e9e96a36cbc04d1cc11",
+      "expires_at_utc": "2026-10-03 09:29:21.896273",
+      "consumed_at_utc": "2026-10-03 09:25:31.191203"
+    }
+  ],
+  "natural_expiry_challenge": [
+    {
+      "id": "3cff5e905dab4429b8ce3acb460460d2",
+      "expires_at_utc": "2026-10-03 09:19:17.872297",
+      "consumed_at_utc": null
+    }
+  ],
+  "native_browser_findings": {
+    "successful_server_consumptions": 3,
+    "threshold_enforced": "Warm GET immediately before each accepted POST; database consumed_at confirms actual proof validation above fixture threshold.",
+    "natural_expiry": "Real five-minute wait; Polish expiry alert, checkbox reset and ANNA preserved. Expired submission blocked by native required checkbox; no claim of expired browser POST.",
+    "pointer_cancellation": "Drag from actual checkbox to outside: no challenge. Same-point click: new challenge and successful verification. Earlier ambiguous coordinate attempt excluded.",
+    "keyboard": "Space verifies; Tab leaves VERIFYING and reaches footer then submit. Footer focus outline rgb(0,95,204) auto 1px. Return submits and focus becomes availability-result.",
+    "error_retry": "Native HTTP challenge issuance until 429; second sequence led to actual widget error with role=alert. After real window expiry Space verified and server consumed fresh proof. First issue sequence expired before UI click and is excluded as error proof.",
+    "responsive": "Native DeviceToolbar 320x900 observed before activation; actual DOM/screenshot after verification 272px, document scrollWidth272, widget width198. This is evidence of 272px verified-state reflow, not 320px error-popup proof.",
+    "restored": "Temporary generic viewport overrides reset; native DeviceToolbar width400/height blank restored, device mode off and DevTools closed.",
+    "reader": "VoiceOver temporarily enabled with user action-time approval. Invalid Q form preserved and focus form-errors visible, but spoken output could not be observed via this tool. VoiceOver off restored; CaptionPanel setting restored to1; tutorial closed."
+  },
+  "focused_tests": {
+    "path": "evidence/final-public-acceptance-tests.txt",
+    "passed": 17,
+    "skipped": 1,
+    "skip_reason": "PostgreSQL concurrency; prior actual PG evidence retained, not rerun",
+    "javascript_syntax": "Node22.23 --check PASS"
+  },
+  "screenshots": [
+    {
+      "path": "evidence/private/153-captcha-zweryfikowano.png",
+      "sha256": "4d1fa1940bc502fe69fba97b6cede9670f46d604ecdba3234eccefe8f8c4d933",
+      "visually_inspected": true
+    },
+    {
+      "path": "evidence/private/155-captcha-naturalne-wygasniecie.png",
+      "sha256": "7026ff67a46b9b782b9b2c93acb1fe623f8107679734a9ed68a0a7ed507e621d",
+      "visually_inspected": true
+    },
+    {
+      "path": "evidence/private/156-captcha-link-klawiatura.png",
+      "sha256": "80babbaf17114e9192bcf3ae72a023b6724bdf7b0eec771df9b7f1bf04b89c1a",
+      "visually_inspected": true
+    },
+    {
+      "path": "evidence/private/158-captcha-blad-limitu.png",
+      "sha256": "7ec6c2f67d7c05b9fca6b0a298208bd3fe54d523589157e3363d9c84303e1b8e",
+      "visually_inspected": true
+    },
+    {
+      "path": "evidence/private/160-captcha-ponowienie-wynik.png",
+      "sha256": "fbb56f3a513ce9ed2097a4587fb192d4606e11fdf67704121e88017ab7f7461e",
+      "visually_inspected": true
+    },
+    {
+      "path": "evidence/private/162-captcha-320-zweryfikowano.png",
+      "sha256": "7ab2b9138f6d1de4da8ec1b0bfd67a4e0e406c05e6e493925e80516013247785",
+      "visually_inspected": true
+    }
+  ],
+  "excluded_screenshots": {
+    "154-captcha-anulowanie.png": "ambiguous pointer coordinates; superseded by positive-control test",
+    "159-captcha-blad-320.png": "actual viewport1283, not320"
+  },
+  "voiceover_spoken_output_verified": false,
+  "full_wcag_aa_verified": false,
+  "goal_complete": false,
+  "contrast": {
+    "method": "Computed-style OKLCH to linear sRGB, channel clipping, WCAG relative luminance; against widget white",
+    "label_footer": 17.7552,
+    "unchecked_border": 3.0554,
+    "checked_green_white_tick": 4.3653,
+    "error_white_text": 6.3153,
+    "scope": "Observed default, verified and error styles; no forced-colors, other browsers or physical-device claim"
+  }
+}

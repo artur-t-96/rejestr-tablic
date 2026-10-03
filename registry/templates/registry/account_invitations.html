@@ -1,0 +1,11 @@
+{% extends 'registry/base.html' %}
+{% block title %}Zaproszenia do konta · Dyna Rejestr Tablic{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">Administracja</p><h1>Zaproszenia do konta</h1><p>{{ account.email }} · {{ account.get_role_display }} · {{ account.office.name|default:'Administracja systemu' }}</p></div><a class="button secondary" href="{% url 'admin_panel' %}">Wróć do administracji</a></div>
+<section class="card"><h2>{% if item %}Operacja na zaproszeniu{% else %}Nowe zaproszenie{% endif %}</h2>
+<p>Wiadomość informuje o dostępie utworzonym przez administratora. Logowanie wymaga osobnego kodu OTP. W profilu lokalnym poczta jest zapisywana do pliku.</p>
+{% if item %}<p><strong>{{ item.status_label }}</strong> · {{ item.created_at }} · próby wysyłki: {{ item.attempts }}</p>{% if item.error %}<p class="notice">{{ item.error }}</p>{% endif %}{% endif %}
+{% if has_actions %}<form method="post">{% csrf_token %}{{ form.as_div }}<p>Wysyłkę wykonuje proces kolejki. Nie wznawiaj niepewnej wysyłki bez sprawdzenia serwera. Nowe zaproszenie po zamknięciu poprzedniego może spowodować otrzymanie kolejnej wiadomości.</p><button type="submit">Zapisz operację</button></form>{% else %}<p>Brak operacji w tym stanie.{% if item.status == "SENDING" %} Wysyłka wymaga zakończenia albo uzgodnienia po przerwaniu pracy procesu.{% endif %}</p>{% endif %}
+</section>
+<section class="card"><h2>Historia zaproszeń</h2><div class="table-wrap"><table><caption class="sr-only">Ostatnie 50 zaproszeń do konta {{ account.email }}</caption><thead><tr><th>Data</th><th>Adres</th><th>Stan</th><th>Administrator</th><th>Operacja</th></tr></thead><tbody>{% for inv in invitations %}<tr><td>{{ inv.created_at }}</td><td>{{ inv.email }}</td><td>{{ inv.status_label }}{% if inv.error %}<p>{{ inv.error }}</p>{% endif %}</td><td>{{ inv.created_by.email }}</td><td><a href="{% url 'account_invitation_manage' account.pk inv.uuid %}">Sprawdź<span class="sr-only"> zaproszenie z {{ inv.created_at }}</span></a></td></tr>{% empty %}<tr><td colspan="5">Nie utworzono zaproszeń.</td></tr>{% endfor %}</tbody></table></div></section>
+{% endblock %}

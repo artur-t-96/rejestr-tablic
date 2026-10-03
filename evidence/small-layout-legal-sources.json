@@ -1,0 +1,111 @@
+{
+  "date": "2026-10-03",
+  "metadata_url": "https://api.sejm.gov.pl/eli/acts/DU/2024/1709",
+  "metadata": {
+    "address": "WDU20240001709",
+    "announcementDate": "2024-11-08",
+    "changeDate": "2026-07-03T00:00:00",
+    "displayAddress": "Dz.U. 2024 poz. 1709",
+    "pos": 1709,
+    "promulgation": "2024-11-22",
+    "publisher": "DU",
+    "status": "obowiązujący",
+    "textHTML": true,
+    "textPDF": true,
+    "title": "Rozporządzenie Ministra Infrastruktury z dnia 8 listopada 2024 r. w sprawie rejestracji i oznaczania pojazdów, wymagań dla tablic rejestracyjnych oraz wzorów innych dokumentów związanych z rejestracją pojazdów",
+    "type": "Rozporządzenie",
+    "volume": 0,
+    "year": 2024,
+    "authorizedBody": [],
+    "directives": [
+      {
+        "address": "31999L0037",
+        "date": "1999-04-29",
+        "title": "Dyrektywa Rady 1999/37/WE z dnia 29 kwietnia 1999 w sprawie dokumentów rejestracyjnych pojazdów"
+      }
+    ],
+    "entryIntoForce": "2024-11-30",
+    "inForce": "IN_FORCE",
+    "keywords": [
+      "pojazdy mechaniczne",
+      "dokumenty",
+      "kierowcy",
+      "samochody",
+      "tablice rejestracyjne"
+    ],
+    "keywordsNames": [],
+    "obligated": [],
+    "previousTitle": [],
+    "prints": [],
+    "references": {
+      "Akty uznane za uchylone": [
+        {
+          "id": "DU/2023/1255",
+          "date": "2024-11-30"
+        },
+        {
+          "id": "DU/2022/1847",
+          "date": "2024-11-30"
+        }
+      ],
+      "Akty zmieniające": [
+        {
+          "id": "DU/2026/891",
+          "date": "2026-07-04"
+        },
+        {
+          "id": "DU/2025/939",
+          "date": "2025-07-30"
+        }
+      ],
+      "Podstawa prawna": [
+        {
+          "id": "DU/1997/602"
+        }
+      ],
+      "Podstawa prawna z art.": [
+        {
+          "id": "DU/1997/602",
+          "art": "art. 76 ust. 1 pkt 1 lit. a, c i d"
+        }
+      ]
+    },
+    "releasedBy": [
+      "MIN. INFRASTRUKTURY"
+    ],
+    "texts": [
+      {
+        "fileName": "text.html",
+        "type": "H"
+      },
+      {
+        "fileName": "D20241709.pdf",
+        "type": "O"
+      },
+      {
+        "fileName": "D20241709.pdf",
+        "type": "I"
+      }
+    ],
+    "ELI": "DU/2024/1709"
+  },
+  "sources": [
+    {
+      "url": "https://api.sejm.gov.pl/eli/acts/DU/2024/1709/text.html",
+      "bytes": 1581063,
+      "sha256": "e9070fdcffeebc6e61c71cde7ef484f11dd82e157df80adb23165a5b6b5e577d"
+    },
+    {
+      "url": "https://api.sejm.gov.pl/eli/acts/DU/2025/939/text.pdf",
+      "bytes": 160762,
+      "sha256": "e481196f57c9867618c32be1a5d4679a98ef3ba9691474e4cdd878a8618e5582"
+    },
+    {
+      "url": "https://api.sejm.gov.pl/eli/acts/DU/2026/891/text.pdf",
+      "bytes": 165311,
+      "sha256": "5c1e2576203acc972fae27afbf1b10725852bde4f1a2f29a87ff5450d0aad787"
+    }
+  ],
+  "scope": "Re-read section 30(2)(2), section 31(3), and amendments; not legal opinion or complete regulatory audit.",
+  "tls": "Downloaded via system curl with TLS verification; Python default CA chain rejected the endpoint; no verification bypass."
+}

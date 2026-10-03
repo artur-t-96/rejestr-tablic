@@ -1,0 +1,175 @@
+{
+  "checked_at": "2026-10-03T08:08:50.955901+00:00",
+  "base_revision": "98bb02bd0ff35cf7509405fc0735ce126302ede8",
+  "scope": "Actual native HTTP with two file OTP sessions and real CSRF; isolated synthetic SQLite; HTML/API application, I approval/rejection, nested II/III allocation, direct II allocation; actual REMOTE_ADDR recorded, spoofed X-Forwarded-For ignored. No operator calls, no new Chrome or IPv6 socket test.",
+  "source_sha256": {
+    "registry/services.py": "51a551095f66da9179979e478343bffbe2f137c1fad1ac97935b98a7a66243e7",
+    "registry/views.py": "e7ffa170d875d57b109567dac4435aa8dcd21cc56053d3a4daac8814a0d6c7c8",
+    "registry/test_letter_audit_ip.py": "9be3b46c003f6ba6800c5488ad5d9bbdad705bc4c9a30f6fe3de74f1d5da17ff"
+  },
+  "http_business_posts": 14,
+  "checks": [
+    {
+      "path": "/panel/wnioski/nowy/",
+      "status": 302,
+      "csrf": true,
+      "content_type": "HTML form"
+    },
+    {
+      "path": "/api/requests/",
+      "status": 201,
+      "csrf": true,
+      "content_type": "JSON"
+    },
+    {
+      "path": "/api/requests/0795e625-889e-4caf-ada0-feb8263c766a/submit/",
+      "status": 200,
+      "csrf": true,
+      "content_type": "JSON"
+    },
+    {
+      "path": "/api/requests/0795e625-889e-4caf-ada0-feb8263c766a/decide/",
+      "status": 200,
+      "csrf": true,
+      "content_type": "JSON"
+    },
+    {
+      "path": "/api/requests/",
+      "status": 201,
+      "csrf": true,
+      "content_type": "JSON"
+    },
+    {
+      "path": "/api/requests/0c265d1a-a19a-4ee3-a9d2-6b1bcb142889/submit/",
+      "status": 200,
+      "csrf": true,
+      "content_type": "JSON"
+    },
+    {
+      "path": "/api/requests/0c265d1a-a19a-4ee3-a9d2-6b1bcb142889/decide/",
+      "status": 200,
+      "csrf": true,
+      "content_type": "JSON"
+    },
+    {
+      "path": "/api/requests/",
+      "status": 201,
+      "csrf": true,
+      "content_type": "JSON"
+    },
+    {
+      "path": "/api/requests/883e1548-d14b-4430-bd9b-033cb97993e7/submit/",
+      "status": 200,
+      "csrf": true,
+      "content_type": "JSON"
+    },
+    {
+      "path": "/api/requests/883e1548-d14b-4430-bd9b-033cb97993e7/decide/",
+      "status": 200,
+      "csrf": true,
+      "content_type": "JSON"
+    },
+    {
+      "path": "/api/requests/",
+      "status": 201,
+      "csrf": true,
+      "content_type": "JSON"
+    },
+    {
+      "path": "/api/requests/07054aa0-33d6-4b3f-9f63-e5c03851a1c8/submit/",
+      "status": 200,
+      "csrf": true,
+      "content_type": "JSON"
+    },
+    {
+      "path": "/api/requests/07054aa0-33d6-4b3f-9f63-e5c03851a1c8/decide/",
+      "status": 200,
+      "csrf": true,
+      "content_type": "JSON"
+    },
+    {
+      "path": "/api/pools/",
+      "status": 201,
+      "csrf": true,
+      "content_type": "JSON"
+    }
+  ],
+  "letters": [
+    {
+      "kind": "APPLICATION",
+      "number": "DRT/gni/2026/000002",
+      "actor_office": "gni",
+      "ip": "127.0.0.1",
+      "pdf_sha256": "be9779768daacea1c3ad68857d0632b7c9ca06b687cb237d12f531034fa8236f"
+    },
+    {
+      "kind": "APPLICATION",
+      "number": "DRT/gni/2026/000003",
+      "actor_office": "gni",
+      "ip": "127.0.0.1",
+      "pdf_sha256": "82bb03e231737349a166c913173fcb6c1fbe02a00ffac112565549ee0fe6b4d9"
+    },
+    {
+      "kind": "APPROVAL",
+      "number": "DRT/ump/2026/000003",
+      "actor_office": "ump",
+      "ip": "127.0.0.1",
+      "pdf_sha256": "7d7ce23e66483121afb8bbb737999a15d5af4fe939bd09f4c6fe1be68c7a6dd5"
+    },
+    {
+      "kind": "APPLICATION",
+      "number": "DRT/gni/2026/000004",
+      "actor_office": "gni",
+      "ip": "127.0.0.1",
+      "pdf_sha256": "3b2473e2132700f07bc4b4b6fe0cd9312168b1918d35d0f28203a3a9959b60d3"
+    },
+    {
+      "kind": "REJECTION",
+      "number": "DRT/ump/2026/000004",
+      "actor_office": "ump",
+      "ip": "127.0.0.1",
+      "pdf_sha256": "ecbffc023318aa176ba0b5664bd3625cb4fbdcb8b18277e77816af34b0d23e8e"
+    },
+    {
+      "kind": "APPLICATION",
+      "number": "DRT/gni/2026/000005",
+      "actor_office": "gni",
+      "ip": "127.0.0.1",
+      "pdf_sha256": "b575ecbecf3c3db7441fb17a276cffbed6c2adb6b88f2ae7004b80bf91134169"
+    },
+    {
+      "kind": "POOL",
+      "number": "DRT/ump/2026/000005",
+      "actor_office": "ump",
+      "ip": "127.0.0.1",
+      "pdf_sha256": "ac9fd46a950e1044232545d2fe515e9d38c0d779b9d2f9b82854f9c8b965ce20"
+    },
+    {
+      "kind": "APPLICATION",
+      "number": "DRT/gni/2026/000006",
+      "actor_office": "gni",
+      "ip": "127.0.0.1",
+      "pdf_sha256": "de5ff4f1906793fb61919b7392cb0dc2eb9a57b440032c817dc2a2a6a9c82df9"
+    },
+    {
+      "kind": "POOL",
+      "number": "DRT/ump/2026/000006",
+      "actor_office": "ump",
+      "ip": "127.0.0.1",
+      "pdf_sha256": "6643b183bcfd65bc54823ce336fa67f44d6559aa875dc105d946c570a33dfa41"
+    },
+    {
+      "kind": "POOL",
+      "number": "DRT/ump/2026/000007",
+      "actor_office": "ump",
+      "ip": "127.0.0.1",
+      "pdf_sha256": "4ca536b8d378be6859dad700590da4b4e1392f289344146ede80c9335ca3d631"
+    }
+  ],
+  "new_letter_audits_verified": 10,
+  "legacy_audit_rows_preserved": 58,
+  "legacy_pdf_archives_preserved": 12,
+  "main_tables_preserved": 27,
+  "external_operator_calls": false,
+  "goal_complete": false
+}

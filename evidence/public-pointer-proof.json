@@ -1,0 +1,77 @@
+{
+  "checked_at": "2026-10-03T07:53:39.529630+00:00",
+  "application_revision": "18d882905891fc78072a6bdc8c42ca40098aff0b",
+  "scope": "Actual native pointer drag in Chrome user profile on an isolated native server: press submit button, move out and release; then ordinary click. No script-dispatched events. No touch hardware, CAPTCHA interaction or screen reader test.",
+  "criterion": "WCAG 2.1 2.5.2",
+  "criterion_scope": "Base public form only; widget remains open",
+  "reference": "https://www.w3.org/WAI/WCAG21/Understanding/pointer-cancellation.html",
+  "source_sha256": {
+    "registry/templates/registry/public.html": "b2888373bc574436c22f80a762d93a14af9479467c9ef310ac5e264bc37e8deb",
+    "registry/static/registry/app.js": "7237441c6f0fa4f94ea4f67e1a90a3de31edd1541dbb2edeefc1bc11cc7d2845",
+    "registry/services.py": "a097425418512b4a73e1f4b56f9af93474c0bf8f0ecacb0eaa85c0e3945b06c1",
+    "registry/views.py": "e7ffa170d875d57b109567dac4435aa8dcd21cc56053d3a4daac8814a0d6c7c8"
+  },
+  "cancel_validation_record": "After native drag and before positive click, all 27 table counts and hashes compared to saved pointer-before-drag.json and matched; observed tool output retained in task history.",
+  "cancelled": {
+    "nativeDragFrom": [
+      1262,
+      432
+    ],
+    "nativeDragTo": [
+      500,
+      282
+    ],
+    "buttonRect": {
+      "x": 1177.640625,
+      "y": 409.2109375,
+      "width": 168.859375,
+      "height": 47
+    },
+    "value": "ANNA",
+    "result": false,
+    "errors": false,
+    "focus": "Sprawdź numer →",
+    "databaseTablesUnchanged": 27
+  },
+  "submitted": {
+    "focus": "availability-result",
+    "result": true,
+    "results": [
+      "PLP0ANNA✓ Dostępny",
+      "PLP1ANNA✓ Dostępny",
+      "PLP2ANNA✓ Dostępny",
+      "PLP3ANNA✓ Dostępny",
+      "PLP4ANNA✓ Dostępny",
+      "PLP5ANNANiedostępny",
+      "PLP6ANNA✓ Dostępny",
+      "PLP7ANNA✓ Dostępny",
+      "PLP8ANNA✓ Dostępny",
+      "PLP9ANNA✓ Dostępny"
+    ],
+    "value": "ANNA"
+  },
+  "captchaSolved": false,
+  "voiceOverEnabled": false,
+  "positive_click_tables_changed": [
+    "registry_ratebucket"
+  ],
+  "positive_click_public_query_count": 1,
+  "positive_click_other_tables_preserved": 26,
+  "main_tables_preserved": 27,
+  "screenshots": [
+    {
+      "path": "evidence/140-public-pointer-cancelled.jpg",
+      "sha256": "55b69efc4447a61bc18dbb9b8f6d4d384a9553c0a224c6d5ec9b02fc483bacae",
+      "bytes": 100531,
+      "viewed": true
+    },
+    {
+      "path": "evidence/141-public-pointer-submitted.jpg",
+      "sha256": "8f795ecaa28dee569955b2faece5825c87bdeb8d48e414d328af300cc480a8e6",
+      "bytes": 160598,
+      "viewed": true
+    }
+  ],
+  "external_operator_calls": false,
+  "goal_complete": false
+}

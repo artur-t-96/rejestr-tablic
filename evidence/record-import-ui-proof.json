@@ -1,0 +1,116 @@
+{
+  "fixture_only": true,
+  "old_preview_number_not_created": true,
+  "imported_records": 2,
+  "historical_fields_match_source": true,
+  "source_sha256": "b96388e1f4c74c9350770d47b7c1392fd1edca5a34c8d59d5020975d94b9ef7c",
+  "export_download_matches_all_13_fields": true,
+  "export_total_rows": 7,
+  "original_business_rows_preserved": true,
+  "new_requests": 0,
+  "new_letters": 0,
+  "new_jobs": 0,
+  "preview_and_stale_card_all_seven_tables_and_audit_unchanged": true,
+  "main_all_seven_business_tables_unchanged": {
+    "registry_request": {
+      "count": 5,
+      "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+    },
+    "registry_platerecord": {
+      "count": 5,
+      "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+    },
+    "registry_letter": {
+      "count": 12,
+      "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+    },
+    "registry_pool": {
+      "count": 1,
+      "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+    },
+    "registry_poolslot": {
+      "count": 30,
+      "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+    },
+    "registry_numbersequence": {
+      "count": 3,
+      "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+    },
+    "registry_integrationjob": {
+      "count": 1,
+      "sha256": "9bf08358aeebd3bfd880b6aa9609ec1ed0bcc754169aecdec43ec61771bd1ffd"
+    }
+  },
+  "chrome": {
+    "malformed_header_rejected": true,
+    "two_tab_version_rejection": true,
+    "ump_explicit_confirmation": true,
+    "export_download": true,
+    "county_dates_and_provenance": true,
+    "county_import_forbidden": true,
+    "other_county_record_404": true,
+    "public_sold_unavailable_released_available": true,
+    "preview_and_county_visually_inspected": true,
+    "screenshots": [
+      "evidence/private/80-record-import-stale-card.jpg",
+      "evidence/private/81-record-import-reviewed.jpg",
+      "evidence/private/82-record-import-completed.jpg",
+      "evidence/private/84-record-import-county.jpg",
+      "evidence/private/85-record-import-county-denied.jpg",
+      "evidence/private/86-record-import-other-office-404.jpg"
+    ]
+  },
+  "restore": {
+    "backup_sha256": "bafc804f27f9aa59cb076bbd29c839bd862143d0abb9785c203ff2fb33ccde1d",
+    "all_seven_business_tables_and_audit_identical": true,
+    "tables": {
+      "registry_request": {
+        "count": 5,
+        "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+      },
+      "registry_platerecord": {
+        "count": 7,
+        "sha256": "348bf43ffeece04a62ba4dec4253ae08aa1d2301b33f00af24b45b9eb6896982"
+      },
+      "registry_letter": {
+        "count": 12,
+        "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+      },
+      "registry_pool": {
+        "count": 1,
+        "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+      },
+      "registry_poolslot": {
+        "count": 30,
+        "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+      },
+      "registry_numbersequence": {
+        "count": 3,
+        "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+      },
+      "registry_integrationjob": {
+        "count": 1,
+        "sha256": "9bf08358aeebd3bfd880b6aa9609ec1ed0bcc754169aecdec43ec61771bd1ffd"
+      },
+      "registry_auditlog": {
+        "count": 60,
+        "sha256": "4fdd0889b1e07f826e51bbe10126c7cde7be603a5e6f2e6244c856d950453659"
+      }
+    },
+    "sessions_removed_and_all_otp_marked_used": true,
+    "runtime_started": false
+  },
+  "postgres": {
+    "tests": 15,
+    "passed": 15,
+    "active_unique_race": "one commit; one collision; two records; two audits; no letters",
+    "same_released_source_race": "one commit; one duplicate rejection; one record; one audit; no letters"
+  },
+  "scope_limits": [
+    "Fikcyjne dane, brak uzgodnienia źródeł urzędu.",
+    "CSV UTF-8, do 500 wpisów; bez bezpośredniej obsługi XLSX.",
+    "Oryginalny CSV i dokumenty źródłowe archiwizowane osobno.",
+    "SHA-256 rozpoznaje te same bajty, nie każdą semantycznie powtórzoną historię.",
+    "Brak uruchomienia odtworzonej kopii; brak pełnego odbioru całego systemu."
+  ]
+}

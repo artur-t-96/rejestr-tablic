@@ -1,0 +1,33 @@
+{
+  "database": "drt_restore_20261003_final",
+  "properties": {
+    "encoding": "UTF8",
+    "collate": "C",
+    "ctype": "C",
+    "provider": "c",
+    "locale": null,
+    "icu_rules": null,
+    "version": null
+  },
+  "restored_request_count": 4,
+  "restored_letter_count": 8,
+  "signed_letter": {
+    "id": "719fb50e-4f1d-48a6-948a-55846df402ea",
+    "number": "DRT/ump/2026/000004",
+    "sha256": "8b6e48cb01a5aa896e9700a859dbf95ee52183202911a856bfc1c94e5726d741",
+    "valid": true,
+    "intact": true,
+    "qualification": "DEMO nonqualified"
+  },
+  "job": {
+    "uuid": "a864982c-6c78-46b4-9221-653d479b0eb5",
+    "status": "REVIEW_REQUIRED",
+    "attempts": 0,
+    "worker_output": ""
+  },
+  "next_request": {
+    "id": "27fc6597-891a-400c-839a-f230d04ec94d",
+    "reference": "W/2026/00005",
+    "letter": "DRT/gni/2026/000005"
+  }
+}

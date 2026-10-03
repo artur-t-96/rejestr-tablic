@@ -1,0 +1,69 @@
+{
+  "fixture_only": true,
+  "actual_ump_history_verified": false,
+  "request": "W/2026/00011",
+  "request_id": "a6855814d28148eab14981362de20716",
+  "status": "APPROVED",
+  "pool_id": "2e7d877be5a049799763a85969143a0a",
+  "slots": [
+    {
+      "number": "P89998",
+      "ordinal": 9998,
+      "issued_at": null,
+      "case_number": ""
+    },
+    {
+      "number": "P89999",
+      "ordinal": 9999,
+      "issued_at": null,
+      "case_number": ""
+    },
+    {
+      "number": "P8001A",
+      "ordinal": 10000,
+      "issued_at": "2026-10-03 03:58:22.680111",
+      "case_number": "TEST/CAPACITY/WYDANIE/01"
+    },
+    {
+      "number": "P8002A",
+      "ordinal": 10001,
+      "issued_at": null,
+      "case_number": ""
+    }
+  ],
+  "period": [
+    "2026-10-03",
+    "2026-12-31"
+  ],
+  "letter": {
+    "number": "DRT/ump/2026/000011",
+    "uuid": "ee5619b862a246fb84c14c9c6f1b18a7",
+    "sha256": "58c3f5dec301935043dee98843158ec26b534ff6bbeb5f0f4c2ded989ab3d547",
+    "pages": 1,
+    "contains_boundary_range": true,
+    "signed": false,
+    "rendered_pages_visually_inspected": 1,
+    "render": "evidence/private/69-pool-capacity-pdf-1.png"
+  },
+  "decision_notice": {
+    "provider": "SMTP",
+    "operation": "DECISION_NOTICE",
+    "status": "QUEUED",
+    "attempts": 0,
+    "payload_sha256": "cf1334e6360b3d3b5c9922dd4d08f4d7a2d36ee62ca74423fdbbadea4c161ce2",
+    "to": "gniezno@example.invalid",
+    "external_delivery_verified": false
+  },
+  "rejected_m": {
+    "business_tables_unchanged": true,
+    "occupied": 10004,
+    "required": 299790
+  },
+  "chrome_screenshots": [
+    "evidence/private/66-pool-capacity-M-blocked.jpg",
+    "evidence/private/67-pool-capacity-approved.jpg",
+    "evidence/private/68-pool-capacity-letter-issued.jpg"
+  ],
+  "new_allocation_race_verified": false,
+  "full_m_temporary_positive_verified": false
+}

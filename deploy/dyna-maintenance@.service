@@ -1,0 +1,19 @@
+[Unit]
+Description=Dyna Rejestr Tablic - administracja wydania (%i)
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=dyna-deploy
+Group=dyna-deploy
+WorkingDirectory=/opt/dyna/current
+EnvironmentFile=/etc/dyna/migration.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/dyna/current/.venv/bin/python deploy/maintenance.py %i
+TimeoutStartSec=30min
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/dyna-deploy /opt/dyna/current/staticfiles

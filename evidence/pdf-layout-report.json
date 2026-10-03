@@ -1,0 +1,182 @@
+{
+  "synthetic_data": true,
+  "database_separate_from_primary": true,
+  "visual_review_completed": true,
+  "pdf_accessibility_verified": false,
+  "samples": [
+    {
+      "name": "01-wniosek-indywidualny",
+      "pdf": "output/pdf/layout-20261003-v2/01-wniosek-indywidualny.pdf",
+      "pages": 1,
+      "sha256": "ffe32848030531d784418ba884f8c977719a9dc69e8b74726143af27be3c09cc",
+      "letter_uuid": "c81e31a4-a490-450e-8d4f-7ba7bc2f07dd",
+      "request_uuid": "4792c5da-7d6c-4f89-947c-dfb0a4a598ff",
+      "text_within_bounds": true,
+      "decoded_qr": "http://127.0.0.1:8770/panel/wnioski/4792c5da-7d6c-4f89-947c-dfb0a4a598ff/",
+      "letter_kind": "APPLICATION",
+      "module": "I",
+      "visually_reviewed_pages": [
+        1
+      ]
+    },
+    {
+      "name": "02-zgoda-indywidualna",
+      "pdf": "output/pdf/layout-20261003-v2/02-zgoda-indywidualna.pdf",
+      "pages": 1,
+      "sha256": "066cf38b4559f470799c54da4141d6b8234bdd40c949b5541828e44402fbad02",
+      "letter_uuid": "f41e2d26-63ff-4ea4-823a-9efa35149db3",
+      "request_uuid": "4792c5da-7d6c-4f89-947c-dfb0a4a598ff",
+      "text_within_bounds": true,
+      "decoded_qr": "http://127.0.0.1:8770/panel/wnioski/4792c5da-7d6c-4f89-947c-dfb0a4a598ff/",
+      "letter_kind": "APPROVAL",
+      "module": "I",
+      "visually_reviewed_pages": [
+        1
+      ]
+    },
+    {
+      "name": "03-odmowa-indywidualna",
+      "pdf": "output/pdf/layout-20261003-v2/03-odmowa-indywidualna.pdf",
+      "pages": 1,
+      "sha256": "3bdf639f74bc7df1845ec4969fb9f5ff2c087ded6db65dbe644da67c419fcdf1",
+      "letter_uuid": "50e96ea1-7457-4c48-912a-18cca1569d1b",
+      "request_uuid": "4ca6e4ef-42fa-4ff4-aeb5-ca2ac7945620",
+      "text_within_bounds": true,
+      "decoded_qr": "http://127.0.0.1:8770/panel/wnioski/4ca6e4ef-42fa-4ff4-aeb5-ca2ac7945620/",
+      "letter_kind": "REJECTION",
+      "module": "I",
+      "visually_reviewed_pages": [
+        1
+      ]
+    },
+    {
+      "name": "04-wniosek-modul-II",
+      "pdf": "output/pdf/layout-20261003-v2/04-wniosek-modul-II.pdf",
+      "pages": 1,
+      "sha256": "f620d8f1e81bbc1688a011df3b96eaac07165bb109c300ee7717ab586eed76d9",
+      "letter_uuid": "dc9480d5-62ad-42d3-b3ac-75d64b6fa9eb",
+      "request_uuid": "82dcb385-90ca-4a67-9537-47e7c1c28fff",
+      "text_within_bounds": true,
+      "decoded_qr": "http://127.0.0.1:8770/panel/wnioski/82dcb385-90ca-4a67-9537-47e7c1c28fff/",
+      "letter_kind": "APPLICATION",
+      "module": "II",
+      "visually_reviewed_pages": [
+        1
+      ]
+    },
+    {
+      "name": "05-przydzial-modul-II",
+      "pdf": "output/pdf/layout-20261003-v2/05-przydzial-modul-II.pdf",
+      "pages": 1,
+      "sha256": "bb539d236141ac8aaf3ea655131389766d3833b6996207174d2e81783636036b",
+      "letter_uuid": "f4c9f453-5998-49d9-b034-9f6a53ebd6f2",
+      "request_uuid": "82dcb385-90ca-4a67-9537-47e7c1c28fff",
+      "text_within_bounds": true,
+      "decoded_qr": "http://127.0.0.1:8770/panel/wnioski/82dcb385-90ca-4a67-9537-47e7c1c28fff/",
+      "letter_kind": "POOL",
+      "module": "II",
+      "visually_reviewed_pages": [
+        1
+      ]
+    },
+    {
+      "name": "06-wniosek-modul-III",
+      "pdf": "output/pdf/layout-20261003-v2/06-wniosek-modul-III.pdf",
+      "pages": 1,
+      "sha256": "55b202bbcf4292170a57ca488abace48462698b0992b839310edf75c6a80aeda",
+      "letter_uuid": "cfba80da-9210-40c8-bbd3-99c92c4a01ae",
+      "request_uuid": "7a55d15c-4f92-408e-9300-b99691b07656",
+      "text_within_bounds": true,
+      "decoded_qr": "http://127.0.0.1:8770/panel/wnioski/7a55d15c-4f92-408e-9300-b99691b07656/",
+      "letter_kind": "APPLICATION",
+      "module": "III",
+      "visually_reviewed_pages": [
+        1
+      ]
+    },
+    {
+      "name": "07-przydzial-modul-III",
+      "pdf": "output/pdf/layout-20261003-v2/07-przydzial-modul-III.pdf",
+      "pages": 1,
+      "sha256": "c08e5c6cb21f498901ef9b3de13b34278dbd393fb5ac984d8208194ff0afb445",
+      "letter_uuid": "e3c7bd8d-1217-4614-9ee7-a31e5d597fe4",
+      "request_uuid": "7a55d15c-4f92-408e-9300-b99691b07656",
+      "text_within_bounds": true,
+      "decoded_qr": "http://127.0.0.1:8770/panel/wnioski/7a55d15c-4f92-408e-9300-b99691b07656/",
+      "letter_kind": "POOL",
+      "module": "III",
+      "visually_reviewed_pages": [
+        1
+      ]
+    },
+    {
+      "name": "08-odmowa-modul-III",
+      "pdf": "output/pdf/layout-20261003-v2/08-odmowa-modul-III.pdf",
+      "pages": 1,
+      "sha256": "ee2af47c04cc0db1d76d89ee6e4df3c2ccdd241d4de1493ec65c707d628bc140",
+      "letter_uuid": "d0f6ced1-b9e8-4a3d-825d-f63c67890f67",
+      "request_uuid": "d82f0b99-5336-4554-a0d3-8f3d1271affd",
+      "text_within_bounds": true,
+      "decoded_qr": "http://127.0.0.1:8770/panel/wnioski/d82f0b99-5336-4554-a0d3-8f3d1271affd/",
+      "letter_kind": "REJECTION",
+      "module": "III",
+      "visually_reviewed_pages": [
+        1
+      ]
+    },
+    {
+      "name": "09-dlugie-dane-wniosku",
+      "pdf": "output/pdf/layout-20261003-v2/09-dlugie-dane-wniosku.pdf",
+      "pages": 2,
+      "sha256": "f3ccdd220103e86ce114d25be546357635ff2bee7ebf9a6374a9a1e431f781c4",
+      "letter_uuid": "0fe427f7-b109-4738-9681-0fb8389df2af",
+      "request_uuid": "8ba666d5-6c21-4aa7-ade1-a53523d02e54",
+      "text_within_bounds": true,
+      "decoded_qr": "http://127.0.0.1:8770/panel/wnioski/8ba666d5-6c21-4aa7-ade1-a53523d02e54/",
+      "letter_kind": "APPLICATION",
+      "module": "I",
+      "visually_reviewed_pages": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "10-dlugie-uzasadnienie-odmowy",
+      "pdf": "output/pdf/layout-20261003-v2/10-dlugie-uzasadnienie-odmowy.pdf",
+      "pages": 2,
+      "sha256": "5803b540424fe3c2ee5557399163928131a58383c5e7d6ffd27b0517452ce9b8",
+      "letter_uuid": "64eb2f31-4dec-4a9d-8b75-de99f2f52ccd",
+      "request_uuid": "8ba666d5-6c21-4aa7-ade1-a53523d02e54",
+      "text_within_bounds": true,
+      "decoded_qr": "http://127.0.0.1:8770/panel/wnioski/8ba666d5-6c21-4aa7-ade1-a53523d02e54/",
+      "letter_kind": "REJECTION",
+      "module": "I",
+      "visually_reviewed_pages": [
+        1,
+        2
+      ]
+    }
+  ],
+  "visual_review_pages": 12,
+  "visual_review_method": "Oględziny wszystkich 12 obrazów Poppler 120 DPI; marginesy, polskie znaki, nagłówki, stopki, QR, pełny tekst i podział stron.",
+  "reviewed_at": "2026-10-03T01:54:54.782560+00:00",
+  "chrome": {
+    "private_app_url": "http://127.0.0.1:8770",
+    "role": "COUNTY",
+    "fictional_user": "a@test.invalid",
+    "letter_uuid": "c81e31a4-a490-450e-8d4f-7ba7bc2f07dd",
+    "pdf_opened_from_request": true,
+    "pdf_link_clicked": true,
+    "request_url_after_click": "http://127.0.0.1:8770/panel/wnioski/4792c5da-7d6c-4f89-947c-dfb0a4a598ff/",
+    "print_preview_loaded": true,
+    "print_preview_pages": 1,
+    "physical_print_sent": false,
+    "screenshots": [
+      "evidence/private/27-pdf-link-qr-chrome.jpg",
+      "evidence/private/28-pdf-link-wlasciwy-wniosek.jpg",
+      "evidence/private/29-pdf-podglad-druku.png"
+    ]
+  },
+  "render_source_sha256": "9e602675b6c186db2dc4d081a0a92544c979d32a4e08db685d456f7cdabf093f",
+  "template_migration_source_sha256": "8b608c483d9fdba71ffe7c30807a2e45aaea5fa639ea890301a2cc06166e8d25"
+}

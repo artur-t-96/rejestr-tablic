@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-10-03T08:27:58.359Z",
+  "scope": "Final submission guard in actual Chrome; local OTP; COUNTY III draft prepared by host-native service as labelled fixture, viewed by MAIN with no submit button; existing MAIN individual draft actually submitted. No operator/production/CAPTCHA/reader proof.",
+  "main_pool_submit_buttons": 0,
+  "county_pool_draft": "1fc6e5ef-fd43-4bd0-be7f-a1b7a175a2ed",
+  "main_individual_request": "http://127.0.0.1:8786/panel/wnioski/51524966-d2ea-4f88-80ce-81413fb5c49b/",
+  "main_individual_status": "SENT",
+  "actual_browser_business_posts": 1,
+  "screenshots": [
+    "149-ump-szkic-puli-bez-zlozenia.jpg",
+    "150-ump-indywidualny-zlozony.jpg"
+  ],
+  "goal_complete": false
+}

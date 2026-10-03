@@ -1,0 +1,86 @@
+{
+  "scope": "Dziesięć wskazanych par kolorów aplikacji; nie jest pełnym audytem wszystkich stanów i CAPTCHA.",
+  "method": "W3C relative luminance, sRGB, (L1+0.05)/(L2+0.05)",
+  "pairs": [
+    {
+      "name": "fokus",
+      "foreground": "#005e78",
+      "background": "#ffffff",
+      "ratio": 7.3112,
+      "minimum": 3,
+      "passed": true
+    },
+    {
+      "name": "obramowanie pola",
+      "foreground": "#687b89",
+      "background": "#ffffff",
+      "ratio": 4.3905,
+      "minimum": 3,
+      "passed": true
+    },
+    {
+      "name": "tekst",
+      "foreground": "#183142",
+      "background": "#ffffff",
+      "ratio": 13.4889,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "name": "tekst drugorzędny",
+      "foreground": "#526575",
+      "background": "#ffffff",
+      "ratio": 6.0395,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "name": "link",
+      "foreground": "#005e78",
+      "background": "#ffffff",
+      "ratio": 7.3112,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "name": "przycisk",
+      "foreground": "#ffffff",
+      "background": "#006f64",
+      "ratio": 6.0732,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "name": "błąd",
+      "foreground": "#812232",
+      "background": "#fff1f3",
+      "ratio": 8.662,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "name": "status akceptacji",
+      "foreground": "#155e42",
+      "background": "#e3f3e9",
+      "ratio": 6.7351,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "name": "status oczekiwania",
+      "foreground": "#805611",
+      "background": "#fff1d6",
+      "ratio": 5.7737,
+      "minimum": 4.5,
+      "passed": true
+    },
+    {
+      "name": "status odmowy",
+      "foreground": "#982840",
+      "background": "#fbe7eb",
+      "ratio": 6.5368,
+      "minimum": 4.5,
+      "passed": true
+    }
+  ]
+}

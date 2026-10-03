@@ -1,0 +1,2166 @@
+{
+  "checked_at": "2026-10-03T07:23:58.047544+00:00",
+  "base_revision": "5ced2a3e1a61e577c2f82b7495d70c2475e84fc8",
+  "tested_source_sha256": "acbb19fee4dfda24471dc01a6f3dcd6c52727aaa7ad80e2eff758a6085031261",
+  "scope": "Unsupported methods on every configured URL through real HTTP after OTP/CSRF as UMP, plus one legitimate archived PDF GET. Not a complete allowed-method or role acceptance.",
+  "url_count": 47,
+  "callback_count": 45,
+  "checks_count": 306,
+  "authentication": "actual OTP and CSRF, local file email",
+  "checks": [
+    {
+      "route": "",
+      "callback": "public",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "",
+      "callback": "public",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "",
+      "callback": "public",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "",
+      "callback": "public",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "",
+      "callback": "public",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "",
+      "callback": "public",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "logowanie/",
+      "callback": "login_email",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "logowanie/",
+      "callback": "login_email",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "logowanie/",
+      "callback": "login_email",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "logowanie/",
+      "callback": "login_email",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "logowanie/",
+      "callback": "login_email",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "logowanie/",
+      "callback": "login_email",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "logowanie/kod/",
+      "callback": "login_code",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "logowanie/kod/",
+      "callback": "login_code",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "logowanie/kod/",
+      "callback": "login_code",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "logowanie/kod/",
+      "callback": "login_code",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "logowanie/kod/",
+      "callback": "login_code",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "logowanie/kod/",
+      "callback": "login_code",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "wyloguj/",
+      "callback": "logout_view",
+      "method": "GET",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "wyloguj/",
+      "callback": "logout_view",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "wyloguj/",
+      "callback": "logout_view",
+      "method": "PUT",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "wyloguj/",
+      "callback": "logout_view",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "wyloguj/",
+      "callback": "logout_view",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "wyloguj/",
+      "callback": "logout_view",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "wyloguj/",
+      "callback": "logout_view",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/",
+      "callback": "dashboard",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/",
+      "callback": "dashboard",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/",
+      "callback": "dashboard",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/",
+      "callback": "dashboard",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/",
+      "callback": "dashboard",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/",
+      "callback": "dashboard",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/",
+      "callback": "dashboard",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/wnioski/",
+      "callback": "requests_list",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/wnioski/",
+      "callback": "requests_list",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/wnioski/",
+      "callback": "requests_list",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/wnioski/",
+      "callback": "requests_list",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/wnioski/",
+      "callback": "requests_list",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/wnioski/",
+      "callback": "requests_list",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/wnioski/",
+      "callback": "requests_list",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/wnioski/nowy/",
+      "callback": "request_new",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/wnioski/nowy/",
+      "callback": "request_new",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/wnioski/nowy/",
+      "callback": "request_new",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/wnioski/nowy/",
+      "callback": "request_new",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/wnioski/nowy/",
+      "callback": "request_new",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/wnioski/nowy/",
+      "callback": "request_new",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/wnioski/<uuid:uuid>/",
+      "callback": "request_detail",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/wnioski/<uuid:uuid>/",
+      "callback": "request_detail",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/wnioski/<uuid:uuid>/",
+      "callback": "request_detail",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/wnioski/<uuid:uuid>/",
+      "callback": "request_detail",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/wnioski/<uuid:uuid>/",
+      "callback": "request_detail",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/wnioski/<uuid:uuid>/",
+      "callback": "request_detail",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/wnioski/<uuid:uuid>/<str:action>/",
+      "callback": "request_action",
+      "method": "GET",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/wnioski/<uuid:uuid>/<str:action>/",
+      "callback": "request_action",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/wnioski/<uuid:uuid>/<str:action>/",
+      "callback": "request_action",
+      "method": "PUT",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/wnioski/<uuid:uuid>/<str:action>/",
+      "callback": "request_action",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/wnioski/<uuid:uuid>/<str:action>/",
+      "callback": "request_action",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/wnioski/<uuid:uuid>/<str:action>/",
+      "callback": "request_action",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/wnioski/<uuid:uuid>/<str:action>/",
+      "callback": "request_action",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/ewidencja/",
+      "callback": "records_list",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/ewidencja/",
+      "callback": "records_list",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/ewidencja/",
+      "callback": "records_list",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/ewidencja/",
+      "callback": "records_list",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/ewidencja/",
+      "callback": "records_list",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/ewidencja/",
+      "callback": "records_list",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/ewidencja/",
+      "callback": "records_list",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/ewidencja/<uuid:uuid>/",
+      "callback": "record_detail",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/ewidencja/<uuid:uuid>/",
+      "callback": "record_detail",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/ewidencja/<uuid:uuid>/",
+      "callback": "record_detail",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/ewidencja/<uuid:uuid>/",
+      "callback": "record_detail",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/ewidencja/<uuid:uuid>/",
+      "callback": "record_detail",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/ewidencja/<uuid:uuid>/",
+      "callback": "record_detail",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/ewidencja/<uuid:uuid>/przedluz/",
+      "callback": "reservation_extend",
+      "method": "GET",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/ewidencja/<uuid:uuid>/przedluz/",
+      "callback": "reservation_extend",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/ewidencja/<uuid:uuid>/przedluz/",
+      "callback": "reservation_extend",
+      "method": "PUT",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/ewidencja/<uuid:uuid>/przedluz/",
+      "callback": "reservation_extend",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/ewidencja/<uuid:uuid>/przedluz/",
+      "callback": "reservation_extend",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/ewidencja/<uuid:uuid>/przedluz/",
+      "callback": "reservation_extend",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/ewidencja/<uuid:uuid>/przedluz/",
+      "callback": "reservation_extend",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/eksport/",
+      "callback": "export_records",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/eksport/",
+      "callback": "export_records",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/eksport/",
+      "callback": "export_records",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/eksport/",
+      "callback": "export_records",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/eksport/",
+      "callback": "export_records",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/eksport/",
+      "callback": "export_records",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/eksport/",
+      "callback": "export_records",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/import/",
+      "callback": "import_records",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/import/",
+      "callback": "import_records",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/import/",
+      "callback": "import_records",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/import/",
+      "callback": "import_records",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/import/",
+      "callback": "import_records",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/import/",
+      "callback": "import_records",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/import/pule/",
+      "callback": "import_pools",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/import/pule/",
+      "callback": "import_pools",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/import/pule/",
+      "callback": "import_pools",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/import/pule/",
+      "callback": "import_pools",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/import/pule/",
+      "callback": "import_pools",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/import/pule/",
+      "callback": "import_pools",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pule/",
+      "callback": "pools_list",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pule/",
+      "callback": "pools_list",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pule/",
+      "callback": "pools_list",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pule/",
+      "callback": "pools_list",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pule/",
+      "callback": "pools_list",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pule/",
+      "callback": "pools_list",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pule/",
+      "callback": "pools_list",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pule/nowa/",
+      "callback": "pool_new",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pule/nowa/",
+      "callback": "pool_new",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pule/nowa/",
+      "callback": "pool_new",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pule/nowa/",
+      "callback": "pool_new",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pule/nowa/",
+      "callback": "pool_new",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pule/nowa/",
+      "callback": "pool_new",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pule/<uuid:uuid>/",
+      "callback": "pool_detail",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pule/<uuid:uuid>/",
+      "callback": "pool_detail",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pule/<uuid:uuid>/",
+      "callback": "pool_detail",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pule/<uuid:uuid>/",
+      "callback": "pool_detail",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pule/<uuid:uuid>/",
+      "callback": "pool_detail",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pule/<uuid:uuid>/",
+      "callback": "pool_detail",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/",
+      "callback": "letters_list",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/",
+      "callback": "letters_list",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/",
+      "callback": "letters_list",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/",
+      "callback": "letters_list",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/",
+      "callback": "letters_list",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/",
+      "callback": "letters_list",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/",
+      "callback": "letters_list",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/pdf/",
+      "callback": "letter_pdf",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/pdf/",
+      "callback": "letter_pdf",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/pdf/",
+      "callback": "letter_pdf",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/pdf/",
+      "callback": "letter_pdf",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/pdf/",
+      "callback": "letter_pdf",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/pdf/",
+      "callback": "letter_pdf",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/pdf/",
+      "callback": "letter_pdf",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/podpis/",
+      "callback": "letter_sign",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/podpis/",
+      "callback": "letter_sign",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/podpis/",
+      "callback": "letter_sign",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/podpis/",
+      "callback": "letter_sign",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/podpis/",
+      "callback": "letter_sign",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/podpis/",
+      "callback": "letter_sign",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/wersja/",
+      "callback": "letter_revision",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/wersja/",
+      "callback": "letter_revision",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/wersja/",
+      "callback": "letter_revision",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/wersja/",
+      "callback": "letter_revision",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/wersja/",
+      "callback": "letter_revision",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/wersja/",
+      "callback": "letter_revision",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/wyslij/",
+      "callback": "letter_send",
+      "method": "GET",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/wyslij/",
+      "callback": "letter_send",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/wyslij/",
+      "callback": "letter_send",
+      "method": "PUT",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/wyslij/",
+      "callback": "letter_send",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/wyslij/",
+      "callback": "letter_send",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/wyslij/",
+      "callback": "letter_send",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/wyslij/",
+      "callback": "letter_send",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/ezd/",
+      "callback": "letter_ezd",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/ezd/",
+      "callback": "letter_ezd",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/ezd/",
+      "callback": "letter_ezd",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/ezd/",
+      "callback": "letter_ezd",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/ezd/",
+      "callback": "letter_ezd",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/ezd/",
+      "callback": "letter_ezd",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/audyt/",
+      "callback": "audit_list",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/audyt/",
+      "callback": "audit_list",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/audyt/",
+      "callback": "audit_list",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/audyt/",
+      "callback": "audit_list",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/audyt/",
+      "callback": "audit_list",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/audyt/",
+      "callback": "audit_list",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/audyt/",
+      "callback": "audit_list",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/",
+      "callback": "integrations",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/",
+      "callback": "integrations",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/",
+      "callback": "integrations",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/",
+      "callback": "integrations",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/",
+      "callback": "integrations",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/",
+      "callback": "integrations",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/",
+      "callback": "integrations",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/",
+      "callback": "ezd_incoming",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/",
+      "callback": "ezd_incoming",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/",
+      "callback": "ezd_incoming",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/",
+      "callback": "ezd_incoming",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/",
+      "callback": "ezd_incoming",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/",
+      "callback": "ezd_incoming",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/<uuid:uuid>/link/",
+      "callback": "ezd_incoming_publish",
+      "method": "GET",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/<uuid:uuid>/link/",
+      "callback": "ezd_incoming_publish",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/<uuid:uuid>/link/",
+      "callback": "ezd_incoming_publish",
+      "method": "PUT",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/<uuid:uuid>/link/",
+      "callback": "ezd_incoming_publish",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/<uuid:uuid>/link/",
+      "callback": "ezd_incoming_publish",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/<uuid:uuid>/link/",
+      "callback": "ezd_incoming_publish",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/<uuid:uuid>/link/",
+      "callback": "ezd_incoming_publish",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/<uuid:uuid>/pdf/",
+      "callback": "ezd_incoming_pdf",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/<uuid:uuid>/pdf/",
+      "callback": "ezd_incoming_pdf",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/<uuid:uuid>/pdf/",
+      "callback": "ezd_incoming_pdf",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/<uuid:uuid>/pdf/",
+      "callback": "ezd_incoming_pdf",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/<uuid:uuid>/pdf/",
+      "callback": "ezd_incoming_pdf",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/<uuid:uuid>/pdf/",
+      "callback": "ezd_incoming_pdf",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/ezd/wplywy/<uuid:uuid>/pdf/",
+      "callback": "ezd_incoming_pdf",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/integracje/adresy/",
+      "callback": "edor_search",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/adresy/",
+      "callback": "edor_search",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/adresy/",
+      "callback": "edor_search",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/adresy/",
+      "callback": "edor_search",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/adresy/",
+      "callback": "edor_search",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/adresy/",
+      "callback": "edor_search",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/edor/<uuid:uuid>/wznow/",
+      "callback": "edor_resume",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/edor/<uuid:uuid>/wznow/",
+      "callback": "edor_resume",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/edor/<uuid:uuid>/wznow/",
+      "callback": "edor_resume",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/edor/<uuid:uuid>/wznow/",
+      "callback": "edor_resume",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/edor/<uuid:uuid>/wznow/",
+      "callback": "edor_resume",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/integracje/edor/<uuid:uuid>/wznow/",
+      "callback": "edor_resume",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/dowody/<int:evidence_pk>/",
+      "callback": "delivery_evidence",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/dowody/<int:evidence_pk>/",
+      "callback": "delivery_evidence",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/dowody/<int:evidence_pk>/",
+      "callback": "delivery_evidence",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/dowody/<int:evidence_pk>/",
+      "callback": "delivery_evidence",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/dowody/<int:evidence_pk>/",
+      "callback": "delivery_evidence",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/dowody/<int:evidence_pk>/",
+      "callback": "delivery_evidence",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/pisma/<uuid:uuid>/dowody/<int:evidence_pk>/",
+      "callback": "delivery_evidence",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/administracja/",
+      "callback": "admin_panel",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/administracja/",
+      "callback": "admin_panel",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/administracja/",
+      "callback": "admin_panel",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/administracja/",
+      "callback": "admin_panel",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/administracja/",
+      "callback": "admin_panel",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/administracja/",
+      "callback": "admin_panel",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/administracja/",
+      "callback": "admin_panel",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "panel/administracja/konta/<int:user_pk>/zaproszenia/",
+      "callback": "account_invitations",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/konta/<int:user_pk>/zaproszenia/",
+      "callback": "account_invitations",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/konta/<int:user_pk>/zaproszenia/",
+      "callback": "account_invitations",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/konta/<int:user_pk>/zaproszenia/",
+      "callback": "account_invitations",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/konta/<int:user_pk>/zaproszenia/",
+      "callback": "account_invitations",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/konta/<int:user_pk>/zaproszenia/",
+      "callback": "account_invitations",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/konta/<int:user_pk>/zaproszenia/<uuid:uuid>/",
+      "callback": "account_invitations",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/konta/<int:user_pk>/zaproszenia/<uuid:uuid>/",
+      "callback": "account_invitations",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/konta/<int:user_pk>/zaproszenia/<uuid:uuid>/",
+      "callback": "account_invitations",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/konta/<int:user_pk>/zaproszenia/<uuid:uuid>/",
+      "callback": "account_invitations",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/konta/<int:user_pk>/zaproszenia/<uuid:uuid>/",
+      "callback": "account_invitations",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/konta/<int:user_pk>/zaproszenia/<uuid:uuid>/",
+      "callback": "account_invitations",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/<str:kind>/nowy/",
+      "callback": "admin_edit",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/<str:kind>/nowy/",
+      "callback": "admin_edit",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/<str:kind>/nowy/",
+      "callback": "admin_edit",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/<str:kind>/nowy/",
+      "callback": "admin_edit",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/<str:kind>/nowy/",
+      "callback": "admin_edit",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/<str:kind>/nowy/",
+      "callback": "admin_edit",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/<str:kind>/<str:pk>/",
+      "callback": "admin_edit",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/<str:kind>/<str:pk>/",
+      "callback": "admin_edit",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/<str:kind>/<str:pk>/",
+      "callback": "admin_edit",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/<str:kind>/<str:pk>/",
+      "callback": "admin_edit",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/<str:kind>/<str:pk>/",
+      "callback": "admin_edit",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "panel/administracja/<str:kind>/<str:pk>/",
+      "callback": "admin_edit",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "api/health/",
+      "callback": "health",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/health/",
+      "callback": "health",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/health/",
+      "callback": "health",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/health/",
+      "callback": "health",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/health/",
+      "callback": "health",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/health/",
+      "callback": "health",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/health/",
+      "callback": "health",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/session/",
+      "callback": "session_status",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/session/",
+      "callback": "session_status",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/session/",
+      "callback": "session_status",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/session/",
+      "callback": "session_status",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/session/",
+      "callback": "session_status",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/session/",
+      "callback": "session_status",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/session/",
+      "callback": "session_status",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/session/extend/",
+      "callback": "session_extend",
+      "method": "GET",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/session/extend/",
+      "callback": "session_extend",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/session/extend/",
+      "callback": "session_extend",
+      "method": "PUT",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/session/extend/",
+      "callback": "session_extend",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/session/extend/",
+      "callback": "session_extend",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/session/extend/",
+      "callback": "session_extend",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/session/extend/",
+      "callback": "session_extend",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/availability/",
+      "callback": "api_availability",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/availability/",
+      "callback": "api_availability",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/availability/",
+      "callback": "api_availability",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/availability/",
+      "callback": "api_availability",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/availability/",
+      "callback": "api_availability",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/availability/",
+      "callback": "api_availability",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/availability/",
+      "callback": "api_availability",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/public-challenge/",
+      "callback": "public_challenge",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/public-challenge/",
+      "callback": "public_challenge",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/public-challenge/",
+      "callback": "public_challenge",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/public-challenge/",
+      "callback": "public_challenge",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/public-challenge/",
+      "callback": "public_challenge",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/public-challenge/",
+      "callback": "public_challenge",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/public-challenge/",
+      "callback": "public_challenge",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET"
+    },
+    {
+      "route": "api/requests/",
+      "callback": "api_requests",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "api/requests/",
+      "callback": "api_requests",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "api/requests/",
+      "callback": "api_requests",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "api/requests/",
+      "callback": "api_requests",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "api/requests/",
+      "callback": "api_requests",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "api/requests/",
+      "callback": "api_requests",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "api/requests/<uuid:uuid>/<str:action>/",
+      "callback": "api_request_action",
+      "method": "GET",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/requests/<uuid:uuid>/<str:action>/",
+      "callback": "api_request_action",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/requests/<uuid:uuid>/<str:action>/",
+      "callback": "api_request_action",
+      "method": "PUT",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/requests/<uuid:uuid>/<str:action>/",
+      "callback": "api_request_action",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/requests/<uuid:uuid>/<str:action>/",
+      "callback": "api_request_action",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/requests/<uuid:uuid>/<str:action>/",
+      "callback": "api_request_action",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/requests/<uuid:uuid>/<str:action>/",
+      "callback": "api_request_action",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/records/<uuid:uuid>/",
+      "callback": "api_record",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, PATCH"
+    },
+    {
+      "route": "api/records/<uuid:uuid>/",
+      "callback": "api_record",
+      "method": "POST",
+      "status": 405,
+      "allow": "GET, PATCH"
+    },
+    {
+      "route": "api/records/<uuid:uuid>/",
+      "callback": "api_record",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, PATCH"
+    },
+    {
+      "route": "api/records/<uuid:uuid>/",
+      "callback": "api_record",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, PATCH"
+    },
+    {
+      "route": "api/records/<uuid:uuid>/",
+      "callback": "api_record",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, PATCH"
+    },
+    {
+      "route": "api/records/<uuid:uuid>/",
+      "callback": "api_record",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, PATCH"
+    },
+    {
+      "route": "api/pools/",
+      "callback": "api_pools",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "api/pools/",
+      "callback": "api_pools",
+      "method": "PUT",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "api/pools/",
+      "callback": "api_pools",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "api/pools/",
+      "callback": "api_pools",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "api/pools/",
+      "callback": "api_pools",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "api/pools/",
+      "callback": "api_pools",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "GET, POST"
+    },
+    {
+      "route": "api/pools/<uuid:uuid>/issue/",
+      "callback": "api_slot",
+      "method": "GET",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/pools/<uuid:uuid>/issue/",
+      "callback": "api_slot",
+      "method": "HEAD",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/pools/<uuid:uuid>/issue/",
+      "callback": "api_slot",
+      "method": "PUT",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/pools/<uuid:uuid>/issue/",
+      "callback": "api_slot",
+      "method": "PATCH",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/pools/<uuid:uuid>/issue/",
+      "callback": "api_slot",
+      "method": "DELETE",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/pools/<uuid:uuid>/issue/",
+      "callback": "api_slot",
+      "method": "OPTIONS",
+      "status": 405,
+      "allow": "POST"
+    },
+    {
+      "route": "api/pools/<uuid:uuid>/issue/",
+      "callback": "api_slot",
+      "method": "TRACE",
+      "status": 405,
+      "allow": "POST"
+    }
+  ],
+  "negative_eight_tables_preserved": true,
+  "positive_pdf_get_bytes_and_sha256_match_archive": true,
+  "positive_pdf_get_exactly_one_download_audit": true,
+  "main_tables_preserved": 27,
+  "external_operator_calls": false,
+  "goal_complete": false,
+  "api_auth_role_before_method": {
+    "anonymous_with_valid_csrf": 401,
+    "administrator_after_actual_otp": 403,
+    "authenticated_ump_from_matrix": 405,
+    "body": "invalid JSON"
+  }
+}

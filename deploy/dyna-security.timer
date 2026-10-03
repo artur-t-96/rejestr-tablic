@@ -1,0 +1,11 @@
+[Unit]
+Description=Dyna Rejestr Tablic - retencja stanu ochrony
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+RandomizedDelaySec=15min
+Unit=dyna-security.service
+
+[Install]
+WantedBy=timers.target

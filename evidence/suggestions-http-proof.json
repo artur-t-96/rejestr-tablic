@@ -1,0 +1,118 @@
+{
+  "checked_at": "2026-10-03T07:59:27.004419+00:00",
+  "base_revision": "2f302bdb9b88707ebed1b10025e22859621d3527",
+  "source_sha256": {
+    "registry/services.py": "1f992d799fb48662950100d055b82bce25169e853922395823416ee311e9269d",
+    "registry/suggestions.py": "c235e4ba55e7ad2d73e6e3dcf89cc34d1b7cb83fb333c694254b6516cc95d137",
+    "registry/test_suggestions.py": "6f6eb1b9ca63f418e1e6eaacda5d1fdc2f20f84cd09cab2be75948982c2fc728",
+    "registry/templates/registry/public.html": "b2888373bc574436c22f80a762d93a14af9479467c9ef310ac5e264bc37e8deb",
+    "registry/views.py": "e7ffa170d875d57b109567dac4435aa8dcd21cc56053d3a4daac8814a0d6c7c8"
+  },
+  "scope": "Eight actual anonymous native HTTP availability GET and CSRF-protected HTML POST on isolated synthetic SQLite; fixture includes foreign ALLOCATED/SOLD and own RESERVED. No operator calls or user account mutation.",
+  "checks": [
+    {
+      "part": "KOWA",
+      "prefix": "P",
+      "digit": "7",
+      "api_status": 200,
+      "html_status": 200,
+      "suggestions": [
+        "P0KOWA",
+        "P1KOWA",
+        "P2KOWA",
+        "P3KOWA",
+        "P4KOWA",
+        "P5KOWA",
+        "P6KOWA",
+        "P8KOWA",
+        "P9KOWA",
+        "P7KOW",
+        "P0KOWAS",
+        "P0KOWB"
+      ],
+      "all_valid_free_unique": true,
+      "displayed_numbers_excluded": true,
+      "no_personal_data": true
+    },
+    {
+      "part": "KOWA",
+      "prefix": "P",
+      "digit": "",
+      "api_status": 200,
+      "html_status": 200,
+      "suggestions": [
+        "P0KOW",
+        "P0KOWAS",
+        "P0KOWB",
+        "P1KOW",
+        "P1KOWAS",
+        "P1KOWB",
+        "P2KOW",
+        "P2KOWAS",
+        "P2KOWB",
+        "P3KOW",
+        "P3KOWAS",
+        "P3KOWB"
+      ],
+      "all_valid_free_unique": true,
+      "displayed_numbers_excluded": true,
+      "no_personal_data": true
+    },
+    {
+      "part": "A12",
+      "prefix": "M",
+      "digit": "0",
+      "api_status": 200,
+      "html_status": 200,
+      "suggestions": [
+        "M1A12",
+        "M2A12",
+        "M3A12",
+        "M4A12",
+        "M5A12",
+        "M6A12",
+        "M7A12",
+        "M8A12",
+        "M9A12",
+        "M0AS12",
+        "M0A1A",
+        "M1AS12"
+      ],
+      "all_valid_free_unique": true,
+      "displayed_numbers_excluded": true,
+      "no_personal_data": true
+    },
+    {
+      "part": "KOWAL",
+      "prefix": "P",
+      "digit": "5",
+      "api_status": 200,
+      "html_status": 200,
+      "suggestions": [
+        "P0KOWAL",
+        "P1KOWAL",
+        "P2KOWAL",
+        "P3KOWAL",
+        "P4KOWAL",
+        "P6KOWAL",
+        "P7KOWAL",
+        "P8KOWAL",
+        "P9KOWAL",
+        "P5KOWA",
+        "P5KOWAA",
+        "P0KOWA"
+      ],
+      "all_valid_free_unique": true,
+      "displayed_numbers_excluded": true,
+      "no_personal_data": true
+    }
+  ],
+  "http_checks": 8,
+  "copy_changed_tables": [
+    "registry_ratebucket"
+  ],
+  "copy_other_tables_preserved": 26,
+  "main_tables_preserved": 27,
+  "external_operator_calls": false,
+  "goal_complete": false
+}

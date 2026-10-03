@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rejestr Tablic – specyfikacja flow</title>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --ink:#1b1f24; --muted:#5b6470; --line:#dde1e6;
+  --accent:#0b5cad; --accent-soft:#e6f0fa;
+  --a1:#2f855a; --a1-soft:#e7f4ec;   /* obywatel */
+  --a2:#b7791f; --a2-soft:#fbf1e1;   /* urzędnik powiatowy */
+  --a3:#9b2c2c; --a3-soft:#f9e8e8;   /* urzędnik UMP */
+  --sys:#4a5568; --sys-soft:#edf0f3; /* system / integracje */
+  --warn:#fff6db; --warn-line:#e8c95a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14171b; --card:#1c2026; --ink:#e7eaee; --muted:#9aa4b0; --line:#2e343c;
+    --accent:#6fb0f0; --accent-soft:#1d2a38;
+    --a1:#68d391; --a1-soft:#1b2e24; --a2:#f6c26b; --a2-soft:#33291a;
+    --a3:#fc8f8f; --a3-soft:#3a2020; --sys:#b8c2cc; --sys-soft:#262c33;
+    --warn:#2f2a17; --warn-line:#8a7430;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "Segoe UI",system-ui,-apple-system,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:32px 16px 80px}
+header h1{margin:0 0 4px;font-size:28px}
+header p{margin:0;color:var(--muted)}
+nav{margin:20px 0 28px;display:flex;flex-wrap:wrap;gap:6px}
+nav a{font-size:13px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;color:var(--ink);text-decoration:none;background:var(--card)}
+nav a:hover{border-color:var(--accent);color:var(--accent)}
+section{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin:0 0 20px}
+h2{margin:0 0 14px;font-size:20px}
+h3{margin:22px 0 8px;font-size:16px}
+p{margin:6px 0 10px}
+code,.mono{font-family:Consolas,"Cascadia Mono",monospace;font-size:13px;background:var(--sys-soft);padding:1px 5px;border-radius:4px}
+table{width:100%;border-collapse:collapse;margin:8px 0 12px;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.03em}
+.tbl-wrap{overflow-x:auto}
+.yes{color:var(--a1);font-weight:700}.no{color:var(--muted)}.part{color:var(--a2);font-weight:700}
+.actors{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.actor{border-radius:8px;padding:14px 16px;border-left:5px solid}
+.actor h4{margin:0 0 4px;font-size:15px}
+.actor .lvl{font-size:12px;color:var(--muted);margin-bottom:6px}
+.actor ul{margin:6px 0 0;padding-left:18px}
+.A1{background:var(--a1-soft);border-color:var(--a1)}
+.A2{background:var(--a2-soft);border-color:var(--a2)}
+.A3{background:var(--a3-soft);border-color:var(--a3)}
+.SYS{background:var(--sys-soft);border-color:var(--sys)}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px;color:#fff;vertical-align:middle}
+.tag.A1{background:var(--a1)}.tag.A2{background:var(--a2)}.tag.A3{background:var(--a3)}.tag.SYS{background:var(--sys)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tag{color:#111}}
+/* flow */
+.flow{list-style:none;margin:10px 0;padding:0;counter-reset:s}
+.flow li{counter-increment:s;position:relative;margin:0 0 8px 0;padding:10px 14px 10px 52px;border-radius:8px;border-left:4px solid}
+.flow li::before{content:counter(s);position:absolute;left:12px;top:9px;width:26px;height:26px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:700}
+.flow li .who{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;margin-right:6px}
+.flow li.A1 .who{color:var(--a1)}.flow li.A2 .who{color:var(--a2)}.flow li.A3 .who{color:var(--a3)}.flow li.SYS .who{color:var(--sys)}
+.flow li small{display:block;color:var(--muted);margin-top:2px}
+.branch{margin:4px 0 0;padding-left:18px}
+.states{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0}
+.st{padding:6px 12px;border:1px solid var(--line);border-radius:6px;background:var(--sys-soft);font-size:13px;font-weight:600}
+.arr{color:var(--muted)}
+.plate{display:inline-flex;align-items:stretch;border:2px solid #222;border-radius:5px;overflow:hidden;font:700 24px/1 Consolas,monospace;background:#fff;color:#111;margin:4px 8px 4px 0}
+.plate .eu{background:#1f3fa8;color:#ffd200;font-size:10px;padding:4px 5px;display:flex;flex-direction:column;justify-content:flex-end}
+.plate .t{padding:8px 12px;letter-spacing:.08em}
+.plate .t b{color:#0b5cad}
+.note{background:var(--warn);border:1px solid var(--warn-line);border-radius:8px;padding:10px 14px;margin:10px 0}
+.q{counter-reset:q;list-style:none;padding:0;margin:0}
+.q li{counter-increment:q;padding:9px 0 9px 42px;position:relative;border-bottom:1px dashed var(--line)}
+.q li::before{content:"Q" counter(q);position:absolute;left:0;top:9px;font-weight:700;color:var(--accent);font-size:13px}
+.q li em{color:var(--muted);font-style:normal;font-size:13px;display:block}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+footer{color:var(--muted);font-size:12px;text-align:center;margin-top:30px}
+@media print{body{background:#fff}section{break-inside:avoid;border-color:#bbb}nav{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Rejestr Tablic Rejestracyjnych – specyfikacja flow dla dewelopera</h1>
+  <p>Usługa WWW dla urzędów rejestrujących pojazdy (województwo wielkopolskie, urząd główny: UMP – Urząd Miasta Poznania) · wersja robocza 0.1 · 25.09.2026</p>
+</header>
+
+<nav>
+  <a href="#cel">1. Cel i zakres</a>
+  <a href="#aktorzy">2. Aktorzy i dostępy</a>
+  <a href="#rbac">3. Macierz uprawnień</a>
+  <a href="#m1">4. Moduł I – tablice indywidualne</a>
+  <a href="#m2">5. Moduł II – tablice zmniejszone</a>
+  <a href="#m3">6. Moduł III – tablice do badań</a>
+  <a href="#int">7. Integracje</a>
+  <a href="#dane">8. Model danych</a>
+  <a href="#nfr">9. Wymagania niefunkcjonalne</a>
+  <a href="#pytania">10. Do ustalenia</a>
+</nav>
+
+<!-- 1 -->
+<section id="cel">
+  <h2>1. Cel i zakres</h2>
+  <p>Aplikacja webowa prowadząca <b>wojewódzką ewidencję</b> wyróżników tablic rejestracyjnych, tak aby żaden numer nie został wydany dwukrotnie w województwie. Składa się z dwóch części:</p>
+  <ul>
+    <li><b>Część I – panel dla urzędów</b> (logowanie): zarządzanie ewidencją, wnioski, decyzje, pisma, pule numerów.</li>
+    <li><b>Część II – serwis publiczny</b> (bez logowania): obywatel wpisuje wymarzony wyróżnik, system mówi czy jest wolny i podpowiada podobne wolne warianty.</li>
+  </ul>
+  <p class="note"><b>Skala – relacja 1 : wielu.</b> Urząd główny jest <b>jeden</b> (UMP). Wnioskować może każdy urząd rejestrujący pojazdy w województwie – <b>34 urzędy</b>: 31 starostw powiatowych i 3 miasta na prawach powiatu (Kalisz, Konin, Leszno). Każdy urząd ma wielu urzędników. System, uprawnienia, słowniki i raporty projektujemy od początku pod wiele urzędów wnioskujących, a nie pod pojedynczy powiat.</p>
+  <p>Funkcjonalnie system dzieli się na trzy moduły:</p>
+  <table>
+    <tr><th>Moduł</th><th>Co obsługuje</th><th>Model przydziału</th></tr>
+    <tr><td><b>I</b></td><td>Tablice indywidualne (np. <span class="mono">P0 KOWAL</span>)</td><td>Pojedynczy wyróżnik, sprawdzany i akceptowany przez UMP na wniosek powiatu</td></tr>
+    <tr><td><b>II</b></td><td>Tablice zmniejszone / wąskie (np. <span class="mono">P 1234</span>)</td><td>UMP nadaje <b>pule</b> numerów poszczególnym powiatom (gminom) – pule nie mogą się nakładać</td></tr>
+    <tr><td><b>III</b></td><td>Tablice do badań technicznych</td><td>UMP nadaje <b>pule</b> okresowo, na wniosek urzędu</td></tr>
+  </table>
+</section>
+
+<!-- 2 -->
+<section id="aktorzy">
+  <h2>2. Aktorzy i poziomy dostępu</h2>
+  <p>Trzy role biznesowe + rola techniczna. Poziom dostępu rośnie od obywatela do UMP.</p>
+  <div class="actors">
+    <div class="actor A1">
+      <h4>A1 · Obywatel („zwykły Kowalski”)</h4>
+      <div class="lvl">Poziom 0 · bez logowania · serwis publiczny</div>
+      <ul>
+        <li>Sprawdza, czy wyróżnik jest wolny</li>
+        <li>Dostaje sugestie wolnych wariantów</li>
+        <li>Widzi tylko: <i>wolny / niedostępny</i> – żadnych danych o właścicielu</li>
+        <li>Instrukcja co dalej: z czym iść do swojego urzędu powiatowego</li>
+      </ul>
+    </div>
+    <div class="actor A2">
+      <h4>A2 · Urzędnik powiatowy (wnioskujący)</h4>
+      <div class="lvl">Poziom 1 · logowanie przez e-mail · widzi swój powiat · 34 urzędy, wielu urzędników</div>
+      <ul>
+        <li>Sprawdza dostępność wyróżnika w imieniu klienta</li>
+        <li>Składa wniosek o zgodę na tablicę indywidualną</li>
+        <li>Generuje pismo: podgląd PDF / wydruk / wysyłka e-Doręczeniami</li>
+        <li>Widzi status swoich wniosków i przydzielone swojemu urzędowi pule (Moduł II, III)</li>
+        <li>Wnioskuje o nową pulę (Moduł III, ew. II)</li>
+        <li>Wprowadza dane o pojeździe / zbyciu pojazdu</li>
+      </ul>
+    </div>
+    <div class="actor A3">
+      <h4>A3 · Urzędnik UMP (decyzyjny)</h4>
+      <div class="lvl">Poziom 2 · najszerszy dostęp · całe województwo</div>
+      <ul>
+        <li>Odbiera wnioski (przyjście pisma w EZD → przekierowanie do aplikacji)</li>
+        <li>Weryfikuje i akceptuje / odrzuca wyróżnik</li>
+        <li>Generuje pismo zwrotne: PDF / wydruk / e-Doręczenia</li>
+        <li>Przegląda całą bazę (wszystkie urzędy) – wyszukiwanie i filtry</li>
+        <li><b>Nadpisuje dane wpisu</b>, np. datę sprzedaży pojazdu, nabywcę, dane pojazdu, właściciela, status – z podaniem powodu (patrz 4.6)</li>
+        <li>Nadaje pule tablic zmniejszonych i do badań technicznych</li>
+        <li>Raporty, eksporty</li>
+      </ul>
+    </div>
+    <div class="actor SYS">
+      <h4>A0 · Administrator systemu</h4>
+      <div class="lvl">Rola techniczna (propozycja)</div>
+      <ul>
+        <li>Zakłada urzędy (powiaty/gminy) i konta urzędników</li>
+        <li>Konfiguruje słowniki: wyróżniki, szablony pism, adresy e-Doręczeń</li>
+        <li>Dostęp do logu audytowego</li>
+        <li>Nie podejmuje decyzji merytorycznych</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="rbac">
+  <h2>3. Macierz uprawnień</h2>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Funkcja</th><th>A1 Obywatel</th><th>A2 Powiat</th><th>A3 UMP</th><th>A0 Admin</th></tr>
+    <tr><td>Sprawdzenie dostępności wyróżnika</td><td class="yes">tak</td><td class="yes">tak</td><td class="yes">tak</td><td class="no">—</td></tr>
+    <tr><td>Sugestie wolnych wariantów</td><td class="yes">tak</td><td class="yes">tak</td><td class="yes">tak</td><td class="no">—</td></tr>
+    <tr><td>Podgląd szczegółów wpisu (komu, pismo, data, pojazd)</td><td class="no">nie</td><td class="part">tylko własny powiat</td><td class="yes">całe województwo</td><td class="no">nie</td></tr>
+    <tr><td>Złożenie wniosku o tablicę indywidualną</td><td class="no">nie</td><td class="yes">tak</td><td class="yes">tak (w imieniu UMP)</td><td class="no">—</td></tr>
+    <tr><td>Tymczasowa rezerwacja wyróżnika na czas wniosku</td><td class="no">nie</td><td class="yes">tak (automatycznie)</td><td class="yes">tak</td><td class="no">—</td></tr>
+    <tr><td>Akceptacja / odrzucenie wniosku</td><td class="no">nie</td><td class="no">nie</td><td class="yes">tak</td><td class="no">nie</td></tr>
+    <tr><td>Generowanie pisma (PDF / druk / e-Doręczenia)</td><td class="no">nie</td><td class="yes">wniosek</td><td class="yes">odpowiedź</td><td class="no">—</td></tr>
+    <tr><td>Dane o pojeździe / zbyciu pojazdu</td><td class="no">nie</td><td class="yes">własny powiat</td><td class="yes">wszystkie</td><td class="no">—</td></tr>
+    <tr><td>Przeglądanie całej bazy (wszystkie urzędy)</td><td class="no">nie</td><td class="no">nie</td><td class="yes">tak</td><td class="no">nie</td></tr>
+    <tr><td>Nadpisywanie dowolnego pola wpisu (np. data sprzedaży) – z powodem, zapis w historii</td><td class="no">nie</td><td class="no">nie</td><td class="yes">tak</td><td class="no">nie</td></tr>
+    <tr><td>Nadanie puli (Moduł II, III)</td><td class="no">nie</td><td class="no">nie</td><td class="yes">tak</td><td class="no">—</td></tr>
+    <tr><td>Podgląd przydzielonych pul</td><td class="no">nie</td><td class="part">tylko swoje</td><td class="yes">wszystkie</td><td class="no">—</td></tr>
+    <tr><td>Wniosek o nową pulę</td><td class="no">nie</td><td class="yes">tak</td><td class="no">—</td><td class="no">—</td></tr>
+    <tr><td>Zarządzanie użytkownikami i urzędami</td><td class="no">nie</td><td class="no">nie</td><td class="part">opcjonalnie (do ustalenia)</td><td class="yes">tak</td></tr>
+    <tr><td>Log audytowy</td><td class="no">nie</td><td class="part">własne akcje</td><td class="yes">tak</td><td class="yes">tak</td></tr>
+  </table>
+  </div>
+  <p class="note"><b>Zasada:</b> uprawnienia egzekwowane po stronie API (nie tylko ukrywanie przycisków w UI). Każde zapytanie urzędnika A2 filtrowane po <code>office_id</code> z jego konta.</p>
+</section>
+
+<!-- 4 -->
+<section id="m1">
+  <h2>4. Moduł I – tablice indywidualne</h2>
+
+  <h3>4.1 Budowa wyróżnika (reguły walidacji)</h3>
+  <div>
+    <span class="plate"><span class="eu">PL</span><span class="t"><b>P</b><b>0</b> KOWAL</span></span>
+    <span class="plate"><span class="eu">PL</span><span class="t"><b>P</b><b>7</b> ABC</span></span>
+  </div>
+  <table>
+    <tr><th>Pozycja</th><th>Znaczenie</th><th>Reguła</th></tr>
+    <tr><td>1. znak</td><td>Wyróżnik województwa</td><td><span class="mono">P</span> (wielkopolskie) – stały dla instancji. <i>W notatce: „P i M” – patrz Q1.</i></td></tr>
+    <tr><td>2. znak</td><td>Cyfra wyróżnikowa</td><td><span class="mono">0–9</span></td></tr>
+    <tr><td>3.–7. znak</td><td>Część indywidualna wybrana przez właściciela</td><td>3 do 5 znaków, litery i cyfry (dokładne reguły znaków dozwolonych wg rozporządzenia – Q2)</td></tr>
+  </table>
+  <p>Unikalność sprawdzana jest dla <b>całego wyróżnika</b> (znak 1 + cyfra + część indywidualna) w obrębie województwa. Walidacja wspólna dla frontu publicznego i API (jedna funkcja/biblioteka).</p>
+
+  <h3>4.2 Flow 1 – Obywatel sprawdza tablicę <span class="tag A1">A1</span></h3>
+  <ol class="flow">
+    <li class="A1"><span class="who">Obywatel</span>Wchodzi na stronę publiczną, wpisuje wymarzony tekst (np. <span class="mono">KOWAL</span>) i opcjonalnie wybiera cyfrę 0–9.</li>
+    <li class="SYS"><span class="who">System</span>Waliduje format (długość, znaki). Błąd → komunikat co poprawić.</li>
+    <li class="SYS"><span class="who">System</span>Sprawdza ewidencję dla wszystkich cyfr 0–9 (lub wybranej).
+      <ul class="branch">
+        <li><b>Wolny</b> → „Wyróżnik P0 KOWAL jest dostępny” + informacja: udaj się do wydziału komunikacji swojego powiatu, zgoda wydawana jest przez UMP.</li>
+        <li><b>Zajęty / zarezerwowany</b> → „Niedostępny” (bez żadnych szczegółów) + lista sugestii.</li>
+      </ul>
+    </li>
+    <li class="SYS"><span class="who">System</span>Sugestie: ten sam tekst z innymi cyframi, warianty skrócone/wydłużone, podmiana znaku (np. <span class="mono">KOWAL → KOWAL1, KOWALS, KOWL</span>). Pokazujemy tylko warianty wolne.</li>
+  </ol>
+  <p class="note">Wynik dla obywatela ma charakter <b>informacyjny</b> – nie rezerwuje numeru. Zabezpieczenie przed masowym odpytywaniem: rate-limit + CAPTCHA po N zapytaniach.</p>
+
+  <h3>4.3 Flow 2 – Urzędnik powiatowy składa wniosek <span class="tag A2">A2</span></h3>
+  <ol class="flow">
+    <li class="A2"><span class="who">Urzędnik powiatu</span>Loguje się przez e-mail (link jednorazowy / kod OTP – Q4).</li>
+    <li class="A2"><span class="who">Urzędnik powiatu</span>Wpisuje wyróżnik wskazany przez klienta, sprawdza dostępność (jak w Flow 1, ale widzi też status „zarezerwowany – wniosek w toku”).</li>
+    <li class="A2"><span class="who">Urzędnik powiatu</span>Jeśli wolny → „Złóż wniosek”: dane wnioskodawcy (właściciel), dane pojazdu (jeśli znane), numer sprawy w powiecie.</li>
+    <li class="SYS"><span class="who">System</span>Zakłada <b>rezerwację tymczasową</b> wyróżnika (status <i>Zarezerwowany</i>, np. 14 dni – Q5), żeby nikt inny w tym czasie go nie wziął.</li>
+    <li class="SYS"><span class="who">System</span>Generuje pismo-wniosek z szablonu. Urzędnik wybiera kanał:
+      <ul class="branch">
+        <li><b>Podgląd PDF</b> / pobranie,</li>
+        <li><b>Wydruk</b>,</li>
+        <li><b>Wysyłka e-Doręczeniami</b> na adres ADE UMP.</li>
+      </ul>
+    </li>
+    <li class="SYS"><span class="who">System</span>Wniosek dostaje status <i>Wysłany</i>, urzędnik widzi go na liście „Moje wnioski”.</li>
+  </ol>
+
+  <h3>4.4 Flow 3 – UMP weryfikuje i akceptuje <span class="tag A3">A3</span></h3>
+  <ol class="flow">
+    <li class="SYS"><span class="who">EZD</span>Pismo z powiatu wpływa do EZD UMP. EZD pokazuje informację o przyjściu pisma i <b>link przekierowujący do aplikacji</b> (głęboki link do konkretnego wniosku).</li>
+    <li class="A3"><span class="who">Urzędnik UMP</span>Klika link → aplikacja otwiera wniosek (SSO lub logowanie – Q6). Widzi wyróżnik, wnioskujący powiat, dane właściciela, historię wyróżnika.</li>
+    <li class="SYS"><span class="who">System</span>Ponownie sprawdza unikalność (na wypadek kolizji) i pokazuje wynik weryfikacji.</li>
+    <li class="A3"><span class="who">Urzędnik UMP</span>Decyzja:
+      <ul class="branch">
+        <li><b>Akceptuj</b> – potwierdza, że taka tablica może być wydana,</li>
+        <li><b>Odrzuć</b> – z obowiązkowym uzasadnieniem (rezerwacja zwalniana).</li>
+      </ul>
+    </li>
+    <li class="SYS"><span class="who">System</span>Generuje pismo zwrotne (zgoda / odmowa) → okno z opcjami: <b>PDF</b>, <b>Druk</b>, <b>e-Doręczenia</b> do powiatu.</li>
+    <li class="SYS"><span class="who">System</span>Zapisuje wpis w ewidencji: <b>wyróżnik → komu → pismo (nr, kanał) → data</b>. Status <i>Przydzielony</i>. Powiat widzi zmianę statusu.</li>
+    <li class="A2"><span class="who">Urzędnik powiatu</span>Po zarejestrowaniu pojazdu uzupełnia dane pojazdu; przy zbyciu pojazdu wprowadza <b>dane o sprzedanym pojeździe</b> (Q7 – co dalej dzieje się z wyróżnikiem).</li>
+  </ol>
+
+  <h3>4.5 Statusy wyróżnika</h3>
+  <div class="states">
+    <span class="st">Wolny</span><span class="arr">→</span>
+    <span class="st">Zarezerwowany (wniosek)</span><span class="arr">→</span>
+    <span class="st">Wysłany do UMP</span><span class="arr">→</span>
+    <span class="st">Przydzielony</span><span class="arr">→</span>
+    <span class="st">Wydany / w użyciu</span><span class="arr">→</span>
+    <span class="st">Zwolniony?</span>
+  </div>
+  <p>Odgałęzienia: <i>Zarezerwowany</i> → <i>Wolny</i> (wygaśnięcie rezerwacji lub wycofanie); <i>Wysłany</i> → <i>Odrzucony</i> → <i>Wolny</i>. Każda zmiana statusu zapisywana w historii (kto, kiedy, dlaczego). Status <i>Zwolniony</i> ustawia tylko UMP – wyróżnik znów jest wolny, a stary wpis zostaje w historii.</p>
+
+  <h3>4.6 Przeglądanie i nadpisywanie bazy przez UMP <span class="tag A3">A3</span></h3>
+  <ol class="flow">
+    <li class="A3"><span class="who">Urzędnik UMP</span>Otwiera „Ewidencja województwa”: wszystkie wpisy wszystkich urzędów. Szuka po wyróżniku, właścicielu albo VIN. Filtruje po urzędzie i statusie. Może wyeksportować wynik do CSV.</li>
+    <li class="A3"><span class="who">Urzędnik UMP</span>Otwiera wpis i nadpisuje dane, np. <b>datę sprzedaży pojazdu</b>, nabywcę, markę/VIN, właściciela, urząd prowadzący, status, nr pisma, uwagi.</li>
+    <li class="SYS"><span class="who">System</span>Wymaga podania <b>powodu zmiany</b>. Zapisuje w historii wpisu każde zmienione pole: <i>wartość przed → po</i>, kto, kiedy.</li>
+    <li class="SYS"><span class="who">System</span>Blokady: wyróżnika (numeru) nie edytujemy. Przy błędzie wpis dostaje status „zwolniony” i składa się nowy wniosek. Nie można zwolnić wyróżnika, na który czeka wniosek. Nie można przywrócić wpisu, jeśli numer ma już inny aktywny wpis.</li>
+    <li class="A2"><span class="who">Urzędnik powiatu</span>Widzi zmiany zrobione przez UMP w swoich wpisach (historia wpisu). Sam może uzupełnić tylko dane pojazdu i zbycia we własnym powiecie.</li>
+  </ol>
+  <p class="small">Do rozważenia: lista pól, które UMP może nadpisywać (wszystkie czy wybrane); czy zmiana ważnych pól (właściciel, status) wymaga pisma do powiatu.</p>
+</section>
+
+<!-- 5 -->
+<section id="m2">
+  <h2>5. Moduł II – tablice zmniejszone (wąskie)</h2>
+  <p>UMP przydziela każdemu powiatowi (lub gminie) <b>zbiór numerów</b> tablic zmniejszonych, np. <span class="mono">P 1000 – P 1999</span>. System pilnuje, żeby zakresy się nie nakładały.</p>
+  <ol class="flow">
+    <li class="A2"><span class="who">Urzędnik powiatu</span>(opcjonalnie) składa wniosek o pulę / dodatkową pulę, podając uzasadnienie i szacowane zapotrzebowanie.</li>
+    <li class="A3"><span class="who">Urzędnik UMP</span>Wybiera urząd, definiuje zakres (od–do lub lista numerów), datę obowiązywania.</li>
+    <li class="SYS"><span class="who">System</span>Waliduje: brak kolizji z innymi pulami i z już wydanymi numerami. Kolizja → blokada z wskazaniem, z czym koliduje.</li>
+    <li class="A3"><span class="who">Urzędnik UMP</span>Zatwierdza → generuje pismo informujące o przydziale (PDF / druk / e-Doręczenia).</li>
+    <li class="A2"><span class="who">Urzędnik powiatu</span>Widzi swoją pulę, stan wykorzystania (ile wydanych / ile zostało) – Q8, czy powiat oznacza wydane numery w aplikacji.</li>
+  </ol>
+  <p><b>Widok UMP:</b> mapa/tabela wszystkich pul w województwie z procentem wykorzystania i alertem przy np. 80% wykorzystania.</p>
+</section>
+
+<!-- 6 -->
+<section id="m3">
+  <h2>6. Moduł III – tablice do badań technicznych</h2>
+  <p>Zbiory tablic przydzielane okresowo („raz na jakiś czas”) urzędom, na ich wniosek. Mechanika jak w Module II, ale inicjuje zawsze wniosek urzędu.</p>
+  <ol class="flow">
+    <li class="A2"><span class="who">Urzędnik powiatu</span>Składa wniosek o przydział zbioru tablic do badań (liczba, uzasadnienie, ew. dla jakiej stacji kontroli pojazdów – Q9).</li>
+    <li class="SYS"><span class="who">System</span>Generuje pismo-wniosek (PDF / druk / e-Doręczenia) → wpływa do EZD UMP z linkiem do aplikacji.</li>
+    <li class="A3"><span class="who">Urzędnik UMP</span>Akceptuje (wskazując konkretny zakres numerów) lub odrzuca z uzasadnieniem. System waliduje brak kolizji.</li>
+    <li class="SYS"><span class="who">System</span>Pismo zwrotne z informacją o przydziale + powiadomienie e-mail do wnioskującego urzędnika. Pula widoczna w panelu powiatu.</li>
+  </ol>
+</section>
+
+<!-- 7 -->
+<section id="int">
+  <h2>7. Integracje</h2>
+  <div class="grid2">
+    <div>
+      <h3>EZD (Elektroniczne Zarządzanie Dokumentacją)</h3>
+      <ul>
+        <li>Kierunek główny: <b>EZD → aplikacja</b> – przy wpływie pisma EZD pokazuje informację i link do wniosku w aplikacji.</li>
+        <li>Identyfikacja: każdy wniosek ma unikalny <code>request_id</code> umieszczony w piśmie (np. kod QR / numer referencyjny), po którym EZD buduje link.</li>
+        <li>Opcjonalnie: aplikacja → EZD – rejestracja pisma wychodzącego, znak sprawy.</li>
+        <li>Do ustalenia: który system EZD (np. EZD RP) i jaki interfejs udostępnia – Q10.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>e-Doręczenia</h3>
+      <ul>
+        <li>Wysyłka pism (wniosek, zgoda, odmowa, przydział puli) na adresy do e-Doręczeń (ADE) urzędów.</li>
+        <li>Zapisywanie dowodów nadania i odbioru przy piśmie w aplikacji.</li>
+        <li>Słownik adresów ADE urzędów konfigurowany przez administratora.</li>
+        <li>Do ustalenia: bezpośrednia integracja z API e-Doręczeń czy wysyłka przez EZD – Q11.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Generowanie dokumentów</h3>
+      <ul>
+        <li>Szablony pism edytowalne (zmienne: wyróżnik, urząd, właściciel, data, nr pisma).</li>
+        <li>Wyjście: PDF (do podpisu / archiwum), wersja do wydruku.</li>
+        <li>Podpis elektroniczny (kwalifikowany / pieczęć urzędu) – Q12.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Logowanie</h3>
+      <ul>
+        <li>Urzędnicy: logowanie e-mailem (magic link lub e-mail + hasło + kod OTP).</li>
+        <li>Rejestracja kont tylko przez zaproszenie administratora, domena e-mail urzędu na białej liście.</li>
+        <li>Obywatel: brak logowania.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section id="dane">
+  <h2>8. Model danych (szkic)</h2>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Encja</th><th>Kluczowe pola</th></tr>
+    <tr><td><b>Office</b> (urząd)</td><td>id, nazwa, typ (UMP – dokładnie 1 / starostwo / miasto na prawach powiatu), kod TERYT, adres ADE, e-mail kontaktowy, aktywny. Na start 35 rekordów (1 UMP + 34 urzędy).</td></tr>
+    <tr><td><b>User</b></td><td>id, e-mail, imię i nazwisko, rola (A0/A2/A3), office_id, aktywny, ostatnie logowanie</td></tr>
+    <tr><td><b>Plate</b> (wyróżnik indywidualny)</td><td>id, pełny wyróżnik (unikalny), znak województwa, cyfra, część indywidualna, status, office_id, data przydziału, uwagi; historia zmian pól (PlateHistory: pole, przed, po, user_id, data, powód)</td></tr>
+    <tr><td><b>Owner</b></td><td>imię i nazwisko / nazwa firmy, PESEL/REGON (Q13 – czy przechowujemy), adres</td></tr>
+    <tr><td><b>Vehicle</b></td><td>plate_id, VIN, marka, model, data rejestracji, data zbycia, dane nabywcy (jeśli wymagane)</td></tr>
+    <tr><td><b>Request</b> (wniosek)</td><td>id, typ (indywidualna / pula II / pula III), office_id, user_id, status, data złożenia, data decyzji, decydujący user_id, uzasadnienie</td></tr>
+    <tr><td><b>Letter</b> (pismo)</td><td>id, request_id, kierunek (wych./przych.), nr pisma, kanał (PDF/druk/e-Doręczenia), plik PDF, dowód nadania/odbioru, id w EZD</td></tr>
+    <tr><td><b>Pool</b> (pula II/III)</td><td>id, typ (zmniejszone / badania), office_id, zakres od–do lub lista, data obowiązywania, wykorzystanie</td></tr>
+    <tr><td><b>AuditLog</b></td><td>kto, co, kiedy, IP, obiekt, wartość przed/po</td></tr>
+  </table>
+  </div>
+  <p>Kluczowe ograniczenia w bazie: unikalny indeks na pełnym wyróżniku; ograniczenie wykluczające nakładanie się zakresów pul (np. <code>EXCLUDE</code> na zakresach w PostgreSQL).</p>
+</section>
+
+<!-- 9 -->
+<section id="nfr">
+  <h2>9. Wymagania niefunkcjonalne</h2>
+  <ul>
+    <li><b>Dostępność:</b> serwis publiczny zgodny z WCAG 2.1 AA (wymóg ustawy o dostępności cyfrowej dla podmiotów publicznych).</li>
+    <li><b>RODO:</b> dane osobowe widoczne tylko dla A2 (swój powiat) i A3; obywatel nigdy nie widzi danych właściciela; retencja danych do ustalenia.</li>
+    <li><b>Bezpieczeństwo:</b> HTTPS, rate-limit i CAPTCHA na serwisie publicznym, blokada konta po nieudanych logowaniach, pełny log audytowy.</li>
+    <li><b>Współbieżność:</b> rezerwacja wyróżnika atomowa (transakcja + unikalny indeks) – dwa powiaty nie mogą zarezerwować tego samego numeru jednocześnie.</li>
+    <li><b>Hosting:</b> infrastruktura UMP / chmura rządowa – do ustalenia.</li>
+    <li><b>Import danych:</b> migracja istniejącej ewidencji tablic indywidualnych (Excel / inny system) – Q14.</li>
+  </ul>
+</section>
+
+<!-- 10 -->
+<section id="pytania">
+  <h2>10. Pytania otwarte / do ustalenia</h2>
+  <ol class="q">
+    <li>„Wyróżnik Poznania to P i M” – co oznacza <b>M</b>? Drugi wyróżnik, tablice motocyklowe, inna kategoria?<em>Wpływa na walidację 1. znaku.</em></li>
+    <li>Dokładne reguły części indywidualnej: czy pierwszy znak musi być literą, które znaki są wykluczone, czy są zakazane słowa (lista wulgaryzmów)?</li>
+    <li><s>Czy ewidencja jest tylko dla UMP, czy dla całego województwa?</s> <b>Ustalone:</b> jeden UMP, wnioskują wszystkie urzędy w województwie (34). <em>Do potwierdzenia: czy UMP zakłada konta powiatom sam, czy robi to administrator.</em></li>
+    <li>Logowanie urzędników „przez mail” – link jednorazowy, czy e-mail + hasło + drugi składnik?</li>
+    <li>Jak długo trwa rezerwacja tymczasowa wyróżnika po złożeniu wniosku przez powiat?</li>
+    <li>Urzędnik UMP wchodzi z EZD – SSO z EZD czy osobne logowanie w aplikacji?</li>
+    <li>Co się dzieje z wyróżnikiem po sprzedaży pojazdu – zostaje przy właścicielu, przechodzi z pojazdem, wraca do puli wolnych? Jakie dane o sprzedaży wprowadzamy?</li>
+    <li>Moduł II: czy powiat oznacza w aplikacji wydanie konkretnego numeru z puli, czy dostaje tylko informację o przydzielonym zakresie?</li>
+    <li>Moduł III: czy pula jest dla urzędu, czy dla konkretnej stacji kontroli pojazdów? Jak często przydział („raz na jakiś czas” = rok / kwartał)?</li>
+    <li>Jaki system EZD działa w UMP i powiatach i czy ma API do przekierowania / linkowania?</li>
+    <li>e-Doręczenia – wysyłka bezpośrednio z aplikacji czy przez EZD?</li>
+    <li>Czy pisma muszą być podpisane kwalifikowanym podpisem / pieczęcią elektroniczną w aplikacji?</li>
+    <li>Jakie dane właściciela przechowujemy (PESEL? tylko imię i nazwisko?) – minimalizacja pod RODO.</li>
+    <li>Czy jest istniejąca ewidencja do zaimportowania i w jakim formacie?</li>
+    <li>Organizacyjne (z notatki): <b>logo</b>, <b>temat prezentacji</b>, <b>stoisko</b>.</li>
+  </ol>
+</section>
+
+<footer>Dokument roboczy przygotowany na podstawie notatki ze spotkania · B2B Network · do weryfikacji z UMP</footer>
+</div>
+</body>
+</html>

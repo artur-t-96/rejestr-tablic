@@ -1,0 +1,97 @@
+- link "Przejdź do treści":
+  - /url: "#main"
+- generic: Środowisko lokalne · dane fikcyjne · integracje zewnętrzne wymagają konfiguracji
+- banner:
+  - link "Dyna Rejestr Tablic · Wielkopolska":
+    - /url: /
+    - generic: D
+    - text: Dyna
+    - generic: Rejestr Tablic · Wielkopolska
+  - navigation "Nawigacja główna":
+    - link "Sprawdź tablicę":
+      - /url: /
+    - link "Panel urzędu":
+      - /url: /panel/
+    - button "Wyloguj"
+- complementary:
+  - paragraph: Panel urzędu
+  - strong: Urzędnik Gniezno
+  - paragraph:
+    - text: Urzędnik powiatowy
+    - text: Starostwo Powiatowe w Gnieźnie
+  - navigation "Menu panelu":
+    - link "Przegląd":
+      - /url: /panel/
+    - link "Wnioski":
+      - /url: /panel/wnioski/
+    - link "Ewidencja":
+      - /url: /panel/ewidencja/
+    - link "Pule numerów":
+      - /url: /panel/pule/
+    - link "Pisma i dokumenty":
+      - /url: /panel/pisma/
+    - link "Integracje":
+      - /url: /panel/integracje/
+    - link "Dziennik audytowy":
+      - /url: /panel/audyt/
+  - text: Wspólna ewidencja województwa
+  - text: 35 urzędów · 3 moduły
+- main:
+  - paragraph: Tablica indywidualna
+  - heading "W/2026/00001" [level=1]
+  - paragraph: Starostwo Powiatowe w Gnieźnie · TEST/P0DYNA
+  - generic: Zaakceptowany
+  - heading "Dane wniosku" [level=2]
+  - term: Urząd wnioskujący
+  - definition: Starostwo Powiatowe w Gnieźnie
+  - term: Autor
+  - definition: Urzędnik Gniezno · gniezno@example.invalid
+  - term: Wyróżnik
+  - definition: P0 DYNA
+  - term: Aktualna ewidencja
+  - definition: Wpis prowadzi obecnie inny urząd. Dane aktualnego właściciela i pojazdu są dostępne urzędowi prowadzącemu oraz UMP. Pierwotne dane wniosku znajdują się w jego piśmie PDF.
+  - term: Uzasadnienie wniosku
+  - definition: Nie podano
+  - term: Uzasadnienie decyzji
+  - definition: Dane pokazowe
+  - heading "Pisma i decyzja" [level=2]
+  - article:
+    - generic: PDF
+    - strong: Wniosek o przydział
+    - generic: DRT/gni/2026/000001 · 03.10.2026 02:27
+    - generic: Starostwo Powiatowe w Gnieźnie → Urząd Miasta Poznania – Wydział Komunikacji
+    - generic: Niepodpisany
+    - link "Otwórz PDF / druk":
+      - /url: /panel/pisma/ee54b9f0-0264-4559-a149-20c0390abfcc/pdf/
+    - link "Podpis / weryfikacja":
+      - /url: /panel/pisma/ee54b9f0-0264-4559-a149-20c0390abfcc/podpis/
+    - link "Zapisz w EZD":
+      - /url: /panel/pisma/ee54b9f0-0264-4559-a149-20c0390abfcc/ezd/
+    - generic: Kanał wysyłki pisma
+    - combobox "Kanał wysyłki pisma":
+      - option "e-Doręczenia" [selected]
+      - option "E-mail"
+    - button "Wyślij"
+  - article:
+    - generic: PDF
+    - strong: Potwierdzenie możliwości wydania tablic indywidualnych
+    - generic: DRT/ump/2026/000001 · 03.10.2026 02:27
+    - generic: Urząd Miasta Poznania – Wydział Komunikacji → Starostwo Powiatowe w Gnieźnie
+    - generic: Niepodpisany
+    - link "Otwórz PDF / druk":
+      - /url: /panel/pisma/48bfee65-d879-46c6-8918-1e1befd478b8/pdf/
+  - heading "Historia wniosku" [level=2]
+  - list:
+    - time: 03.10.2026 02:27:18
+    - strong: request.decided
+    - text: Urzędnik UMP · Dane pokazowe
+    - generic "Wartości przed i po"
+    - time: 03.10.2026 02:27:18
+    - strong: request.submitted
+    - text: Urzędnik Gniezno
+    - generic "Wartości przed i po"
+    - time: 03.10.2026 02:27:18
+    - strong: request.created
+    - text: Urzędnik Gniezno
+    - generic "Wartości przed i po"
+- contentinfo: Wojewódzka ewidencja tablic rejestracyjnych · Dyna Rejestr Tablic

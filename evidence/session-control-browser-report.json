@@ -1,0 +1,69 @@
+{
+  "synthetic_data": true,
+  "private_app": "http://127.0.0.1:8773",
+  "browser": "Chrome, profil użytkownika",
+  "test_session_deadline_shortened_in_database": true,
+  "production_hour_policy_unchanged": true,
+  "warning_configured_seconds": 120,
+  "warning_margin_20_seconds_directly_timed": false,
+  "hour_long_browser_wait_performed": false,
+  "request_count_after_tests": 3,
+  "extension_count": 4,
+  "unsaved_cases_not_created": true,
+  "unsaved_numbers_not_reserved": true,
+  "api_get_does_not_extend_verified_in_tests": true,
+  "screen_reader_verified": false,
+  "full_wcag_verified": false,
+  "external_api_verified": false,
+  "screenshots": [
+    "evidence/private/39-ostrzezenie-sesji.jpg",
+    "evidence/private/40-sesja-przedluzona.jpg",
+    "evidence/private/41-sesja-przewijanie-400.png",
+    "evidence/private/42-sesja-wygasla-blokada.jpg"
+  ],
+  "warning_preserved_fields_and_focus": {
+    "caseNumber": "TEST/SESJA/2026",
+    "focused": "id_case_number",
+    "noticeHidden": false,
+    "owner": "Fikcyjny test przedłużenia sesji",
+    "role": "alert",
+    "scroll": 1280,
+    "viewport": 1280
+  },
+  "extension_preserved_fields_and_focus": {
+    "caseNumber": "TEST/SESJA/2026",
+    "focused": "id_case_number",
+    "number": "P8ZOLW",
+    "owner": "Fikcyjny test przedłużenia sesji",
+    "url": "http://127.0.0.1:8773/panel/wnioski/nowy/",
+    "viewport": 1280
+  },
+  "reflow_400_percent": {
+    "bottom": 139.75,
+    "documentScroll": 320,
+    "height": 123.75,
+    "left": 16,
+    "right": 304,
+    "scrollHeight": 205,
+    "scrollTop": 0,
+    "tabindex": 0,
+    "top": 16,
+    "viewport": 320,
+    "viewportHeight": 155
+  },
+  "notice_keyboard_scroll": {
+    "focused": "session-notice",
+    "scrollTop": 5.75
+  },
+  "expired_fields": {
+    "caseNumber": "TEST/SESJA/EXPIRED",
+    "extendDisabled": true,
+    "heading": "Logowanie wygasło",
+    "number": "P9ZOLW",
+    "owner": "Fikcyjny test wygasłej sesji"
+  },
+  "expired_submit_focus": "session-notice",
+  "early_header_extension_verified": true,
+  "zoom_reset_to_100_percent": true,
+  "notes": "Fikcyjne formularze pozostały niezapisane. Testowy termin sesji skracany wyłącznie w odizolowanej bazie. Wynik nie dowodzi pełnej zgodności WCAG."
+}

@@ -1,0 +1,7 @@
+Looking in links: var/dependency-tampered-20261003
+Processing ./var/dependency-tampered-20261003/altcha-2.1.0-py3-none-any.whl (from -r var/dependency-tampered-requirements.txt (line 1))
+ERROR: THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package versions, please update the hashes. Otherwise, examine the package contents carefully; someone may have tampered with them.
+    altcha==2.1.0 from file:///Users/arturtwardowski/Dyna%20Rejestr%20Tablic/var/dependency-tampered-20261003/altcha-2.1.0-py3-none-any.whl (from -r var/dependency-tampered-requirements.txt (line 1)):
+        Expected sha256 5d4d15d89f7833f0f32bb89a1dd650923d3cb113ee9f1178d8a69b2172d087ce
+        Expected     or 843de4146e14c604ceca7e563eb245e0cfb96936323ecac2fd898fab6e034cd2
+             Got        5be067b11436c06a6cedc0ef829ff8e860d5ace4eff8b5824161d928db3a8c12

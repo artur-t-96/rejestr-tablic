@@ -1,0 +1,19 @@
+{% if user.is_authenticated %}
+<section id="session-notice" class="session-notice" hidden tabindex="-1" aria-labelledby="session-notice-title"
+  data-session-owner="{{ session_owner }}" data-status-url="{% url 'session_status' %}" data-extend-url="{% url 'session_extend' %}">
+  <h2 id="session-notice-title">Kończy się czas logowania</h2>
+  <p data-session-message>Przedłuż czas, aby kontynuować pracę. Wpisane dane pozostaną w formularzu.</p>
+  <form data-session-extend method="post" action="{% url 'session_extend' %}">
+    {% csrf_token %}<input type="hidden" name="session_owner" value="{{ session_owner }}">
+    <input type="hidden" name="return_to" value="{{ session_return }}">
+    <button type="submit">Przedłuż czas logowania</button>
+  </form>
+  <a data-session-login class="button" hidden href="{% url 'login_email' %}?next={{ session_return|urlencode }}" target="_blank" rel="noopener">Zaloguj w nowej karcie</a>
+</section>
+<noscript><section class="card"><h2>Czas logowania</h2><p>Przed przedłużeniem czasu zapisz formularz — strona zostanie odświeżona.</p>
+  <form method="post" action="{% url 'session_extend' %}">{% csrf_token %}
+    <input type="hidden" name="session_owner" value="{{ session_owner }}"><input type="hidden" name="return_to" value="{{ session_return }}">
+    <button type="submit">Przedłuż czas logowania</button>
+  </form>
+</section></noscript>
+{% endif %}

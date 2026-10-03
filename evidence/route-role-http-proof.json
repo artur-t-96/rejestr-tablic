@@ -1,0 +1,3784 @@
+{
+  "checked_at": "2026-10-03T07:33:57.199071+00:00",
+  "application_revision": "3c53b4fed4ad2a67a8d6921cc388dd9ea806105d",
+  "scope": "Actual HTTP/OTP/CSRF for readable pages, permission denials and empty-form validation boundaries. Valid positive writes separately tested with rollback. Existing synthetic objects include all modules, sender/recipient letters, local fake delivery evidence and fake matched EZD incoming.",
+  "cases": 96,
+  "unit_role_scenarios": 480,
+  "unit_route_method_pairs": 70,
+  "http_checks": 442,
+  "denied_http_checks": 276,
+  "registry_tables_compared_on_each_denial": 17,
+  "checks": [
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/",
+      "case": "/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/logowanie/",
+      "case": "/logowanie/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/logowanie/kod/",
+      "case": "/logowanie/kod/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/",
+      "case": "/panel/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/wnioski/",
+      "case": "/panel/wnioski/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/wnioski/nowy/",
+      "case": "/panel/wnioski/nowy/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "case": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/ewidencja/",
+      "case": "/panel/ewidencja/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/eksport/",
+      "case": "/panel/eksport/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/import/",
+      "case": "/panel/import/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/import/pule/",
+      "case": "/panel/import/pule/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/pule/",
+      "case": "/panel/pule/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/pule/nowa/",
+      "case": "/panel/pule/nowa/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "case": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/pisma/",
+      "case": "/panel/pisma/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/pdf/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/pdf/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/audyt/",
+      "case": "/panel/audyt/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/integracje/",
+      "case": "/panel/integracje/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/integracje/ezd/wplywy/",
+      "case": "/panel/integracje/ezd/wplywy/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/pdf/",
+      "case": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/pdf/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/integracje/adresy/",
+      "case": "/panel/integracje/adresy/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "case": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/dowody/1/",
+      "case": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/dowody/1/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/administracja/",
+      "case": "/panel/administracja/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/administracja/konta/3/zaproszenia/",
+      "case": "/panel/administracja/konta/3/zaproszenia/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/administracja/user/nowy/",
+      "case": "/panel/administracja/user/nowy/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/administracja/user/3/",
+      "case": "/panel/administracja/user/3/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/administracja/office/nowy/",
+      "case": "/panel/administracja/office/nowy/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/administracja/office/gni/",
+      "case": "/panel/administracja/office/gni/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/administracja/template/nowy/",
+      "case": "/panel/administracja/template/nowy/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/administracja/template/1/",
+      "case": "/panel/administracja/template/1/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/api/health/",
+      "case": "/api/health/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/api/session/",
+      "case": "/api/session/",
+      "status": 401,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/api/session/extend/",
+      "case": "/api/session/extend/",
+      "status": 401,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/api/availability/?part=ROLE",
+      "case": "/api/availability/?part=ROLE",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/api/public-challenge/",
+      "case": "/api/public-challenge/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/api/requests/",
+      "case": "/api/requests/",
+      "status": 401,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "case": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "status": 401,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 401,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/api/pools/",
+      "case": "/api/pools/",
+      "status": 401,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/api/pools/0b2998bc-1f74-4211-8431-0b658b186564/issue/",
+      "case": "/api/pools/0b2998bc-1f74-4211-8431-0b658b186564/issue/",
+      "status": 401,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/podpis/",
+      "case": "UMP sender podpis",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/wersja/",
+      "case": "UMP sender wersja",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/ezd/",
+      "case": "UMP sender ezd",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/pule/de82254a-0b67-4765-bbe9-71d90d752d9f/",
+      "case": "module III pool",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/wnioski/131ab119-791a-42b1-bf34-06a88e7f5927/",
+      "case": "module III request",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/",
+      "case": "validation boundary: /",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/logowanie/",
+      "case": "validation boundary: /logowanie/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/logowanie/kod/",
+      "case": "validation boundary: /logowanie/kod/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/wnioski/nowy/",
+      "case": "validation boundary: /panel/wnioski/nowy/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "case": "validation boundary: /panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "validation boundary: /panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/import/",
+      "case": "validation boundary: /panel/import/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/import/pule/",
+      "case": "validation boundary: /panel/import/pule/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/pule/nowa/",
+      "case": "validation boundary: /panel/pule/nowa/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "case": "validation boundary: /panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/integracje/ezd/wplywy/",
+      "case": "validation boundary: /panel/integracje/ezd/wplywy/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/integracje/adresy/",
+      "case": "validation boundary: /panel/integracje/adresy/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "case": "validation boundary: /panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/administracja/konta/3/zaproszenia/",
+      "case": "validation boundary: /panel/administracja/konta/3/zaproszenia/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "validation boundary: /panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/administracja/user/nowy/",
+      "case": "validation boundary: /panel/administracja/user/nowy/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/administracja/user/3/",
+      "case": "validation boundary: /panel/administracja/user/3/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/administracja/office/nowy/",
+      "case": "validation boundary: /panel/administracja/office/nowy/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/administracja/office/gni/",
+      "case": "validation boundary: /panel/administracja/office/gni/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/administracja/template/nowy/",
+      "case": "validation boundary: /panel/administracja/template/nowy/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/administracja/template/1/",
+      "case": "validation boundary: /panel/administracja/template/1/",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/api/requests/",
+      "case": "validation boundary: /api/requests/",
+      "status": 401,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/api/pools/",
+      "case": "validation boundary: /api/pools/",
+      "status": 401,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/podpis/",
+      "case": "validation boundary: UMP sender podpis",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/wersja/",
+      "case": "validation boundary: UMP sender wersja",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/ezd/",
+      "case": "validation boundary: UMP sender ezd",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/pule/de82254a-0b67-4765-bbe9-71d90d752d9f/",
+      "case": "validation boundary: module III pool",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/wnioski/131ab119-791a-42b1-bf34-06a88e7f5927/",
+      "case": "validation boundary: module III request",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "PATCH",
+      "path": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 401,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/submit/",
+      "case": "valid API submit",
+      "status": 401,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/api/requests/917e2163-8b1b-46fd-b579-f187f797a6a5/decide/",
+      "case": "valid API decision",
+      "status": 401,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/dowody/1/",
+      "case": "evidence belongs to a different letter",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "anonymous",
+      "method": "GET",
+      "path": "/panel/administracja/konta/4/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "invitation belongs to a different account",
+      "status": 302,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/",
+      "case": "/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/logowanie/",
+      "case": "/logowanie/",
+      "status": 302,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/logowanie/kod/",
+      "case": "/logowanie/kod/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/",
+      "case": "/panel/",
+      "status": 302,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/wnioski/",
+      "case": "/panel/wnioski/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/wnioski/nowy/",
+      "case": "/panel/wnioski/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "case": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "case": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/ewidencja/",
+      "case": "/panel/ewidencja/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/ewidencja/e7dc8d9e-faf2-40bd-b053-e9b3a1a844d1/przedluz/",
+      "case": "/panel/ewidencja/e7dc8d9e-faf2-40bd-b053-e9b3a1a844d1/przedluz/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/eksport/",
+      "case": "/panel/eksport/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/import/",
+      "case": "/panel/import/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/import/pule/",
+      "case": "/panel/import/pule/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/pule/",
+      "case": "/panel/pule/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/pule/nowa/",
+      "case": "/panel/pule/nowa/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "case": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/pisma/",
+      "case": "/panel/pisma/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/pdf/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/pdf/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wyslij/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wyslij/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/audyt/",
+      "case": "/panel/audyt/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/integracje/",
+      "case": "/panel/integracje/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/integracje/ezd/wplywy/",
+      "case": "/panel/integracje/ezd/wplywy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/link/",
+      "case": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/link/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/pdf/",
+      "case": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/pdf/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/integracje/adresy/",
+      "case": "/panel/integracje/adresy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "case": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/dowody/1/",
+      "case": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/dowody/1/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/administracja/",
+      "case": "/panel/administracja/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/administracja/konta/3/zaproszenia/",
+      "case": "/panel/administracja/konta/3/zaproszenia/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/administracja/user/nowy/",
+      "case": "/panel/administracja/user/nowy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/administracja/user/3/",
+      "case": "/panel/administracja/user/3/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/administracja/office/nowy/",
+      "case": "/panel/administracja/office/nowy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/administracja/office/gni/",
+      "case": "/panel/administracja/office/gni/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/administracja/template/nowy/",
+      "case": "/panel/administracja/template/nowy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/administracja/template/1/",
+      "case": "/panel/administracja/template/1/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/health/",
+      "case": "/api/health/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/session/",
+      "case": "/api/session/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/availability/?part=ROLE",
+      "case": "/api/availability/?part=ROLE",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/public-challenge/",
+      "case": "/api/public-challenge/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/requests/",
+      "case": "/api/requests/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "case": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/pools/",
+      "case": "/api/pools/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/api/pools/0b2998bc-1f74-4211-8431-0b658b186564/issue/",
+      "case": "/api/pools/0b2998bc-1f74-4211-8431-0b658b186564/issue/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/podpis/",
+      "case": "UMP sender podpis",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/wersja/",
+      "case": "UMP sender wersja",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/ezd/",
+      "case": "UMP sender ezd",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/pule/de82254a-0b67-4765-bbe9-71d90d752d9f/",
+      "case": "module III pool",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/wnioski/131ab119-791a-42b1-bf34-06a88e7f5927/",
+      "case": "module III request",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/",
+      "case": "validation boundary: /",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/logowanie/",
+      "case": "validation boundary: /logowanie/",
+      "status": 302,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/logowanie/kod/",
+      "case": "validation boundary: /logowanie/kod/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/wnioski/nowy/",
+      "case": "validation boundary: /panel/wnioski/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "case": "validation boundary: /panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "validation boundary: /panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/import/",
+      "case": "validation boundary: /panel/import/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/import/pule/",
+      "case": "validation boundary: /panel/import/pule/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/pule/nowa/",
+      "case": "validation boundary: /panel/pule/nowa/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "case": "validation boundary: /panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/integracje/ezd/wplywy/",
+      "case": "validation boundary: /panel/integracje/ezd/wplywy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/integracje/adresy/",
+      "case": "validation boundary: /panel/integracje/adresy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "case": "validation boundary: /panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/administracja/konta/3/zaproszenia/",
+      "case": "validation boundary: /panel/administracja/konta/3/zaproszenia/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "validation boundary: /panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/administracja/user/nowy/",
+      "case": "validation boundary: /panel/administracja/user/nowy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/administracja/user/3/",
+      "case": "validation boundary: /panel/administracja/user/3/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/administracja/office/nowy/",
+      "case": "validation boundary: /panel/administracja/office/nowy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/administracja/office/gni/",
+      "case": "validation boundary: /panel/administracja/office/gni/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/administracja/template/nowy/",
+      "case": "validation boundary: /panel/administracja/template/nowy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/administracja/template/1/",
+      "case": "validation boundary: /panel/administracja/template/1/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/api/requests/",
+      "case": "validation boundary: /api/requests/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/api/pools/",
+      "case": "validation boundary: /api/pools/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/podpis/",
+      "case": "validation boundary: UMP sender podpis",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/wersja/",
+      "case": "validation boundary: UMP sender wersja",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/ezd/",
+      "case": "validation boundary: UMP sender ezd",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/pule/de82254a-0b67-4765-bbe9-71d90d752d9f/",
+      "case": "validation boundary: module III pool",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/wnioski/131ab119-791a-42b1-bf34-06a88e7f5927/",
+      "case": "validation boundary: module III request",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "PATCH",
+      "path": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/wnioski/nowy/",
+      "case": "valid new request",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "case": "valid decision",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/submit/",
+      "case": "valid HTML submit",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/submit/",
+      "case": "valid API submit",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/api/requests/917e2163-8b1b-46fd-b579-f187f797a6a5/decide/",
+      "case": "valid API decision",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "case": "valid letter revision",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/dowody/1/",
+      "case": "evidence belongs to a different letter",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "admin",
+      "method": "GET",
+      "path": "/panel/administracja/konta/4/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "invitation belongs to a different account",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/",
+      "case": "/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/logowanie/",
+      "case": "/logowanie/",
+      "status": 302,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/logowanie/kod/",
+      "case": "/logowanie/kod/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/",
+      "case": "/panel/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/wnioski/",
+      "case": "/panel/wnioski/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/wnioski/nowy/",
+      "case": "/panel/wnioski/nowy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "case": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/ewidencja/",
+      "case": "/panel/ewidencja/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/eksport/",
+      "case": "/panel/eksport/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/import/",
+      "case": "/panel/import/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/import/pule/",
+      "case": "/panel/import/pule/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/pule/",
+      "case": "/panel/pule/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/pule/nowa/",
+      "case": "/panel/pule/nowa/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "case": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/pisma/",
+      "case": "/panel/pisma/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/pdf/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/pdf/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wyslij/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wyslij/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/audyt/",
+      "case": "/panel/audyt/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/integracje/",
+      "case": "/panel/integracje/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/integracje/ezd/wplywy/",
+      "case": "/panel/integracje/ezd/wplywy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/link/",
+      "case": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/link/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/pdf/",
+      "case": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/pdf/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/integracje/adresy/",
+      "case": "/panel/integracje/adresy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "case": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/dowody/1/",
+      "case": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/dowody/1/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/administracja/",
+      "case": "/panel/administracja/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/administracja/konta/3/zaproszenia/",
+      "case": "/panel/administracja/konta/3/zaproszenia/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/administracja/user/nowy/",
+      "case": "/panel/administracja/user/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/administracja/user/3/",
+      "case": "/panel/administracja/user/3/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/administracja/office/nowy/",
+      "case": "/panel/administracja/office/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/administracja/office/gni/",
+      "case": "/panel/administracja/office/gni/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/administracja/template/nowy/",
+      "case": "/panel/administracja/template/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/administracja/template/1/",
+      "case": "/panel/administracja/template/1/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/api/health/",
+      "case": "/api/health/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/api/session/",
+      "case": "/api/session/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/api/availability/?part=ROLE",
+      "case": "/api/availability/?part=ROLE",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/api/public-challenge/",
+      "case": "/api/public-challenge/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/api/requests/",
+      "case": "/api/requests/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/api/pools/",
+      "case": "/api/pools/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/podpis/",
+      "case": "UMP sender podpis",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/wersja/",
+      "case": "UMP sender wersja",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/ezd/",
+      "case": "UMP sender ezd",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/pule/de82254a-0b67-4765-bbe9-71d90d752d9f/",
+      "case": "module III pool",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/wnioski/131ab119-791a-42b1-bf34-06a88e7f5927/",
+      "case": "module III request",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/",
+      "case": "validation boundary: /",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/logowanie/",
+      "case": "validation boundary: /logowanie/",
+      "status": 302,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/logowanie/kod/",
+      "case": "validation boundary: /logowanie/kod/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/wnioski/nowy/",
+      "case": "validation boundary: /panel/wnioski/nowy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "case": "validation boundary: /panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "validation boundary: /panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/import/",
+      "case": "validation boundary: /panel/import/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/import/pule/",
+      "case": "validation boundary: /panel/import/pule/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/pule/nowa/",
+      "case": "validation boundary: /panel/pule/nowa/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "case": "validation boundary: /panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/integracje/ezd/wplywy/",
+      "case": "validation boundary: /panel/integracje/ezd/wplywy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/integracje/adresy/",
+      "case": "validation boundary: /panel/integracje/adresy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "case": "validation boundary: /panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/administracja/konta/3/zaproszenia/",
+      "case": "validation boundary: /panel/administracja/konta/3/zaproszenia/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "validation boundary: /panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/administracja/user/nowy/",
+      "case": "validation boundary: /panel/administracja/user/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/administracja/user/3/",
+      "case": "validation boundary: /panel/administracja/user/3/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/administracja/office/nowy/",
+      "case": "validation boundary: /panel/administracja/office/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/administracja/office/gni/",
+      "case": "validation boundary: /panel/administracja/office/gni/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/administracja/template/nowy/",
+      "case": "validation boundary: /panel/administracja/template/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/administracja/template/1/",
+      "case": "validation boundary: /panel/administracja/template/1/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/api/requests/",
+      "case": "validation boundary: /api/requests/",
+      "status": 400,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/api/pools/",
+      "case": "validation boundary: /api/pools/",
+      "status": 400,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/podpis/",
+      "case": "validation boundary: UMP sender podpis",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/wersja/",
+      "case": "validation boundary: UMP sender wersja",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/ezd/",
+      "case": "validation boundary: UMP sender ezd",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/pule/de82254a-0b67-4765-bbe9-71d90d752d9f/",
+      "case": "validation boundary: module III pool",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/wnioski/131ab119-791a-42b1-bf34-06a88e7f5927/",
+      "case": "validation boundary: module III request",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "case": "valid letter revision",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/dowody/1/",
+      "case": "evidence belongs to a different letter",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "main",
+      "method": "GET",
+      "path": "/panel/administracja/konta/4/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "invitation belongs to a different account",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/",
+      "case": "/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/logowanie/",
+      "case": "/logowanie/",
+      "status": 302,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/logowanie/kod/",
+      "case": "/logowanie/kod/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/",
+      "case": "/panel/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/wnioski/",
+      "case": "/panel/wnioski/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/wnioski/nowy/",
+      "case": "/panel/wnioski/nowy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "case": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/ewidencja/",
+      "case": "/panel/ewidencja/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/ewidencja/e7dc8d9e-faf2-40bd-b053-e9b3a1a844d1/przedluz/",
+      "case": "/panel/ewidencja/e7dc8d9e-faf2-40bd-b053-e9b3a1a844d1/przedluz/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/eksport/",
+      "case": "/panel/eksport/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/import/",
+      "case": "/panel/import/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/import/pule/",
+      "case": "/panel/import/pule/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/pule/",
+      "case": "/panel/pule/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/pule/nowa/",
+      "case": "/panel/pule/nowa/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "case": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/pisma/",
+      "case": "/panel/pisma/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/pdf/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/pdf/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/audyt/",
+      "case": "/panel/audyt/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/integracje/",
+      "case": "/panel/integracje/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/integracje/ezd/wplywy/",
+      "case": "/panel/integracje/ezd/wplywy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/pdf/",
+      "case": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/pdf/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/integracje/adresy/",
+      "case": "/panel/integracje/adresy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "case": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/dowody/1/",
+      "case": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/dowody/1/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/administracja/",
+      "case": "/panel/administracja/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/administracja/konta/3/zaproszenia/",
+      "case": "/panel/administracja/konta/3/zaproszenia/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/administracja/user/nowy/",
+      "case": "/panel/administracja/user/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/administracja/user/3/",
+      "case": "/panel/administracja/user/3/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/administracja/office/nowy/",
+      "case": "/panel/administracja/office/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/administracja/office/gni/",
+      "case": "/panel/administracja/office/gni/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/administracja/template/nowy/",
+      "case": "/panel/administracja/template/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/administracja/template/1/",
+      "case": "/panel/administracja/template/1/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/api/health/",
+      "case": "/api/health/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/api/session/",
+      "case": "/api/session/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/api/availability/?part=ROLE",
+      "case": "/api/availability/?part=ROLE",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/api/public-challenge/",
+      "case": "/api/public-challenge/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/api/requests/",
+      "case": "/api/requests/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/api/pools/",
+      "case": "/api/pools/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/podpis/",
+      "case": "UMP sender podpis",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/wersja/",
+      "case": "UMP sender wersja",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/ezd/",
+      "case": "UMP sender ezd",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/pule/de82254a-0b67-4765-bbe9-71d90d752d9f/",
+      "case": "module III pool",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/wnioski/131ab119-791a-42b1-bf34-06a88e7f5927/",
+      "case": "module III request",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/",
+      "case": "validation boundary: /",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/logowanie/",
+      "case": "validation boundary: /logowanie/",
+      "status": 302,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/logowanie/kod/",
+      "case": "validation boundary: /logowanie/kod/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/wnioski/nowy/",
+      "case": "validation boundary: /panel/wnioski/nowy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "case": "validation boundary: /panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "validation boundary: /panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/import/",
+      "case": "validation boundary: /panel/import/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/import/pule/",
+      "case": "validation boundary: /panel/import/pule/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/pule/nowa/",
+      "case": "validation boundary: /panel/pule/nowa/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "case": "validation boundary: /panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/integracje/ezd/wplywy/",
+      "case": "validation boundary: /panel/integracje/ezd/wplywy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/integracje/adresy/",
+      "case": "validation boundary: /panel/integracje/adresy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "case": "validation boundary: /panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/administracja/konta/3/zaproszenia/",
+      "case": "validation boundary: /panel/administracja/konta/3/zaproszenia/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "validation boundary: /panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/administracja/user/nowy/",
+      "case": "validation boundary: /panel/administracja/user/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/administracja/user/3/",
+      "case": "validation boundary: /panel/administracja/user/3/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/administracja/office/nowy/",
+      "case": "validation boundary: /panel/administracja/office/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/administracja/office/gni/",
+      "case": "validation boundary: /panel/administracja/office/gni/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/administracja/template/nowy/",
+      "case": "validation boundary: /panel/administracja/template/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/administracja/template/1/",
+      "case": "validation boundary: /panel/administracja/template/1/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/api/requests/",
+      "case": "validation boundary: /api/requests/",
+      "status": 400,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/api/pools/",
+      "case": "validation boundary: /api/pools/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/podpis/",
+      "case": "validation boundary: UMP sender podpis",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/wersja/",
+      "case": "validation boundary: UMP sender wersja",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/ezd/",
+      "case": "validation boundary: UMP sender ezd",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/pule/de82254a-0b67-4765-bbe9-71d90d752d9f/",
+      "case": "validation boundary: module III pool",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/wnioski/131ab119-791a-42b1-bf34-06a88e7f5927/",
+      "case": "validation boundary: module III request",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "case": "valid decision",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/api/requests/917e2163-8b1b-46fd-b579-f187f797a6a5/decide/",
+      "case": "valid API decision",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/dowody/1/",
+      "case": "evidence belongs to a different letter",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "county",
+      "method": "GET",
+      "path": "/panel/administracja/konta/4/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "invitation belongs to a different account",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/",
+      "case": "/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/logowanie/",
+      "case": "/logowanie/",
+      "status": 302,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/logowanie/kod/",
+      "case": "/logowanie/kod/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/",
+      "case": "/panel/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/wnioski/",
+      "case": "/panel/wnioski/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/wnioski/nowy/",
+      "case": "/panel/wnioski/nowy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "case": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "case": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/ewidencja/",
+      "case": "/panel/ewidencja/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/ewidencja/e7dc8d9e-faf2-40bd-b053-e9b3a1a844d1/przedluz/",
+      "case": "/panel/ewidencja/e7dc8d9e-faf2-40bd-b053-e9b3a1a844d1/przedluz/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/eksport/",
+      "case": "/panel/eksport/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/import/",
+      "case": "/panel/import/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/import/pule/",
+      "case": "/panel/import/pule/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/pule/",
+      "case": "/panel/pule/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/pule/nowa/",
+      "case": "/panel/pule/nowa/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "case": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/pisma/",
+      "case": "/panel/pisma/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/pdf/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/pdf/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wyslij/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wyslij/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "case": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/audyt/",
+      "case": "/panel/audyt/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/integracje/",
+      "case": "/panel/integracje/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/integracje/ezd/wplywy/",
+      "case": "/panel/integracje/ezd/wplywy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/link/",
+      "case": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/link/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/pdf/",
+      "case": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/pdf/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/integracje/adresy/",
+      "case": "/panel/integracje/adresy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "case": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/dowody/1/",
+      "case": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/dowody/1/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/administracja/",
+      "case": "/panel/administracja/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/administracja/konta/3/zaproszenia/",
+      "case": "/panel/administracja/konta/3/zaproszenia/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/administracja/user/nowy/",
+      "case": "/panel/administracja/user/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/administracja/user/3/",
+      "case": "/panel/administracja/user/3/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/administracja/office/nowy/",
+      "case": "/panel/administracja/office/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/administracja/office/gni/",
+      "case": "/panel/administracja/office/gni/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/administracja/template/nowy/",
+      "case": "/panel/administracja/template/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/administracja/template/1/",
+      "case": "/panel/administracja/template/1/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/api/health/",
+      "case": "/api/health/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/api/session/",
+      "case": "/api/session/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/api/availability/?part=ROLE",
+      "case": "/api/availability/?part=ROLE",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/api/public-challenge/",
+      "case": "/api/public-challenge/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/api/requests/",
+      "case": "/api/requests/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "case": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/api/pools/",
+      "case": "/api/pools/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/api/pools/0b2998bc-1f74-4211-8431-0b658b186564/issue/",
+      "case": "/api/pools/0b2998bc-1f74-4211-8431-0b658b186564/issue/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/podpis/",
+      "case": "UMP sender podpis",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/wersja/",
+      "case": "UMP sender wersja",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/ezd/",
+      "case": "UMP sender ezd",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/pule/de82254a-0b67-4765-bbe9-71d90d752d9f/",
+      "case": "module III pool",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/wnioski/131ab119-791a-42b1-bf34-06a88e7f5927/",
+      "case": "module III request",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/",
+      "case": "validation boundary: /",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/logowanie/",
+      "case": "validation boundary: /logowanie/",
+      "status": 302,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/logowanie/kod/",
+      "case": "validation boundary: /logowanie/kod/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/wnioski/nowy/",
+      "case": "validation boundary: /panel/wnioski/nowy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "case": "validation boundary: /panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "validation boundary: /panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/import/",
+      "case": "validation boundary: /panel/import/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/import/pule/",
+      "case": "validation boundary: /panel/import/pule/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/pule/nowa/",
+      "case": "validation boundary: /panel/pule/nowa/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "case": "validation boundary: /panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "case": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/integracje/ezd/wplywy/",
+      "case": "validation boundary: /panel/integracje/ezd/wplywy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/integracje/adresy/",
+      "case": "validation boundary: /panel/integracje/adresy/",
+      "status": 200,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "case": "validation boundary: /panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/administracja/konta/3/zaproszenia/",
+      "case": "validation boundary: /panel/administracja/konta/3/zaproszenia/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "validation boundary: /panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/administracja/user/nowy/",
+      "case": "validation boundary: /panel/administracja/user/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/administracja/user/3/",
+      "case": "validation boundary: /panel/administracja/user/3/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/administracja/office/nowy/",
+      "case": "validation boundary: /panel/administracja/office/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/administracja/office/gni/",
+      "case": "validation boundary: /panel/administracja/office/gni/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/administracja/template/nowy/",
+      "case": "validation boundary: /panel/administracja/template/nowy/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/administracja/template/1/",
+      "case": "validation boundary: /panel/administracja/template/1/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/api/requests/",
+      "case": "validation boundary: /api/requests/",
+      "status": 400,
+      "denied_registry_tables_unchanged": null
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/api/pools/",
+      "case": "validation boundary: /api/pools/",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/podpis/",
+      "case": "validation boundary: UMP sender podpis",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/wersja/",
+      "case": "validation boundary: UMP sender wersja",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/ezd/",
+      "case": "validation boundary: UMP sender ezd",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/pule/de82254a-0b67-4765-bbe9-71d90d752d9f/",
+      "case": "validation boundary: module III pool",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/wnioski/131ab119-791a-42b1-bf34-06a88e7f5927/",
+      "case": "validation boundary: module III request",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "PATCH",
+      "path": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "case": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "case": "valid decision",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/submit/",
+      "case": "valid HTML submit",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/submit/",
+      "case": "valid API submit",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/api/requests/917e2163-8b1b-46fd-b579-f187f797a6a5/decide/",
+      "case": "valid API decision",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "case": "valid letter revision",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/dowody/1/",
+      "case": "evidence belongs to a different letter",
+      "status": 404,
+      "denied_registry_tables_unchanged": true
+    },
+    {
+      "role": "other",
+      "method": "GET",
+      "path": "/panel/administracja/konta/4/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "case": "invitation belongs to a different account",
+      "status": 403,
+      "denied_registry_tables_unchanged": true
+    }
+  ],
+  "not_repeated_positive_http_writes": [
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/wyloguj/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/ewidencja/e7dc8d9e-faf2-40bd-b053-e9b3a1a844d1/przedluz/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wyslij/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/link/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/wnioski/nowy/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/submit/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "anonymous",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/wyloguj/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "admin",
+      "method": "POST",
+      "path": "/api/session/extend/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/wyloguj/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/ewidencja/e7dc8d9e-faf2-40bd-b053-e9b3a1a844d1/przedluz/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/api/session/extend/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/api/pools/0b2998bc-1f74-4211-8431-0b658b186564/issue/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "main",
+      "method": "PATCH",
+      "path": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/wnioski/nowy/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/submit/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/submit/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "main",
+      "method": "POST",
+      "path": "/api/requests/917e2163-8b1b-46fd-b579-f187f797a6a5/decide/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/wyloguj/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wyslij/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/link/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/api/session/extend/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/api/pools/0b2998bc-1f74-4211-8431-0b658b186564/issue/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "county",
+      "method": "PATCH",
+      "path": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/wnioski/nowy/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/submit/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/submit/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "county",
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/wyloguj/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/api/session/extend/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    },
+    {
+      "role": "other",
+      "method": "POST",
+      "path": "/panel/wnioski/nowy/",
+      "scope": "positive write exercised in rollback-isolated Django role test, not repeated in this HTTP run"
+    }
+  ],
+  "main_tables_preserved": 27,
+  "foreign_personal_data_absent_in_successful_responses": true,
+  "external_operator_calls": false,
+  "operator_evidence_verified": false,
+  "goal_complete": false
+}

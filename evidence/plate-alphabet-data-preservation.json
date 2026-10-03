@@ -1,0 +1,62 @@
+{
+  "primary": {
+    "business_tables_unchanged": true,
+    "tables": {
+      "registry_request": {
+        "count": 5,
+        "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+      },
+      "registry_platerecord": {
+        "count": 5,
+        "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+      },
+      "registry_letter": {
+        "count": 12,
+        "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+      },
+      "registry_pool": {
+        "count": 1,
+        "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+      },
+      "registry_poolslot": {
+        "count": 30,
+        "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+      },
+      "registry_numbersequence": {
+        "count": 3,
+        "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+      }
+    },
+    "existing_q_count": 1
+  },
+  "private": {
+    "business_tables_unchanged": true,
+    "tables": {
+      "registry_request": {
+        "count": 9,
+        "sha256": "7318248e270f03e15ec86f7bf5f86e01d3ba4b003d1af4084424318e9a903f0b"
+      },
+      "registry_platerecord": {
+        "count": 5,
+        "sha256": "1494b731c8b7d864bc915b517f739f6ba93bdd5918da3bb9843aca24af3f24cc"
+      },
+      "registry_letter": {
+        "count": 18,
+        "sha256": "f87b516b80617fea6b504e28862dc8bd2d316755c53ec7c386a5f30e5263980d"
+      },
+      "registry_pool": {
+        "count": 5,
+        "sha256": "90fc1f98aacc19e1bcdf82a6f108e8e0f352b40c6631a752fb4234c254fb70a9"
+      },
+      "registry_poolslot": {
+        "count": 543,
+        "sha256": "b752b5fe406aeb9e7c6478863236f0a8f1154e47764a73c02614aed83b75f059"
+      },
+      "registry_numbersequence": {
+        "count": 3,
+        "sha256": "bc13162f0d0f2876983660d20a1cc4992ea4ff51d77b9122e5eacb24652ca670"
+      }
+    },
+    "existing_q_count": 0
+  }
+}

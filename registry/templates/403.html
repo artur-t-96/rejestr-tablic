@@ -1,0 +1,5 @@
+{% extends 'registry/base.html' %}
+{% block title %}Brak uprawnień · Dyna{% endblock %}
+{% block content %}
+<section class="card form-card"><h1>Brak uprawnień</h1><p>Twoje konto nie ma dostępu do tej operacji. Jeśli potrzebujesz dodatkowych uprawnień, skontaktuj się z administratorem swojego urzędu.</p><p>{% if user.is_authenticated %}<a class="button" href="{% url 'dashboard' %}">Wróć do panelu</a>{% else %}<a class="button" href="{% url 'login_email' %}">Przejdź do logowania</a>{% endif %}</p></section>
+{% endblock %}

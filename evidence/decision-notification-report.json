@@ -1,0 +1,140 @@
+{
+  "time": "2026-10-03T03:33:43.687538+00:00",
+  "revision": "cadcce794de4ce4a51451deacb79b562128ff198",
+  "scope": "private Chrome and local file mail; no external operator",
+  "sqlite_tests": 62,
+  "postgres_tests": 15,
+  "real_smtp_verified": false,
+  "external_apis_verified": false,
+  "full_goal_complete": false,
+  "legal_iii_confirmed": false,
+  "primary_business_unchanged": true,
+  "primary_business_hashes": {
+    "registry_request": {
+      "count": 5,
+      "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+    },
+    "registry_platerecord": {
+      "count": 5,
+      "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+    },
+    "registry_letter": {
+      "count": 12,
+      "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+    },
+    "registry_pool": {
+      "count": 1,
+      "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+    },
+    "registry_poolslot": {
+      "count": 30,
+      "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+    },
+    "registry_numbersequence": {
+      "count": 3,
+      "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+    }
+  },
+  "primary_migration_0009": true,
+  "primary_jobs": [
+    [
+      "SMTP",
+      "SEND",
+      "LOCAL_SAVED",
+      1
+    ]
+  ],
+  "empty_end_date": {
+    "request_status": "SENT",
+    "pool_count": 4,
+    "job_count": 0
+  },
+  "requests": [
+    {
+      "uuid": "cbdf3433-defe-4e89-bf96-d902da06dbe2",
+      "reference": "W/2026/00008",
+      "status": "APPROVED",
+      "pool": [
+        "891acfb79da34f50badab7c7135fee36",
+        "2026-10-03",
+        "2026-12-31",
+        "Fikcyjna stacja — odbiór powiadomień"
+      ],
+      "notice": {
+        "uuid": "e31e67da-1b83-4ae0-8380-33569dc921c5",
+        "status": "LOCAL_SAVED",
+        "attempts": 1,
+        "snapshot_sha256": "a6374c98065d7ab9cdbc5858fb5f8c5465d51c38405a950d44d6dcb5b3e6b1d9",
+        "result": {
+          "transport": "file",
+          "delivery_confirmed": false
+        },
+        "mime": {
+          "sha256": "aaba6a4e489ecbc3278c66d687b11c9efc7c3ffd19436cc157b6fc727cbac5cf",
+          "to": "gniezno@example.invalid",
+          "attachments": 0,
+          "request_link_present": true
+        }
+      },
+      "letters": [
+        {
+          "uuid": "49bf9c0c-7700-4ed1-b84b-82e82250d7b2",
+          "kind": "APPLICATION",
+          "sha256": "22617f9e5dcb1d4de2bd82cdff57d65b157fbda7f31c8a0e13808a38216f7674"
+        },
+        {
+          "uuid": "7489c3a3-724b-4d19-923c-8be0f4073ec2",
+          "kind": "POOL",
+          "sha256": "7d3f080be534db6d52d911676213e5654354dd9900c34258f77d26ef2c00cba1"
+        }
+      ]
+    },
+    {
+      "uuid": "e4100e63-196e-4414-b9af-4b04ff363e1c",
+      "reference": "W/2026/00009",
+      "status": "REJECTED",
+      "pool": null,
+      "notice": {
+        "uuid": "a4a92c8e-1d64-46ca-8206-88086f520c91",
+        "status": "LOCAL_SAVED",
+        "attempts": 1,
+        "snapshot_sha256": "cfb981dd31e8213cdc499d1744d2dea989777fed25271cc6d9618fb503e750c9",
+        "result": {
+          "transport": "file",
+          "delivery_confirmed": false
+        },
+        "mime": {
+          "sha256": "acc6e71a07f0e460d0d9066911b01e848b627baf3f359f4aa840660b681b02cd",
+          "to": "gniezno@example.invalid",
+          "attachments": 0,
+          "request_link_present": true
+        }
+      },
+      "letters": [
+        {
+          "uuid": "fd98e03c-0e30-423d-8f04-0cc7a9917dd0",
+          "kind": "APPLICATION",
+          "sha256": "996ce74e3207adc9058d4b4aec4c19e46f274ef5928066921fea18d5a6c77bd8"
+        },
+        {
+          "uuid": "5f74589a-ff95-4432-aa3d-3f34118b7d68",
+          "kind": "REJECTION",
+          "sha256": "8a768ecd4b11be92e95deb3d84bd9318ecc2e6b2b6c77a6995cc2879440ac439"
+        }
+      ]
+    }
+  ],
+  "private_counts": {
+    "registry_request": 9,
+    "registry_pool": 5,
+    "registry_poolslot": 543,
+    "registry_letter": 18,
+    "registry_integrationjob": 2
+  },
+  "screenshots": [
+    "evidence/private/58-pula-iii-wymagany-koniec.jpg",
+    "evidence/private/59-decyzja-iii-kolejka.jpg",
+    "evidence/private/60-odmowa-iii-powiadomienie.jpg",
+    "evidence/private/61-autor-powiadomienie-iii.jpg"
+  ]
+}

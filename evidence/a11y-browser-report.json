@@ -1,0 +1,69 @@
+{
+  "synthetic_data": true,
+  "private_app": "http://127.0.0.1:8771",
+  "browser": "Chrome, profil użytkownika",
+  "test_method": "Rzeczywiste powiększenie Chrome 400%; zmierzony viewport 320 CSS px. Operacje UI i odczyt DOM.",
+  "keyboard_skip_focus": "main",
+  "input_focus": {
+    "border": "rgb(104, 123, 137)",
+    "id": "id_part",
+    "outline": "rgb(0, 94, 120)"
+  },
+  "error_summary_focus_verified": true,
+  "error_link_field_focus": "id_number",
+  "public_result": {
+    "focused": "availability-result",
+    "scroll": 320,
+    "viewport": 320
+  },
+  "request_error": {
+    "focused": "form-errors",
+    "scroll": 320,
+    "viewport": 320
+  },
+  "request_detail": {
+    "scroll": 320,
+    "title": "Wniosek W/2026/00004 · Dyna Rejestr Tablic",
+    "viewport": 320
+  },
+  "table": {
+    "regions": [
+      {
+        "name": "Lista wniosków",
+        "scrollWidth": 555,
+        "tabindex": 0,
+        "width": 246
+      }
+    ],
+    "scroll": 320,
+    "viewport": 320
+  },
+  "table_arrow_right_scrolled_px": 10,
+  "module_III_fields": {
+    "countDisabled": false,
+    "countRequired": true,
+    "ownerDisabled": true,
+    "scroll": 320,
+    "viewport": 320
+  },
+  "module_III_detail": {
+    "scroll": 320,
+    "title": "Wniosek W/2026/00005 · Dyna Rejestr Tablic",
+    "viewport": 320
+  },
+  "individual_created_reference": "W/2026/00004",
+  "pool_created_reference": "W/2026/00005",
+  "zoom_reset_to_100_percent": true,
+  "viewport_override_reset": true,
+  "wcag_full_conformance_verified": false,
+  "screen_reader_verified": false,
+  "captcha_completed": false,
+  "screenshots": [
+    "evidence/private/32-a11y-table-focus-400.png",
+    "evidence/private/33-a11y-wniosek-III.jpg"
+  ],
+  "public_error_after_skip_fragment": {
+    "focused": "form-errors",
+    "url": "http://127.0.0.1:8771/#main"
+  }
+}

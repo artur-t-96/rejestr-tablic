@@ -1,0 +1,26 @@
+{% extends 'registry/base.html' %}
+{% block title %}Import historycznych pul · Dyna Rejestr Tablic{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">Migracja danych · moduły II i III</p><h1>Import historycznych pul</h1><p class="muted">Wprowadź faktycznie przydzielone numery z dokumentów urzędu. Import nie jest nową decyzją i nie generuje korespondencji.</p></div></div>
+<section class="card"><h2>Wykaz źródłowy</h2>
+<p>CSV UTF-8 ze średnikiem lub XLSX, do 5000 numerów i 100 pul. Jeden wiersz opisuje jeden numer; powtórz dane puli w każdym jej wierszu. Urząd wskazuje office_id ze słownika. Można zapisać także wygasłe pule i nieaktywne urzędy.</p>
+<p>XLSX: pierwszy wiersz zawiera nagłówki wzoru; identyfikatory i pozostałe teksty zapisz jako tekst. Daty mogą być datami Excela bez godzin albo tekstem RRRR-MM-DD. Formuły, makra, ukryte wiersze/kolumny i scalone komórki wymagają przygotowania źródła.</p>
+<p>Obowiązkowe kolumny: pool_ref, kind, office_id, prefix, number, valid_from, source_reference. Dla III wymagane valid_until. Daty: RRRR-MM-DD. Dla wydanych numerów podaj issued_on i case_number; pozostałe pozostaw puste. Nie uzupełniamy luk ani brakujących numerów.</p>
+<p><a href="?template=1">Pobierz nagłówki CSV</a> · <a href="{% url 'import_records' %}">Import tablic indywidualnych</a></p>
+<form method="post" enctype="multipart/form-data">{% csrf_token %}<input type="hidden" name="action" value="preview">{{ upload_form.as_p }}<button>Sprawdź wykaz pul</button></form>
+</section>
+{% if preview %}
+<section class="card"><h2>Podgląd wykazu · numery: {{ preview.rows|length }} · pule: {{ preview.groups|length }}</h2>
+{% for error in preview.errors %}<div class="notice error" role="alert">{{ error }}</div>{% endfor %}
+{% if saved %}<p>Plik: <strong>{{ saved.filename }}</strong>. Format: {{ saved.source_format }}{% if saved.source_sheet %}, arkusz: <strong>{{ saved.source_sheet }}</strong>{% endif %}. Podgląd ważny przez 15 minut.</p><p>SHA-256: <code>{{ preview.sha256 }}</code></p>{% endif %}
+<div class="table-wrap"><table><caption>Podsumowanie pul z wykazu</caption><thead><tr><th>Pula i źródło</th><th>Rodzaj</th><th>Urząd</th><th>Wykaz numerów</th><th>Okres</th></tr></thead><tbody>
+{% for group in preview.groups %}<tr><td>{{ group.pool_ref }}<small>{{ group.source_reference }}</small></td><td>{{ group.kind }}</td><td>{{ group.office_name }}<small>{{ group.office_id }}</small></td><td>{{ group.first }} – {{ group.last }}<small>Liczba numerów: {{ group.count }} · wydane: {{ group.issued }}</small></td><td>{{ group.valid_from }} – {{ group.valid_until|default:'bezterminowo' }}</td></tr>{% endfor %}
+</tbody></table></div>
+<div class="table-wrap"><table><caption>Poszczególne numery importu</caption><thead><tr><th>Pula</th><th>Numer</th><th>Data wydania</th><th>Sprawa</th></tr></thead><tbody>
+{% for row in preview_rows %}<tr><td>{{ row.pool_ref }}</td><td class="number">{{ row.number }}</td><td>{{ row.issued_on|default:'Nie wydano' }}</td><td>{{ row.case_number|default:'—' }}</td></tr>{% endfor %}
+</tbody></table></div>
+<nav aria-label="Strony numerów importu"><p>Numery {{ preview_rows.start_index }}–{{ preview_rows.end_index }} z {{ preview.rows|length }} · strona {{ preview_rows.number }} z {{ preview_rows.paginator.num_pages }}</p>{% if preview_rows.has_previous %}<a href="?page={{ preview_rows.previous_page_number }}">Poprzednie numery</a>{% endif %} {% if preview_rows.has_next %}<a href="?page={{ preview_rows.next_page_number }}">Następne numery</a>{% endif %}</nav>
+{% if saved and not preview.errors %}<h3>Zatwierdzenie całego wykazu</h3><p>Import obejmie wszystkie wiersze pliku. Istniejące wpisy pozostaną bez zmian. Zachowaj oryginalny plik CSV/XLSX i dokumenty źródłowe w archiwum urzędu; aplikacja zapisze ich oznaczenie oraz sumę pliku.</p><form method="post">{% csrf_token %}<input type="hidden" name="action" value="confirm">{{ confirm_form.as_p }}<button>Zatwierdź cały wykaz</button></form>{% endif %}
+</section>
+{% endif %}
+{% endblock %}

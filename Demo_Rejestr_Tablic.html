@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rejestr Tablic – demo</title>
+<style>
+:root{
+  --bg:#f4f6f8; --card:#fff; --ink:#1a1e23; --muted:#5d6672; --line:#dce1e6; --soft:#eef1f4;
+  --accent:#0b5cad; --accent-ink:#fff; --accent-soft:#e5eff9;
+  --ok:#23804f; --ok-soft:#e4f3ea; --bad:#b42f2f; --bad-soft:#f9e6e6; --warn:#a86a0c; --warn-soft:#fbf0dc;
+  --r1:#23804f; --r2:#b7791f; --r3:#9b2c2c;
+  --ezd:#3c4a5c; --ezd-soft:#e9edf2;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121519; --card:#1b1f25; --ink:#e6e9ed; --muted:#98a2ae; --line:#2d333b; --soft:#232830;
+    --accent:#5ea6ee; --accent-ink:#0b1623; --accent-soft:#1b2a3a;
+    --ok:#5fcf8f; --ok-soft:#18301f; --bad:#f28b8b; --bad-soft:#3a1d1d; --warn:#f2c06a; --warn-soft:#352a16;
+    --r1:#5fcf8f; --r2:#f2c06a; --r3:#f28b8b; --ezd:#aab6c4; --ezd-soft:#232a33;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--accent)}
+.demo-bar{background:var(--warn-soft);color:var(--warn);font-size:12.5px;text-align:center;padding:5px 16px;border-bottom:1px solid var(--line)}
+header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.hwrap{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;margin-right:auto}
+.brand .logo{width:34px;height:34px;border-radius:7px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:800 13px Consolas,monospace}
+.brand small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.roles{display:flex;gap:4px;background:var(--soft);padding:4px;border-radius:9px;flex-wrap:wrap}
+.roles button{border:0;background:transparent;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:13.5px;display:flex;align-items:center;gap:7px}
+.roles button .dot{width:9px;height:9px;border-radius:50%}
+.roles button.on{background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.12);font-weight:600}
+.reset{border:1px solid var(--line);background:var(--card);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:12.5px;color:var(--muted)}
+main{max-width:1180px;margin:0 auto;padding:22px 16px 80px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:16px}
+h1{font-size:24px;margin:0 0 6px} h2{font-size:18px;margin:0 0 12px} h3{font-size:15px;margin:16px 0 8px}
+.muted{color:var(--muted)} .small{font-size:13px}
+.hero{background:linear-gradient(135deg,var(--accent-soft),var(--card));}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label{font-size:12.5px;color:var(--muted);font-weight:600}
+input,select,textarea{border:1px solid var(--line);background:var(--card);border-radius:7px;padding:9px 11px;min-width:0}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:transparent}
+input.big{font:700 22px Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;width:190px}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);border-radius:7px;padding:9px 16px;cursor:pointer;font-weight:600}
+.btn.sec{background:var(--card);color:var(--accent)}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.bad{background:var(--card);border-color:var(--bad);color:var(--bad)}
+.btn.sm{padding:5px 10px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:16px;flex-wrap:wrap}
+.tabs button{border:0;background:none;padding:9px 14px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;color:var(--muted);font-weight:600;font-size:14px}
+.tabs button.on{color:var(--ink);border-color:var(--accent)}
+.badge{display:inline-block;min-width:19px;padding:0 6px;border-radius:999px;background:var(--bad);color:#fff;font-size:11.5px;text-align:center;margin-left:5px}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.p-ok{background:var(--ok-soft);color:var(--ok)} .p-bad{background:var(--bad-soft);color:var(--bad)}
+.p-warn{background:var(--warn-soft);color:var(--warn)} .p-info{background:var(--accent-soft);color:var(--accent)} .p-mute{background:var(--soft);color:var(--muted)}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);font-weight:600}
+tr.click{cursor:pointer} tr.click:hover td{background:var(--soft)}
+.plate{display:inline-flex;align-items:stretch;border:2px solid #1d1d1d;border-radius:4px;overflow:hidden;background:#fff;color:#111;font:700 15px/1 Consolas,monospace;vertical-align:middle}
+.plate .eu{background:#1f3fa8;color:#ffd200;font-size:8px;padding:2px 3px;display:flex;align-items:flex-end}
+.plate .t{padding:4px 8px;letter-spacing:.07em;white-space:nowrap}
+.plate.lg{font-size:30px;border-width:3px;border-radius:6px}.plate.lg .eu{font-size:11px;padding:4px 6px}.plate.lg .t{padding:10px 16px}
+.plate.dim{opacity:.4}
+.digits{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:12px 0}
+.dg{border:1px solid var(--line);border-radius:8px;padding:10px;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.dg.free{border-color:var(--ok);background:var(--ok-soft)}
+.dg.sel{outline:2px solid var(--accent)}
+.result{border-radius:10px;padding:16px 18px;margin-top:14px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.result.ok{background:var(--ok-soft)} .result.bad{background:var(--bad-soft)} .result.warn{background:var(--warn-soft)}
+.result h3{margin:0 0 4px}
+.sugg{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.sugg button{border:1px dashed var(--ok);background:var(--card);border-radius:7px;padding:5px;cursor:pointer}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:10px}
+.step{background:var(--soft);border-radius:8px;padding:12px}
+.step b{display:block;color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:6px 12px;font-size:14px}
+.kv div:nth-child(odd){color:var(--muted)}
+.login{max-width:430px;margin:30px auto}
+.login .card{padding:26px}
+.hist{list-style:none;margin:0;padding:0;font-size:13.5px}
+.hist li{padding:6px 0 6px 16px;border-left:2px solid var(--line);position:relative}
+.hist li::before{content:"";position:absolute;left:-5px;top:12px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.bar{height:8px;background:var(--soft);border-radius:4px;overflow:hidden;min-width:90px}
+.bar i{display:block;height:100%;background:var(--ok)}
+.bar i.hi{background:var(--bad)}
+/* EZD */
+.ezd{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:16px}
+.ezd .top{background:var(--ezd);color:var(--card);padding:10px 16px;display:flex;justify-content:space-between;font-weight:600;font-size:14px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ezd .top{color:#111}}
+.ezd .body{background:var(--ezd-soft);padding:6px 0}
+.ezd .item{display:flex;gap:14px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.ezd .item:last-child{border-bottom:0}
+.ezd .item.unread{font-weight:600}
+.ezd .item .ico{width:34px;height:40px;border:1px solid var(--line);background:var(--card);border-radius:3px;display:grid;place-items:center;font-size:10px;font-weight:700;color:var(--bad)}
+.ezd .item .txt{flex:1;min-width:220px}
+.ezd .item .txt small{display:block;font-weight:400;color:var(--muted)}
+/* modal */
+.modal-bg{position:fixed;inset:0;background:rgba(10,14,20,.55);display:flex;align-items:flex-start;justify-content:center;padding:30px 16px;overflow:auto;z-index:20}
+.modal{background:var(--card);border-radius:12px;max-width:860px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.modal .mh{padding:14px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.modal .mh h2{margin:0;font-size:17px}
+.modal .mb{padding:20px}
+.modal .mf{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+.x{border:0;background:none;font-size:22px;cursor:pointer;color:var(--muted)}
+.paper-wrap{background:var(--soft);padding:18px;border-radius:8px;max-height:60vh;overflow:auto}
+.paper{background:#fff;color:#111;max-width:640px;margin:0 auto;padding:44px 50px;font:14px/1.6 "Times New Roman",serif;box-shadow:0 2px 8px rgba(0,0,0,.15);min-height:700px}
+.paper .hd{display:flex;justify-content:space-between;border-bottom:2px solid #111;padding-bottom:8px;margin-bottom:22px;font-size:13px}
+.paper .hd b{font-size:14px}
+.paper .rcp{margin:18px 0 22px 55%}
+.paper .subj{font-weight:700;margin:14px 0}
+.paper .sig{margin-top:50px;margin-left:55%;text-align:center;font-size:13px}
+.paper .sig i{display:block;border:1px dashed #1f3fa8;color:#1f3fa8;padding:6px;margin-bottom:6px;font-size:11px}
+.edor{background:var(--ok-soft);border-radius:8px;padding:12px 14px;margin-top:12px;font-size:14px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:s .7s linear infinite;vertical-align:-2px}
+@keyframes s{to{transform:rotate(360deg)}}
+.toasts{position:fixed;right:16px;bottom:16px;display:flex;flex-direction:column;gap:8px;z-index:30;max-width:calc(100% - 32px)}
+.toast{background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:8px;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.25);max-width:380px}
+.empty{padding:26px;text-align:center;color:var(--muted)}
+.userchip{font-size:13px;color:var(--muted);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+@media (max-width:600px){.kv{grid-template-columns:1fr}.paper{padding:26px 22px}.paper .rcp,.paper .sig{margin-left:30%}input.big{width:150px}}
+@media print{
+  body.print-letter > *:not(.modal-bg){display:none!important}
+  body.print-letter .modal-bg{position:static;background:none;padding:0}
+  body.print-letter .modal{box-shadow:none}
+  body.print-letter .mh,body.print-letter .mf,body.print-letter .edor{display:none}
+  body.print-letter .paper-wrap{background:none;padding:0;max-height:none}
+  body.print-letter .paper{box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="demo-bar">Wersja demonstracyjna – wszystkie dane są fikcyjne, integracje z EZD i e-Doręczeniami są symulowane.</div>
+<header>
+  <div class="hwrap">
+    <div class="brand"><div class="logo">P0</div><div>Rejestr Tablic Wielkopolska<small>Ewidencja wyróżników tablic rejestracyjnych</small></div></div>
+    <div class="roles" id="roles"></div>
+    <button class="reset" onclick="App.reset()" title="Przywraca dane startowe">↺ Reset demo</button>
+  </div>
+</header>
+<main id="app"></main>
+<div id="modal"></div>
+<div class="toasts" id="toasts"></div>
+
+<script>
+/* Jeden urząd główny (UMP) + wszystkie urzędy rejestrujące w województwie (31 starostw + 3 miasta na prawach powiatu) */
+const OFFICES = [
+  {id:'ump', kind:'ump', name:'Urząd Miasta Poznania – Wydział Komunikacji', short:'UMP', city:'Poznań', ade:'AE:PL-10473-81025-ABCDE-11', email:'k.wisniewska@um.poznan.pl'},
+  {id:'kal', kind:'miasto', name:'Urząd Miasta Kalisza', short:'Kalisz (miasto)', city:'Kalisz', ade:'AE:PL-71190-33015-PQRST-44', email:'j.kaczmarek@um.kalisz.pl'},
+  {id:'kon', kind:'miasto', name:'Urząd Miejski w Koninie', short:'Konin (miasto)', city:'Konin', ade:'AE:PL-62004-18833-UVWXY-55', email:'e.lewandowska@konin.um.gov.pl'},
+  {id:'les', kind:'miasto', name:'Urząd Miasta Leszna', short:'Leszno (miasto)', city:'Leszno', ade:'AE:PL-44121-90312-ZABCD-66', email:'p.wojcik@leszno.pl'},
+  ...[
+    ['chd','chodzieski','Chodzież','Chodzieży'],['czt','czarnkowsko-trzcianecki','Czarnków','Czarnkowie'],['gni','gnieźnieński','Gniezno','Gnieźnie'],
+    ['gos','gostyński','Gostyń','Gostyniu'],['grd','grodziski','Grodzisk Wlkp.','Grodzisku Wielkopolskim'],['jar','jarociński','Jarocin','Jarocinie'],
+    ['kli','kaliski','Kalisz','Kaliszu'],['kep','kępiński','Kępno','Kępnie'],['kol','kolski','Koło','Kole'],['kni','koniński','Konin','Koninie'],
+    ['kos','kościański','Kościan','Kościanie'],['kro','krotoszyński','Krotoszyn','Krotoszynie'],['lsz','leszczyński','Leszno','Lesznie'],
+    ['mdz','międzychodzki','Międzychód','Międzychodzie'],['nto','nowotomyski','Nowy Tomyśl','Nowym Tomyślu'],['obo','obornicki','Oborniki','Obornikach'],
+    ['ost','ostrowski','Ostrów Wlkp.','Ostrowie Wielkopolskim'],['osz','ostrzeszowski','Ostrzeszów','Ostrzeszowie'],['pil','pilski','Piła','Pile'],
+    ['ple','pleszewski','Pleszew','Pleszewie'],['pzn','poznański','Poznań','Poznaniu'],['raw','rawicki','Rawicz','Rawiczu'],['slu','słupecki','Słupca','Słupcy'],
+    ['szr','szamotulski','Szamotuły','Szamotułach'],['sre','średzki','Środa Wlkp.','Środzie Wielkopolskiej'],['srm','śremski','Śrem','Śremie'],
+    ['tur','turecki','Turek','Turku'],['wag','wągrowiecki','Wągrowiec','Wągrowcu'],['wol','wolsztyński','Wolsztyn','Wolsztynie'],
+    ['wrz','wrzesiński','Września','Wrześni'],['zlo','złotowski','Złotów','Złotowie']
+  ].map(([id,adj,city,loc],i)=>({id,kind:'powiat',name:'Starostwo Powiatowe w '+loc,short:'Powiat '+adj,city,
+    ade:'AE:PL-'+(20000+i*731)+'-'+(10000+i*977)+'-POW'+String.fromCharCode(65+i%26)+String.fromCharCode(70+i%20)+'-'+(10+i),
+    email:'wydzial.komunikacji@powiat-'+id+'.pl'}))
+];
+OFFICES.find(o=>o.id==='pzn').email='a.nowak@powiat.poznan.pl';
+OFFICES.find(o=>o.id==='gni').email='m.zielinski@powiat-gniezno.pl';
+OFFICES.find(o=>o.id==='pil').email='t.mazur@powiat.pila.pl';
+OFFICES.find(o=>o.id==='szr').email='r.krawczyk@szamotuly.pl';
+function officeOptions(sel,withUmp){
+  const g=(label,kind)=>`<optgroup label="${label}">${OFFICES.filter(o=>o.kind===kind).sort((a,b)=>a.short.localeCompare(b.short,'pl')).map(o=>`<option value="${o.id}" ${o.id===sel?'selected':''}>${esc(o.kind==='powiat'?o.short+' – '+o.name:o.name)}</option>`).join('')}</optgroup>`;
+  return (withUmp?g('Urząd główny','ump'):'')+g('Miasta na prawach powiatu','miasto')+g('Starostwa powiatowe','powiat');
+}
+const off = id => OFFICES.find(o=>o.id===id);
+const TODAY = '2026-09-25';
+
+function seed(){
+  let pid=0;
+  const P = (plate,office,status,owner,letter,date,vehicle)=>({id:++pid,plate,office,status,owner,letter,date,vehicle:vehicle||null,hist:[{d:date,t:'Wpis do ewidencji – pismo '+letter}]});
+  return {
+    seq:{letter:41, req:18, plate:100},
+    plates:[
+      P('P0KOWAL','pzn','wydany','Jan Kowalski','UMP/TI/2026/012','2026-03-12',{vin:'WVWZZZ1KZ8W123456',model:'Volkswagen Golf'}),
+      P('P1KOWAL','gni','wydany','Piotr Kowalski','UMP/TI/2026/019','2026-04-02',{vin:'TMBJJ7NE0J0123987',model:'Škoda Octavia'}),
+      P('P3LECH','ump','wydany','Lech Nowicki','UMP/TI/2025/233','2025-11-20',{vin:'WBA8E9C50GK123111',model:'BMW 320d'}),
+      P('P7ANNA','kal','wydany','Anna Wróbel','UMP/TI/2026/027','2026-05-14',{vin:'VF1RFB00X61234567',model:'Renault Clio'}),
+      ...['0','1','2','3','5','6','7','8','9'].map((d,i)=>P('P'+d+'BMW',['ump','pzn','kal','kon','les','pil','gni','szr','ump'][i],'wydany','Właściciel '+(i+1),'UMP/TI/2025/1'+(10+i),'2025-0'+(1+i%9)+'-1'+i,{vin:'WBA000000000000'+(10+i),model:'BMW'})),
+      P('P2POZN','ump','przydzielony','Marta Poznańska','UMP/TI/2026/038','2026-09-18'),
+      P('P0KASIA','les','wydany','Katarzyna Olejnik','UMP/TI/2026/031','2026-06-30',{vin:'ZFA31200000123456',model:'Fiat 500'}),
+      P('P4ROBO','ost','wydany','Robert Bednarek','UMP/TI/2026/022','2026-04-22',{vin:'SJNFAAJ11U1234567',model:'Nissan Qashqai'}),
+      P('P8OLA','wrz','wydany','Aleksandra Sikora','UMP/TI/2026/029','2026-06-03',{vin:'U5YPG81ABKL123456',model:'Kia Sportage'}),
+      P('P1RALLY','kro','wydany','Moto-Sport Krotoszyn Sp. z o.o.','UMP/TI/2026/025','2026-05-06',{vin:'JMZBK14Z201234567',model:'Mazda MX-5'}),
+      P('P6MAREK','zlo','przydzielony','Marek Dudek','UMP/TI/2026/036','2026-09-10')
+    ],
+    requests:[
+      {id:'W/2026/0017',type:'TI',plate:'P5ANNA',office:'gni',user:'m.zielinski@powiat-gniezno.pl',owner:'Anna Nowak',addr:'ul. Chrobrego 4, 62-200 Gniezno',vin:'',caseNo:'KM.5410.112.2026',status:'wyslany',channel:'edor',created:'2026-09-24',letter:'GNI/KM/2026/0877',hist:[{d:'2026-09-24',t:'Wniosek utworzony (Powiat gnieźnieński)'},{d:'2026-09-24',t:'Pismo wysłane e-Doręczeniami do UMP'}]},
+      {id:'W/2026/0016',type:'TI',plate:'P9TOMEK',office:'szr',user:'r.krawczyk@szamotuly.pl',owner:'Tomasz Kubiak',addr:'ul. Dworcowa 11, 64-500 Szamotuły',vin:'',caseNo:'KT.5410.44.2026',status:'wyslany',channel:'druk',created:'2026-09-23',letter:'SZR/KT/2026/0301',hist:[{d:'2026-09-23',t:'Wniosek utworzony (Powiat szamotulski)'},{d:'2026-09-23',t:'Pismo wysłane pocztą (wydruk)'}]},
+      {id:'W/2026/0015',type:'P3',office:'kon',user:'e.lewandowska@konin.um.gov.pl',count:50,station:'SKP Konin, ul. Przemysłowa 12',status:'wyslany',channel:'edor',created:'2026-09-22',letter:'KON/WK/2026/1450',hist:[{d:'2026-09-22',t:'Wniosek o pulę tablic do badań (Konin)'},{d:'2026-09-22',t:'Pismo wysłane e-Doręczeniami do UMP'}]},
+      {id:'W/2026/0014',type:'TI',plate:'P2POZN',office:'ump',user:'k.wisniewska@um.poznan.pl',owner:'Marta Poznańska',addr:'ul. Głogowska 70, 60-001 Poznań',caseNo:'WK.5410.301.2026',status:'zaakceptowany',channel:'edor',created:'2026-09-17',decided:'2026-09-18',letter:'UMP/TI/2026/038',hist:[{d:'2026-09-17',t:'Wniosek utworzony'},{d:'2026-09-18',t:'Zaakceptowany przez UMP'}]}
+    ],
+    ezd:[
+      {id:'EZD-88412',req:'W/2026/0017',from:'gni',subj:'Wniosek o potwierdzenie możliwości wydania tablic indywidualnych P5 ANNA',date:'2026-09-24 10:42',read:false},
+      {id:'EZD-88390',req:'W/2026/0016',from:'szr',subj:'Wniosek o potwierdzenie możliwości wydania tablic indywidualnych P9 TOMEK',date:'2026-09-24 08:15',read:false},
+      {id:'EZD-88301',req:'W/2026/0015',from:'kon',subj:'Wniosek o przydział tablic do badań technicznych (50 szt.)',date:'2026-09-22 13:03',read:false}
+    ],
+    pools:[
+      {id:1,type:'II',office:'ump',from:1000,to:2999,used:1344,date:'2026-01-10',letter:'UMP/P2/2026/001'},
+      {id:2,type:'II',office:'pzn',from:3000,to:3999,used:612,date:'2026-01-10',letter:'UMP/P2/2026/002'},
+      {id:3,type:'II',office:'gni',from:4000,to:4499,used:486,date:'2026-01-10',letter:'UMP/P2/2026/003'},
+      {id:4,type:'II',office:'kal',from:4500,to:4999,used:120,date:'2026-02-03',letter:'UMP/P2/2026/004'},
+      {id:5,type:'III',office:'ump',from:1,to:100,used:71,date:'2026-01-15',letter:'UMP/P3/2026/001'},
+      {id:6,type:'III',office:'pzn',from:101,to:150,used:22,date:'2026-01-15',letter:'UMP/P3/2026/002'},
+      {id:7,type:'III',office:'kon',from:151,to:180,used:29,date:'2026-02-20',letter:'UMP/P3/2026/003'}
+    ]
+  };
+}
+
+const LS='rejestr-tablic-demo-v2';
+let S; try{S=JSON.parse(localStorage.getItem(LS))}catch(e){}
+if(!S||!S.plates) S=seed();
+const UI={role:'obywatel', tab:{powiat:'check',ump:'ezd'}, sess:{powiat:null,ump:null}, login:{step:1,office:'gni'}, check:{}, detail:null};
+function save(){try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}}
+
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = p => p.slice(0,2)+' '+p.slice(2);
+const plate = (p,cls='') => `<span class="plate ${cls}"><span class="eu">PL</span><span class="t">${esc(fmt(p))}</span></span>`;
+const nr = (n,w=4)=>String(n).padStart(w,'0');
+const narrow = n => `<span class="plate"><span class="eu">PL</span><span class="t">P ${nr(n)}</span></span>`;
+const test = n => `<span class="plate"><span class="eu">PL</span><span class="t">P ${nr(n,3)} B</span></span>`;
+function toast(t){const d=document.createElement('div');d.className='toast';d.innerHTML=t;document.getElementById('toasts').appendChild(d);setTimeout(()=>d.remove(),4200)}
+function nextLetter(prefix){S.seq.letter++;return prefix+'/2026/'+nr(S.seq.letter,3)}
+
+/* ---------- logika wyróżników ---------- */
+const act = full => S.plates.find(x=>x.plate===full&&x.status!=='zwolniony'); // aktywny wpis (zwolnione zostają w historii)
+function normalize(v){return (v||'').toUpperCase().replace(/\s+/g,'')}
+function validatePart(p){
+  if(!p) return 'Wpisz 3–5 znaków.';
+  if(/[ĄĆĘŁŃÓŚŹŻ]/.test(p)) return 'Polskie znaki diakrytyczne nie są dozwolone.';
+  if(!/^[A-Z0-9]+$/.test(p)) return 'Dozwolone są tylko litery A–Z i cyfry.';
+  if(p.length<3||p.length>5) return 'Część indywidualna musi mieć od 3 do 5 znaków.';
+  if(!/^[A-Z]/.test(p)) return 'Pierwszy znak części indywidualnej musi być literą.';
+  return null;
+}
+function status(full){
+  const pl=act(full); if(pl) return {s:pl.status,rec:pl};
+  const rq=S.requests.find(r=>r.type==='TI'&&r.plate===full&&(r.status==='wyslany'||r.status==='szkic')); if(rq) return {s:'rezerwacja',rec:rq};
+  return {s:'wolny'};
+}
+const isFree = f => status(f).s==='wolny';
+function suggestions(part,exclude){
+  const out=[], seen=new Set([exclude]);
+  const add = full => { if(!seen.has(full)&&!validatePart(full.slice(2))&&isFree(full)){seen.add(full);out.push(full)} };
+  for(let d=0;d<10;d++) add('P'+d+part);
+  const variants=[];
+  if(part.length<5) for(let d=1;d<=9;d++) variants.push(part+d);
+  if(part.length>3) variants.push(part.slice(0,-1));
+  const swap={O:'0',I:'1',S:'5',Z:'2',B:'8'};
+  [...part].forEach((c,i)=>{ if(i>0&&swap[c]) variants.push(part.slice(0,i)+swap[c]+part.slice(i+1)) });
+  if(part.length<5) variants.push(part+part.slice(-1));
+  for(const v of variants){ for(let d=0;d<10&&out.length<8;d++){ if(isFree('P'+d+v)){add('P'+d+v);break} } }
+  return out.slice(0,8);
+}
+
+/* ---------- widoki: przełącznik ról ---------- */
+const ROLES=[
+  {id:'obywatel',label:'Obywatel',c:'var(--r1)'},
+  {id:'powiat',label:'Urzędnik powiatu',c:'var(--r2)'},
+  {id:'ump',label:'Urzędnik UMP',c:'var(--r3)'}
+];
+function renderRoles(){
+  const unread=S.ezd.filter(e=>!e.read).length;
+  document.getElementById('roles').innerHTML=ROLES.map(r=>`<button class="${UI.role===r.id?'on':''}" onclick="App.role('${r.id}')"><span class="dot" style="background:${r.c}"></span>${r.label}${r.id==='ump'&&unread?`<span class="badge">${unread}</span>`:''}</button>`).join('');
+}
+function render(){
+  renderRoles(); save();
+  const v={obywatel:vCitizen,powiat:vPowiat,ump:vUmp}[UI.role];
+  document.getElementById('app').innerHTML=v();
+}
+
+/* ---------- sprawdzarka (wspólna) ---------- */
+function checker(ctx){
+  const c=UI.check[ctx]||{};
+  let res='';
+  if(c.part){
+    const err=validatePart(c.part);
+    if(err) res=`<div class="result bad"><div><h3>Nieprawidłowy wyróżnik</h3>${esc(err)}</div></div>`;
+    else{
+      const target = c.digit!=='' && c.digit!=null ? 'P'+c.digit+c.part : null;
+      const cells=[...Array(10)].map((_,d)=>{
+        const full='P'+d+c.part, st=status(full), free=st.s==='wolny';
+        let lab = free?'<span class="pill p-ok">wolny</span>':
+          ctx==='obywatel'?'<span class="pill p-mute">niedostępny</span>':
+          st.s==='rezerwacja'?`<span class="pill p-warn">wniosek w toku</span>`:`<span class="pill p-mute">zajęty</span>`;
+        const extra = ctx!=='obywatel'&&!free&&st.rec ? `<span class="small muted">${esc(off(st.rec.office).short)}</span>`:'';
+        const act = ctx==='powiat'&&free?`<button class="btn sm" onclick="App.newRequest('${full}')">Złóż wniosek</button>`:'';
+        return `<div class="dg ${free?'free':''} ${target===full?'sel':''}">${plate(full,free?'':'dim')}${lab}${extra}${act}</div>`;
+      }).join('');
+      let head;
+      if(target){
+        const st=status(target), free=st.s==='wolny';
+        head = free
+          ? `<div class="result ok">${plate(target,'lg')}<div><h3>Wyróżnik jest dostępny</h3>${ctx==='obywatel'?'Z tym wyróżnikiem udaj się do wydziału komunikacji swojego powiatu. Urząd wystąpi do UMP o potwierdzenie – nie musisz niczego wysyłać sam.':'Możesz złożyć wniosek do UMP – wyróżnik zostanie zarezerwowany na czas rozpatrzenia.'}${ctx==='powiat'?`<div style="margin-top:10px"><button class="btn" onclick="App.newRequest('${target}')">Złóż wniosek o ${fmt(target)}</button></div>`:''}</div></div>`
+          : `<div class="result bad">${plate(target,'lg dim')}<div><h3>Wyróżnik niedostępny</h3>${ctx==='obywatel'?'Ten wyróżnik jest już wydany lub trwa procedura jego przydziału.':(st.s==='rezerwacja'?'Trwa wniosek: '+esc(off(st.rec.office).short)+', '+esc(st.rec.id):'Wydany: '+esc(off(st.rec.office).short)+', pismo '+esc(st.rec.letter))}</div></div>`;
+      } else head='';
+      const sug = target && !isFree(target) ? suggestions(c.part,target) : (!target && [...Array(10)].every((_,d)=>!isFree('P'+d+c.part)) ? suggestions(c.part,'') : []);
+      const sugHtml = sug.length?`<div class="card" style="margin-top:14px;margin-bottom:0"><h3 style="margin-top:0">Podobne wolne wyróżniki</h3><div class="sugg">${sug.map(s=>`<button onclick="App.pick('${ctx}','${s}')" title="Sprawdź ${fmt(s)}">${plate(s)}</button>`).join('')}</div></div>`:'';
+      res = head + sugHtml + `<h3>Dostępność dla wszystkich cyfr wyróżnikowych</h3><div class="digits">${cells}</div>`;
+    }
+  }
+  return `
+    <div class="row">
+      <div class="field"><label>Województwo</label><input value="P" disabled style="width:60px;text-align:center;font:700 22px Consolas,monospace"></div>
+      <div class="field"><label>Cyfra</label><select id="dg-${ctx}" style="height:47px">${['<option value="">dowolna</option>',...[...Array(10)].map((_,d)=>`<option ${String(c.digit)===String(d)?'selected':''}>${d}</option>`)].join('')}</select></div>
+      <div class="field"><label>Twój wyróżnik (3–5 znaków)</label><input class="big" id="pt-${ctx}" maxlength="5" value="${esc(c.part||'')}" placeholder="KOWAL" onkeydown="if(event.key==='Enter')App.check('${ctx}')"></div>
+      <button class="btn" style="height:47px" onclick="App.check('${ctx}')">Sprawdź</button>
+    </div>
+    <p class="small muted" style="margin:8px 0 0">Spróbuj: <a href="#" onclick="App.try('${ctx}','KOWAL');return false">KOWAL</a> · <a href="#" onclick="App.try('${ctx}','BMW');return false">BMW</a> · <a href="#" onclick="App.try('${ctx}','ANNA',5);return false">5 ANNA</a> · <a href="#" onclick="App.try('${ctx}','ŻUK');return false">ŻUK</a></p>
+    ${res}`;
+}
+
+/* ---------- OBYWATEL ---------- */
+function vCitizen(){
+  return `
+  <div class="card hero">
+    <h1>Sprawdź, czy Twoja tablica indywidualna jest wolna</h1>
+    <p class="muted" style="margin:0 0 16px">Wpisz wymarzony napis. Pokażemy, czy jest dostępny w województwie wielkopolskim, i podpowiemy wolne warianty.</p>
+    ${checker('obywatel')}
+  </div>
+  <div class="card">
+    <h2>Jak zdobyć tablicę indywidualną?</h2>
+    <div class="steps">
+      <div class="step"><b>Krok 1</b>Sprawdź tutaj, czy wyróżnik jest wolny.</div>
+      <div class="step"><b>Krok 2</b>Złóż wniosek o rejestrację w wydziale komunikacji swojego powiatu.</div>
+      <div class="step"><b>Krok 3</b>Urząd powiatowy występuje do UMP o potwierdzenie – elektronicznie.</div>
+      <div class="step"><b>Krok 4</b>Po akceptacji odbierasz tablice w swoim urzędzie.</div>
+    </div>
+    <p class="small muted" style="margin-top:14px">Budowa tablicy: <b>P</b> (województwo) + <b>cyfra 0–9</b> + <b>3–5 znaków</b> Twojego wyboru. Wynik wyszukiwania ma charakter informacyjny i nie rezerwuje wyróżnika.</p>
+  </div>`;
+}
+
+/* ---------- logowanie ---------- */
+function vLogin(role){
+  const L=UI.login, isUmp=role==='ump';
+  const o = isUmp?off('ump'):off(L.office);
+  return `<div class="login"><div class="card">
+    <h2>${isUmp?'Panel UMP – logowanie':'Panel urzędu – logowanie'}</h2>
+    <p class="muted small">Dostęp tylko dla kont założonych przez administratora. Logowanie kodem jednorazowym wysyłanym na służbowy e-mail.</p>
+    ${!isUmp?`<div class="field" style="margin-bottom:10px"><label>Urząd – ${OFFICES.length-1} urzędów rejestrujących w województwie (wybór tylko w demo; docelowo wynika z konta)</label><select onchange="App.loginOffice(this.value)">${officeOptions(L.office,false)}</select></div>`:''}
+    <div class="field" style="margin-bottom:10px"><label>E-mail służbowy</label><input value="${esc(o.email)}" ${L.step===2?'disabled':''}></div>
+    ${L.step===1
+      ? `<button class="btn" style="width:100%" onclick="App.loginStep()">Wyślij kod logowania</button>`
+      : `<div class="field" style="margin-bottom:10px"><label>Kod z e-maila (w demo dowolne 6 cyfr)</label><input id="otp" value="482913" maxlength="6" style="font:700 20px Consolas,monospace;letter-spacing:.3em"></div>
+         <button class="btn" style="width:100%" onclick="App.loginDo('${role}')">Zaloguj</button>
+         <p class="small muted" style="text-align:center"><a href="#" onclick="UI.login.step=1;render();return false">Wyślij kod ponownie</a></p>`}
+  </div></div>`;
+}
+function userChip(role){
+  const o = role==='ump'?off('ump'):off(UI.sess.powiat);
+  return `<div class="userchip"><span>👤 ${esc(o.email)}</span><span class="pill ${role==='ump'?'p-bad':'p-warn'}">${role==='ump'?'Urzędnik UMP · województwo':'Urzędnik · '+esc(o.short)}</span><a href="#" onclick="App.logout('${role}');return false">Wyloguj</a></div>`;
+}
+const stPill = s => ({wolny:'<span class="pill p-ok">wolny</span>',rezerwacja:'<span class="pill p-warn">rezerwacja</span>',przydzielony:'<span class="pill p-info">przydzielony</span>',wydany:'<span class="pill p-ok">wydany</span>',zbyty:'<span class="pill p-mute">pojazd zbyty</span>',zwolniony:'<span class="pill p-mute">zwolniony</span>'}[s]||s);
+const STATUSES=[['przydzielony','przydzielony (zgoda UMP)'],['wydany','wydany / w użyciu'],['zbyty','pojazd zbyty'],['zwolniony','zwolniony – wyróżnik znów wolny']];
+const rqPill = s => ({szkic:'<span class="pill p-mute">szkic – pismo niewysłane</span>',wyslany:'<span class="pill p-warn">oczekuje na UMP</span>',zaakceptowany:'<span class="pill p-ok">zaakceptowany</span>',odrzucony:'<span class="pill p-bad">odrzucony</span>'}[s]);
+const rqType = r => r.type==='TI'?'Tablica indywidualna':r.type==='P3'?'Pula – badania techniczne':'Pula – tablice zmniejszone';
+const chan = c => ({edor:'e-Doręczenia',pdf:'PDF',druk:'wydruk / poczta'}[c]||'—');
+
+/* ---------- POWIAT ---------- */
+function vPowiat(){
+  if(!UI.sess.powiat) return vLogin('powiat');
+  const me=UI.sess.powiat, t=UI.tab.powiat;
+  const myReq=S.requests.filter(r=>r.office===me);
+  const tabs=[['check','Sprawdź / wniosek'],['req','Moje wnioski ('+myReq.length+')'],['reg','Ewidencja powiatu'],['pools','Pule tablic']];
+  let body='';
+  if(t==='check') body=`<div class="card"><h2>Sprawdź dostępność wyróżnika</h2><p class="muted small" style="margin-top:-6px">Widzisz też numery w trakcie procedury. Z poziomu wyniku możesz od razu złożyć wniosek do UMP.</p>${checker('powiat')}</div>`;
+  if(t==='req') body=`<div class="card"><h2>Moje wnioski</h2>${myReq.length?`<div class="tbl-wrap"><table><tr><th>Nr</th><th>Rodzaj</th><th>Przedmiot</th><th>Data</th><th>Kanał</th><th>Status</th><th></th></tr>${myReq.map(r=>`<tr><td class="mono">${r.id}</td><td>${rqType(r)}</td><td>${r.type==='TI'?plate(r.plate):r.pool?`${test(r.pool.from)} – ${test(r.pool.to)}`:r.count+' szt.'}</td><td>${r.created}</td><td>${chan(r.channel)}</td><td>${rqPill(r.status)}${r.reason?`<div class="small muted">${esc(r.reason)}</div>`:''}</td><td>${r.status==='szkic'?`<button class="btn sm" onclick="App.sendDraft('${r.id}')">Wyślij pismo</button>`:''}</td></tr>`).join('')}</table></div>`:`<div class="empty">Brak wniosków. Zacznij od zakładki „Sprawdź / wniosek”.</div>`}</div>`;
+  if(t==='reg'){
+    const mine=S.plates.filter(p=>p.office===me);
+    body=`<div class="card"><h2>Tablice indywidualne – ${esc(off(me).short)}</h2><p class="muted small" style="margin-top:-6px">Wpisy zaakceptowane przez UMP dla Twojego urzędu. Po rejestracji pojazdu uzupełnij jego dane; przy zbyciu – wprowadź informację o sprzedaży.</p>
+    ${mine.length?`<div class="tbl-wrap"><table><tr><th>Wyróżnik</th><th>Właściciel</th><th>Pismo UMP</th><th>Data</th><th>Pojazd</th><th>Status</th><th></th></tr>${mine.map(p=>`<tr><td>${plate(p.plate)}</td><td>${esc(p.owner)}</td><td class="mono small">${esc(p.letter)}</td><td>${p.date}</td><td class="small">${p.vehicle?esc(p.vehicle.model)+'<br><span class="muted">'+esc(p.vehicle.vin)+'</span>':'<span class="muted">—</span>'}${p.sale?`<br><span class="muted">zbyty ${esc(p.sale.date)} → ${esc(p.sale.buyer)}</span>`:''}</td><td>${stPill(p.status)}</td><td>${p.status==='przydzielony'?`<button class="btn sm" onclick="App.vehicleForm('${p.plate}')">Zarejestruj pojazd</button>`:p.status==='wydany'?`<button class="btn sm sec" onclick="App.saleForm('${p.plate}')">Zbycie pojazdu</button>`:''}</td></tr>`).join('')}</table></div>`:`<div class="empty">Brak tablic indywidualnych w tym urzędzie.</div>`}</div>`;
+  }
+  if(t==='pools'){
+    const p2=S.pools.filter(p=>p.office===me&&p.type==='II'), p3=S.pools.filter(p=>p.office===me&&p.type==='III');
+    const tb=(arr,f)=>arr.length?`<div class="tbl-wrap"><table><tr><th>Zakres</th><th>Liczba</th><th>Wykorzystanie</th><th>Przydział</th></tr>${arr.map(p=>poolRow(p,f,false)).join('')}</table></div>`:`<div class="empty">Brak przydzielonej puli.</div>`;
+    body=`<div class="grid2">
+      <div class="card"><h2>Moduł II · Tablice zmniejszone</h2>${tb(p2,narrow)}</div>
+      <div class="card"><h2>Moduł III · Tablice do badań technicznych</h2>${tb(p3,test)}
+        <h3>Wniosek o nową pulę</h3>
+        <div class="row"><div class="field"><label>Liczba tablic</label><input id="p3c" type="number" value="30" min="1" style="width:110px"></div>
+        <div class="field" style="flex:1;min-width:200px"><label>Stacja kontroli / uzasadnienie</label><input id="p3s" placeholder="np. SKP ul. Przemysłowa 12"></div>
+        <button class="btn" onclick="App.poolRequest()">Złóż wniosek</button></div>
+      </div></div>`;
+  }
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1 style="margin:0">${esc(off(me).name)}</h1>${userChip('powiat')}</div>
+    <div class="tabs">${tabs.map(([k,l])=>`<button class="${t===k?'on':''}" onclick="App.tab('powiat','${k}')">${l}</button>`).join('')}</div>${body}`;
+}
+function poolRow(p,f,showOffice){
+  const n=p.to-p.from+1, pct=Math.round(p.used/n*100);
+  return `<tr>${showOffice?`<td>${esc(off(p.office).short)}</td>`:''}<td>${f(p.from)} – ${f(p.to)}</td><td>${n}</td><td><div class="row" style="gap:8px;align-items:center;flex-wrap:nowrap"><div class="bar" style="flex:1"><i class="${pct>=80?'hi':''}" style="width:${pct}%"></i></div><span class="small ${pct>=80?'':'muted'}" style="${pct>=80?'color:var(--bad);font-weight:700':''}">${pct}%</span></div></td><td class="small">${p.date}<br><span class="muted mono">${esc(p.letter)}</span></td></tr>`;
+}
+
+/* ---------- UMP ---------- */
+function vUmp(){
+  if(!UI.sess.ump) return vLogin('ump');
+  if(UI.detail) return vDetail();
+  const t=UI.tab.ump, unread=S.ezd.filter(e=>!e.read).length, pend=S.requests.filter(r=>r.status==='wyslany').length;
+  const tabs=[['ezd',`Skrzynka EZD${unread?`<span class="badge">${unread}</span>`:''}`],['req',`Wnioski (${pend} do decyzji)`],['reg','Ewidencja województwa'],['p2','Moduł II · zmniejszone'],['p3','Moduł III · badania'],['off',`Urzędy (${OFFICES.length-1})`]];
+  let body='';
+  if(t==='ezd') body=`<div class="ezd"><div class="top"><span>EZD RP · Kancelaria – pisma przychodzące</span><span class="small">symulacja systemu zewnętrznego</span></div><div class="body">
+    ${S.ezd.length?S.ezd.map(e=>`<div class="item ${e.read?'':'unread'}"><div class="ico">PDF</div><div class="txt">${esc(e.subj)}<small>${e.id} · od: ${esc(off(e.from).name)} · wpłynęło ${e.date} · e-Doręczenia / skan</small></div><button class="btn sm" onclick="App.openFromEzd('${e.id}')">Otwórz w aplikacji →</button></div>`).join(''):'<div class="empty">Brak pism.</div>'}
+    </div></div><p class="small muted">W docelowym rozwiązaniu EZD przy wpływie pisma pokazuje link prowadzący bezpośrednio do wniosku w Rejestrze (numer wniosku zapisany w treści pisma / kodzie QR).</p>`;
+  if(t==='req'){
+    const rs=[...S.requests].sort((a,b)=>(a.status==='wyslany'?0:1)-(b.status==='wyslany'?0:1)||b.created.localeCompare(a.created));
+    body=`<div class="card"><h2>Wnioski z urzędów</h2><div class="tbl-wrap"><table><tr><th>Nr</th><th>Urząd</th><th>Rodzaj</th><th>Przedmiot</th><th>Wpłynął</th><th>Status</th></tr>${rs.map(r=>`<tr class="click" onclick="App.detail('${r.id}')"><td class="mono">${r.id}</td><td>${esc(off(r.office).short)}</td><td>${rqType(r)}</td><td>${r.type==='TI'?plate(r.plate):(r.count||'')+' szt.'}</td><td>${r.created}</td><td>${rqPill(r.status)}</td></tr>`).join('')}</table></div></div>`;
+  }
+  if(t==='reg'){
+    const q=(UI.regQ||'').toUpperCase(), fo=UI.regO||'', fs=UI.regS||'';
+    const list=S.plates.filter(p=>(!q||p.plate.includes(q.replace(/\s/g,''))||p.owner.toUpperCase().includes(q)||(p.vehicle&&p.vehicle.vin.toUpperCase().includes(q)))&&(!fo||p.office===fo)&&(!fs||p.status===fs)).sort((a,b)=>b.date.localeCompare(a.date));
+    body=`<div class="card"><h2>Ewidencja tablic indywidualnych – całe województwo</h2>
+    <p class="muted small" style="margin-top:-6px">UMP przegląda wpisy wszystkich urzędów i może nadpisać każde pole (np. datę sprzedaży pojazdu). Każda zmiana wymaga podania powodu i trafia do historii wpisu. Kliknij wiersz, aby edytować.</p>
+    <div class="row" style="margin-bottom:12px">
+      <div class="field" style="flex:1;min-width:200px"><label>Szukaj</label><input placeholder="wyróżnik, właściciel lub VIN" value="${esc(UI.regQ||'')}" oninput="UI.regQ=this.value;App.softRender()" id="regq"></div>
+      <div class="field"><label>Urząd</label><select onchange="UI.regO=this.value;render()" style="max-width:260px"><option value="">wszystkie (${OFFICES.length})</option>${officeOptions(fo,true)}</select></div>
+      <div class="field"><label>Status</label><select onchange="UI.regS=this.value;render()"><option value="">wszystkie</option>${STATUSES.map(([k,l])=>`<option value="${k}" ${k===fs?'selected':''}>${l}</option>`).join('')}</select></div>
+      <button class="btn sec" onclick="App.exportCsv()">Eksport CSV</button>
+    </div>
+    <div class="tbl-wrap"><table><tr><th>Wyróżnik</th><th>Komu</th><th>Urząd</th><th>Pismo</th><th>Data</th><th>Pojazd</th><th>Sprzedaż</th><th>Status</th><th></th></tr>${list.map(p=>`<tr class="click" onclick="App.editPlate(${p.id})"><td>${plate(p.plate)}</td><td>${esc(p.owner)}</td><td>${esc(off(p.office).short)}</td><td class="mono small">${esc(p.letter)}</td><td>${p.date}</td><td class="small">${p.vehicle?esc(p.vehicle.model):'—'}</td><td class="small">${p.sale&&p.sale.date?esc(p.sale.date):'—'}</td><td>${stPill(p.status)}</td><td><span class="small" style="color:var(--accent)">✎ Edytuj</span></td></tr>`).join('')||'<tr><td colspan="9" class="empty">Brak wpisów dla wybranych filtrów.</td></tr>'}</table></div>
+    <p class="small muted">Wyświetlono ${list.length} z ${S.plates.length} wpisów.</p></div>`;
+  }
+  if(t==='off'){
+    const rows=OFFICES.filter(o=>o.id!=='ump').sort((a,b)=>(a.kind===b.kind?0:a.kind==='miasto'?-1:1)||a.short.localeCompare(b.short,'pl')).map(o=>{
+      const pl=S.plates.filter(p=>p.office===o.id&&p.status!=='zwolniony').length, rq=S.requests.filter(r=>r.office===o.id&&r.status==='wyslany').length;
+      const p2=S.pools.filter(p=>p.office===o.id&&p.type==='II').reduce((s,p)=>s+p.to-p.from+1,0), p3=S.pools.filter(p=>p.office===o.id&&p.type==='III').reduce((s,p)=>s+p.to-p.from+1,0);
+      return `<tr><td><b>${esc(o.short)}</b><br><span class="small muted">${esc(o.name)}</span></td><td class="small mono">${esc(o.ade)}</td><td>${pl||'<span class="muted">0</span>'}</td><td>${rq?`<span class="pill p-warn">${rq}</span>`:'<span class="muted">0</span>'}</td><td>${p2||'<span class="muted">—</span>'}</td><td>${p3||'<span class="muted">—</span>'}</td><td><button class="btn sm sec" onclick="UI.regO='${o.id}';App.tab('ump','reg')">Ewidencja →</button></td></tr>`;
+    }).join('');
+    body=`<div class="card"><h2>Urzędy rejestrujące w województwie</h2><p class="muted small" style="margin-top:-6px">Jeden urząd główny (UMP) nadaje zgody i pule; wnioskować może każdy z ${OFFICES.length-1} urzędów: 31 starostw powiatowych i 3 miasta na prawach powiatu. Konta urzędników zakłada administrator.</p>
+    <div class="tbl-wrap"><table><tr><th>Urząd</th><th>Adres e-Doręczeń</th><th>Tablice indyw.</th><th>Wnioski w toku</th><th>Pula II (szt.)</th><th>Pula III (szt.)</th><th></th></tr>${rows}</table></div></div>`;
+  }
+  if(t==='p2'||t==='p3'){
+    const type=t==='p2'?'II':'III', f=type==='II'?narrow:test;
+    const list=S.pools.filter(p=>p.type===type).sort((a,b)=>a.from-b.from);
+    const next=Math.max(0,...list.map(p=>p.to))+1;
+    body=`<div class="grid2"><div class="card" style="grid-column:1/-1"><h2>${type==='II'?'Moduł II · Pule tablic zmniejszonych':'Moduł III · Pule tablic do badań technicznych'}</h2>
+      <div class="tbl-wrap"><table><tr><th>Urząd</th><th>Zakres</th><th>Liczba</th><th>Wykorzystanie</th><th>Przydział</th></tr>${list.map(p=>poolRow(p,f,true)).join('')}</table></div>
+      <p class="small muted">Czerwony pasek = wykorzystanie ≥ 80% – czas przydzielić kolejną pulę.</p></div>
+      <div class="card"><h2>Nadaj nową pulę</h2>
+        <div class="field" style="margin-bottom:10px"><label>Urząd</label><select id="pl-o">${officeOptions('ump',true)}</select></div>
+        <div class="row"><div class="field"><label>Od</label><input id="pl-f" type="number" value="${next}" style="width:120px"></div><div class="field"><label>Do</label><input id="pl-t" type="number" value="${next+(type==='II'?499:49)}" style="width:120px"></div>
+        <button class="btn" onclick="App.addPool('${type}')">Sprawdź i nadaj</button></div>
+        <p class="small muted">System blokuje zakresy nakładające się na istniejące pule. Spróbuj np. od ${list[0]?list[0].from+10:1}.</p>
+        <div id="pl-msg"></div>
+      </div>
+      <div class="card"><h2>Jak to działa</h2><p class="small">UMP przydziela każdemu urzędowi rozłączny zakres numerów. Urząd widzi swoją pulę i stopień wykorzystania; o przydziale informuje pismo (PDF / druk / e-Doręczenia).</p><p class="small muted">Format numerów (${type==='II'?'P 1234':'P 123 B'}) przyjęty przykładowo – do potwierdzenia.</p></div></div>`;
+  }
+  return `<div class="row" style="justify-content:space-between;margin-bottom:12px"><h1 style="margin:0">Panel UMP</h1>${userChip('ump')}</div>
+    <div class="tabs">${tabs.map(([k,l])=>`<button class="${t===k?'on':''}" onclick="App.tab('ump','${k}')">${l}</button>`).join('')}</div>${body}`;
+}
+function vDetail(){
+  const r=S.requests.find(x=>x.id===UI.detail); if(!r){UI.detail=null;return vUmp()}
+  const o=off(r.office), open=r.status==='wyslany';
+  let check='';
+  if(r.type==='TI'){
+    const pl=act(r.plate), other=S.requests.find(x=>x.id!==r.id&&x.type==='TI'&&x.plate===r.plate&&x.status==='wyslany');
+    check = pl&&pl.office!==r.office||pl&&r.status!=='zaakceptowany'
+      ? `<div class="result bad" style="margin-top:0">${plate(r.plate,'lg')}<div><h3>Kolizja</h3>Wyróżnik jest już w ewidencji (${esc(off(pl.office).short)}).</div></div>`
+      : other ? `<div class="result warn" style="margin-top:0">${plate(r.plate,'lg')}<div><h3>Uwaga</h3>Inny wniosek na ten sam wyróżnik: ${esc(other.id)}.</div></div>`
+      : `<div class="result ok" style="margin-top:0">${plate(r.plate,'lg')}<div><h3>Weryfikacja: unikalny w województwie</h3>Brak wpisu w ewidencji i brak innych wniosków. Format poprawny.</div></div>`;
+  } else {
+    const list=S.pools.filter(p=>p.type==='III'), next=Math.max(0,...list.map(p=>p.to))+1;
+    check = open ? `<div class="card" style="margin:0"><h3 style="margin-top:0">Wskaż zakres do przydziału</h3><div class="row"><div class="field"><label>Od</label><input id="d-f" type="number" value="${next}" style="width:110px"></div><div class="field"><label>Do</label><input id="d-t" type="number" value="${next+r.count-1}" style="width:110px"></div></div><p class="small muted">Zaproponowano pierwszy wolny zakres na ${r.count} szt.</p><div id="d-msg"></div></div>`
+      : r.pool?`<p>Przydzielono: ${test(r.pool.from)} – ${test(r.pool.to)}</p>`:'';
+  }
+  return `<p><a href="#" onclick="App.back();return false">← wróć</a></p>
+  <div class="row" style="justify-content:space-between;margin-bottom:12px"><h1 style="margin:0">Wniosek ${esc(r.id)}</h1>${rqPill(r.status)}</div>
+  <div class="grid2">
+    <div class="card"><h2>${rqType(r)}</h2>
+      <div class="kv">
+        <div>Wnioskujący urząd</div><div>${esc(o.name)}</div>
+        <div>Urzędnik</div><div>${esc(r.user)}</div>
+        ${r.type==='TI'?`<div>Wyróżnik</div><div>${plate(r.plate)}</div><div>Właściciel</div><div>${esc(r.owner)}</div><div>Adres</div><div>${esc(r.addr)}</div><div>Nr sprawy w urzędzie</div><div>${esc(r.caseNo||'—')}</div>`:`<div>Liczba tablic</div><div>${r.count}</div><div>Stacja / uzasadnienie</div><div>${esc(r.station||'—')}</div>`}
+        <div>Pismo przychodzące</div><div class="mono small">${esc(r.letter||'—')} · ${chan(r.channel)}</div>
+        <div>Data wpływu</div><div>${r.created}</div>
+        ${r.decided?`<div>Decyzja</div><div>${r.decided}${r.reason?' – '+esc(r.reason):''}</div>`:''}
+      </div>
+      <h3>Historia</h3><ul class="hist">${r.hist.map(h=>`<li><span class="muted">${h.d}</span> · ${esc(h.t)}</li>`).join('')}</ul>
+    </div>
+    <div>
+      ${check}
+      ${open?`<div class="card" style="margin-top:16px"><h2>Decyzja</h2>
+        <div class="field" style="margin-bottom:10px"><label>Uzasadnienie (wymagane przy odrzuceniu)</label><textarea id="reason" rows="3" placeholder="np. wyróżnik o treści niedopuszczalnej"></textarea></div>
+        <div class="row"><button class="btn ok" onclick="App.decide('${r.id}',true)">✓ Akceptuj${r.type==='TI'?' – taka tablica może być wydana':' i przydziel'}</button><button class="btn bad" onclick="App.decide('${r.id}',false)">✕ Odrzuć</button></div>
+        <p class="small muted">Po decyzji otworzy się pismo zwrotne z wyborem: PDF, druk lub e-Doręczenia.</p></div>`:''}
+    </div>
+  </div>`;
+}
+
+/* ---------- pisma ---------- */
+function letterHtml(k){
+  const {kind,r,no,pool}=k;
+  const fromO = kind.startsWith('wniosek')?off(r.office):off('ump');
+  const toO = kind.startsWith('wniosek')?off('ump'):off(pool?pool.office:r.office);
+  const date = TODAY.split('-').reverse().join('.');
+  let subj='',body='';
+  if(kind==='wniosek_TI'){subj='Wniosek o potwierdzenie możliwości wydania tablic rejestracyjnych indywidualnych';
+    body=`<p>W związku z prowadzonym postępowaniem w sprawie rejestracji pojazdu (znak sprawy: ${esc(r.caseNo||'—')}) zwracam się z prośbą o potwierdzenie możliwości wydania tablic rejestracyjnych indywidualnych o wyróżniku:</p><p style="text-align:center;font:700 22px Consolas,monospace;letter-spacing:.1em">${esc(fmt(r.plate))}</p><p>dla: <b>${esc(r.owner)}</b>, ${esc(r.addr)}${r.vin?', pojazd VIN: '+esc(r.vin):''}.</p><p>Numer wniosku w Rejestrze Tablic: <b>${esc(r.id)}</b>.</p>`}
+  if(kind==='zgoda_TI'){subj='Potwierdzenie możliwości wydania tablic rejestracyjnych indywidualnych';
+    body=`<p>W odpowiedzi na wniosek z dnia ${r.created} (nr ${esc(r.id)}) uprzejmie informuję, że wyróżnik <b>${esc(fmt(r.plate))}</b> jest dostępny i nie został wydany na terenie województwa wielkopolskiego.</p><p>Wyróżnik został wpisany do wojewódzkiej ewidencji tablic indywidualnych na rzecz: <b>${esc(r.owner)}</b>.</p><p>Tablice mogą zostać wydane przez ${esc(off(r.office).name)}.</p>`}
+  if(kind==='odmowa_TI'){subj='Odmowa potwierdzenia możliwości wydania tablic rejestracyjnych indywidualnych';
+    body=`<p>W odpowiedzi na wniosek z dnia ${r.created} (nr ${esc(r.id)}) informuję, że wydanie tablic o wyróżniku <b>${esc(fmt(r.plate))}</b> nie jest możliwe.</p><p>Uzasadnienie: ${esc(r.reason)}</p>`}
+  if(kind==='wniosek_P3'){subj='Wniosek o przydział tablic rejestracyjnych do badań technicznych';
+    body=`<p>Zwracam się z prośbą o przydział <b>${r.count}</b> szt. tablic rejestracyjnych do badań technicznych.</p><p>Stacja / uzasadnienie: ${esc(r.station||'—')}.</p><p>Numer wniosku w Rejestrze Tablic: <b>${esc(r.id)}</b>.</p>`}
+  if(kind==='przydzial_P3'||kind==='przydzial_P2'){const f=kind==='przydzial_P2'?n=>'P '+nr(n):n=>'P '+nr(n,3)+' B';
+    subj=kind==='przydzial_P2'?'Przydział puli numerów tablic rejestracyjnych zmniejszonych':'Przydział tablic rejestracyjnych do badań technicznych';
+    body=`<p>${r?`W odpowiedzi na wniosek nr ${esc(r.id)} i`:'I'}nformuję, że ${esc(toO.name)} otrzymuje zakres numerów:</p><p style="text-align:center;font:700 20px Consolas,monospace">${f(pool.from)} – ${f(pool.to)}</p><p>(${pool.to-pool.from+1} numerów). Zakres wpisano do Rejestru Tablic; numery nie mogą być wydawane przez inne urzędy.</p>`}
+  if(kind==='odmowa_P3'){subj='Odmowa przydziału tablic do badań technicznych';body=`<p>Wniosek nr ${esc(r.id)} nie może zostać uwzględniony.</p><p>Uzasadnienie: ${esc(r.reason)}</p>`}
+  return `<div class="paper"><div class="hd"><div><b>${esc(fromO.name)}</b><br>adres do e-Doręczeń: ${esc(fromO.ade)}</div><div style="text-align:right">${esc(fromO.city)}, ${date}<br>Znak: ${esc(no)}</div></div>
+    <div class="rcp"><b>${esc(toO.name)}</b><br>${esc(toO.ade)}</div>
+    <div class="subj">Dotyczy: ${subj}</div>${body}
+    <div class="sig"><i>Dokument podpisany kwalifikowaną pieczęcią elektroniczną (symulacja)</i>${kind.startsWith('wniosek')?esc(fromO.email):'Kierownik Wydziału Komunikacji UMP'}</div></div>`;
+}
+function openLetter(k){
+  k.no = k.no || nextLetter(k.kind.startsWith('wniosek')?off(k.r.office).id.toUpperCase()+'/WK':'UMP/'+(k.kind.includes('TI')?'TI':k.kind.includes('P2')?'P2':'P3'));
+  UI.letter=k;
+  const toO = k.kind.startsWith('wniosek')?off('ump'):off(k.pool?k.pool.office:k.r.office);
+  document.getElementById('modal').innerHTML=`<div class="modal-bg"><div class="modal">
+    <div class="mh"><h2>Pismo ${esc(k.no)}</h2><button class="x" onclick="App.closeLetter()" aria-label="Zamknij">×</button></div>
+    <div class="mb"><div class="paper-wrap">${letterHtml(k)}</div><div id="edor"></div></div>
+    <div class="mf"><span class="small muted" style="margin-right:auto">Adresat: ${esc(toO.short)} · ${esc(toO.ade)}</span>
+      <button class="btn sec" onclick="App.send('pdf')">⬇ Pobierz PDF</button>
+      <button class="btn sec" onclick="App.send('druk')">🖨 Drukuj</button>
+      <button class="btn" id="edor-btn" onclick="App.send('edor')">✉ Wyślij e-Doręczeniami</button></div>
+  </div></div>`;
+}
+
+/* ---------- akcje ---------- */
+const App={
+  role(r){UI.role=r;UI.detail=null;render();window.scrollTo(0,0)},
+  tab(role,t){UI.tab[role]=t;UI.detail=null;render()},
+  reset(){S=seed();UI.sess={powiat:null,ump:null};UI.check={};UI.regQ=UI.regO=UI.regS='';UI.detail=null;UI.login.step=1;save();render();toast('Przywrócono dane startowe.')},
+  check(ctx){UI.check[ctx]={part:normalize(document.getElementById('pt-'+ctx).value),digit:document.getElementById('dg-'+ctx).value};render()},
+  try(ctx,p,d=''){UI.check[ctx]={part:p,digit:d};render()},
+  pick(ctx,full){UI.check[ctx]={part:full.slice(2),digit:full[1]};render()},
+  loginOffice(v){UI.login.office=v;render()},
+  loginStep(){UI.login.step=2;render();toast('📧 Kod logowania wysłany na e-mail (demo).')},
+  loginDo(role){if(!/^\d{6}$/.test(document.getElementById('otp').value)){toast('Kod musi mieć 6 cyfr.');return}
+    UI.sess[role]=role==='ump'?'ump':UI.login.office;UI.login.step=1;render()},
+  logout(role){UI.sess[role]=null;UI.detail=null;render()},
+  softRender(){const pos=document.getElementById('regq')?.selectionStart;render();const i=document.getElementById('regq');if(i){i.focus();i.setSelectionRange(pos,pos)}},
+
+  newRequest(full){
+    const me=UI.sess.powiat;
+    document.getElementById('modal').innerHTML=`<div class="modal-bg"><div class="modal" style="max-width:560px">
+      <div class="mh"><h2>Wniosek do UMP · ${plate(full)}</h2><button class="x" onclick="App.closeModal()">×</button></div>
+      <div class="mb"><p class="small muted" style="margin-top:0">Po zapisaniu wyróżnik zostanie zarezerwowany na 14 dni (założenie demo) i wygenerujemy pismo do UMP.</p>
+        <div class="field" style="margin-bottom:10px"><label>Właściciel (imię i nazwisko / firma)</label><input id="f-own" value="Adam Przykładowy"></div>
+        <div class="field" style="margin-bottom:10px"><label>Adres</label><input id="f-adr" value="ul. Długa 5, ${esc(off(me).city)}"></div>
+        <div class="row"><div class="field" style="flex:1"><label>VIN (opcjonalnie)</label><input id="f-vin"></div><div class="field" style="flex:1"><label>Znak sprawy w urzędzie</label><input id="f-case" value="KM.5410.${Math.floor(Math.random()*400+100)}.2026"></div></div>
+      </div>
+      <div class="mf"><button class="btn sec" onclick="App.closeModal()">Anuluj</button><button class="btn" onclick="App.createRequest('${full}')">Zapisz i generuj pismo</button></div></div></div>`;
+  },
+  createRequest(full){
+    const v=id=>document.getElementById(id).value.trim();
+    if(!v('f-own')){toast('Podaj właściciela.');return}
+    if(!isFree(full)){toast('Wyróżnik został właśnie zajęty.');App.closeModal();return}
+    S.seq.req++; const me=UI.sess.powiat;
+    const r={id:'W/2026/'+nr(S.seq.req),type:'TI',plate:full,office:me,user:off(me).email,owner:v('f-own'),addr:v('f-adr'),vin:v('f-vin'),caseNo:v('f-case'),status:'szkic',created:TODAY,hist:[{d:TODAY,t:'Wniosek utworzony, wyróżnik zarezerwowany'}]};
+    S.requests.unshift(r); save();
+    openLetter({kind:'wniosek_TI',r});
+  },
+  sendDraft(id){const r=S.requests.find(x=>x.id===id);openLetter({kind:r.type==='TI'?'wniosek_TI':'wniosek_P3',r,no:r.letter})},
+  poolRequest(){
+    const c=+document.getElementById('p3c').value; if(!(c>0)){toast('Podaj liczbę tablic.');return}
+    S.seq.req++; const me=UI.sess.powiat;
+    const r={id:'W/2026/'+nr(S.seq.req),type:'P3',office:me,user:off(me).email,count:c,station:document.getElementById('p3s').value.trim(),status:'szkic',created:TODAY,hist:[{d:TODAY,t:'Wniosek o pulę tablic do badań utworzony'}]};
+    S.requests.unshift(r); save(); openLetter({kind:'wniosek_P3',r});
+  },
+  send(channel){
+    const k=UI.letter;
+    if(channel==='druk'){document.body.classList.add('print-letter');window.print();document.body.classList.remove('print-letter')}
+    if(channel==='pdf'){toast('W wersji docelowej pobierany jest plik PDF. W demo użyj „Drukuj” → „Zapisz jako PDF”.')}
+    if(channel==='edor'){
+      const b=document.getElementById('edor-btn'); b.disabled=true; b.innerHTML='<span class="spin"></span> Wysyłanie…';
+      setTimeout(()=>{const upn='UPN-'+Math.floor(Math.random()*9e8+1e8);
+        document.getElementById('edor').innerHTML=`<div class="edor">✓ <b>Nadano e-Doręczeniami</b> · dowód nadania ${upn}<br><span class="small muted">Dowód otrzymania (UPD) pojawi się po odebraniu przez adresata. Pismo zostało zarejestrowane w EZD adresata.</span></div>`;
+        b.innerHTML='✓ Wysłano'; App.finalize(k,'edor');},1100);
+      return;
+    }
+    App.finalize(k,channel);
+  },
+  finalize(k,channel){
+    if(k.done) return; k.done=true;
+    const r=k.r;
+    if(k.kind.startsWith('wniosek')){
+      r.status='wyslany'; r.channel=channel; r.letter=k.no;
+      r.hist.push({d:TODAY,t:'Pismo '+k.no+' wysłane do UMP ('+chan(channel)+')'});
+      S.ezd.unshift({id:'EZD-'+Math.floor(Math.random()*9000+89000),req:r.id,from:r.office,subj:(r.type==='TI'?'Wniosek o potwierdzenie możliwości wydania tablic indywidualnych '+fmt(r.plate):'Wniosek o przydział tablic do badań technicznych ('+r.count+' szt.)'),date:TODAY+' '+new Date().toTimeString().slice(0,5),read:false});
+      toast('📨 Pismo wpłynęło do EZD w UMP. Przełącz rolę na <b>Urzędnik UMP</b>, aby je rozpatrzyć.');
+    } else {
+      if(r){r.hist.push({d:TODAY,t:'Pismo zwrotne '+k.no+' wysłane ('+chan(channel)+')'});}
+      toast('✓ '+esc(off(k.pool?k.pool.office:r.office).short)+' otrzymał pismo '+esc(k.no)+'.');
+    }
+    save(); renderRoles();
+  },
+  closeLetter(){document.getElementById('modal').innerHTML='';const k=UI.letter;UI.letter=null;
+    if(k&&!k.done&&k.kind.startsWith('wniosek')) toast('Wniosek zapisany jako szkic – pismo możesz wysłać później z listy „Moje wnioski”.');
+    if(UI.role==='powiat'&&k&&k.kind.startsWith('wniosek')) UI.tab.powiat='req';
+    render()},
+  closeModal(){document.getElementById('modal').innerHTML=''},
+
+  openFromEzd(id){const e=S.ezd.find(x=>x.id===id);e.read=true;UI.detail=e.req;render();window.scrollTo(0,0)},
+  detail(id){UI.detail=id;render();window.scrollTo(0,0)},
+  back(){UI.detail=null;render()},
+  decide(id,ok){
+    const r=S.requests.find(x=>x.id===id), reason=document.getElementById('reason').value.trim();
+    if(!ok&&!reason){toast('Podaj uzasadnienie odrzucenia.');document.getElementById('reason').focus();return}
+    let pool=null;
+    if(ok&&r.type==='P3'){
+      const f=+document.getElementById('d-f').value,t=+document.getElementById('d-t').value;
+      const err=poolError('III',f,t); if(err){document.getElementById('d-msg').innerHTML=`<div class="result bad" style="margin-top:6px">${err}</div>`;return}
+      pool={id:Date.now(),type:'III',office:r.office,from:f,to:t,used:0,date:TODAY}; r.pool=pool;
+    }
+    r.status=ok?'zaakceptowany':'odrzucony'; r.decided=TODAY; if(!ok) r.reason=reason;
+    r.hist.push({d:TODAY,t:(ok?'Zaakceptowany':'Odrzucony')+' przez UMP ('+off('ump').email+')'});
+    S.ezd.filter(e=>e.req===id).forEach(e=>e.read=true);
+    const kind = r.type==='TI'?(ok?'zgoda_TI':'odmowa_TI'):(ok?'przydzial_P3':'odmowa_P3');
+    const k={kind,r,pool}; openLetter(k);
+    if(ok&&r.type==='TI') S.plates.push({id:++S.seq.plate,plate:r.plate,office:r.office,status:'przydzielony',owner:r.owner,letter:k.no,date:TODAY,vehicle:null,hist:[{d:TODAY,t:'Wpis do ewidencji – pismo '+k.no}]});
+    if(pool){pool.letter=k.no;S.pools.push(pool)}
+    save(); UI.detail=id; document.getElementById('app').innerHTML=vUmp(); renderRoles();
+  },
+  addPool(type){
+    const o=document.getElementById('pl-o').value,f=+document.getElementById('pl-f').value,t=+document.getElementById('pl-t').value;
+    const err=poolError(type,f,t), msg=document.getElementById('pl-msg');
+    if(err){msg.innerHTML=`<div class="result bad">${err}</div>`;return}
+    const pool={id:Date.now(),type,office:o,from:f,to:t,used:0,date:TODAY};
+    const k={kind:type==='II'?'przydzial_P2':'przydzial_P3',r:null,pool}; openLetter(k); pool.letter=k.no;
+    S.pools.push(pool); save(); document.getElementById('app').innerHTML=vUmp();
+  },
+  vehicleForm(p){App.simpleForm('Rejestracja pojazdu · '+fmt(p),[['v-model','Marka i model','Toyota Corolla'],['v-vin','VIN','JTDBR32E0' + Math.floor(Math.random()*9e7+1e7)]],()=>{
+    const pl=act(p);pl.vehicle={model:val('v-model'),vin:val('v-vin')};pl.status='wydany';pl.hist.push({d:TODAY,t:'Pojazd zarejestrowany ('+esc(off(UI.sess.powiat).short)+')'});})},
+  saleForm(p){App.simpleForm('Zbycie pojazdu · '+fmt(p),[['s-date','Data zbycia',TODAY],['s-buyer','Nabywca','Firma Auto-Handel Sp. z o.o.']],()=>{
+    const pl=act(p);pl.sale={date:val('s-date'),buyer:val('s-buyer')};pl.status='zbyty';pl.hist.push({d:TODAY,t:'Zbycie pojazdu'});},
+    'Co dalej z wyróżnikiem po sprzedaży – do ustalenia (zostaje przy właścicielu / przechodzi z pojazdem / wraca do puli).')},
+  simpleForm(title,fields,onOk,note){
+    UI.formOk=onOk;
+    document.getElementById('modal').innerHTML=`<div class="modal-bg"><div class="modal" style="max-width:480px"><div class="mh"><h2>${esc(title)}</h2><button class="x" onclick="App.closeModal()">×</button></div>
+      <div class="mb">${fields.map(([id,l,v])=>`<div class="field" style="margin-bottom:10px"><label>${l}</label><input id="${id}" value="${esc(v)}"></div>`).join('')}${note?`<p class="small muted">${note}</p>`:''}</div>
+      <div class="mf"><button class="btn sec" onclick="App.closeModal()">Anuluj</button><button class="btn" onclick="UI.formOk();App.closeModal();save();render();toast('Zapisano.')">Zapisz</button></div></div></div>`;
+  },
+  editPlate(id){
+    const p=S.plates.find(x=>x.id===id), v=p.vehicle||{}, s=p.sale||{};
+    const F=(id,l,val,type='text')=>`<div class="field"><label>${l}</label><input id="${id}" type="${type}" value="${esc(val||'')}"></div>`;
+    document.getElementById('modal').innerHTML=`<div class="modal-bg"><div class="modal" style="max-width:760px">
+      <div class="mh"><h2>Wpis ewidencji · ${plate(p.plate)}</h2><button class="x" onclick="App.closeModal()">×</button></div>
+      <div class="mb">
+        <p class="small muted" style="margin-top:0">Edycja z uprawnieniami UMP. Wyróżnika nie można zmienić – przy błędzie ustaw status „zwolniony” i wprowadź nowy wniosek.</p>
+        <h3 style="margin-top:0">Przydział</h3>
+        <div class="grid2" style="gap:10px">
+          ${F('e-owner','Właściciel',p.owner)}
+          <div class="field"><label>Urząd prowadzący</label><select id="e-office">${officeOptions(p.office,true)}</select></div>
+          <div class="field"><label>Status</label><select id="e-status">${STATUSES.map(([k,l])=>`<option value="${k}" ${k===p.status?'selected':''}>${l}</option>`).join('')}</select></div>
+          ${F('e-letter','Nr pisma UMP',p.letter)}
+          ${F('e-date','Data przydziału',p.date,'date')}
+        </div>
+        <h3>Pojazd</h3>
+        <div class="grid2" style="gap:10px">${F('e-model','Marka i model',v.model)}${F('e-vin','VIN',v.vin)}</div>
+        <h3>Sprzedaż pojazdu</h3>
+        <div class="grid2" style="gap:10px">${F('e-sdate','Data sprzedaży',s.date,'date')}${F('e-buyer','Nabywca',s.buyer)}</div>
+        <h3>Uwagi</h3>
+        <textarea id="e-note" rows="2" style="width:100%">${esc(p.note||'')}</textarea>
+        <div class="field" style="margin-top:12px"><label>Powód zmiany (wymagany, trafia do historii)</label><input id="e-reason" placeholder="np. korekta daty sprzedaży na podstawie umowy"></div>
+        <h3>Historia wpisu</h3><ul class="hist">${p.hist.slice().reverse().map(h=>`<li><span class="muted">${h.d}</span> · ${h.t}</li>`).join('')}</ul>
+      </div>
+      <div class="mf"><button class="btn sec" onclick="App.closeModal()">Anuluj</button><button class="btn" onclick="App.savePlate(${id})">Zapisz zmiany</button></div></div></div>`;
+  },
+  savePlate(id){
+    const p=S.plates.find(x=>x.id===id), reason=val('e-reason');
+    const nv={owner:val('e-owner'),office:val('e-office'),status:val('e-status'),letter:val('e-letter'),date:val('e-date'),model:val('e-model'),vin:val('e-vin'),sdate:val('e-sdate'),buyer:val('e-buyer'),note:val('e-note')};
+    const ov={owner:p.owner,office:p.office,status:p.status,letter:p.letter,date:p.date,model:p.vehicle?.model||'',vin:p.vehicle?.vin||'',sdate:p.sale?.date||'',buyer:p.sale?.buyer||'',note:p.note||''};
+    const L={owner:'właściciel',office:'urząd',status:'status',letter:'nr pisma',date:'data przydziału',model:'pojazd',vin:'VIN',sdate:'data sprzedaży',buyer:'nabywca',note:'uwagi'};
+    const show=(k,v)=>k==='office'?off(v).short:(v||'—');
+    const diff=Object.keys(nv).filter(k=>nv[k]!==ov[k]);
+    if(!diff.length){toast('Brak zmian.');return}
+    if(!reason){toast('Podaj powód zmiany.');document.getElementById('e-reason').focus();return}
+    if(ov.status==='zwolniony'&&nv.status!=='zwolniony'&&act(p.plate)){toast('Ten wyróżnik ma już inny aktywny wpis – nie można przywrócić.');return}
+    if(nv.status==='zwolniony'&&S.requests.some(r=>r.type==='TI'&&r.plate===p.plate&&r.status==='wyslany')){toast('Na ten wyróżnik czeka wniosek – najpierw go rozpatrz.');return}
+    Object.assign(p,{owner:nv.owner,office:nv.office,status:nv.status,letter:nv.letter,date:nv.date,note:nv.note});
+    p.vehicle=nv.model||nv.vin?{model:nv.model,vin:nv.vin}:null;
+    p.sale=nv.sdate||nv.buyer?{date:nv.sdate,buyer:nv.buyer}:null;
+    p.hist.push({d:TODAY,t:'<b>Zmiana przez UMP</b> ('+esc(off('ump').email)+'): '+diff.map(k=>esc(L[k])+': '+esc(show(k,ov[k]))+' → '+esc(show(k,nv[k]))).join('; ')+'. Powód: '+esc(reason)});
+    App.closeModal(); save(); render(); toast('✓ Zapisano zmiany we wpisie '+fmt(p.plate)+' ('+diff.length+' pól).');
+  },
+  exportCsv(){
+    const rows=[['wyroznik','wlasciciel','urzad','pismo','data','pojazd','vin','data_sprzedazy','nabywca','status']].concat(S.plates.map(p=>[fmt(p.plate),p.owner,off(p.office).short,p.letter,p.date,p.vehicle?.model||'',p.vehicle?.vin||'',p.sale?.date||'',p.sale?.buyer||'',p.status]));
+    const blob=new Blob(['﻿'+rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(';')).join('\n')],{type:'text/csv'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ewidencja_tablic.csv';a.click();
+  }
+};
+const val=id=>document.getElementById(id).value.trim();
+function poolError(type,f,t){
+  if(!(f>0&&t>=f)) return 'Nieprawidłowy zakres: „do” musi być ≥ „od”.';
+  if(t>(type==='II'?9999:999)) return 'Przekroczono maksymalny numer ('+(type==='II'?'9999':'999')+').';
+  const hit=S.pools.find(p=>p.type===type&&f<=p.to&&t>=p.from);
+  return hit?`<b>Kolizja z pulą ${esc(off(hit.office).short)}</b> (${hit.from}–${hit.to}). Wybierz inny zakres.`:null;
+}
+render();
+</script>
+</body>
+</html>

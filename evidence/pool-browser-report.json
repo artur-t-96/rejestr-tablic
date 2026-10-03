@@ -1,0 +1,125 @@
+{
+  "verified_at": "2026-10-03T03:20:24.289197+00:00",
+  "base_revision": "490897b1a552c8ae397012ffb15a8061ee0e3ed4",
+  "fix_revision": "0b6c384",
+  "environment": "isolated SQLite and user Chrome; localhost:8774",
+  "pools": [
+    {
+      "kind": "II",
+      "reference": "W/2026/00007",
+      "uuid": "76d6ee7b-3fc0-4a47-a8c3-3d9253ca97ef",
+      "total": 5,
+      "used": 4,
+      "percent": 80,
+      "first": "P031",
+      "last": "P035",
+      "valid_from": "2026-10-03",
+      "valid_until": null
+    },
+    {
+      "kind": "III",
+      "reference": "W/2026/00006",
+      "uuid": "c3b25a35-bdb2-49f1-af7e-7baa8d7d83a5",
+      "total": 5,
+      "used": 1,
+      "percent": 20,
+      "first": "P20001",
+      "last": "P20005",
+      "valid_from": "2026-10-03",
+      "valid_until": "2026-12-31"
+    }
+  ],
+  "documents": [
+    {
+      "kind": "APPLICATION",
+      "module": "II",
+      "number": "DRT/gni/2026/000007",
+      "pages": 1,
+      "sha256": "2b675966b43e00c59939165a28fe7eacf84c02dd7421d808dcc34f63b1d048cb",
+      "reference_and_range_verified": true
+    },
+    {
+      "kind": "POOL",
+      "module": "II",
+      "number": "DRT/ump/2026/000005",
+      "pages": 1,
+      "sha256": "11944699605e81f838ee36219e424cf28bfdd20ec276e622f650d22f3035e494",
+      "reference_and_range_verified": true
+    },
+    {
+      "kind": "APPLICATION",
+      "module": "III",
+      "number": "DRT/gni/2026/000006",
+      "pages": 1,
+      "sha256": "b9fc8973992d5bdb7f5abe3eb2927e9fdf94a9e6fd3ba40387bff6faa802b9fa",
+      "reference_and_range_verified": true
+    },
+    {
+      "kind": "POOL",
+      "module": "III",
+      "number": "DRT/ump/2026/000006",
+      "pages": 1,
+      "sha256": "bb42ed1151c97851ee4f2f2c44f23f3e0f3007c4e52804589725482500c58e7d",
+      "reference_and_range_verified": true
+    }
+  ],
+  "browser_checks": {
+    "ii_collision_keeps_request_pending": true,
+    "iii_count_mismatch_keeps_request_pending": true,
+    "county_issues_ii_and_iii": true,
+    "alert_80_percent": true,
+    "pila_foreign_pools_404": true,
+    "pila_allocate_403": true,
+    "default_date_visible_and_submitted_without_retyping": true,
+    "large_pool": {
+      "total": 501,
+      "pages": 6,
+      "last_number": "P536",
+      "last_number_issued_by": "MAIN",
+      "page_preserved_after_issue": 6
+    }
+  },
+  "tests": {
+    "passed": 34,
+    "log": "evidence/pool-browser-tests.txt",
+    "includes_new_pool_ui_tests": 6,
+    "postgresql_rerun": false
+  },
+  "primary_business_tables": {
+    "registry_request": {
+      "count": 5,
+      "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+    },
+    "registry_platerecord": {
+      "count": 5,
+      "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+    },
+    "registry_letter": {
+      "count": 12,
+      "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+    },
+    "registry_pool": {
+      "count": 1,
+      "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+    },
+    "registry_poolslot": {
+      "count": 30,
+      "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+    },
+    "registry_numbersequence": {
+      "count": 3,
+      "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+    }
+  },
+  "primary_business_data_unchanged": true,
+  "operator_api_verified": false,
+  "module_iii_legal_classification_verified": false,
+  "full_goal_verified": false,
+  "open_requirements": [
+    "automatic decision email notification",
+    "require finite module III period",
+    "remaining browser rejection/expiry/admin/import/export branches",
+    "legal amendments and classification",
+    "full accessibility and infrastructure acceptance"
+  ]
+}

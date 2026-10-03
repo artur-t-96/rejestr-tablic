@@ -1,0 +1,12 @@
+{% if form.errors %}
+<section id="form-errors" class="notice error" aria-labelledby="form-errors-title" tabindex="-1" data-focus-errors>
+  <h2 id="form-errors-title">Popraw błędy w formularzu</h2>
+  <p>Dane nie zostały zapisane. Wybierz pole z listy, aby je poprawić.</p>
+  <ul>
+    {% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+    {% for field in form %}{% for error in field.errors %}
+      <li>{% if not field.is_hidden %}<a href="#{{ field.id_for_label }}">{{ field.label }}: {{ error }}</a>{% else %}{{ error }}{% endif %}</li>
+    {% endfor %}{% endfor %}
+  </ul>
+</section>
+{% endif %}

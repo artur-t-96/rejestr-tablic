@@ -1,0 +1,70 @@
+{
+  "fictional_fixture": "separate copy of primary SQLite; original 30 numbers preserved; added 968 synthetic numeric slots only in private copy",
+  "chrome_negative": {
+    "proposal_positions": [
+      1000,
+      1001
+    ],
+    "occupied_numeric_count": 998,
+    "message": "998 z 999",
+    "business_tables_unchanged": {
+      "registry_request": {
+        "count": 5,
+        "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+      },
+      "registry_platerecord": {
+        "count": 5,
+        "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+      },
+      "registry_letter": {
+        "count": 12,
+        "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+      },
+      "registry_pool": {
+        "count": 2,
+        "sha256": "84eaeb42ec635a7aa59cdd044e69a6ad1279d32afe5410ee9f2f144895c9beb1"
+      },
+      "registry_poolslot": {
+        "count": 998,
+        "sha256": "35a97f240b5c36db2fdbabf68b81212bb175a686f50213a3d8e93b0e00c05f46"
+      },
+      "registry_numbersequence": {
+        "count": 3,
+        "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+      },
+      "registry_integrationjob": {
+        "count": 1,
+        "sha256": "9bf08358aeebd3bfd880b6aa9609ec1ed0bcc754169aecdec43ec61771bd1ffd"
+      }
+    }
+  },
+  "external_messages_sent": false,
+  "chrome_positive": {
+    "positions": [
+      999,
+      1001
+    ],
+    "pool_uuid": "1cab5ef3-c2e2-4b59-a988-818b8d788f4d",
+    "numbers": [
+      "P999",
+      "P01A",
+      "P01C"
+    ],
+    "letter_uuid": "34d507c0-498f-44a8-82de-f94a54acc1a3",
+    "letter_number": "DRT/ump/2026/000003",
+    "pdf_sha256": "b75230e9017f1030e0d49a08a411b1bf1c573fdccb72cbc9b4d53b977f1c76a1",
+    "pool_audit_count": 1,
+    "new_external_job": false
+  },
+  "pdf": {
+    "pages": 1,
+    "sha256_matches_database": true,
+    "range_and_count_verified": true,
+    "render_visually_reviewed": true,
+    "tagged": false
+  },
+  "screenshots": [
+    "111-small-layout-jump-blocked.png",
+    "112-small-layout-boundary-allocated.png"
+  ]
+}

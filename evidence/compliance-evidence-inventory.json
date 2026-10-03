@@ -1,0 +1,972 @@
+{
+  "checked_at": "2026-10-03",
+  "base_revision": "855358b7ab48059ff03d711c7d61b7eb4dd78e6c",
+  "scope": "Saved artifact hash/JSON verification, retaining historical scope metadata. Actual Chrome CAPTCHA completion and error/expiry/retry accepted locally; spoken VoiceOver output and full AA remain unverified. No new external API acceptance. Local Render profile prepared/tested; GitHub and Render publication still deferred. Mobile CAPTCHA error at measured 320x900 accepted; reader output remains unavailable and publication deferred.",
+  "objective_sha256": "13780efcd40ec9a100fabd29f0adb71f66343ce5c9595bf5f50dd80fcccbea4b",
+  "goal_complete": false,
+  "artifacts": [
+    {
+      "path": "Demo_Rejestr_Tablic.html",
+      "bytes": 66383,
+      "sha256": "d0170a1c73f2f045d3917e425695796a05869510304889c9ca510e11c99e4ab8"
+    },
+    {
+      "path": "README.md",
+      "bytes": 8609,
+      "sha256": "e68798406a39bbd863a0e8fd1a387b6accda1eed863f3e14f0d317d4efb1a2f5"
+    },
+    {
+      "path": "Specyfikacja_flow_tablice.html",
+      "bytes": 30019,
+      "sha256": "db1826c1e4835d6072fded20aa0098364e1673e293b7144f30175da3116dbde7"
+    },
+    {
+      "path": "docs/API-KOREKTY.md",
+      "bytes": 3083,
+      "sha256": "3d21d229a51315ac0d2729b992ad3a4d951665fc942088d821458ecc827b84cc"
+    },
+    {
+      "path": "docs/API-OPERACJE.md",
+      "bytes": 3722,
+      "sha256": "6777e82d397d89854aa25287923a4c8a7684db518662d40dc83798974046d27d"
+    },
+    {
+      "path": "docs/AUDYT-I-HISTORIA.md",
+      "bytes": 5599,
+      "sha256": "0a316d36ebeeedc7f485da24b67c5746a1057accb1729ae37fc97c0fc5152fc8"
+    },
+    {
+      "path": "docs/AUDYT-IP.md",
+      "bytes": 3705,
+      "sha256": "dfd03c55a84899ee3aa4669b9e0b57c5216546b7f6c9e5aa0fbc501eab043241"
+    },
+    {
+      "path": "docs/BACKUP-POSTGRESQL.md",
+      "bytes": 10079,
+      "sha256": "322bd426f5e1f25ebe1b1793ce34b789ddfb1fa7a0a97a9fd3d575b0826f29f6"
+    },
+    {
+      "path": "docs/CZYNNOSCI-WPISU.md",
+      "bytes": 2835,
+      "sha256": "a9b99752b7c0146b163dd2d6d83ac1e0098edae21e30a15f6861f37c294a8ee6"
+    },
+    {
+      "path": "docs/DECYZJE.md",
+      "bytes": 5490,
+      "sha256": "3f9e12eef15ee310cef6ec575a23b1a7ba7618f9fdcd992e52146c19f3d4be7e"
+    },
+    {
+      "path": "docs/DOSTEP-E-DORECZENIA.md",
+      "bytes": 4555,
+      "sha256": "bc8c8d54ce746805418b42b552972f757f795ec56838d1e2cc92e268d61e8734"
+    },
+    {
+      "path": "docs/DOSTEP-EZD-RP.md",
+      "bytes": 3154,
+      "sha256": "47a501033958065747c9abb024208f8e7fa964f105da76c66ad0d2e7503cc10a"
+    },
+    {
+      "path": "docs/DOSTEPNOSC.md",
+      "bytes": 6708,
+      "sha256": "61c1d8734f5191e76936b674e2ee46279d5e117a192261f39c4570b2262c132a"
+    },
+    {
+      "path": "docs/E-DORECZENIA.md",
+      "bytes": 10660,
+      "sha256": "590fd8773df0a623f57f1bdc561ade45108130763df1d08552c01007d81c9a2d"
+    },
+    {
+      "path": "docs/EZD-RP.md",
+      "bytes": 7284,
+      "sha256": "b6bc420e67f2c7cca14a01e5f1cfab2c0f8b5e90e029896356feabbadcbb60ff"
+    },
+    {
+      "path": "docs/IMPORT-EWIDENCJI.md",
+      "bytes": 8673,
+      "sha256": "eb002a8f459118373384989a1ae1a456ab88a02b2c836f6f1dcee2e3346ffda4"
+    },
+    {
+      "path": "docs/IMPORT-PUL.md",
+      "bytes": 8828,
+      "sha256": "f6f9e864a34f6ed99587fc9cf7005b3d55deb6b432c74a4cfb84896ab47d93ce"
+    },
+    {
+      "path": "docs/IMPORT-XLSX.md",
+      "bytes": 7979,
+      "sha256": "66d5fcb5e6bbaedc39781637ebfbb0321d290fa59e2bde47ff460ba513c28a0a"
+    },
+    {
+      "path": "docs/KOLEJNOSC-PUL-II.md",
+      "bytes": 5819,
+      "sha256": "cdc42bb5de9df4bf8481b4fd626d0683e0cec5ae690ec44bfc44d2dd3207d627"
+    },
+    {
+      "path": "docs/KONTA-I-ZAPROSZENIA.md",
+      "bytes": 6111,
+      "sha256": "c5e0b793fcf8bbe1d958ccbfa55dc9ddcf2fce154de5580b0a55788ba5051460"
+    },
+    {
+      "path": "docs/LOGOWANIE-I-SESJE.md",
+      "bytes": 7784,
+      "sha256": "45c90ffe7649998a8f4d4c3309d3999f688269aca01f5ced7c9a26717bf686b1"
+    },
+    {
+      "path": "docs/MACIERZ-ZGODNOSCI.md",
+      "bytes": 11326,
+      "sha256": "80c2c1e81e191874943e7b0d6755d318664a6a0ebac97dc185a8d533db5cb5e8"
+    },
+    {
+      "path": "docs/METODY-HTTP.md",
+      "bytes": 5108,
+      "sha256": "1dfe6e866e0eb3a57d1fd5837a8cfdade5cd5434879d9ea3f942e79d6572a19b"
+    },
+    {
+      "path": "docs/NUMERACJA-PRZEPISY.md",
+      "bytes": 6353,
+      "sha256": "25593cfa5a67432511b066bf0dfb392d7738985b6e5b45ac654a7ba1ecef29b9"
+    },
+    {
+      "path": "docs/NUMERACJA.md",
+      "bytes": 4087,
+      "sha256": "d714ee7d13feb68508152a32aca023eaa6ff323eeef38254ccd0d89f06990fa6"
+    },
+    {
+      "path": "docs/OCHRONA-PUBLICZNA.md",
+      "bytes": 8226,
+      "sha256": "cdcd1a1f2eb82dc05b6741ac544b8d77c6b524b5095cd101b1cbfe978963283b"
+    },
+    {
+      "path": "docs/ODBIOR-BAZY-I-AKTUALIZACJI.md",
+      "bytes": 5469,
+      "sha256": "c8acb562e5c7e23f71a718cf3fd491b35b0f6745b8659644836d1ad0a08430ea",
+      "saved_scope": "Current dc3d6df native database/upgrade verification only; details in docs/ODBIOR-BAZY-I-AKTUALIZACJI.md"
+    },
+    {
+      "path": "docs/ODBIOR-TRZECH-MODULOW.md",
+      "bytes": 5218,
+      "sha256": "8a487fd84d8a52d0f475c3f765b851483f9c7b8e88e95026f7f34139168bec02"
+    },
+    {
+      "path": "docs/PAGINACJA-LIST.md",
+      "bytes": 4431,
+      "sha256": "2702fb4e8c52008ba02abdc2ab0f6143b9419ecb7bc73ac0ea7bc755a3ca5ffc"
+    },
+    {
+      "path": "docs/PISMA-PDF.md",
+      "bytes": 5245,
+      "sha256": "fce1183b0961ea79064a4105d8100561ebaf05e22b5ca221c77d9d2f0f6e2325"
+    },
+    {
+      "path": "docs/PODPISY.md",
+      "bytes": 5155,
+      "sha256": "a9dbb82ce68840424a9b3e26714068683d1c2a509432e3372aa006868bef6a4e"
+    },
+    {
+      "path": "docs/POJEMNOSCI-PUL.md",
+      "bytes": 5952,
+      "sha256": "11d14c9ef9cbe96a0a1b873fd01aa72f47731d2cf8c7b3fb7038d6671d3eab08"
+    },
+    {
+      "path": "docs/POSTGRESQL-LOKALNIE.md",
+      "bytes": 8429,
+      "sha256": "8e37dd8bf84ea6938e6984eb28712536a788f5d7e430e5dff27b37332a74d5ab"
+    },
+    {
+      "path": "docs/POWIADOMIENIA-DECYZJI.md",
+      "bytes": 7161,
+      "sha256": "6aacb17603e86396cff72a75bb672027458a933dec4ad43531620bf3545c60db"
+    },
+    {
+      "path": "docs/RETENCJA-DANYCH.md",
+      "bytes": 7259,
+      "sha256": "949489c38c428389ec801baa02ed9f5dc53959893b470c42f952dda141b912a1"
+    },
+    {
+      "path": "docs/REZERWACJE-I-ODMOWA.md",
+      "bytes": 5176,
+      "sha256": "771e359f95a197aa634f51976bd8c03776bac3af2935a2bbc4812b5284e0e6a1"
+    },
+    {
+      "path": "docs/REZERWACJE-W-SPRAWDZARCE.md",
+      "bytes": 3441,
+      "sha256": "7bc3564e484025aad96d7c436e1dc9563c6b7d6d1db43916edb587094a3f15ca"
+    },
+    {
+      "path": "docs/ROLE-I-TRASY.md",
+      "bytes": 5076,
+      "sha256": "8d0eddd2be3e420104c5bd1996107bd01c131ba75f40ccd96cd91802c22a5975"
+    },
+    {
+      "path": "docs/ROLE-WNIOSKOW-PUL.md",
+      "bytes": 3430,
+      "sha256": "4f47f70b540f3ba1e6b6e9ff46c9dc5cc47c48c339be4f58457579a5d9b49af6"
+    },
+    {
+      "path": "docs/STATUS.md",
+      "bytes": 48472,
+      "sha256": "bae603cad9d1b50ccc5a90ff1abf820ccf20cc3b5bc46d249ca4e6cdf1d65fb4"
+    },
+    {
+      "path": "docs/SUGESTIE-WYROZNIKOW.md",
+      "bytes": 3521,
+      "sha256": "cc4b07363008c76c558c8b0398a67a47d08cdfdf5ebc07adb76c9b0c8404a3f2"
+    },
+    {
+      "path": "docs/WCAG-PUBLICZNY.md",
+      "bytes": 12593,
+      "sha256": "22d5bfafba69446e8c6f2f8db058cee86a896d72900433e923d3a3643048e33d"
+    },
+    {
+      "path": "docs/WDROZENIE-URZEDOWE.md",
+      "bytes": 13994,
+      "sha256": "56fd1b7d3dbddd8e81be57e595b9fc5eafdda21578210e0e630d8eda8b61ac8e"
+    },
+    {
+      "path": "docs/WERYFIKACJA-ETAP-1.md",
+      "bytes": 4244,
+      "sha256": "8570e38c456b1db66af617bfe3b5741a291c4388883aaf3a7e718cc724af6d9c"
+    },
+    {
+      "path": "docs/WERYFIKACJA-EZD.md",
+      "bytes": 3091,
+      "sha256": "1db08d4dcdbf35198e370133e2dd69d381978524692ce02dafdffbf9622434d3"
+    },
+    {
+      "path": "docs/WERYFIKACJA-PODPISOW.md",
+      "bytes": 2919,
+      "sha256": "75a91715eaf010ec6fadd3316bd47e1b33bf3aedd2a236ad1db6b9d583b82d68"
+    },
+    {
+      "path": "docs/WERYFIKACJA-PROCESOW.md",
+      "bytes": 5573,
+      "sha256": "7285754ae36a5b9fedbb3d8f4a7b646f4a4eb43c574efd64c094498f855be83d"
+    },
+    {
+      "path": "docs/WERYFIKACJA-PRZEKAZANIA.md",
+      "bytes": 4716,
+      "sha256": "4d906afb6f723340d442b15178b268b36a1b4f4a99879326282c297c439bfce3"
+    },
+    {
+      "path": "docs/WERYFIKACJA-PUL.md",
+      "bytes": 3913,
+      "sha256": "11fd5d793c4e5f9a21a8a4da982df725e399a93e7e22d8eb18d953882f04e476"
+    },
+    {
+      "path": "docs/WPLYWY-EZD.md",
+      "bytes": 8040,
+      "sha256": "1599b3b2345d3b5da793b1b3ac7ab942380d87f6f676d59d024c18d42a80e2ec"
+    },
+    {
+      "path": "docs/WZNOWIENIE-E-DORECZEN.md",
+      "bytes": 8741,
+      "sha256": "8ca50e02182f9984b48b288537c6054112ce829fd200dddb599d3b3c3fd5a326"
+    },
+    {
+      "path": "evidence/126-final-restored-queue.png",
+      "bytes": 104698,
+      "sha256": "cf1cb5f79a30448181d8b9ed9b8c91068aa9e4113d19d9c84851529da8631ac2",
+      "saved_scope": "Current dc3d6df native database/upgrade verification only; details in docs/ODBIOR-BAZY-I-AKTUALIZACJI.md"
+    },
+    {
+      "path": "evidence/127-final-restored-signature.png",
+      "bytes": 111446,
+      "sha256": "ecb62589ad8dcaee3af0895d84c2b7d6532547befb5ebe606aba181af649874f",
+      "saved_scope": "Current dc3d6df native database/upgrade verification only; details in docs/ODBIOR-BAZY-I-AKTUALIZACJI.md"
+    },
+    {
+      "path": "evidence/128-final-individual-submitted.png",
+      "bytes": 166326,
+      "sha256": "a7ead62ed364326252b31dfc1e50afa2a1e97079e346fed4ba0396957e3826e2"
+    },
+    {
+      "path": "evidence/129-final-module-three-decision.png",
+      "bytes": 198140,
+      "sha256": "3c91815211d3b59630b694d37383e540247c94a0875858da153ea606d40af607"
+    },
+    {
+      "path": "evidence/130-final-individual-sold.png",
+      "bytes": 144926,
+      "sha256": "9e2223fecd8e3e492feca232fcea2a1635538e0adb63e02fa9b65b8c8073125c"
+    },
+    {
+      "path": "evidence/131-final-pool-alert.png",
+      "bytes": 128395,
+      "sha256": "395c74665ef39d9605a7572716cb3acd1955f5db6c6ab43783059251ebd4fb9d"
+    },
+    {
+      "path": "evidence/132-final-module-three-issued.png",
+      "bytes": 80323,
+      "sha256": "77e85b2399980b09754b5eca19faf24d8bc38451efc823e1fd22d6c14e7367ab"
+    },
+    {
+      "path": "evidence/133-final-office-isolation.png",
+      "bytes": 51553,
+      "sha256": "809121bebe1623e8bbe54668ea6099f855e008a9bbb1aedf221333c78d2af416"
+    },
+    {
+      "path": "evidence/134-final-public-released.png",
+      "bytes": 128392,
+      "sha256": "32c02dfa33cc33442ddd31d193cd44b0c5194095cc2b5b0e31d0d3ac54a8f9f6"
+    },
+    {
+      "path": "evidence/135-availability-county.jpg",
+      "bytes": 188715,
+      "sha256": "41dd3a131dbacc120a6762c3342fb1286711d318423991b8e21664e479602ef7"
+    },
+    {
+      "path": "evidence/136-availability-county-320.jpg",
+      "bytes": 145901,
+      "sha256": "153ce75a1a30440ddb42d2165ece7ef0bb8165fa2fe2703018e8699dc5eeabf7"
+    },
+    {
+      "path": "evidence/137-availability-public.jpg",
+      "bytes": 160344,
+      "sha256": "ec4df12e5af7609b067d6686f61594ff1484f0511359650844211ba84a8d38aa"
+    },
+    {
+      "path": "evidence/138-availability-other-county.jpg",
+      "bytes": 187650,
+      "sha256": "7d69bd37c30771100f4faf732bda3ee874f74c076e6119fad2f51b29fd1f5ba2"
+    },
+    {
+      "path": "evidence/139-availability-ump.jpg",
+      "bytes": 190419,
+      "sha256": "83b8bde1ecc4827ca0bdc2b829bf68bebe0ed858ba69dbb655d441e21396f4ee"
+    },
+    {
+      "path": "evidence/140-public-pointer-cancelled.jpg",
+      "bytes": 100531,
+      "sha256": "55b69efc4447a61bc18dbb9b8f6d4d384a9553c0a224c6d5ec9b02fc483bacae"
+    },
+    {
+      "path": "evidence/141-public-pointer-submitted.jpg",
+      "bytes": 160598,
+      "sha256": "8f795ecaa28dee569955b2faece5825c87bdeb8d48e414d328af300cc480a8e6"
+    },
+    {
+      "path": "evidence/142-public-suggestions.jpg",
+      "bytes": 136627,
+      "sha256": "637cab32320092e0ea414528888676d32d578e9c8abbd635a0c74ab15cb1432a"
+    },
+    {
+      "path": "evidence/143-public-suggestions-numeric.jpg",
+      "bytes": 135089,
+      "sha256": "6d90d451e85f41b4e56157f262bfe4cfd4cb8995148281eca7ace31ec7b7a0ce"
+    },
+    {
+      "path": "evidence/144-ump-wniosek-indywidualny.jpg",
+      "bytes": 74027,
+      "sha256": "d2ecff57e7c3d49199b4ede39f066c42fc0ab1ffee2dcc9e831d272fb8b28e48"
+    },
+    {
+      "path": "evidence/145-ump-wlasny-wniosek-zapisany.jpg",
+      "bytes": 97197,
+      "sha256": "7a7cd2cefad06941ba4023676799e97670bda1040bf6dee54595c03784b3a338"
+    },
+    {
+      "path": "evidence/146-ump-przydzial-bez-wniosku-o-pule.jpg",
+      "bytes": 87842,
+      "sha256": "251cc3f62bd019fd91b9b69a5edcfe3aca6deb0713a10de8288e7b81a20bd31d"
+    },
+    {
+      "path": "evidence/147-powiat-wniosek-o-pule.jpg",
+      "bytes": 71974,
+      "sha256": "4895e2a61bd426cb284402d15405c24c838ad1384e5968ddb3868ea863a431ce"
+    },
+    {
+      "path": "evidence/148-powiat-wniosek-iii-zapisany.jpg",
+      "bytes": 93893,
+      "sha256": "adc00d44464bbc45affffde5c968d87d26d6fe5273c6e109a8ed1566a70d2e1a"
+    },
+    {
+      "path": "evidence/149-ump-szkic-puli-bez-zlozenia.jpg",
+      "bytes": 86220,
+      "sha256": "27e4342bd0a23c33dbdb90812d79b581c2d884b955b78b06425ac07dc2932a3d"
+    },
+    {
+      "path": "evidence/150-ump-indywidualny-zlozony.jpg",
+      "bytes": 101102,
+      "sha256": "4258c4d07f5fde05d9c70c9558bc6a99e1c990df8685b0fa36da9f0948402401"
+    },
+    {
+      "path": "evidence/a11y-browser-report.json",
+      "bytes": 1819,
+      "sha256": "e3f210f2e9fcc2d509f396479e1d823f7ede6f12e6a5b08285848b1eb5ea5bb0",
+      "json_valid": true,
+      "recorded_scope": {}
+    },
+    {
+      "path": "evidence/account-invitation-browser-report.json",
+      "bytes": 3480,
+      "sha256": "6af0cb19cbbcb345753b1882751633000b98d3774fbdddbe91cd3c91452919ee",
+      "json_valid": true,
+      "recorded_scope": {
+        "environment": "isolated fictional SQLite copy localhost:8775"
+      }
+    },
+    {
+      "path": "evidence/api-operations-validation-http.json",
+      "bytes": 8628,
+      "sha256": "51d2a27433538d3cf6a411099e2c759ed5c7bebb5558f2b7c17918663406d6ff",
+      "json_valid": true,
+      "recorded_scope": "Actual native HTTP on isolated SQLite backup, synthetic data, real file OTP and CSRF; zero external API calls and no private workers"
+    },
+    {
+      "path": "evidence/api-operations-validation-tests.txt",
+      "bytes": 392,
+      "sha256": "61604ff572fb9bb9aad2d5417d7aed99a4657d5885732cc52ac610e5724de9eb"
+    },
+    {
+      "path": "evidence/api-record-validation-http.json",
+      "bytes": 2533,
+      "sha256": "a15c6d5f5f47d74718b5975cb4411e2c6cca5d0bc59f7974ac07e6dcb40dcf1a",
+      "json_valid": true,
+      "recorded_scope": {
+        "scope": "real local HTTP, separate SQLite copy, file email OTP; synthetic SOLD fixture; no external API"
+      }
+    },
+    {
+      "path": "evidence/api-record-validation-tests.txt",
+      "bytes": 377,
+      "sha256": "4943aa0fa7f0874bcefd68afcf975386db5208496bea9f1d909ff6a6658e7de7"
+    },
+    {
+      "path": "evidence/audit-presentation-browser-report.json",
+      "bytes": 2117,
+      "sha256": "e6f0bdf68296cbeadfcf2603d2f6845bc4141c2d295e351ff350c6dd3599bae2",
+      "json_valid": true,
+      "recorded_scope": {
+        "scope": "fictional copied database; browser reads only; OTP adds authentication audit"
+      }
+    },
+    {
+      "path": "evidence/availability-status-browser-proof.json",
+      "bytes": 4884,
+      "sha256": "c7f788a6b50e43df683db1cfdab38636cf84465365116b6e8ec072303713532e",
+      "json_valid": true,
+      "recorded_scope": "Actual Chrome user profile on isolated native server: OTP for Gniezno, Pila and UMP; HTML result and logout/anonymous result. Native DOM focus and reflow measurements; all five screenshots viewed. No CAPTCHA solved, no external operator calls."
+    },
+    {
+      "path": "evidence/availability-status-http-proof.json",
+      "bytes": 2958,
+      "sha256": "c3f6e616918072aa788919bc36e06f1f3b3e398e1cbc502af47e8cc7dde136d5",
+      "json_valid": true,
+      "recorded_scope": "Actual native HTTP with four separate OTP/CSRF sessions and anonymous client on isolated synthetic database; read-only availability API GET and HTML POST for five roles. Unit tests separately cover expiry and withdrawal. No external API calls."
+    },
+    {
+      "path": "evidence/availability-status-tests.txt",
+      "bytes": 376,
+      "sha256": "adc536b1a69a80c86f638473cf069a4d3e25caa71b9bc8d1b57f7d0fc2fddbf6"
+    },
+    {
+      "path": "evidence/business-flow-report.json",
+      "bytes": 2930,
+      "sha256": "79d3fcafd22fb543522d5ee2e99c4ddd47719ca1e86ffe06451b9310b9d18fd9",
+      "json_valid": true,
+      "recorded_scope": {
+        "environment": "isolated SQLite; Chrome user profile; localhost:8774",
+        "verified_at": "2026-10-03T03:13:53.119784+00:00",
+        "external_api_verified": false
+      }
+    },
+    {
+      "path": "evidence/edor-backup-proof.json",
+      "bytes": 964,
+      "sha256": "c459246b3083edaa8e11d91ef341bcd9dbdbcec8ac9c18d4c2c3725235cb9f58",
+      "json_valid": true,
+      "recorded_scope": {
+        "external_api_verified": false
+      }
+    },
+    {
+      "path": "evidence/ezd-incoming-contract.json",
+      "bytes": 760,
+      "sha256": "460b0d1a8db6ae178133a1d91d972c2e28bdcd0b58ab74aa61930e093d62237d",
+      "json_valid": true,
+      "recorded_scope": {
+        "verified_at": "2026-10-03T01:21:45.317429+00:00",
+        "operator_business_flow_verified": false
+      }
+    },
+    {
+      "path": "evidence/final-backup-upgrade-proof.json",
+      "bytes": 42719,
+      "sha256": "94a49bd20b60099db0bbabdf271514a4199925bbe32d36facab8a68fef43f134",
+      "saved_scope": "Current dc3d6df native database/upgrade verification only; details in docs/ODBIOR-BAZY-I-AKTUALIZACJI.md",
+      "json_valid": true,
+      "recorded_scope": "Native SQLite and PostgreSQL snapshot/restore, then PostgreSQL 0005 to 0010 upgrade on an isolated restored database; not full system acceptance"
+    },
+    {
+      "path": "evidence/final-postgres-tests.txt",
+      "bytes": 5143,
+      "sha256": "fe6f9639ac68ae785fc24cae78949cdf6d1efcde7634b7165f367aa79ada789a",
+      "saved_scope": "Current dc3d6df native database/upgrade verification only; details in docs/ODBIOR-BAZY-I-AKTUALIZACJI.md"
+    },
+    {
+      "path": "evidence/final-postgres-upgrade-plan.txt",
+      "bytes": 421,
+      "sha256": "0e496d8636af8fedfd1919cb1b4efcfd17ebdde3b30d6d5009784f92efd605f5",
+      "saved_scope": "Current dc3d6df native database/upgrade verification only; details in docs/ODBIOR-BAZY-I-AKTUALIZACJI.md"
+    },
+    {
+      "path": "evidence/final-postgres-upgrade.txt",
+      "bytes": 378,
+      "sha256": "7648948b557d11aba6ac10ac67ca7936389722f543a707d2bb07c89345d06605",
+      "saved_scope": "Current dc3d6df native database/upgrade verification only; details in docs/ODBIOR-BAZY-I-AKTUALIZACJI.md"
+    },
+    {
+      "path": "evidence/final-restored-worker.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "saved_scope": "Current dc3d6df native database/upgrade verification only; details in docs/ODBIOR-BAZY-I-AKTUALIZACJI.md"
+    },
+    {
+      "path": "evidence/final-three-module-proof.json",
+      "bytes": 16377,
+      "sha256": "6b1f0d497e007489950cef07ec5225ed29fc9a2a41f186c9952ca935e1cf6a46",
+      "json_valid": true,
+      "recorded_scope": "Three positive workflows in user Chrome on separate SQLite copy; six cross-office and six administrator object GET denials; native database audit and six actual archived PDFs. This is not a complete endpoint/method/role matrix."
+    },
+    {
+      "path": "evidence/http-method-contract-http.json",
+      "bytes": 50036,
+      "sha256": "11df3c270181eb1372647d6882877ec6632361ae577f3f680199aa0a3ab8830b",
+      "json_valid": true,
+      "recorded_scope": "Unsupported methods on every configured URL through real HTTP after OTP/CSRF as UMP, plus one legitimate archived PDF GET. Not a complete allowed-method or role acceptance."
+    },
+    {
+      "path": "evidence/http-method-contract-tests.txt",
+      "bytes": 2975,
+      "sha256": "eb69017113198ca113e60aa584a6578fbff00a7fd76b461abcdcb3f0308a5389"
+    },
+    {
+      "path": "evidence/http-method-regression-tests.txt",
+      "bytes": 19111,
+      "sha256": "33bda30bbb7bb403512c0cf6c1b2c0569e9ce88372ce414aa3b956850dd0f43b"
+    },
+    {
+      "path": "evidence/letter-audit-ip-before-fix.txt",
+      "bytes": 5871,
+      "sha256": "e124b788837f55a66888a929b8f570514477fa735a624c586d51a073dde29bbe"
+    },
+    {
+      "path": "evidence/letter-audit-ip-http-proof.json",
+      "bytes": 5185,
+      "sha256": "789f1254ac7e5d2313812d1db8c94e81e4cf1e52571a4c3ce1052c01fdb9372d",
+      "json_valid": true,
+      "recorded_scope": "Actual native HTTP with two file OTP sessions and real CSRF; isolated synthetic SQLite; HTML/API application, I approval/rejection, nested II/III allocation, direct II allocation; actual REMOTE_ADDR recorded, spoofed X-Forwarded-For ignored. No operator calls, no new Chrome or IPv6 socket test."
+    },
+    {
+      "path": "evidence/letter-audit-ip-tests.txt",
+      "bytes": 375,
+      "sha256": "e80ceae8be599fbf009f0c61ed46e8ce2b0f670304e18a3ba098f1fa2a1ac20b"
+    },
+    {
+      "path": "evidence/list-pagination-api-proof.json",
+      "bytes": 1755,
+      "sha256": "d0eac59ef1ce6b2f1f384797fb0811e026d3f878da878d066083da54f4bf654a",
+      "json_valid": true,
+      "recorded_scope": {
+        "scope": "actual local HTTP with real file OTP; separate synthetic SQLite copy; no external API"
+      }
+    },
+    {
+      "path": "evidence/list-pagination-browser-report.json",
+      "bytes": 3451,
+      "sha256": "820268562ea42466529dc46022b519b63b33c58eff788533cd5c2e7f41c8901d",
+      "json_valid": true,
+      "recorded_scope": {
+        "scope": "Chrome user profile, isolated synthetic copy localhost:8776; read navigation and CSV export; no remote API",
+        "base_revision": "ff2041e77f5eb27222d914b0469228f3bbcd7092"
+      }
+    },
+    {
+      "path": "evidence/list-pagination-export-proof.json",
+      "bytes": 239,
+      "sha256": "3a1467784aa71b1d014728f303a2541ba0a91b63916eadcbfff12f61d93374c0",
+      "json_valid": true,
+      "recorded_scope": {}
+    },
+    {
+      "path": "evidence/list-pagination-tests.txt",
+      "bytes": 392,
+      "sha256": "868980a5184b26956b5aa503c8c0f599dda5d070fb580fe0e8dfbcac2e7e899b"
+    },
+    {
+      "path": "evidence/pades-verification.json",
+      "bytes": 986,
+      "sha256": "cd1597f3eb9ccbdc8a5b86a3cf6864da079cccf0ffe419b9f267688cb425fa8d",
+      "json_valid": true,
+      "recorded_scope": {
+        "external_service_test": false
+      }
+    },
+    {
+      "path": "evidence/pdf-layout-report.json",
+      "bytes": 7179,
+      "sha256": "cc12d4afef79aa9c013d325231842657249579bcaab19e008945b0a6056cd1f9",
+      "json_valid": true,
+      "recorded_scope": {
+        "pdf_accessibility_verified": false,
+        "visual_review_completed": true
+      }
+    },
+    {
+      "path": "evidence/pool-browser-report.json",
+      "bytes": 3755,
+      "sha256": "422668e581cf129773af395ebc922dbb845a183078519ff0daf596f9920fe290",
+      "json_valid": true,
+      "recorded_scope": {
+        "environment": "isolated SQLite and user Chrome; localhost:8774",
+        "base_revision": "490897b1a552c8ae397012ffb15a8061ee0e3ed4",
+        "verified_at": "2026-10-03T03:20:24.289197+00:00"
+      }
+    },
+    {
+      "path": "evidence/pool-request-roles-before-fix.txt",
+      "bytes": 12416,
+      "sha256": "64f556d4bc0b0bc6c9ed50000ebe8841564061ebc3f7c9001c10cd01235a00d1"
+    },
+    {
+      "path": "evidence/pool-request-roles-browser-report.json",
+      "bytes": 2319,
+      "sha256": "91d675ebd1b71fb9e9cf72be767b06a357abb5546a0f5d55cba4b44f5c011ad5",
+      "json_valid": true,
+      "recorded_scope": "Actual Chrome OTP login for MAIN and COUNTY on isolated SQLite copy; visible forms and two real business form submissions. Denied forged POSTs covered separately by native HTTP and tests; no CAPTCHA, reader, operator or production proof. These five screenshots precede the final submission guard; MAIN form and pools list did not subsequently change. Final draft submission UI is checked separately."
+    },
+    {
+      "path": "evidence/pool-request-roles-http-proof.json",
+      "bytes": 4265,
+      "sha256": "1561dbc149500f08a8064c9af4d66544e403332ba164a9ac60b9cc3925151395",
+      "json_valid": true,
+      "recorded_scope": "Actual host-native HTTP, real local file OTP and CSRF, isolated SQLite copy, MAIN II/III creation and submission denied via API and forged HTML with all 27 tables unchanged; MAIN individual requests, COUNTY pool applications and MAIN decisions/direct II allocation. No browser/operator proof in this file."
+    },
+    {
+      "path": "evidence/pool-request-roles-tests.txt",
+      "bytes": 365,
+      "sha256": "02c8ac4e0074a292001d008d350a0ec2c1b412db6d075c4e6aa148847162ccf8"
+    },
+    {
+      "path": "evidence/pool-request-submit-before-fix.txt",
+      "bytes": 12657,
+      "sha256": "dfc8da9b1c4284bd2c5a1173d3fc14a4238e87974e4c84caf3fbdcae46fd0b9c"
+    },
+    {
+      "path": "evidence/pool-request-submit-browser-report.json",
+      "bytes": 725,
+      "sha256": "049976517aae81ff710d4bcac6692e4fe7edd9f67254a9560d5477d5189126b1",
+      "json_valid": true,
+      "recorded_scope": "Final submission guard in actual Chrome; local OTP; COUNTY III draft prepared by host-native service as labelled fixture, viewed by MAIN with no submit button; existing MAIN individual draft actually submitted. No operator/production/CAPTCHA/reader proof."
+    },
+    {
+      "path": "evidence/postgres-final-source-preserved.json",
+      "bytes": 227,
+      "sha256": "e0d0c11d01ce35b62ce7f96319c8209908ecab0fc8b36de0c4126208eb8e55b5",
+      "json_valid": true,
+      "recorded_scope": {}
+    },
+    {
+      "path": "evidence/public-pointer-proof.json",
+      "bytes": 2746,
+      "sha256": "d7dcbb011b63dbbfa3b842fc99320115043eae25fca37b59fda407f7b29e7e9a",
+      "json_valid": true,
+      "recorded_scope": "Actual native pointer drag in Chrome user profile on an isolated native server: press submit button, move out and release; then ordinary click. No script-dispatched events. No touch hardware, CAPTCHA interaction or screen reader test."
+    },
+    {
+      "path": "evidence/public-wcag-axe.json",
+      "bytes": 155439,
+      "sha256": "d3fbce1015ad4796c4cb42f220ff6e2cc508d3936d88a6b6fa035b9f2096f548",
+      "json_valid": true,
+      "recorded_scope": "Local Chrome axe WCAG A/AA scans plus manual keyboard, spacing, zoom, gating display; not full conformance or screen-reader/CAPTCHA-completion proof"
+    },
+    {
+      "path": "evidence/public-wcag-regression.txt",
+      "bytes": 356,
+      "sha256": "1e2cd61645d34281eac37e34894e00b1a1477a1dd22a3726c0396894aeecefa4"
+    },
+    {
+      "path": "evidence/reservation-backup-proof.json",
+      "bytes": 2184,
+      "sha256": "ebfaae8f637684cf0a447d4e142694ee15c2000a4f6805f57b4ded66c28a8a3a",
+      "json_valid": true,
+      "recorded_scope": {}
+    },
+    {
+      "path": "evidence/retention-inventory-local.json",
+      "bytes": 2797,
+      "sha256": "4c711a6fbd1bcd4fe89f1d8da5cade6485b96a15ae6e1efcf733448941ef9340",
+      "json_valid": true,
+      "recorded_scope": "aggregate database counts and dates; excludes files, contents and personal identifiers"
+    },
+    {
+      "path": "evidence/route-role-http-proof.json",
+      "bytes": 115625,
+      "sha256": "e56fd508b0c710a5fae0441d96e526db2c7213171c3af728e67d3facfde90547",
+      "json_valid": true,
+      "recorded_scope": "Actual HTTP/OTP/CSRF for readable pages, permission denials and empty-form validation boundaries. Valid positive writes separately tested with rollback. Existing synthetic objects include all modules, sender/recipient letters, local fake delivery evidence and fake matched EZD incoming."
+    },
+    {
+      "path": "evidence/route-role-matrix.json",
+      "bytes": 28420,
+      "sha256": "314dc52bb8ed6d444074fe9e8b240023dfe3492975c12fee915c8f6fbf361c07",
+      "json_valid": true
+    },
+    {
+      "path": "evidence/route-role-tests.txt",
+      "bytes": 4519,
+      "sha256": "2a438501fe1c28d9d4e0ae472ed1b1abd3e5c2c6c494e712d50aeb6c74267ac0"
+    },
+    {
+      "path": "evidence/security-retention-native-proof.json",
+      "bytes": 1938,
+      "sha256": "d77930a5f5d2ab44b8fa40e5ff7b9feeabd1ca0ebd064e7a3518bb288c3a7b34",
+      "json_valid": true,
+      "recorded_scope": "Actual native Django commands on isolated SQLite backup with synthetic old security rows; no main deletions or external calls"
+    },
+    {
+      "path": "evidence/security-retention-tests.txt",
+      "bytes": 356,
+      "sha256": "48a14ccc2803c1693136023d153da038a46e8809657ee9b03157b4ff51890387"
+    },
+    {
+      "path": "evidence/small-layout-order-ui-proof.json",
+      "bytes": 2104,
+      "sha256": "9eafc503745e2cf9b60a1e9283033c14a220ebade5730d4f7b945c40f0af48c6",
+      "json_valid": true,
+      "recorded_scope": {}
+    },
+    {
+      "path": "evidence/suggestions-before-fix.txt",
+      "bytes": 1783,
+      "sha256": "d8157b41653961a1975fae5a6ca05a99639aa0ec02dbbe482d6e41b83075dd58"
+    },
+    {
+      "path": "evidence/suggestions-browser-proof.json",
+      "bytes": 2437,
+      "sha256": "01c0ce309091040314bcd15d8d11501f691489149397fa0c78c162e62b7e089e",
+      "json_valid": true,
+      "recorded_scope": "Actual Chrome user profile on native isolated server with foreign allocated/sold and own reserved synthetic fixtures. KOWA/P/7 and numeric A12/M/0, identical to actual HTTP suggestions, focus on result. Both screenshots viewed. No screen reader or CAPTCHA completion."
+    },
+    {
+      "path": "evidence/suggestions-http-proof.json",
+      "bytes": 3038,
+      "sha256": "e6c369032e971fae3a7dbf8c2aa473a2f4021b2b85a1dbcca5be7dc236fa54db",
+      "json_valid": true,
+      "recorded_scope": "Eight actual anonymous native HTTP availability GET and CSRF-protected HTML POST on isolated synthetic SQLite; fixture includes foreign ALLOCATED/SOLD and own RESERVED. No operator calls or user account mutation."
+    },
+    {
+      "path": "evidence/suggestions-tests.txt",
+      "bytes": 363,
+      "sha256": "af61b8e2cc342ac4d95c95d2707c4dd797ecf6d0caf89957dd329898acf4caaa"
+    },
+    {
+      "path": "evidence/user-audit-ip-before-fix.txt",
+      "bytes": 3481,
+      "sha256": "6de1a8515ab51b7268bc9f17a31bd99ca750b60d0cfb31b9c545f9ff1ea77ac8"
+    },
+    {
+      "path": "evidence/user-audit-ip-tests.txt",
+      "bytes": 423,
+      "sha256": "098e4022322b8441072ef1712fc279c93d7d64a8338f000f0ae9ba14feb97c24"
+    },
+    {
+      "path": "registry/api_validation.py",
+      "bytes": 5007,
+      "sha256": "56a1ac516ea44dc171b865bc49c88c378bca30269cb9d772c003b68ebdf9b13e"
+    },
+    {
+      "path": "registry/forms.py",
+      "bytes": 16446,
+      "sha256": "61dcf7ed33f83800ba400d48abf0edd28d6efe2a9c9f6687e783acd93eee6c22"
+    },
+    {
+      "path": "registry/management/commands/purge_security_state.py",
+      "bytes": 2395,
+      "sha256": "27ac3f156936d04a7e852011855f26cae74d1f3c49e88dfb3be8e24beeb55c2a"
+    },
+    {
+      "path": "registry/management/commands/retention_inventory.py",
+      "bytes": 3667,
+      "sha256": "6df87c34d633aa94c18baa2b73219a9f25bdc5e694a469355d2cf26fca828997"
+    },
+    {
+      "path": "registry/pagination.py",
+      "bytes": 568,
+      "sha256": "9dbf1ca6caefe3b6aa7b895cf16ef41851f4ccf52f71f11a20b5400e519ae2a1"
+    },
+    {
+      "path": "registry/templates/registry/pagination.html",
+      "bytes": 1082,
+      "sha256": "b3f10e83fc32d6664c3344a65e81145a683f0eba9b340c65ab40fc3c3d3d6a01"
+    },
+    {
+      "path": "registry/templates/registry/public.html",
+      "bytes": 3727,
+      "sha256": "b2888373bc574436c22f80a762d93a14af9479467c9ef310ac5e264bc37e8deb"
+    },
+    {
+      "path": "registry/test_accessibility.py",
+      "bytes": 8962,
+      "sha256": "b4c54e631949d30bdd391f2266bb42c7b42f8b4b026dea0e56315f27cea1483b"
+    },
+    {
+      "path": "registry/test_api_operations.py",
+      "bytes": 14965,
+      "sha256": "aa40b795dec2452946575b40d9ea3eff3e396b10ff9d0ae74f42ff078bbbfdcd"
+    },
+    {
+      "path": "registry/test_api_validation.py",
+      "bytes": 9091,
+      "sha256": "b6ad2c1f55dd592d51cd4028a890607206653616cea282d9d6598b6992d188b8"
+    },
+    {
+      "path": "registry/test_letter_audit_ip.py",
+      "bytes": 6308,
+      "sha256": "08abfa5921ee8f9a2fe938fbba0cf71aa973b58dd1447424828ab015aaf6f5d2"
+    },
+    {
+      "path": "registry/test_list_pagination.py",
+      "bytes": 15359,
+      "sha256": "ce7c54c5b886d726902cf1ddad7c973e9dc1037963f193c78ad6266cd5e993d2"
+    },
+    {
+      "path": "registry/test_security_retention.py",
+      "bytes": 7121,
+      "sha256": "134d21902297d76c04ecc09f0026a311cb1c10a2254527b2dfef8e93880c5031"
+    },
+    {
+      "path": "registry/views.py",
+      "bytes": 50140,
+      "sha256": "9a2666d40c1afa835484cbfa6ccab9a2bc3296ec4c4cd4fa6cacfd4b8db2fb0a"
+    },
+    {
+      "path": "docs/RAPORT-ODBIORU-LOKALNEGO.md",
+      "bytes": 19668,
+      "sha256": "9ab4f6842a87f5c929b061f4671d85cbcfc39cc8342a0c78c8181dd555c8f369"
+    },
+    {
+      "path": "evidence/local-acceptance-audit.json",
+      "bytes": 53602,
+      "sha256": "bac5a3d629afbe6b8666706b4d1033aab8d611958cb0457769a9a325d69177b9",
+      "json_valid": true,
+      "recorded_scope": "Requirement-by-requirement review of the full local goal and specification sections 1-10; concrete evidence and limits are documented in the human report. Not a full functional rerun or external/production acceptance."
+    },
+    {
+      "path": "evidence/151-aktualny-publiczny-captcha-oczekuje.jpg",
+      "bytes": 72607,
+      "sha256": "f9c0c40396073852f7f67928a2661324c58cda4cf4e9ab879cba4ed14df0e313"
+    },
+    {
+      "path": "evidence/152-aktualny-publiczny-przed-czytnikiem.jpg",
+      "bytes": 75996,
+      "sha256": "7ae4e3e24ece1393312ec3c5ef0fa9eaca26a35ef01abab5292a4ebeae38d9c9"
+    },
+    {
+      "path": "evidence/final-public-acceptance-ready.json",
+      "bytes": 3263,
+      "sha256": "405000abaa00065b14607bc950b711a8ebf4119c17cc900c885359c2e64f229c",
+      "json_valid": true,
+      "recorded_scope": "Preparation of two isolated current-code public acceptance copies and initial native Chrome states; CAPTCHA checkbox remains unchecked and no proof computed. VoiceOver observed off. This is readiness for final tests, not completion of CAPTCHA or reader/WCAG acceptance."
+    },
+    {
+      "path": "docs/ODBIOR-CAPTCHA.md",
+      "saved_scope": "Current local CAPTCHA acceptance supplement; no full reader/AA/operator claim.",
+      "bytes": 6765,
+      "sha256": "2d105dd161c58765d32d9ea777508e1def14c308e55049c82bb9949314d8f426"
+    },
+    {
+      "path": "evidence/final-public-acceptance-proof.json",
+      "saved_scope": "Current local CAPTCHA acceptance supplement; no full reader/AA/operator claim.",
+      "bytes": 20379,
+      "sha256": "a18634bce3acd09ffb26e62907057886dcb5035a8bbdb3641e2eafb84fb015a1"
+    },
+    {
+      "path": "evidence/final-public-acceptance-tests.txt",
+      "saved_scope": "Current local CAPTCHA acceptance supplement; no full reader/AA/operator claim.",
+      "bytes": 499,
+      "sha256": "a58d90587dcb273eb098ab3378a252c1933aef1db0a3ad3e505adb81a4ea0b73"
+    },
+    {
+      "path": "docs/RENDER.md",
+      "saved_scope": "Local Render-profile preparation supplement; no real cloud or reader/AA acceptance.",
+      "sha256": "218c5e5e762f4d5eaf072c30d0769de6ab2038c3e8acb4489b6ca4c6d00b9d04",
+      "bytes": 13297
+    },
+    {
+      "path": "evidence/render-profile-proof.json",
+      "saved_scope": "Local Render-profile preparation supplement; no real cloud or reader/AA acceptance.",
+      "sha256": "a016bba23d9bf5e209eaedb19ec16961b029223a8d7ff1fa7ca62fb243c1132a",
+      "bytes": 4083
+    },
+    {
+      "path": "evidence/render-profile-tests.txt",
+      "saved_scope": "Local Render-profile preparation supplement; no real cloud or reader/AA acceptance.",
+      "sha256": "f8f1b153d49b1d974f22727eb53749f4f31dea957df20c4dc977dbef5cb8b23d",
+      "bytes": 366
+    },
+    {
+      "path": "third_party/whitenoise-render-20261003.json",
+      "saved_scope": "Local Render-profile preparation supplement; no real cloud or reader/AA acceptance.",
+      "sha256": "f387d7ea18a14975c8a65360472459137985d14a6e2baa31688bfe71d395a77a",
+      "bytes": 1035
+    },
+    {
+      "path": "third_party/notices/whitenoise-6.12.0/whitenoise-6.12.0.dist-info/licenses/LICENSE",
+      "saved_scope": "Local Render-profile preparation supplement; no real cloud or reader/AA acceptance.",
+      "sha256": "ebfd469b4fb6b5adada547747e1e8da725ecf20595d54aced043275d4f4a3600",
+      "bytes": 1078
+    },
+    {
+      "path": "evidence/mobile-captcha-error-proof.json",
+      "bytes": 1857,
+      "sha256": "a7b0c947df1b10d4598829ba948e99fadf77c7cb8c2fcc8763527e340c655798",
+      "saved_scope": "Measured native Chrome 320x900 challenge-error reflow, not actual spoken-output acceptance."
+    },
+    {
+      "path": "evidence/microsoft-mail-preparation-proof.json",
+      "bytes": 1194,
+      "sha256": "07ddbc9957bc581b81fd392d602defb73e229467e936fc0b1dc84ac33c9b87ba"
+    },
+    {
+      "path": "evidence/microsoft-mail-focused-tests.txt",
+      "bytes": 387,
+      "sha256": "a704eeefb810d4522140ef071d9d6a1b5396f1c9dcd0b3f97f6c2b7fba85ad26"
+    },
+    {
+      "path": "registry/microsoft_mail.py",
+      "bytes": 8715,
+      "sha256": "8dd49131c6e987f0fd4cdbbf991f4815ad43addc4dd5a43726aadc862de80cd0"
+    },
+    {
+      "path": "registry/test_microsoft_mail.py",
+      "bytes": 10734,
+      "sha256": "6983509ba4c2f9851ba4e25232c6b93925a9c9ddede8d5a72cc9dd752b5e9b5b"
+    },
+    {
+      "path": "render.yaml",
+      "bytes": 1620,
+      "sha256": "79ea359cacd47be77b708918ba518cc3084e382afbe598da5fc445f0407f644c"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 4573,
+      "sha256": "ca83a87f96138d13131f807419204997ec8d32b421af78dab174f2f03eb3b2ae"
+    },
+    {
+      "path": "deploy/microsoft-mail-rbac.ps1",
+      "bytes": 5707,
+      "sha256": "999a7861207c4cc95df30803b60d0c3e3017304aa0b414aefe97ecca3f7d455e"
+    },
+    {
+      "path": "deploy/test-microsoft-mail-rbac.ps1",
+      "bytes": 7113,
+      "sha256": "e48682c56e702ef928ea525d89d7926e13eb0eca04bc77a964fa05b131f51698"
+    },
+    {
+      "path": "evidence/microsoft-mail-rbac-tests.txt",
+      "bytes": 93,
+      "sha256": "cc3353fbec4661e893305eeff1294c9166ada688d0af0c25be4556ab6cb3e50f"
+    }
+  ],
+  "publication_instruction": "User authorized Render deployment and accepted 13.55 USD/month plus taxes/overage. GitHub repository supplied and bot write verified. Source upload awaits repository visibility choice. Microsoft shared mailbox created; app registration policy acceptance and scoped mail access remain pending. No deployed or email-delivery proof. Prepared immutable-mailbox RBAC script and 14 simulated safety scenarios; no tenant grant applied. Clean local delivery clone is based on the remote bootstrap commit; source still not uploaded."
+}

@@ -15,6 +15,11 @@ def main():
         raise SystemExit("Brak zamontowanego trwałego dysku DYNA_DATA_DIR.")
     root = Path(__file__).resolve().parents[1]
     os.chdir(root)
+    sys.path.insert(0, str(root))
+    from deploy.render_postgres_tools import DESTINATION, validate
+
+    validate(DESTINATION)
+    os.environ["DYNA_POSTGRES_BIN"] = str(DESTINATION / "bin")
     os.environ["DJANGO_SETTINGS_MODULE"] = "config.settings_render"
     # Dysk dostępny dopiero w start command. Nie inicjalizujemy kont ani fikcyjnych danych.
     subprocess.run([sys.executable, "manage.py", "check", "--deploy", "--fail-level", "ERROR"], check=True)

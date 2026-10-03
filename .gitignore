@@ -9,3 +9,5 @@ staticfiles/
 evidence/private/
 tmp/
 output/
+.render-postgres/
+.render-pg-*/

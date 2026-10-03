@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-03",
+  "checked_at": "2026-10-03T13:23:17.324160+00:00",
   "base_revision": "855358b7ab48059ff03d711c7d61b7eb4dd78e6c",
   "scope": "Saved artifact hash/JSON verification, retaining historical scope metadata. Actual Chrome CAPTCHA completion and error/expiry/retry accepted locally; spoken VoiceOver output and full AA remain unverified. No new external API acceptance. Local Render profile prepared/tested; GitHub and Render publication still deferred. Mobile CAPTCHA error at measured 320x900 accepted; reader output remains unavailable and publication deferred.",
   "objective_sha256": "13780efcd40ec9a100fabd29f0adb71f66343ce5c9595bf5f50dd80fcccbea4b",
@@ -831,8 +831,8 @@
     },
     {
       "path": "registry/test_security_retention.py",
-      "bytes": 7121,
-      "sha256": "134d21902297d76c04ecc09f0026a311cb1c10a2254527b2dfef8e93880c5031"
+      "bytes": 7108,
+      "sha256": "411ac0ee3a40563b45e0c0a4ebd19c01330cc3b03af11b2e86eefcb8952435d7"
     },
     {
       "path": "registry/views.py",
@@ -949,8 +949,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "bytes": 4573,
-      "sha256": "ca83a87f96138d13131f807419204997ec8d32b421af78dab174f2f03eb3b2ae"
+      "bytes": 4587,
+      "sha256": "fb804a28ea8d549c332426940f40a4756fe55480b8294f919b461e803cd13886"
     },
     {
       "path": "deploy/microsoft-mail-rbac.ps1",
@@ -966,6 +966,26 @@
       "path": "evidence/microsoft-mail-rbac-tests.txt",
       "bytes": 93,
       "sha256": "cc3353fbec4661e893305eeff1294c9166ada688d0af0c25be4556ab6cb3e50f"
+    },
+    {
+      "path": "registry/_backup_test_helpers.py",
+      "bytes": 1592,
+      "sha256": "b55f90098352618f2eaf942b6e5b757eb89f6cd171e576138269300a41912428"
+    },
+    {
+      "path": "registry/test_decision_notifications.py",
+      "bytes": 16086,
+      "sha256": "5693155fcc129ecac42437b4ca05fc408f58b86fbeda53be295819c2805c7f44"
+    },
+    {
+      "path": "registry/test_ezd_incoming.py",
+      "bytes": 22210,
+      "sha256": "7f1c51ad15d232071d38c20b9189af8abe2e14c342fbdbf38859ba027d61f252"
+    },
+    {
+      "path": "registry/test_integration_restore.py",
+      "bytes": 5410,
+      "sha256": "d97a2676ba1577e102d09a7e5d57aa453dbab07ea0ee1b66b8828c7d2353dbe8"
     }
   ],
   "publication_instruction": "User authorized Render deployment and accepted 13.55 USD/month plus taxes/overage. GitHub repository supplied and bot write verified. Source upload awaits repository visibility choice. Microsoft shared mailbox created; app registration policy acceptance and scoped mail access remain pending. No deployed or email-delivery proof. Prepared immutable-mailbox RBAC script and 14 simulated safety scenarios; no tenant grant applied. Clean local delivery clone is based on the remote bootstrap commit; source still not uploaded."

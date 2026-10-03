@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-10-03T15:04:20.803214+00:00",
+  "checked_at": "2026-10-03T16:37:35.975202+00:00",
   "base_revision": "855358b7ab48059ff03d711c7d61b7eb4dd78e6c",
-  "scope": "Artifact hashes refreshed for production handoff documentation only. Historical artifact evidence retains its revision and limits. Actual Render acceptance at 59c6ce90 covers real Microsoft OTP/notice, four roles, three modules, API/office isolation, six PDFs, import/export, PG restore and restart. Full WCAG reader acceptance and EZD/e-Doreczenia/qualified-signature operator acceptance remain unverified.",
+  "scope": "Historical specification acceptance plus actual Render business acceptance. Added actual partial local VoiceOver output and delivered public validation fix. Full WCAG and operator acceptance remain unverified.",
   "objective_sha256": "13780efcd40ec9a100fabd29f0adb71f66343ce5c9595bf5f50dd80fcccbea4b",
   "goal_complete": false,
   "artifacts": [
@@ -203,8 +203,8 @@
     },
     {
       "path": "docs/STATUS.md",
-      "bytes": 47318,
-      "sha256": "4518b50821fc813cfe2100f9ce35b00fa5f056d1b758f44ae8c52e1dd492ead0"
+      "bytes": 47507,
+      "sha256": "a088801c969c21a4a99174ec34105c88f8f06984234443afac215d5255848235"
     },
     {
       "path": "docs/SUGESTIE-WYROZNIKOW.md",
@@ -213,8 +213,8 @@
     },
     {
       "path": "docs/WCAG-PUBLICZNY.md",
-      "bytes": 12593,
-      "sha256": "22d5bfafba69446e8c6f2f8db058cee86a896d72900433e923d3a3643048e33d"
+      "bytes": 13405,
+      "sha256": "a4e663a4f1d5801e94c31be2281fe690a9a1af01967c4f31a388a08e81353f46"
     },
     {
       "path": "docs/WDROZENIE-URZEDOWE.md",
@@ -801,8 +801,8 @@
     },
     {
       "path": "registry/templates/registry/public.html",
-      "bytes": 3727,
-      "sha256": "b2888373bc574436c22f80a762d93a14af9479467c9ef310ac5e264bc37e8deb"
+      "bytes": 3738,
+      "sha256": "3e084599c658da1945702b8126ab945b194cb226d9980a21a42e868ab4c87f14"
     },
     {
       "path": "registry/test_accessibility.py",
@@ -871,8 +871,8 @@
     {
       "path": "docs/ODBIOR-CAPTCHA.md",
       "saved_scope": "Current local CAPTCHA acceptance supplement; no full reader/AA/operator claim.",
-      "bytes": 6765,
-      "sha256": "2d105dd161c58765d32d9ea777508e1def14c308e55049c82bb9949314d8f426"
+      "bytes": 7501,
+      "sha256": "6b55dbd5711e0641a495581d6263b3b3f54d697e4a5d268276274f390c44450e"
     },
     {
       "path": "evidence/final-public-acceptance-proof.json",
@@ -888,9 +888,10 @@
     },
     {
       "path": "docs/RENDER.md",
-      "saved_scope": "Local Render-profile preparation supplement; no real cloud or reader/AA acceptance.",
-      "sha256": "95bec5cfcd72001489caabdfefef6cf7fcb0c3649add4c3497430e587d618577",
-      "bytes": 13099
+      "saved_scope": "Actual Render deployment and update instructions; full reader/AA/operator acceptance remains unverified.",
+      "sha256": "5efc53d6d1b87efef6141acfd75bbaa49550833b2566000d255595966a03779c",
+      "bytes": 13307,
+      "historical_saved_scope": "Local Render-profile preparation supplement; no real cloud or reader/AA acceptance."
     },
     {
       "path": "evidence/render-profile-proof.json",
@@ -989,11 +990,24 @@
     },
     {
       "path": "docs/ODBIOR-RENDER-20261003.md",
-      "bytes": 10599,
-      "sha256": "4a3a450507ac4105d67035b3b0f43980dccb5f3045a3ec3d35cba6ee9c07520d"
+      "bytes": 11481,
+      "sha256": "f54e1e40771d774756000dca18046bc9d50d327f413f297bd7fb560bb441982b"
+    },
+    {
+      "path": "docs/ODBIOR-CZYTNIKA-20261003.md",
+      "bytes": 4291,
+      "sha256": "484f9fe37c4b3beffd05c9389fb686c01a2985401f5422d2381f9c63644f3240"
+    },
+    {
+      "path": "evidence/reader-output-20261003.json",
+      "bytes": 6889,
+      "sha256": "d354b354f6b0bd45f6790bb512d4073bc1143225437a98bbb4d2bdb3a0aced5b"
     }
   ],
-  "publication_instruction": "User authorized Render deployment and accepted 13.55 USD/month plus taxes/overage. GitHub repository supplied and bot write verified. Source upload awaits repository visibility choice. Microsoft shared mailbox created; app registration policy acceptance and scoped mail access remain pending. No deployed or email-delivery proof. Prepared immutable-mailbox RBAC script and 14 simulated safety scenarios; no tenant grant applied. Clean local delivery clone is based on the remote bootstrap commit; source still not uploaded.",
-  "hash_refresh_note": "Updated saved artifact hashes after Render Cloudflare edge validation. Historical acceptance scope is preserved; production remains unverified.",
-  "production_acceptance_revision": "59c6ce90ad68566da140c7647e3a4c8cde6bd9b3"
+  "publication_instruction": "User authorized private GitHub and Render deployment and accepted 13.55 USD/month plus taxes/overage. Code delivered through merged PRs #1-#5. Real business acceptance at 59c6ce90 and public validation acceptance at f88a824 are recorded. Microsoft live mail and scoped Exchange RBAC verified. Full WCAG remains partial pending reader CAPTCHA phase; operator API and target office infrastructure acceptance remain external and explicitly unverified.",
+  "hash_refresh_note": "Updated hashes for five amended reports, two new reader artifacts and the previously delivered public template fix. Historical acceptance scope and revisions preserved.",
+  "production_acceptance_revision": "59c6ce90ad68566da140c7647e3a4c8cde6bd9b3",
+  "reader_acceptance_revision": "c0913358934d41d8a6cb207aa162e588f0bda80d",
+  "public_validation_production_revision": "f88a82403438dd5cf6bfb44ab7f94c1dedfebf7f",
+  "publication_instruction_previous_stage": "User authorized Render deployment and accepted 13.55 USD/month plus taxes/overage. GitHub repository supplied and bot write verified. Source upload awaits repository visibility choice. Microsoft shared mailbox created; app registration policy acceptance and scoped mail access remain pending. No deployed or email-delivery proof. Prepared immutable-mailbox RBAC script and 14 simulated safety scenarios; no tenant grant applied. Clean local delivery clone is based on the remote bootstrap commit; source still not uploaded."
 }

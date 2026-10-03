@@ -27,6 +27,18 @@ i [macierzy](MACIERZ-ZGODNOSCI.md). Starsze dowody zachowują własne zakresy
 oraz rewizje. Produkcyjny odbiór na fikcyjnych danych nie stanowi formalnego
 odbioru prawnego, dostępności, skali ani konkretnej infrastruktury urzędu.
 
+## Uzupełnienie walidacji i czytnika
+
+[PR #5](https://github.com/artur-t-96/rejestr-tablic/pull/5) dostarczył polską
+walidację błędnego publicznego wpisu przez serwer. Render uruchomił
+`f88a82403438dd5cf6bfb44ab7f94c1dedfebf7f`, health potwierdził pełny SHA,
+[CI main](https://github.com/artur-t-96/rejestr-tablic/actions/runs/37136905566)
+przeszło wszystkie trzy zadania. W Chrome sprawdzono Q → błąd → odnośnik
+do zachowanego pola → ANNA → wynik i sugestie, z oględzinami ekranów.
+Rzeczywisty lokalny VoiceOver odczytał podstawowy formularz, błędy i wynik;
+odczyt stanów CAPTCHA pozostaje częściowy. [Raport i granice dowodu](ODBIOR-CZYTNIKA-20261003.md).
+Starsze scenariusze biznesowe poniżej zachowują rewizję swojego odbioru.
+
 ## Logowanie i konta demonstracyjne
 
 Na stronie wybierz logowanie i zamów jednorazowy kod e-mail. Nie ma stałych
@@ -116,7 +128,8 @@ Brak tych dostępów nie został zastąpiony fikcyjną wysyłką.
 ## Pozostały odbiór urzędowy
 
 - Pełny WCAG 2.1 AA niepotwierdzony: rzeczywisty odczyt komunikatów przez
-  VoiceOver pozostaje otwarty B05. Lokalne klawiatura, kontrast, 400%,
+  VoiceOver dla stanów CAPTCHA pozostaje otwarty B05; podstawowy formularz
+  ma już rzeczywisty lokalny dowód [P1–P3](ODBIOR-CZYTNIKA-20261003.md). Lokalne klawiatura, kontrast, 400%,
   responsywność i CAPTCHA mają zapisane próby; [WCAG-PUBLICZNY.md](WCAG-PUBLICZNY.md)
   i [ODBIOR-CAPTCHA.md](ODBIOR-CAPTCHA.md). Użytkownik zezwolił na publikację
   mimo tego braku. PDF/UA i fizyczna drukarka również nie były odebrane.

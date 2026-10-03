@@ -1,38 +1,22 @@
 # Rejestr realizacji celu
 
-## Aktualne polecenie wdrożenia (03.10.2026)
+## Bieżący stan — 03.10.2026
 
-Użytkownik zgodził się na uruchomienie Render teraz i zażądał linku oraz
-sprawdzenia produkcji. Uchyla to wcześniejszy warunek wstrzymania publikacji
-przez B05; nie oznacza pozytywnego testu czytnika. Panel Render dostępny.
-Repozytorium `artur-t-96/rejestr-tablic` jest dostępne dla osobnej instalacji
-Dynaminds Codex Bot; zapis samego .gitignore potwierdzony. Repo publiczne;
-oczekuje odpowiedzi o prywatność przed publikacją pełnego kodu.
-Użytkownik zaakceptował 13,55 USD/mies. + podatki i użycie ponad limit.
-Utworzona skrzynka Microsoft 365 `rejestr-tablic@dynaminds.eu` ma zablokowane
-logowanie i brak delegacji. Formularz dedykowanej aplikacji single tenant
-oczekuje potwierdzenia akceptacji zasad Microsoft. Backend Graph MIME
-przygotowany; 64 testy OK (2 SKIP wymagające PostgreSQL), ruch API symulowany.
-Rzeczywiste RBAC/OTP i Render pozostają do wykonania.
-CI SQLite/PG18 przygotowane, struktura YAML/oficjalny schema PASS;
-hosted CI, publikacja i odbiór produkcji jeszcze niewykonane.
-Aktualne szczegóły i kolejność: RENDER.md. Starsze wpisy poniżej opisują
-stan sprzed tej zgody i nie są ponowną prośbą o zgodę na samo wdrożenie.
+Render działa: https://dyna-rejestr-tablic.onrender.com. Prywatny GitHub,
+PR #1–#3 scalone, hosted CI zielone. Odbiór czterech ról, trzech modułów,
+rzeczywistej poczty Microsoft, PDF, importu/eksportu, izolacji i kopii
+na osobnej bazie opisuje [raport Render](ODBIOR-RENDER-20261003.md).
+Konfiguracja i droga aktualizacji: [RENDER.md](RENDER.md).
 
-Cel źródłowy: `/Users/arturtwardowski/.codex/attachments/ebd9ff86-81bf-4695-94a7-c61f15121473/goal-objective.md`.
+Raport [67 wymagań](RAPORT-ODBIORU-LOKALNEGO.md) zachowuje historyczne
+rewizje lokalnych prób; nowy raport uzupełnia ich zakres o produkcję.
+Nie potwierdzono pełnego WCAG/odczytu VoiceOver, rzeczywistych API EZD RP,
+e-Doręczeń, kwalifikowanego podpisu ani infrastruktury konkretnego urzędu.
+Dokładne dostępy i kroki są wskazane w raporcie. Nie zgłaszano się
+w imieniu urzędu bez jego upoważnienia.
 
-Aktualny przegląd całości: `MACIERZ-ZGODNOSCI.md` i
-`RAPORT-ODBIORU-LOKALNEGO.md` (67 wymagań). Cel nadal aktywny.
-B04 ma lokalny dowód CAPTCHA; B05 pozostaje otwarty ze względu na
-niepotwierdzony odczyt komunikatów przez rzeczywisty czytnik.
-
-Ostatnie uzupełnienie: rzeczywisty błąd CAPTCHA 429 przy DOM 320×900
-mieści się bez poziomego przewijania; kod/CSS bez zmiany. Zapisano dowód
-mobile-captcha-error-proof.json i scenariusz brakującego odsłuchu w
-ODBIOR-CAPTCHA.md. Ograniczenie obserwacji VoiceOver powtarza się;
-zamknięcie B05 wymaga dostępnego wyniku mowy/napisów lub odbioru przez osobę.
-Nie jest wymagana ponowna zgoda na wcześniej zatwierdzone ustawienia.
-Warunek publikacji nadal nie jest spełniony, więc GitHub/Render odroczone.
+Poniżej zachowano chronologię wcześniejszych prac. Sformułowania o
+oczekiwaniu na publikację, aplikację Microsoft i CI dotyczą dawnych etapów.
 
 ## Dalszy etap zatwierdzony przez użytkownika (03.10)
 

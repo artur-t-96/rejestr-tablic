@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-10-03T14:14:57.346618+00:00",
+  "checked_at": "2026-10-03T15:04:20.803214+00:00",
   "base_revision": "855358b7ab48059ff03d711c7d61b7eb4dd78e6c",
-  "scope": "Saved artifact hash/JSON verification, retaining historical scope metadata. Actual Chrome CAPTCHA completion and error/expiry/retry accepted locally; spoken VoiceOver output and full AA remain unverified. No new external API acceptance. Local Render profile prepared/tested; GitHub and Render publication still deferred. Mobile CAPTCHA error at measured 320x900 accepted; reader output remains unavailable and publication deferred.",
+  "scope": "Artifact hashes refreshed for production handoff documentation only. Historical artifact evidence retains its revision and limits. Actual Render acceptance at 59c6ce90 covers real Microsoft OTP/notice, four roles, three modules, API/office isolation, six PDFs, import/export, PG restore and restart. Full WCAG reader acceptance and EZD/e-Doreczenia/qualified-signature operator acceptance remain unverified.",
   "objective_sha256": "13780efcd40ec9a100fabd29f0adb71f66343ce5c9595bf5f50dd80fcccbea4b",
   "goal_complete": false,
   "artifacts": [
@@ -12,8 +12,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 8609,
-      "sha256": "e68798406a39bbd863a0e8fd1a387b6accda1eed863f3e14f0d317d4efb1a2f5"
+      "bytes": 8833,
+      "sha256": "a79f114c1ab4e2c3f8c708258f612541d477166c924c1cf7aa537336455ce487"
     },
     {
       "path": "Specyfikacja_flow_tablice.html",
@@ -112,8 +112,8 @@
     },
     {
       "path": "docs/MACIERZ-ZGODNOSCI.md",
-      "bytes": 11326,
-      "sha256": "80c2c1e81e191874943e7b0d6755d318664a6a0ebac97dc185a8d533db5cb5e8"
+      "bytes": 11564,
+      "sha256": "a0d035f08b80ce0eaf9b7f1a0d06335f8848cb4f05c1f7dbfb113f84ea0c8a07"
     },
     {
       "path": "docs/METODY-HTTP.md",
@@ -203,8 +203,8 @@
     },
     {
       "path": "docs/STATUS.md",
-      "bytes": 48472,
-      "sha256": "bae603cad9d1b50ccc5a90ff1abf820ccf20cc3b5bc46d249ca4e6cdf1d65fb4"
+      "bytes": 47318,
+      "sha256": "4518b50821fc813cfe2100f9ce35b00fa5f056d1b758f44ae8c52e1dd492ead0"
     },
     {
       "path": "docs/SUGESTIE-WYROZNIKOW.md",
@@ -841,8 +841,8 @@
     },
     {
       "path": "docs/RAPORT-ODBIORU-LOKALNEGO.md",
-      "bytes": 19668,
-      "sha256": "9ab4f6842a87f5c929b061f4671d85cbcfc39cc8342a0c78c8181dd555c8f369"
+      "bytes": 19906,
+      "sha256": "ebce17c4a64d87a7ce67808c21ce1124a9ca9cd88a204e8e03d239d92995b346"
     },
     {
       "path": "evidence/local-acceptance-audit.json",
@@ -889,8 +889,8 @@
     {
       "path": "docs/RENDER.md",
       "saved_scope": "Local Render-profile preparation supplement; no real cloud or reader/AA acceptance.",
-      "sha256": "ac5e3b093f328f61c5ccd5ee954ac3f9d1e290b7690bf445270a24d40eba7935",
-      "bytes": 14948
+      "sha256": "95bec5cfcd72001489caabdfefef6cf7fcb0c3649add4c3497430e587d618577",
+      "bytes": 13099
     },
     {
       "path": "evidence/render-profile-proof.json",
@@ -986,8 +986,14 @@
       "path": "registry/test_integration_restore.py",
       "bytes": 5410,
       "sha256": "d97a2676ba1577e102d09a7e5d57aa453dbab07ea0ee1b66b8828c7d2353dbe8"
+    },
+    {
+      "path": "docs/ODBIOR-RENDER-20261003.md",
+      "bytes": 10599,
+      "sha256": "4a3a450507ac4105d67035b3b0f43980dccb5f3045a3ec3d35cba6ee9c07520d"
     }
   ],
   "publication_instruction": "User authorized Render deployment and accepted 13.55 USD/month plus taxes/overage. GitHub repository supplied and bot write verified. Source upload awaits repository visibility choice. Microsoft shared mailbox created; app registration policy acceptance and scoped mail access remain pending. No deployed or email-delivery proof. Prepared immutable-mailbox RBAC script and 14 simulated safety scenarios; no tenant grant applied. Clean local delivery clone is based on the remote bootstrap commit; source still not uploaded.",
-  "hash_refresh_note": "Updated saved artifact hashes after Render Cloudflare edge validation. Historical acceptance scope is preserved; production remains unverified."
+  "hash_refresh_note": "Updated saved artifact hashes after Render Cloudflare edge validation. Historical acceptance scope is preserved; production remains unverified.",
+  "production_acceptance_revision": "59c6ce90ad68566da140c7647e3a4c8cde6bd9b3"
 }

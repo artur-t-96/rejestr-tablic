@@ -158,7 +158,9 @@ class PostgresBackupTests(TransactionTestCase):
             )
             report = json.loads((target / "restore-manifest.json").read_text())
             self.assertEqual((target / "restore-manifest.json").stat().st_mode & 0o777, 0o600)
-            self.assertEqual(report["jobs_held"], 1)
+            # Przerwana wysyłka pisma oraz powiadomienie autora o decyzji I z setUp:
+            # odtworzona kopia wstrzymuje oba, żeby nic nie wyszło z niej samo.
+            self.assertEqual(report["jobs_held"], 2)
             with psycopg.connect(**connection_parameters(name)) as restored:
                 self.assertEqual(database_properties(restored), report["backup"]["database_properties"])
                 self.assertEqual(restored.execute("SELECT COUNT(*) FROM django_session").fetchone()[0], 0)

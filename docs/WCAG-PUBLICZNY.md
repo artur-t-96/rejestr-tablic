@@ -22,6 +22,17 @@ wersja 4.13.0 pobrana z npm z wyłączonymi skryptami instalacji. Automat wspier
 ocenę; jego wynik nie zastępuje ręcznej kontroli ani badania technologii
 asystujących. Uruchomiono tagi wcag2a, wcag2aa, wcag21a, wcag21aa.
 
+## Uzupełnienie rzeczywistym VoiceOver
+
+[Rzeczywisty odbiór 03.10](ODBIOR-CZYTNIKA-20261003.md) uzyskał tekst wyjścia
+VoiceOver przez zatwierdzone sterowanie AppleScript w natywnym Script Editor.
+Sprawdzono P1–P3 oraz wymóg/etykietę CAPTCHA. Naprawiono angielski komunikat
+natywnej walidacji Chrome: Q trafia teraz do polskiego podsumowania serwera.
+[Wybrane komunikaty](../evidence/reader-output-20261003.json) obejmują także
+wersje, rewizję i ograniczenia. Odczyt pracy, zakończenia, błędu, wygaśnięcia
+i ponowienia CAPTCHA jest nadal niewykonany w tym przebiegu. Pełne AA
+pozostaje niepotwierdzone. Starsze opisy niedostępnego wyjścia są historyczne.
+
 ## Ustalenia i zmiana
 
 Instrukcja była widoczna nad formularzem, lecz pole wyróżnika nie miało
@@ -137,7 +148,7 @@ uwzględnione; 4.1.1 zachowano także jako historyczną kontrolę HTML.
 | 3.3.4 | Brak zastosowania | Anonimowe sprawdzenie nie zmienia ewidencji ani nie zawiera czynności prawnej. |
 | 4.1.1 | Dowód | HTML testowany pod kątem unikalności identyfikatorów i relacji; automat. |
 | 4.1.2 | Dowód | Nazwy/stany niezweryfikowany, pracuje, zweryfikowany i błąd widoczne w natywnym AX. |
-| 4.1.3 | Częściowo | Fokus wyniku/błędów, aria-live wyniku i role=alert widgetu potwierdzone. Rzeczywiste ogłoszenie przez VoiceOver niepotwierdzone. |
+| 4.1.3 | Częściowo | Fokus wyniku/błędów, aria-live wyniku i role=alert widgetu potwierdzone. Rzeczywiste lokalne wyjście formularza/błędu/wyniku odczytano w P1–P3. Odczyt zmian pracy, zakończenia, błędu i wygaśnięcia CAPTCHA nadal niepotwierdzony; ODBIOR-CZYTNIKA-20261003.md. |
 
 ## Dowody i dalszy odbiór
 

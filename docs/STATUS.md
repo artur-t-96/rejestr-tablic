@@ -3,14 +3,17 @@
 ## Bieżący stan — 03.10.2026
 
 Render działa: https://dyna-rejestr-tablic.onrender.com. Prywatny GitHub,
-PR #1–#3 scalone, hosted CI zielone. Odbiór czterech ról, trzech modułów,
+PR #1–#5 scalone, hosted CI zielone. Odbiór czterech ról, trzech modułów,
 rzeczywistej poczty Microsoft, PDF, importu/eksportu, izolacji i kopii
 na osobnej bazie opisuje [raport Render](ODBIOR-RENDER-20261003.md).
 Konfiguracja i droga aktualizacji: [RENDER.md](RENDER.md).
 
 Raport [67 wymagań](RAPORT-ODBIORU-LOKALNEGO.md) zachowuje historyczne
 rewizje lokalnych prób; nowy raport uzupełnia ich zakres o produkcję.
-Nie potwierdzono pełnego WCAG/odczytu VoiceOver, rzeczywistych API EZD RP,
+[Rzeczywisty odczyt VoiceOver P1–P3](ODBIOR-CZYTNIKA-20261003.md) sprawdzono
+lokalnie i dostarczono poprawkę polskiej walidacji. Odczyt stanów CAPTCHA
+pozostaje częściowy, więc pełnego WCAG nadal nie potwierdzono.
+Nie potwierdzono rzeczywistych API EZD RP,
 e-Doręczeń, kwalifikowanego podpisu ani infrastruktury konkretnego urzędu.
 Dokładne dostępy i kroki są wskazane w raporcie. Nie zgłaszano się
 w imieniu urzędu bez jego upoważnienia.

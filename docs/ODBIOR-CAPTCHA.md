@@ -1,5 +1,10 @@
 # Końcowy lokalny odbiór CAPTCHA
 
+Aktualne uzupełnienie: [rzeczywisty odbiór VoiceOver](ODBIOR-CZYTNIKA-20261003.md).
+P1–P3 oraz wymóg i etykieta CAPTCHA mają rzeczywisty wynik czytnika; jego
+odczyt pozostałych stanów pozostaje otwarty. Poniższe ukończenia CAPTCHA
+i próby funkcjonalne zachowują swój historyczny zakres i zgodę.
+
 03.10.2026, kod aplikacji `772378a8b0afc0f15973833fc4a6968e68632a9f`.
 Próby wykonano w Chrome użytkownika na osobnej bazie i cookies,
 `127.0.0.1:8787`. Próg testowy wynosił 1, domyślny pozostaje 10;
@@ -84,15 +89,17 @@ Przywrócono DeviceToolbar 400/pusta wysokość, wyłączono go, zamknięto
 DevTools oraz kartę próby. Serwer kopii 8787 zatrzymano.
 Dowód: `../evidence/mobile-captcha-error-proof.json`.
 
-## Pozostały odbiór rzeczywistym czytnikiem
+## Historyczny plan odbioru rzeczywistym czytnikiem
 
-Ograniczenie narzędzia utrzymało się przez kolejne próby: brak dostępnego
+Historyczne ograniczenie, rozwiązane w uzupełnieniu czytnika powyżej:
+przez wcześniejsze próby brakowało dostępnego
 wyniku mowy lub panelu napisów. Odczyt AX, poprawny fokus i aria-live
 nie zamykają B05. To wymaga odsłuchu przez osobę albo narzędzia,
 które rzeczywiście udostępni mowę/napisy. Zgoda na ustawienia została
 już udzielona; nie jest to oczekiwanie na ponowne potwierdzenie.
 
-Próba podstawowa na odizolowanym `http://127.0.0.1:8788/`:
+Historyczny plan próby na odizolowanym `http://127.0.0.1:8788/`
+(aktualne wyniki i porty wskazuje uzupełnienie powyżej):
 
 1. Włącz czytnik, przejdź klawiaturą do pola wyróżnika. Sprawdź odczyt
    etykiety, instrukcji formatu oraz wyboru województwa/cyfry.
@@ -108,5 +115,9 @@ Próba podstawowa na odizolowanym `http://127.0.0.1:8788/`:
    faktycznie wypowiedziane komunikaty i PASS/FAIL każdego punktu.
    Przywróć ustawienia czytnika. Odmowa/błąd ma pozostać jawny do poprawki.
 
-Do zamknięcia B05 nie wystarczy wykonanie tylko punktów 1–3.
-GitHub i Render pozostają odroczone zgodnie z warunkiem użytkownika.
+Do zamknięcia B05 nie wystarczy wykonanie tylko punktów 1–3. Aktualnie
+P1–P3 sprawdzono na izolowanej kopii 8789, następnie ją zatrzymano.
+Kopia 8790 z osobnymi cookies i progiem 1 pozostaje przygotowana do P4,
+bez ukończenia CAPTCHA do czasu wymaganego potwierdzenia przy wykonaniu.
+GitHub i Render zostały później zatwierdzone i wdrożone; szczegóły w
+[raporcie Render](ODBIOR-RENDER-20261003.md). Opisy odroczenia są historyczne.

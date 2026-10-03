@@ -4,7 +4,10 @@
 
 Aplikacja działa pod adresem **https://dyna-rejestr-tablic.onrender.com**.
 Kod jest w prywatnym repozytorium `artur-t-96/rejestr-tablic`.
-PR #1–#3 zostały scalone. Odbiór procesów produkcyjnych wykonano na
+PR #1–#5 zostały scalone. Poprawka publicznej walidacji w PR #5 została
+wdrożona i sprawdzona w Chrome na `f88a82403438dd5cf6bfb44ab7f94c1dedfebf7f`;
+[odbiór czytnika](ODBIOR-CZYTNIKA-20261003.md) zachowuje jawny częściowy stan.
+Odbiór procesów produkcyjnych wykonano na
 `59c6ce90ad68566da140c7647e3a4c8cde6bd9b3`; późniejsze wydanie dokumentacji
 nie zmienia kodu aplikacji. `/api/health/` podaje pełny SHA aktualnego wydania.
 

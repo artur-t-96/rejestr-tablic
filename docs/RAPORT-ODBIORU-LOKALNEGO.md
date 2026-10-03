@@ -1,5 +1,9 @@
 # Odbiór lokalny Dyna Rejestr Tablic
 
+> Raport historyczny lokalnych prób. Bieżący stan wdrożenia, rzeczywista
+> poczta i wyniki produkcji: [ODBIOR-RENDER-20261003.md](ODBIOR-RENDER-20261003.md).
+> Dawne blokady GitHub/Render/Microsoft opisują stan w chwili tej próby.
+
 Stan przeglądu: 03.10.2026. Uruchomiona lokalna rewizja:
 `855358b7ab48059ff03d711c7d61b7eb4dd78e6c`. Późniejszy commit `0317d47`
 dodaje pocztę Microsoft Graph; przygotowane CI i profil Render: `7fcd58e`.

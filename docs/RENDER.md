@@ -1,91 +1,71 @@
-# Przygotowanie GitHub i Render
+# Dyna Rejestr Tablic na Render
 
-## Zgoda na publikację i bieżący dostęp (03.10.2026)
+## Stan wdrożenia — 03.10.2026
 
-Użytkownik ponownie polecił uruchomić system na Renderze, przekazać link
-i sprawdzić produkcję. Ta instrukcja uchyla wcześniejsze wstrzymanie
-publikacji do zamknięcia B05. Odczyt VoiceOver nadal nie jest potwierdzony;
-nie zmienia się ocena zgodności WCAG.
+Aplikacja działa pod adresem **https://dyna-rejestr-tablic.onrender.com**.
+Kod jest w prywatnym repozytorium `artur-t-96/rejestr-tablic`.
+PR #1–#3 zostały scalone. Odbiór procesów produkcyjnych wykonano na
+`59c6ce90ad68566da140c7647e3a4c8cde6bd9b3`; późniejsze wydanie dokumentacji
+nie zmienia kodu aplikacji. `/api/health/` podaje pełny SHA aktualnego wydania.
 
-Panel Render jest dostępny w Chrome, workspace `My Workspace`.
-Użytkownik wskazał `artur-t-96/rejestr-tablic`. Osobna instalacja
-Dynaminds Codex Bot na koncie `artur-t-96` (146698772) pozwala zapisywać
-w tym repozytorium. Wykonany zapis jedynie `.gitignore` potwierdził uprawnienia;
-API permissions zwracało mylące false. Zdalny commit inicjalizacji:
-`3669ef4b0bc5dff200c1f878fa08b17faff7def0`. Repozytorium jest publiczne;
-przed wysłaniem pełnego kodu/specyfikacji oczekujemy odpowiedzi na pytanie
-czy ustawić prywatność. Kod aplikacji jeszcze nie został wysłany.
+[Raport odbioru Render](ODBIOR-RENDER-20261003.md) opisuje realne operacje
+Chrome, API, sześć PDF, pocztę, import/eksport i odtworzenie osobnej bazy.
+Prywatne dowody i dane testowe pozostają lokalnie poza Git.
 
-Blueprint używa aktualnych identyfikatorów `0.5c-512mb` oraz `0.1c-256mb`,
-jawnego dysku PostgreSQL 1 GB i wyłączonego autoskalowania storage.
-Koszt dodatkowych zasobów sprawdzony w panelu/cenniku: WWW 7 USD/mies.,
-PostgreSQL 6 USD + 0,30 USD za 1 GB, dysk dokumentów 0,25 USD za 1 GB;
-razem 13,55 USD/mies. przed podatkami i ewentualnym ponadlimitowym użyciem.
-Nie zwiększamy planu workspace. Użytkownik zaakceptował ten koszt,
-podatki i ewentualne ponadlimitowe użycie. Płatne zasoby jeszcze nie powstały.
-[Aktualny cennik](https://render.com/pricing) i
-[aktualne pola Blueprint](https://render.com/docs/blueprint-spec).
+Zasoby w `My Workspace`, Frankfurt:
 
-Użytkownik polecił skonfigurować pocztę z własnego Microsoft 365.
-Utworzono oddzielną skrzynkę współdzieloną `rejestr-tablic@dynaminds.eu`
-w organizacji B2Bnet S.A. Odczyt Exchange potwierdził SharedMailbox oraz
-AccountDisabled=true; skrzynka nie ma członków ani delegacji.
-Formularz rejestracji `Dyna Rejestr Tablic Mail` jest przygotowany jako
-single tenant; oczekuje potwierdzenia Microsoft Platform Policies.
-Nie zarejestrowano jeszcze aplikacji/certyfikatu i nie nadano dostępu.
-Docelowo Exchange Application RBAC: tylko Application Mail.Send na tej
-jednej skrzynce, bez Mail.Read i bez nieograniczonego grantowania Entra.
+- WWW `srv-db0gjjk9v7es73bbojpg`, plan `0.5c-512mb`, 7 USD/mies.;
+- PostgreSQL 18 `dpg-db0g07u0tbcc73fm96e0-a`, plan `0.1c-256mb`,
+  6 USD/mies. oraz 0,30 USD/mies. za 1 GB;
+- trwały dysk `/var/data`, 1 GB, 0,25 USD/mies.
 
-Backend `registry.microsoft_mail.EmailBackend` obsługuje OTP, zaproszenia,
-powiadomienia i PDF przez Graph MIME. Certyfikat RSA, assertion PS256
-(5 minut), TLS, stałe endpointy Microsoft, ograniczony rozmiar i brak
-automatycznego ponawiania POST po niepewnym wyniku. Render wymaga poprawnych
-identyfikatorów organizacji/aplikacji/skrzynki i pasującego ważnego certyfikatu/klucza;
-wartości MS_MAIL_PRIVATE_KEY i certyfikatu trafiają wyłącznie do chronionej
-konfiguracji środowiska, nigdy Git. Przypięte zależności już zawierają PyJWT,
-cryptography i httpx. Profil urzędowy zachowuje SMTP/TLS.
-Lokalny certyfikat RSA 3072 jest tylko przygotowany, nie jest zarejestrowany.
-Ważny do 03.10.2027; przed upływem wymaga zaplanowanej wymiany.
+Zaakceptowany koszt: 13,55 USD/mies. plus podatki i użycie ponad limity.
+Automatyczne wdrożenia, autoskalowanie dysku PostgreSQL i publiczny dostęp
+bazy są wyłączone. Pojedyncza instancja nie ma HA; te zasoby i testy
+na danych fikcyjnych nie potwierdzają pojemności docelowego urzędu.
 
-64 testy dotyczące poczty/Render/zaproszeń/powiadomień zakończyły się OK,
-w tym 2 pominięte przypadki wymagające PostgreSQL. HTTP Microsoft jest
-symulowane; test rzeczywistego nadawcy, zakresu RBAC i odbioru OTP pozostaje
-wymagany po konfiguracji. 202 potwierdza przyjęcie, nie doręczenie.
-[Graph sendMail](https://learn.microsoft.com/en-us/graph/api/user-sendmail?view=graph-rest-1.0),
-[certyfikat aplikacji](https://learn.microsoft.com/en-us/entra/identity-platform/certificate-credentials),
-[Exchange Application RBAC](https://learn.microsoft.com/en-us/exchange/permissions-exo/application-rbac).
-Skrypt `deploy/microsoft-mail-rbac.ps1` przygotowuje ograniczenie do
-niezmiennego ExternalDirectoryObjectId skrzynki. Wymaga właściwej aktywnej
-organizacji Exchange, zgodnych identyfikatorów aplikacji i skrzynki,
-zablokowanego logowania oraz osobno potwierdzonego braku nieograniczonych
-grantów Entra. `-WhatIf` daje podgląd bez zmian. Skrypt odmawia zastąpienia
-konfliktujących zakresów/grantów, nie usuwa uprawnień i nie wysyła poczty.
-Po wykonaniu wymaga Mail.Send InScope=true dla nadawcy oraz false dla
-wskazanej skrzynki kontrolnej. Test Exchange nie obejmuje grantów Entra ani
-pamięci podręcznej Graph; rzeczywista wysyłka i odbiór nadal są konieczne.
-14 scenariuszy skryptu PASS na natywnym PowerShell 7.6.6, ze wszystkimi
-poleceniami Exchange zastąpionymi symulacją. Skrypt nie był zastosowany
-w organizacji. Te same testy są dodane do przygotowanego hosted CI.
+Poczta jest skonfigurowana przez dedykowaną aplikację single tenant
+`Dyna Rejestr Tablic Mail`, certyfikat RSA 3072 i Graph MIME.
+Nadawca `rejestr-tablic@dynaminds.eu` jest skrzynką współdzieloną ze
+zablokowanym logowaniem, bez delegacji. Exchange Application RBAC ogranicza
+`Application Mail.Send` do tej skrzynki: dodatnia kontrola nadawcy i ujemna
+kontrola innej skrzynki przeszły. Nie przyznano szerokiego Entra Mail.Send
+ani Mail.Read. Faktyczny odbiór OTP oraz powiadomienia o decyzji III został
+potwierdzony we własnym Outlooku użytkownika. Certyfikat wygasa
+03.10.2027; procedura przygotowania dostępu znajduje się w
+`deploy/microsoft-mail-rbac.ps1`. Sekrety są poza repozytorium.
 
-CIDR-y proxy nadal wymagają potwierdzenia podczas uruchomienia;
-nie poszerzono zaufania do wszystkich adresów.
+Konfiguracja proxy wymaga zaufania do prywatnej sieci Render `10.0.0.0/8`
+i oficjalnych sieci Cloudflare. `RENDER_EDGE_CIDRS` wymusza publiczny węzeł
+brzegowy Cloudflare w łańcuchu X-Forwarded-For. Nie ustawiono zaufania `/0`.
+Rzeczywiste logowania zapisują publiczne IP klienta; alternatywne nagłówki
+nie są źródłem tożsamości. To profil Render, odrębny od on-premise.
 
-Przygotowane `.github/workflows/ci.yml`: SQLite oraz PostgreSQL 18
-w hosted CI, pełne testy `registry`, migracje/check, statyczne zasoby,
-narzędzia pg_dump/pg_restore 18. Akcje mają przypięte SHA sprawdzone przez
-oficjalne API GitHub; workflow ma tylko contents:read i limit czasu.
-Kontener PostgreSQL dotyczy wyłącznie hosted CI; na laptopie nie użyto Dockera.
-YAML CI i oficjalny JSON Schema Render przechodzą lokalną walidację;
-nie jest to wynik hosted CI. Przegląd 578 śledzonych plików nie znalazł
-wykluczonych ścieżek ani markerów kluczy prywatnych/tokenów GitHub;
-ten ograniczony skan nie jest formalnym audytem wszystkich sekretów.
+Hosted CI na rewizji odbioru jest zielone: PostgreSQL 478 testów bez SKIP,
+SQLite 478 testów z 29 SKIP dotyczącymi PostgreSQL oraz rzeczywisty
+pg_dump/pg_restore klientem 18.6 w pakiecie dla Render.
+[CI PR #3](https://github.com/artur-t-96/rejestr-tablic/actions/runs/37128964010),
+[CI main](https://github.com/artur-t-96/rejestr-tablic/actions/runs/37129212494).
+Nie używano lokalnego Dockera.
 
-Odbiór po usunięciu blokad: zielone CI → wdrożenie wskazanego SHA →
-health i procesy/migracje → rzeczywista poczta/OTP → wszystkie role i trzy
-moduły w Chrome na fikcyjnych danych → PDF/import/eksport → restart
-i trwałość → spójna kopia/odtworzenie na odrębnej bazie → raport z linkiem.
-API operatorów urzędu nadal wymagają własnych dostępów i osobnego dowodu.
-Nie ma obecnie publicznego adresu Dyna ani dowodu odbioru produkcji.
+## Aktualizacja
+
+1. Utworzyć skupiony PR przez Dynaminds Codex Bot (`codex-gh` dla zapisów),
+   wykonać odpowiednią małą kontrolę natywną, zaczekać na pełne hosted CI.
+2. Scalić zielony PR do `main`. Auto-deploy jest wyłączony: uruchomić
+   wdrożenie **konkretnego pełnego SHA** przez istniejącą usługę Render.
+3. Poczekać na `live`, porównać SHA `/api/health/` z oczekiwanym commitem.
+4. Sprawdzić cztery procesy, brak oczekujących migracji, właściwy mount,
+   integralność dokumentów i adekwatny rzeczywisty proces w Chrome.
+5. Przy zmianach danych/migracji wykonać wcześniej kopię i odtworzenie
+   do osobnej bazy według [procedury](BACKUP-POSTGRESQL.md).
+
+Render przechowuje dane tego wdrożenia demonstracyjnego; instalacja urzędu
+pozostaje niezależna: [WDROZENIE-URZEDOWE.md](WDROZENIE-URZEDOWE.md).
+EZD RP, e-Doręczenia, kwalifikowany podpis, odbiór infrastruktury urzędu
+oraz pełny odbiór WCAG pozostają osobnymi, jawnie niewykonanymi etapami.
+Użytkownik zatwierdził publikację mimo niepotwierdzonego odczytu VoiceOver.
+Poniższe sekcje są historycznym zapisem przygotowania, nie bieżącą listą blokad.
 
 ## Historyczne przygotowanie lokalne
 

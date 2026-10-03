@@ -4,6 +4,10 @@ System wojewódzki dla Wielkopolski. Dokument źródłowy: `Specyfikacja_flow_ta
 
 ## Stan prac
 
+Działająca instancja: **https://dyna-rejestr-tablic.onrender.com**.
+[Odbiór produkcyjny na danych fikcyjnych](docs/ODBIOR-RENDER-20261003.md)
+uzupełnia historyczne raporty lokalne. Kod i hosted CI są na prywatnym GitHub.
+
 Aktualna macierz wymagań, dowodów i pozostałego odbioru:
 [MACIERZ-ZGODNOSCI.md](docs/MACIERZ-ZGODNOSCI.md). Walidacja dat, pól i wersji
 korekty API: [API-KOREKTY.md](docs/API-KOREKTY.md).
@@ -25,7 +29,7 @@ Paginacja list, filtry i pełny eksport: [PAGINACJA-LIST.md](docs/PAGINACJA-LIST
 Przegląd 67 wymagań, konta i otwarte czynności:
 [RAPORT-ODBIORU-LOKALNEGO.md](docs/RAPORT-ODBIORU-LOKALNEGO.md).
 
-Budowa trwa. Przebiegi trzech modułów i lokalne testy dokumentów, importów,
+System wdrożono na Renderze. Przebiegi trzech modułów i lokalne testy dokumentów, importów,
 uprawnień oraz kopii opisują powyższe raporty. CAPTCHA ukończono w rzeczywistym
 Chrome: [ODBIOR-CAPTCHA.md](docs/ODBIOR-CAPTCHA.md). Odczyt komunikatów przez
 czytnik i pełny odbiór AA pozostają niepotwierdzone. Konektory EZD RP i
@@ -76,8 +80,8 @@ Django 5.2 LTS, interfejs renderowany po stronie serwera, responsywne CSS, niewi
 
 ## Dokumentacja i dowody
 
-Dodatkowy hosting po pełnym odbiorze lokalnym: [GitHub i Render](docs/RENDER.md).
-Pliki wdrożenia przygotowane lokalnie; publikacja nie została jeszcze wykonana.
+Działający dodatkowy hosting: [GitHub i Render](docs/RENDER.md).
+Instalacja na infrastrukturze urzędu zachowuje własny profil i instrukcję.
 
 Plan i status: `docs/STATUS.md`. Założenia numeracji: `docs/DECYZJE.md`.
 Historia z polskimi opisami, tabela zmian, dostęp do starszych stron i granice

@@ -1,5 +1,9 @@
 # Macierz zgodności i pozostały odbiór
 
+> Raport historyczny lokalnych prób. Bieżący stan wdrożenia, rzeczywista
+> poczta i wyniki produkcji: [ODBIOR-RENDER-20261003.md](ODBIOR-RENDER-20261003.md).
+> Dawne blokady GitHub/Render/Microsoft opisują stan w chwili tej próby.
+
 Stan przeglądu: 03.10.2026, odbiór trzech procesów na `4321275`
 (`ODBIOR-TRZECH-MODULOW.md`), kod aplikacji identyczny z `dc3d6df`.
 Odbiór baz: `ODBIOR-BAZY-I-AKTUALIZACJI.md`; retencja techniczna:

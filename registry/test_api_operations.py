@@ -294,7 +294,8 @@ class ApiOperationValidationTests(TestCase):
             self.assertEqual(slot.issued_by_id, self.county.pk)
             self.assertEqual(slot.case_number, "X" * 100)
             self.rejected(f"/api/pools/{allocated.uuid}/issue/", {"slot": slot.pk, "case_number": "Ponownie"})
-        self.assertEqual(IntegrationJob.objects.filter(operation="DECISION_NOTICE").count(), 1)
+        # Autor dostaje powiadomienie o decyzji w każdym module, tutaj II i III.
+        self.assertEqual(IntegrationJob.objects.filter(operation="DECISION_NOTICE").count(), 2)
 
     def test_other_office_and_admin_cannot_issue_or_decide_and_unknown_objects_are_404(self):
         pool = self.pool()

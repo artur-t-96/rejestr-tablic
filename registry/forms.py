@@ -1,6 +1,8 @@
+import re
+
 from django import forms
 
-from .models import LetterTemplate, Office, PlateRecord, Request, User
+from .models import FlaggedWord, LetterTemplate, Office, PlateRecord, Request, User
 from .services import COUNTY_FIELDS
 from .validation import validate_number, validate_part, validate_vin
 
@@ -14,13 +16,13 @@ class LoginEmailForm(forms.Form):
 
 class LoginCodeForm(forms.Form):
     code = forms.RegexField(
-        r"^\d{6}$",
+        r"^\d{8}$",
         label="Kod z wiadomości e-mail",
         widget=forms.TextInput(
             attrs={
                 "inputmode": "numeric",
                 "autocomplete": "one-time-code",
-                "maxlength": 6,
+                "maxlength": 8,
             }
         ),
     )
@@ -273,6 +275,9 @@ class RecordForm(forms.ModelForm):
             for field in list(self.fields):
                 if field not in COUNTY_FIELDS + ["reason", "version"]:
                     del self.fields[field]
+        elif Request.objects.filter(record=self.instance, status__in=["DRAFT", "SENT"]).exists():
+            # Status wpisu z otwartym wnioskiem zmienia decyzja albo wycofanie, nie korekta.
+            del self.fields["status"]
 
 
 class OfficeForm(forms.ModelForm):
@@ -357,6 +362,22 @@ class UserForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class FlaggedWordForm(forms.ModelForm):
+    class Meta:
+        model = FlaggedWord
+        fields = ["word", "note"]
+        labels = {"word": "Ciąg liter (2–5)", "note": "Uwaga dla urzędnika UMP"}
+        help_texts = {
+            "word": "Wniosek o wyróżnik zawierający ten ciąg dostanie ostrzeżenie. Nie blokuje decyzji.",
+        }
+
+    def clean_word(self):
+        word = self.cleaned_data["word"].strip().upper()
+        if not re.fullmatch(r"[A-PR-Z]{2,5}", word):
+            raise forms.ValidationError("Podaj 2–5 liter A–Z bez Q, bez cyfr i spacji.")
+        return word
 
 
 class TemplateForm(forms.ModelForm):

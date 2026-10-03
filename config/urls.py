@@ -27,6 +27,7 @@ urlpatterns = [
         name="reservation_extend",
     ),
     path("panel/eksport/", v.export_records, name="export_records"),
+    path("panel/urzedy/", v.offices_overview, name="offices_overview"),
     path("panel/import/", import_records, name="import_records"),
     path("panel/import/pule/", import_pools, name="import_pools"),
     path("panel/pule/", v.pools_list, name="pools_list"),

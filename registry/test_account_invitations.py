@@ -108,7 +108,7 @@ class AccountInvitationTests(TestCase):
         client.post(reverse("login_email"), {"email": self.a.email})
         import re
 
-        otp = re.search(r"Kod: (\d{6})", mail.outbox[-1].body).group(1)
+        otp = re.search(r"Kod: (\d{8})", mail.outbox[-1].body).group(1)
         signed_in = Client()
         signed_in.force_login(self.a)
         self.a.office.allowed_domains = ["inny-urzad.invalid"]

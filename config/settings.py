@@ -124,6 +124,10 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "rejestr@localhost")
 APP_URL = os.environ.get("APP_URL", "http://127.0.0.1:8765")
 APP_REVISION = os.environ.get("APP_REVISION", "local")
 RESERVATION_DAYS = 14
+RESERVATION_REMINDER_DAYS = int(os.environ.get("RESERVATION_REMINDER_DAYS", "3"))
+POOL_ALERT_PERCENT = int(os.environ.get("POOL_ALERT_PERCENT", "80"))
+if not (0 < RESERVATION_REMINDER_DAYS < RESERVATION_DAYS and 1 <= POOL_ALERT_PERCENT <= 100):
+    raise RuntimeError("Niepoprawny próg przypomnienia o rezerwacji lub alertu puli.")
 PDF_FONT = os.environ.get("PDF_FONT", str(BASE_DIR / "registry" / "fonts" / "DejaVuSans.ttf"))
 EZDRP_CONFIG_FILE = os.environ.get("EZDRP_CONFIG_FILE", "")
 EDOR_CONFIG_FILE = os.environ.get("EDOR_CONFIG_FILE", "")

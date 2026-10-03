@@ -1,4 +1,4 @@
-"""Trwałe powiadomienie autora III; nie zastępuje doręczenia pisma urzędowi."""
+"""Trwałe powiadomienie autora o decyzji; nie zastępuje doręczenia pisma urzędowi."""
 
 import hashlib
 import json
@@ -19,14 +19,14 @@ from .services import audit, require_role
 def enqueue_decision_notice(user, req, letter, *, ip=None):
     require_role(user, "MAIN")
     req = Request.objects.select_for_update(of=("self",)).select_related("author").get(pk=req.pk)
+    approval_kind = "APPROVAL" if req.kind == "I" else "POOL"
     if (
-        req.kind != "III"
-        or req.status not in {"APPROVED", "REJECTED"}
+        req.status not in {"APPROVED", "REJECTED"}
         or letter.request_id != req.pk
         or letter.office_id != user.office_id
-        or letter.kind != ("POOL" if req.status == "APPROVED" else "REJECTION")
+        or letter.kind != (approval_kind if req.status == "APPROVED" else "REJECTION")
     ):
-        raise ValidationError("Powiadomienie wymaga zapisanej decyzji modułu III i właściwego pisma.")
+        raise ValidationError("Powiadomienie wymaga zapisanej decyzji i właściwego pisma.")
     key = f"SMTP:{req.uuid}:DECISION_NOTICE"
     existing = IntegrationJob.objects.filter(key=key).first()
     if existing:

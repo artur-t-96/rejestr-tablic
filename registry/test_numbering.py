@@ -289,7 +289,9 @@ class NumberingMigrationTests(TransactionTestCase):
             migrated = Request.objects.get(pk=req_pk)
             self.assertEqual(migrated.reference, f"W/2025/{req_pk:05d}")
             self.assertEqual(NumberSequence.objects.get(scope="REQUEST", year=2025).last_value, req_pk)
-            archived = Letter.objects.get(pk=old_pk)
+            # Model ze stanu migracji: żywy model ma kolumny dodane później.
+            MigratedLetter = executor.loader.project_state(new_target).apps.get_model("registry", "Letter")
+            archived = MigratedLetter.objects.get(pk=old_pk)
             self.assertEqual(archived.number, "DRT/2025/APPLICATION/ABCDEF123456")
             self.assertEqual(bytes(archived.pdf), original)
             self.assertEqual(bytes(archived.signed_pdf), signed)

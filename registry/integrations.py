@@ -78,7 +78,7 @@ def enqueue(user, letter, provider, ip=None):
     letter = lock_letter(letter)
     existing = IntegrationJob.objects.filter(key=f"{provider}:{letter.uuid}:SEND").first()
     if existing:
-        return existing
+        return requeue_mail(user, existing, ip=ip) if existing.status in MAIL_RETRYABLE else existing
     payload = document_payload(letter)
     job, created = IntegrationJob.objects.get_or_create(
         key=f"{provider}:{letter.uuid}:SEND",
@@ -97,6 +97,34 @@ def enqueue(user, letter, provider, ip=None):
             after={"provider": provider, "job": str(job.uuid)},
             ip=ip,
         )
+    return job
+
+
+# Stany, w których kolejka już nie ponawia e-maila sama. Ponowienie jest świadomą
+# decyzją urzędnika: adresat może dostać wiadomość drugi raz, jeśli pierwsza dotarła.
+MAIL_RETRYABLE = {"REVIEW_REQUIRED", "RETRY_EXHAUSTED", "CONFIG_ERROR", "REJECTED"}
+
+
+@transaction.atomic
+def requeue_mail(user, job, ip=None):
+    require_role(user, "COUNTY", "MAIN")
+    job = IntegrationJob.objects.select_for_update(of=("self",)).select_related("letter").get(pk=job.pk)
+    if user.office_id != job.letter.office_id:
+        raise ValidationError("Wysyłkę ponawia wyłącznie urząd nadawcy.")
+    if job.provider != "SMTP" or job.status not in MAIL_RETRYABLE:
+        raise ValidationError("Ponowić można tylko nieudaną wysyłkę e-mail.")
+    previous = job.status
+    job.status, job.attempts, job.error = "QUEUED", 0, ""
+    job.next_attempt_at = job.claimed_until = None
+    job.save(update_fields=["status", "attempts", "error", "next_attempt_at", "claimed_until", "updated_at"])
+    audit(
+        user,
+        "integration.requeued",
+        job.letter,
+        {"status": previous},
+        {"provider": "SMTP", "operation": job.operation, "job": str(job.uuid)},
+        ip=ip,
+    )
     return job
 
 

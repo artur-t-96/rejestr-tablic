@@ -367,10 +367,42 @@ def decide_request(user, req_id, approve, reason="", pool_data=None, ip=None):
             PlateRecord.objects.filter(pk=req.record_id).update(letter_number=letter.number)
     else:
         letter = pool.letters.get(kind="POOL")
-    if req.kind == "III":
-        from .decision_notifications import enqueue_decision_notice
+    from .decision_notifications import enqueue_decision_notice
 
-        enqueue_decision_notice(user, req, letter, ip=ip)
+    enqueue_decision_notice(user, req, letter, ip=ip)
+    return req
+
+
+@transaction.atomic
+def restore_expired_request(user, req_id, days, reason, ip=None):
+    """UMP przywraca wniosek, którego rezerwacja wygasła, jeśli numer nadal jest wolny."""
+    require_role(user, "MAIN")
+    req = lock_request(Request.objects.all(), req_id)
+    record = req.record
+    if req.status != "EXPIRED" or record is None or record.status != "RELEASED":
+        raise ValidationError("Przywrócić można tylko wniosek o tablicę indywidualną z wygasłą rezerwacją.")
+    if record.office_id != req.office_id:
+        # Otwarty wniosek jednego urzędu na wpisie innego jest stanem, którego pilnuje korekta.
+        raise ValidationError("Wpis prowadzi już inny urząd niż wnioskujący. Potrzebny jest nowy wniosek.")
+    if not reason.strip() or not 1 <= int(days) <= 90:
+        raise ValidationError("Podaj powód i nowy termin rezerwacji 1–90 dni.")
+    validate_number(record.number)
+    req.status = "SENT" if req.sent_at else "DRAFT"
+    record.status = "SENT" if req.sent_at else "RESERVED"
+    record.reservation_until = timezone.now() + timedelta(days=int(days))
+    record.reminded_until = None
+    record.version += 1
+    try:
+        with transaction.atomic():
+            record.save(update_fields=["status", "reservation_until", "reminded_until", "version"])
+    except IntegrityError as exc:
+        raise ValidationError(
+            "Numer zajął w międzyczasie inny wniosek lub wpis. Potrzebny jest nowy wniosek."
+        ) from exc
+    req.save(update_fields=["status"])
+    after = {"status": record.status, "reservation_until": record.reservation_until.isoformat()}
+    audit(user, "reservation.restored", record, {"status": "RELEASED"}, after, reason, ip)
+    audit(user, "request.restored", req, {"status": "EXPIRED"}, {"status": req.status}, reason, ip)
     return req
 
 
@@ -443,9 +475,24 @@ def update_record(user, record_id, data, reason, version, ip=None):
     status = data.get("status", record.status)
     if status in ["RESERVED", "SENT"] and status != record.status:
         raise ValidationError("Rezerwację tworzy wyłącznie wniosek.")
-    if status == "RELEASED" and Request.objects.filter(record=record, status__in=["DRAFT", "SENT"]).exists():
+    open_request = Request.objects.filter(record=record, status__in=["DRAFT", "SENT"]).exists()
+    if status == "RELEASED" and open_request:
         raise ValidationError(
             "Nie można zwolnić numeru z aktywnym wnioskiem; wycofaj wniosek lub podejmij decyzję."
+        )
+    if status != record.status and open_request:
+        # Korekta nie może zastąpić decyzji: wniosek zostałby bez rozstrzygnięcia i pisma.
+        raise ValidationError(
+            "Status wpisu z otwartym wnioskiem zmienia decyzja albo wycofanie wniosku, nie korekta."
+        )
+    if (
+        record.status == "RELEASED"
+        and status != "RELEASED"
+        and Request.objects.filter(record=record, status__in=["REJECTED", "WITHDRAWN", "EXPIRED"]).exists()
+    ):
+        raise ValidationError(
+            "Ten wpis nie był przydziałem: wniosek odrzucono, wycofano albo wygasł. "
+            "Nowy przydział wymaga nowego wniosku."
         )
     for key, value in data.items():
         setattr(record, key, value)
@@ -505,7 +552,73 @@ def issue_slot(user, pool_id, slot_id, case_number, ip=None):
         after={"number": slot.number, "case_number": case_number},
         ip=ip,
     )
+    if pool.alerted_at is None and pool.percent >= settings.POOL_ALERT_PERCENT:
+        from .notifications import send_pool_alert
+
+        pool.alerted_at = timezone.now()
+        pool.save(update_fields=["alerted_at"])
+        transaction.on_commit(lambda: send_pool_alert(pool.pk))
     return slot
+
+
+@transaction.atomic
+def revoke_slot_issue(user, pool_id, slot_id, reason, ip=None):
+    """Cofa omyłkowo odnotowane wydanie; numer wraca do puli tego samego urzędu."""
+    pool = visible(user, Pool.objects.select_for_update()).get(uuid=pool_id)
+    if type(slot_id) is not int or slot_id < 1:
+        raise ValidationError("Wskaż numer puli przez dodatni identyfikator całkowity.")
+    if not isinstance(reason, str) or not reason.strip():
+        raise ValidationError("Podaj powód cofnięcia wydania.")
+    slot = pool.slots.select_for_update().get(pk=slot_id)
+    if not slot.issued_at:
+        raise ValidationError("Ten numer nie jest oznaczony jako wydany.")
+    before = {
+        "number": slot.number,
+        "case_number": slot.case_number,
+        "issued_at": slot.issued_at.isoformat(),
+    }
+    slot.issued_at = None
+    slot.issued_by = None
+    slot.case_number = ""
+    slot.save()
+    if pool.alerted_at and pool.percent < settings.POOL_ALERT_PERCENT:
+        pool.alerted_at = None
+        pool.save(update_fields=["alerted_at"])
+    audit(user, "pool.number_issue_revoked", pool, before, {"number": slot.number}, reason, ip)
+    return slot
+
+
+@transaction.atomic
+def record_postal_dispatch(user, letter, posted_at, reference, ip=None):
+    """Odnotowuje nadanie papierowe; to oświadczenie urzędu, nie dowód doręczenia."""
+    from .documents import lock_letter
+
+    require_role(user, "COUNTY", "MAIN")
+    if letter.office_id != user.office_id:
+        raise PermissionDenied("Wysyłkę odnotowuje wyłącznie urząd nadawcy.")
+    reference = (reference or "").strip()
+    limit = Letter._meta.get_field("posted_reference").max_length
+    if len(reference) > limit:
+        raise ValidationError(f"Numer nadania może mieć najwyżej {limit} znaków.")
+    letter = lock_letter(letter)
+    if posted_at is None or posted_at > timezone.localdate():
+        raise ValidationError("Podaj datę nadania nie późniejszą niż dzisiejsza.")
+    if posted_at < timezone.localtime(letter.created_at).date():
+        raise ValidationError("Data nadania nie może być wcześniejsza niż data pisma.")
+    before = {"posted_at": scalar(letter.posted_at), "posted_reference": letter.posted_reference}
+    letter.posted_at = posted_at
+    letter.posted_reference = reference
+    letter.posted_by = user
+    letter.save(update_fields=["posted_at", "posted_reference", "posted_by"])
+    audit(
+        user,
+        "letter.posted",
+        letter,
+        before if before["posted_at"] else None,
+        {"posted_at": posted_at.isoformat(), "posted_reference": reference},
+        ip=ip,
+    )
+    return letter
 
 
 @transaction.atomic

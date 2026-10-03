@@ -136,7 +136,7 @@ class PostgresBackupTests(TransactionTestCase):
                 target_hash="0" * 64,
             )
             LoginCode.objects.create(
-                user=self.a, digest=make_password("123456"), expires_at=timezone.now() + timedelta(minutes=1)
+                user=self.a, digest=make_password("12345678"), expires_at=timezone.now() + timedelta(minutes=1)
             )
             Session.objects.create(
                 session_key="synthetic-session",

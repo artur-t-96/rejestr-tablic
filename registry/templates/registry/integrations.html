@@ -24,7 +24,7 @@
 {% if job.result.submission_date %}<small>Nadanie: {{ job.result.submission_date }}</small>{% endif %}
 {% if job.result.receipt_date %}<small>Odbiór: {{ job.result.receipt_date }}</small>{% endif %}
 {% if user.role != 'ADMIN' %}{% for evidence in job.evidence.all %}<small><a href="{% url 'delivery_evidence' job.letter.uuid evidence.pk %}">Pobierz dowód {{ evidence.kind }}</a></small>{% endfor %}{% endif %}
-<small>{{ job.error }}</small>{% if user.role == 'ADMIN' and job.provider == 'EDOR' %}<small><a href="{% url 'edor_resume' job.uuid %}">Sprawdź możliwość wznowienia</a></small>{% endif %}</td></tr>
+<small>{{ job.error }}</small>{% if job.provider == 'SMTP' and job.operation == 'SEND' and job.status in mail_retryable and user.role != 'ADMIN' %}<small>Ponowienie: wybierz przy piśmie kanał E-mail i „Wyślij”. Jeśli poprzednia próba jednak dotarła, adresat dostanie wiadomość drugi raz.</small>{% endif %}{% if user.role == 'ADMIN' and job.provider == 'EDOR' %}<small><a href="{% url 'edor_resume' job.uuid %}">Sprawdź możliwość wznowienia</a></small>{% endif %}</td></tr>
 {% empty %}<tr><td colspan="5" class="empty">Brak operacji integracyjnych. Wysyłkę wybierz przy piśmie.</td></tr>{% endfor %}
 </tbody></table></div>{% include 'registry/pagination.html' %}</section>
 {% endblock %}

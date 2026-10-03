@@ -1,5 +1,6 @@
 import csv
 import hashlib
+import ipaddress
 import secrets
 from datetime import timedelta
 from functools import wraps
@@ -14,7 +15,7 @@ from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, Validat
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.db import IntegrityError, transaction
-from django.db.models import Prefetch, Q
+from django.db.models import Count, OuterRef, Prefetch, Q, Subquery
 from django.http import Http404, HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -25,6 +26,7 @@ from .authentication import safe_login_return
 from .forms import (
     CheckForm,
     DecisionForm,
+    FlaggedWordForm,
     LoginCodeForm,
     LoginEmailForm,
     OfficeForm,
@@ -35,9 +37,11 @@ from .forms import (
     UserForm,
     account_settings_snapshot,
 )
+from .integrations import MAIL_RETRYABLE
 from .models import (
     AuditLog,
     DeliveryEvidence,
+    FlaggedWord,
     IntegrationJob,
     Letter,
     LetterTemplate,
@@ -45,6 +49,7 @@ from .models import (
     Office,
     PlateRecord,
     Pool,
+    PoolSlot,
     Request,
     User,
 )
@@ -59,7 +64,11 @@ from .services import (
     expire_reservations,
     extend_reservation,
     issue_slot,
+    record_postal_dispatch,
     require_role,
+    restore_expired_request,
+    revoke_slot_issue,
+    scalar,
     send_request,
     update_record,
     visible,
@@ -69,6 +78,17 @@ from .services import (
 
 def ip(request):
     return request.META.get("REMOTE_ADDR")
+
+
+def rate_client(request):
+    """Klucz limitów logowania: pełny IPv4, sieć /64 dla IPv6 (host ma tam dowolnie wiele adresów)."""
+    address = ip(request) or ""
+    try:
+        if ipaddress.ip_address(address).version == 6:
+            return str(ipaddress.ip_network(f"{address}/64", strict=False))
+    except ValueError:
+        pass
+    return address
 
 
 def form_errors(form, error):
@@ -146,18 +166,28 @@ def login_email(request):
     form = LoginEmailForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         email = form.cleaned_data["email"].lower()
-        if not rate_limit("login-ip:" + (ip(request) or ""), 20, 900) or not rate_limit(
-            "login-email:" + email, 5, 900
+        # Limit adresu liczony osobno dla każdego IP: obcy klient nie zablokuje właściciela
+        # skrzynki. Wyższy limit łączny ogranicza tylko zalewanie skrzynki kodami.
+        client = rate_client(request)
+        if (
+            not rate_limit("login-ip:" + client, 20, 900)
+            or not rate_limit(f"login-email:{email}:{client}", 5, 900)
+            or not rate_limit("login-email-all:" + email, 30, 900)
         ):
             form.add_error(None, "Limit prób logowania. Spróbuj ponownie za 15 minut.")
             return render(request, "registry/login.html", {"form": form, "next_path": next_path}, status=429)
         user = User.objects.filter(email__iexact=email, is_active=True).first()
         request.session["login_next"] = next_path
+        previous_code_id = request.session.get("login_code_id", -1)
         request.session["login_code_id"] = -1
         if user and user.access_allowed:
-            code = f"{secrets.randbelow(1000000):06d}"
+            # Osiem cyfr: kod jest związany z sesją, więc równolegle może istnieć kilka
+            # ważnych kodów konta; dłuższy kod utrzymuje zgadywanie poniżej dawnego poziomu.
+            code = f"{secrets.randbelow(10**8):08d}"
             with transaction.atomic():
-                LoginCode.objects.filter(user=user, used=False).update(used=True)
+                # Kod działa tylko w sesji, która go zamówiła; nie unieważniamy kodów
+                # zamówionych z innych sesji, bo robiłby to każdy znający adres.
+                LoginCode.objects.filter(user=user, used=False, pk=previous_code_id).update(used=True)
                 token = LoginCode.objects.create(
                     user=user,
                     digest=make_password(code),
@@ -189,7 +219,7 @@ def login_email(request):
 def login_code(request):
     form = LoginCodeForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
-        if not rate_limit("otp:" + (ip(request) or ""), 20, 900):
+        if not rate_limit("otp:" + rate_client(request), 20, 900):
             form.add_error(None, "Limit prób. Spróbuj ponownie później.")
         else:
             authenticated = None
@@ -205,6 +235,9 @@ def login_code(request):
                     if check_password(form.cleaned_data["code"], token.digest) and token.user.access_allowed:
                         token.used = True
                         authenticated = token.user
+                        LoginCode.objects.filter(user=token.user, used=False).exclude(pk=token.pk).update(
+                            used=True
+                        )
                     token.save(update_fields=["attempts", "used"])
             if authenticated:
                 login(
@@ -264,28 +297,56 @@ def dashboard(request):
     expire_reservations()
     reqs = visible(request.user, Request.objects.select_related("office", "record"))
     records = visible(request.user, PlateRecord.objects.all())
-    pools = visible(request.user, Pool.objects.select_related("office"))
+    pools = pools_with_usage(visible(request.user, Pool.objects.select_related("office")))
+    pending = reqs.filter(status="SENT")
+    queue = request.user.role == "MAIN" and pending.exists()
     return render(
         request,
         "registry/dashboard.html",
         {
-            "requests": reqs[:6],
-            "pending_count": reqs.filter(status="SENT").count(),
+            # UMP zaczyna od spraw czekających najdłużej; urząd od własnych najnowszych.
+            "requests": pending.order_by("sent_at", "pk")[:6] if queue else reqs[:6],
+            "queue": queue,
+            "pending_count": pending.count(),
             "records_count": records.exclude(status="RELEASED").count(),
-            "pools_count": pools.count(),
-            "alerts": [p for p in pools if p.percent >= 80],
+            "sold_count": records.filter(status="SOLD").count(),
+            "pools_count": len(pools),
+            "alerts": [p for p in pools if p.usage_percent >= settings.POOL_ALERT_PERCENT],
         },
     )
+
+
+def pools_with_usage(pools):
+    """Lista pul z wykorzystaniem policzonym jednym zapytaniem zamiast kilku na pulę."""
+    slots = PoolSlot.objects.filter(pool=OuterRef("pk"))
+    pools = list(
+        pools.annotate(
+            slot_total=Count("slots"),
+            slot_used=Count("slots", filter=Q(slots__issued_at__isnull=False)),
+            first_number=Subquery(slots.order_by("ordinal").values("number")[:1]),
+            last_number=Subquery(slots.order_by("-ordinal").values("number")[:1]),
+        )
+    )
+    for pool in pools:
+        pool.usage_percent = round(100 * pool.slot_used / pool.slot_total) if pool.slot_total else 0
+    return pools
 
 
 @login_required
 @require_http_methods(["GET"])
 def requests_list(request):
     expire_reservations()
+    # Kolejka decyzji: sprawy czekające najdłużej na górze.
+    ordering = ("sent_at", "pk") if request.GET.get("status") == "SENT" else ("-created_at", "-pk")
     return render(
         request,
         "registry/requests.html",
-        {**list_context(request, request_queryset(request), "requests"), "statuses": Request.Status.choices},
+        {
+            **list_context(request, request_queryset(request), "requests", ordering),
+            "statuses": Request.Status.choices,
+            "kinds": Request.Kind.choices,
+            "offices": Office.objects.filter(active=True) if request.user.role == "MAIN" else [],
+        },
     )
 
 
@@ -295,6 +356,10 @@ def request_queryset(request):
     q = request.GET.get("q", "").strip()
     if status:
         reqs = reqs.filter(status=status)
+    if request.GET.get("kind"):
+        reqs = reqs.filter(kind=request.GET["kind"])
+    if request.GET.get("office"):
+        reqs = reqs.filter(office_id=request.GET["office"])
     if q:
         reqs = reqs.filter(
             Q(case_number__icontains=q)
@@ -354,14 +419,20 @@ def request_detail(request, uuid):
         ),
         uuid=uuid,
     )
+    prefix = "P" if req.kind == "II" else "P0"
+    suggested = None
+    if req.kind != "I" and req.status == "SENT" and request.user.role == "MAIN":
+        from .number_checks import suggest_pool_range
+
+        suggested = suggest_pool_range(req.kind, prefix, req.count)
     form = DecisionForm(
         request.POST or None,
         kind=req.kind,
         initial={
-            "prefix": "P" if req.kind == "II" else "P0",
+            "prefix": prefix,
             "valid_from": timezone.localdate(),
-            "start": 1,
-            "end": req.count,
+            "start": suggested[0] if suggested else 1,
+            "end": suggested[1] if suggested else req.count,
         },
     )
     if request.method == "POST":
@@ -414,11 +485,19 @@ def request_detail(request, uuid):
         object_id__in=[str(pk) for pk in incoming.values_list("pk", flat=True)],
     )
     history = history_context(request, AuditLog.objects.filter(event_filter))
+    check = None
+    if req.record_id and request.user.role == "MAIN":
+        from .number_checks import verification
+
+        # Historia numeru obejmuje wpisy innych urzędów, dlatego widzi ją tylko UMP.
+        check = verification(req.record)
     return render(
         request,
         "registry/request_detail.html",
         {
             "req": req,
+            "check": check,
+            "suggested": suggested,
             "current_record": current_record,
             "request_number": req.record.display_number if req.record_id else "",
             "form": form,
@@ -428,6 +507,7 @@ def request_detail(request, uuid):
             "decision_notices": IntegrationJob.objects.filter(
                 letter__request=req, provider="SMTP", operation="DECISION_NOTICE"
             ),
+            "mail_retryable": MAIL_RETRYABLE,
         },
     )
 
@@ -445,10 +525,31 @@ def request_action(request, uuid, action):
         elif action == "withdraw":
             withdraw_request(request.user, uuid, request.POST.get("reason", ""), ip(request))
             messages.success(request, "Wniosek wycofany; numer zwolniony.")
+        elif action == "restore":
+            restore_expired_request(
+                request.user,
+                uuid,
+                int(request.POST.get("days") or 0),
+                request.POST.get("reason", ""),
+                ip(request),
+            )
+            messages.success(request, "Wniosek przywrócony; numer ponownie zarezerwowany.")
+        elif action == "renotify":
+            from .integrations import requeue_mail
+
+            require_role(request.user, "MAIN")
+            job = IntegrationJob.objects.get(
+                letter__request__uuid=uuid, provider="SMTP", operation="DECISION_NOTICE"
+            )
+            requeue_mail(request.user, job, ip(request))
+            messages.success(request, "Powiadomienie o decyzji wróciło do kolejki wysyłki.")
         else:
             raise Http404
-    except ValidationError as error:
-        messages.error(request, "; ".join(error.messages))
+    except (ValidationError, ValueError) as error:
+        messages.error(
+            request,
+            "; ".join(error.messages) if isinstance(error, ValidationError) else "Podaj liczbę dni.",
+        )
     except ObjectDoesNotExist:
         raise Http404
     return redirect("request_detail", uuid=uuid)
@@ -555,8 +656,28 @@ def reservation_extend(request, uuid):
 @login_required
 @require_http_methods(["GET"])
 def pools_list(request):
+    return render(
+        request,
+        "registry/pools.html",
+        {
+            "pools": pool_rows(request),
+            "kinds": Request.Kind.choices[1:],
+            "offices": Office.objects.filter(active=True) if request.user.role == "MAIN" else [],
+            "alert_percent": settings.POOL_ALERT_PERCENT,
+        },
+    )
+
+
+def pool_rows(request):
     pools = visible(request.user, Pool.objects.select_related("office"))
-    return render(request, "registry/pools.html", {"pools": pools})
+    if request.GET.get("kind"):
+        pools = pools.filter(kind=request.GET["kind"])
+    if request.GET.get("office"):
+        pools = pools.filter(office_id=request.GET["office"])
+    pools = pools_with_usage(pools)
+    if request.GET.get("sort") == "usage":
+        pools.sort(key=lambda pool: pool.usage_percent, reverse=True)
+    return pools
 
 
 @login_required
@@ -591,14 +712,24 @@ def pool_detail(request, uuid):
     slots = Paginator(pool.slots.all(), 100).get_page(request.GET.get("page"))
     if request.method == "POST":
         try:
-            issue_slot(
-                request.user,
-                uuid,
-                int(request.POST.get("slot", 0)),
-                request.POST.get("case_number", ""),
-                ip(request),
-            )
-            messages.success(request, "Wydanie numeru zapisane.")
+            if request.POST.get("action") == "revoke":
+                revoke_slot_issue(
+                    request.user,
+                    uuid,
+                    int(request.POST.get("slot", 0)),
+                    request.POST.get("reason", ""),
+                    ip(request),
+                )
+                messages.success(request, "Wydanie cofnięte; numer wrócił do puli.")
+            else:
+                issue_slot(
+                    request.user,
+                    uuid,
+                    int(request.POST.get("slot", 0)),
+                    request.POST.get("case_number", ""),
+                    ip(request),
+                )
+                messages.success(request, "Wydanie numeru zapisane.")
             return redirect(reverse("pool_detail", kwargs={"uuid": uuid}) + f"?page={slots.number}")
         except (ValidationError, ValueError, ObjectDoesNotExist) as error:
             messages.error(request, str(error))
@@ -775,6 +906,7 @@ def admin_panel(request):
             "offices": Office.objects.all(),
             "users": User.objects.select_related("office"),
             "templates": LetterTemplate.objects.all(),
+            "flags": FlaggedWord.objects.all(),
         },
     )
 
@@ -787,6 +919,7 @@ def admin_edit(request, kind, pk=None):
         "office": (Office, OfficeForm, "urząd"),
         "user": (User, UserForm, "konto"),
         "template": (LetterTemplate, TemplateForm, "szablon pisma"),
+        "flag": (FlaggedWord, FlaggedWordForm, "słowo ostrzegawcze"),
     }
     if kind not in models:
         raise Http404
@@ -813,6 +946,18 @@ def admin_edit(request, kind, pk=None):
                         ) from exc
                     if version != account_settings_snapshot(old):
                         raise ValidationError("Konto zmieniło się w międzyczasie. Otwórz ponownie formularz.")
+                    if old.pk == request.user.pk and (
+                        form.cleaned_data["email"] != old.email.lower()
+                        or any(
+                            form.cleaned_data[name] != getattr(old, name)
+                            for name in ("role", "office", "is_active")
+                        )
+                    ):
+                        # Administrator nie nadaje sobie roli merytorycznej ani nie przenosi konta.
+                        raise ValidationError(
+                            "Własnego adresu, roli, urzędu i aktywności nie zmienisz sam. "
+                            "Zmianę wykonuje inny administrator."
+                        )
                     before = {key: getattr(old, key) for key in UserForm.Meta.fields if key != "office"}
                     before["office"] = old.office_id
                 item = form.save(commit=False)
@@ -864,42 +1009,137 @@ def admin_edit(request, kind, pk=None):
 @login_required
 @require_http_methods(["GET"])
 def export_records(request):
-    records = record_queryset(request)
-    stream = StringIO()
-    writer = csv.writer(stream, delimiter=";")
-    fields = [
-        "number",
-        "owner",
-        "address",
-        "office_id",
-        "status",
-        "vin",
-        "make",
-        "model",
-        "registration_date",
-        "sale_date",
-        "buyer",
-        "letter_number",
-        "note",
-    ]
-    writer.writerow(fields)
+    """Eksport CSV: ewidencja (domyślnie), wnioski, pule albo zestawienie urzędów."""
+    what = request.GET.get("co", "ewidencja")
+    if what == "wnioski":
+        expire_reservations()
+        header = ["reference", "kind", "office_id", "case_number", "number", "count", "status"]
+        header += ["created_at", "sent_at", "decided_at"]
+        rows = [
+            [
+                r.reference,
+                r.kind,
+                r.office_id,
+                r.case_number,
+                r.record.number if r.record_id else "",
+                r.count,
+                r.status,
+                r.created_at.isoformat(),
+                scalar(r.sent_at),
+                scalar(r.decided_at),
+            ]
+            for r in request_queryset(request).order_by("-created_at", "-pk")
+        ]
+    elif what == "pule":
+        header = ["kind", "office_id", "first_number", "last_number", "total", "issued", "percent"]
+        header += ["valid_from", "valid_until", "station"]
+        rows = [
+            [
+                p.kind,
+                p.office_id,
+                p.first_number,
+                p.last_number,
+                p.slot_total,
+                p.slot_used,
+                p.usage_percent,
+                scalar(p.valid_from),
+                scalar(p.valid_until),
+                p.station,
+            ]
+            for p in pool_rows(request)
+        ]
+    elif what == "urzedy":
+        header = ["office_id", "name", "active_plates", "pending_requests", "sold_vehicles"]
+        header += ["pool_ii_total", "pool_ii_issued", "pool_iii_total", "pool_iii_issued"]
+        rows = [
+            [
+                o.pk,
+                o.name,
+                o.active_plates,
+                o.pending_requests,
+                o.sold_vehicles,
+                o.pool_ii_total,
+                o.pool_ii_issued,
+                o.pool_iii_total,
+                o.pool_iii_issued,
+            ]
+            for o in office_rows(request.user)
+        ]
+    elif what == "ewidencja":
+        header = [
+            "number",
+            "owner",
+            "address",
+            "office_id",
+            "status",
+            "vin",
+            "make",
+            "model",
+            "registration_date",
+            "sale_date",
+            "buyer",
+            "letter_number",
+            "note",
+        ]
+        rows = [[getattr(record, f) for f in header] for record in record_queryset(request)]
+    else:
+        raise Http404
 
     def safe(value):
-        value = str(value or "")
+        value = "" if value is None else str(value)
         return "'" + value if value[:1] in ("=", "+", "-", "@", "\t", "\r") else value
 
-    for record in records:
-        writer.writerow([safe(getattr(record, f)) for f in fields])
+    stream = StringIO()
+    writer = csv.writer(stream, delimiter=";")
+    writer.writerow(header)
+    for row in rows:
+        writer.writerow([safe(value) for value in row])
     audit(
         request.user,
         "registry.exported",
         request.user,
-        after={"rows": records.count()},
+        after={"rows": len(rows)} if what == "ewidencja" else {"rows": len(rows), "scope": what},
         ip=ip(request),
     )
     response = HttpResponse("\ufeff" + stream.getvalue(), content_type="text/csv; charset=utf-8")
-    response["Content-Disposition"] = 'attachment; filename="ewidencja.csv"'
+    response["Content-Disposition"] = f'attachment; filename="{what}.csv"'
     return response
+
+
+def office_rows(user):
+    """Zestawienie województwa dla UMP: każdy urząd z licznikami spraw i pul."""
+    require_role(user, "MAIN")
+    offices = list(Office.objects.exclude(kind="MAIN"))
+    plates = {
+        (row["office_id"], row["status"]): row["n"]
+        for row in PlateRecord.objects.exclude(status="RELEASED")
+        .values("office_id", "status")
+        .annotate(n=Count("pk"))
+    }
+    pending = dict(
+        Request.objects.filter(status="SENT").values_list("office_id").annotate(n=Count("pk")).order_by()
+    )
+    slots = {
+        (row["pool__office_id"], row["pool__kind"]): row
+        for row in PoolSlot.objects.values("pool__office_id", "pool__kind").annotate(
+            total=Count("pk"), issued=Count("pk", filter=Q(issued_at__isnull=False))
+        )
+    }
+    for office in offices:
+        office.active_plates = sum(n for (pk, _), n in plates.items() if pk == office.pk)
+        office.sold_vehicles = plates.get((office.pk, "SOLD"), 0)
+        office.pending_requests = pending.get(office.pk, 0)
+        for kind, name in (("II", "pool_ii"), ("III", "pool_iii")):
+            row = slots.get((office.pk, kind), {})
+            setattr(office, name + "_total", row.get("total", 0))
+            setattr(office, name + "_issued", row.get("issued", 0))
+    return offices
+
+
+@login_required
+@require_http_methods(["GET"])
+def offices_overview(request):
+    return render(request, "registry/offices.html", {"offices": office_rows(request.user)})
 
 
 @login_required
@@ -919,7 +1159,11 @@ def integrations(request):
     return render(
         request,
         "registry/integrations.html",
-        {"providers": configuration_status(request.user.office_id), **list_context(request, jobs, "jobs")},
+        {
+            "providers": configuration_status(request.user.office_id),
+            "mail_retryable": MAIL_RETRYABLE,
+            **list_context(request, jobs, "jobs"),
+        },
     )
 
 
@@ -1100,11 +1344,33 @@ def letter_send(request, uuid):
     letter = get_object_or_404(letter_queryset(request.user), uuid=uuid)
     if letter.office_id != request.user.office_id:
         raise PermissionDenied("Korespondencję wysyła urząd nadawcy.")
+    provider = request.POST.get("provider", "")
     try:
-        enqueue(request.user, letter, request.POST.get("provider", ""), ip(request))
-        messages.success(request, "Operacja zapisana w kolejce integracji.")
-    except ValidationError as error:
-        messages.error(request, "; ".join(error.messages))
+        if provider == "POST":
+            from django.utils.dateparse import parse_date
+
+            record_postal_dispatch(
+                request.user,
+                letter,
+                parse_date(request.POST.get("posted_at", "")),
+                request.POST.get("posted_reference", ""),
+                ip(request),
+            )
+            messages.success(request, f"Odnotowano wysyłkę pocztą pisma {letter.number}.")
+            return redirect("letters_list")
+        job = enqueue(request.user, letter, provider, ip(request))
+        if job.status == "QUEUED":
+            messages.success(request, "Operacja zapisana w kolejce integracji.")
+        else:
+            # Ponowne kliknięcie nie tworzy drugiej wysyłki; pokazujemy faktyczny stan.
+            messages.info(request, f"To pismo ma już operację w tym kanale: {job.status_label}.")
+    except (ValidationError, ValueError) as error:
+        messages.error(
+            request,
+            "; ".join(error.messages)
+            if isinstance(error, ValidationError)
+            else "Podaj poprawną datę nadania.",
+        )
     return redirect("integrations")
 
 
@@ -1313,7 +1579,7 @@ def api_record(request, uuid):
             version,
             ip(request),
         )
-    from .services import EDIT_FIELDS, scalar
+    from .services import EDIT_FIELDS
 
     return JsonResponse(
         {

@@ -24,6 +24,7 @@ METHODS = {
     "record_detail": ("GET", "POST"),
     "reservation_extend": ("POST",),
     "export_records": ("GET",),
+    "offices_overview": ("GET",),
     "import_records": ("GET", "POST"),
     "import_pools": ("GET", "POST"),
     "pools_list": ("GET",),

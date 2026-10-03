@@ -329,5 +329,10 @@ class FinitePeriodMigrationTests(TransactionTestCase):
             # Tylko fikcyjny rekord testu; nie jest to reguła uzupełniania danych urzędu.
             OldPool.objects.filter(pk=pool.pk).update(valid_until=timezone.localdate() + timedelta(days=30))
             MigrationExecutor(connection).migrate(target)
-        with self.assertRaises(IntegrityError), transaction.atomic():
-            Pool.objects.filter(pk=pool.pk).update(valid_until=None)
+        try:
+            with self.assertRaises(IntegrityError), transaction.atomic():
+                Pool.objects.filter(pk=pool.pk).update(valid_until=None)
+        finally:
+            # Kolejne testy na tej bazie potrzebują aktualnego schematu, nie stanu 0009.
+            latest = MigrationExecutor(connection).loader.graph.leaf_nodes("registry")
+            MigrationExecutor(connection).migrate(latest)

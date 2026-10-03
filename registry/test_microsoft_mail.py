@@ -173,7 +173,8 @@ class MicrosoftMailTests(SimpleTestCase):
     def test_render_accepts_graph_with_valid_certificate_without_smtp(self):
         environment = {"DYNA_ENV": "render", "APP_URL": "https://rejestr.example.org",
             "DJANGO_ALLOWED_HOSTS": "rejestr.example.org", "RENDER_GIT_COMMIT": "a" * 40,
-            "DYNA_DATA_DIR": "/var/data", "RENDER_PROXY_CIDRS": "203.0.113.0/24",
+            "DYNA_DATA_DIR": "/var/data", "RENDER_PROXY_CIDRS": "172.64.0.0/13",
+            "RENDER_EDGE_CIDRS": "172.64.0.0/13",
             "DATABASE_URL": "postgresql://dyna:disposable-test@dpg-fixture/dyna"}
         current = {**self.values, "DEBUG": False, "SECRET_KEY": secrets.token_urlsafe(64),
             "BASE_DIR": Path("/opt/render/project/src"), "MIDDLEWARE": ["security"],

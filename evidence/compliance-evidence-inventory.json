@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-03T13:37:11.695993+00:00",
+  "checked_at": "2026-10-03T14:14:57.346618+00:00",
   "base_revision": "855358b7ab48059ff03d711c7d61b7eb4dd78e6c",
   "scope": "Saved artifact hash/JSON verification, retaining historical scope metadata. Actual Chrome CAPTCHA completion and error/expiry/retry accepted locally; spoken VoiceOver output and full AA remain unverified. No new external API acceptance. Local Render profile prepared/tested; GitHub and Render publication still deferred. Mobile CAPTCHA error at measured 320x900 accepted; reader output remains unavailable and publication deferred.",
   "objective_sha256": "13780efcd40ec9a100fabd29f0adb71f66343ce5c9595bf5f50dd80fcccbea4b",
@@ -889,8 +889,8 @@
     {
       "path": "docs/RENDER.md",
       "saved_scope": "Local Render-profile preparation supplement; no real cloud or reader/AA acceptance.",
-      "sha256": "c0d7199ebb37742b7d826fa01c3f3b5a98068466f5fe67082dd42c8cd513e43e",
-      "bytes": 14050
+      "sha256": "ac5e3b093f328f61c5ccd5ee954ac3f9d1e290b7690bf445270a24d40eba7935",
+      "bytes": 14948
     },
     {
       "path": "evidence/render-profile-proof.json",
@@ -939,13 +939,13 @@
     },
     {
       "path": "registry/test_microsoft_mail.py",
-      "bytes": 10734,
-      "sha256": "6983509ba4c2f9851ba4e25232c6b93925a9c9ddede8d5a72cc9dd752b5e9b5b"
+      "bytes": 10783,
+      "sha256": "66a5388379c68291cd6327819943d97afba22529c9d758a880f5f01fdcf8ded8"
     },
     {
       "path": "render.yaml",
-      "bytes": 1620,
-      "sha256": "79ea359cacd47be77b708918ba518cc3084e382afbe598da5fc445f0407f644c"
+      "bytes": 1671,
+      "sha256": "f14df5898292a987801277b687399d8852cacdac49eaba42a925ae8c9dd6ccea"
     },
     {
       "path": ".github/workflows/ci.yml",
@@ -989,5 +989,5 @@
     }
   ],
   "publication_instruction": "User authorized Render deployment and accepted 13.55 USD/month plus taxes/overage. GitHub repository supplied and bot write verified. Source upload awaits repository visibility choice. Microsoft shared mailbox created; app registration policy acceptance and scoped mail access remain pending. No deployed or email-delivery proof. Prepared immutable-mailbox RBAC script and 14 simulated safety scenarios; no tenant grant applied. Clean local delivery clone is based on the remote bootstrap commit; source still not uploaded.",
-  "hash_refresh_note": "Updated Render/CI artifact hashes after adding pinned PostgreSQL 18.6 client packaging. Historical acceptance scope is preserved; production remains unverified."
+  "hash_refresh_note": "Updated saved artifact hashes after Render Cloudflare edge validation. Historical acceptance scope is preserved; production remains unverified."
 }

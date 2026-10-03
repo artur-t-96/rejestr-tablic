@@ -60,6 +60,18 @@ def build_settings(environment, current):
         fail("Ustaw potwierdzone RENDER_PROXY_CIDRS.")
     if not proxy_networks or any(network.prefixlen == 0 for network in proxy_networks):
         fail("Nie można ufać wszystkim adresom proxy.")
+    try:
+        edge_networks = tuple(ipaddress.ip_network(value.strip()) for value in
+                              environment.get("RENDER_EDGE_CIDRS", "").split(","))
+    except ValueError:
+        fail("Ustaw potwierdzone publiczne RENDER_EDGE_CIDRS Cloudflare.")
+    if not edge_networks or any(
+        network.prefixlen == 0 or not network.network_address.is_global
+        or not any(network.version == proxy.version and network.subnet_of(proxy)
+                   for proxy in proxy_networks)
+        for network in edge_networks
+    ):
+        fail("Zakresy edge muszą być publiczne i zawarte w RENDER_PROXY_CIDRS.")
     from registry.microsoft_mail import BACKEND, validated_credentials
 
     if current["EMAIL_BACKEND"] == BACKEND:
@@ -86,6 +98,7 @@ def build_settings(environment, current):
         }},
         "CSRF_TRUSTED_ORIGINS": [environment["APP_URL"].rstrip("/")],
         "RENDER_PROXY_NETWORKS": proxy_networks,
+        "RENDER_EDGE_NETWORKS": edge_networks,
         "SECURE_PROXY_SSL_HEADER": ("HTTP_X_FORWARDED_PROTO", "https"),
         "SECURE_REDIRECT_EXEMPT": [r"^api/health/$"],
         "MIDDLEWARE": ["registry.render_proxy.RenderProxyMiddleware",

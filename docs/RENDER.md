@@ -175,6 +175,18 @@ Wdrożenie z dyskiem wymaga krótkiej przerwy, bez deklaracji zero downtime.
    Brak/niepoprawna konfiguracja daje odmowę. Porównać rzeczywisty adres
    z obserwowaną trasą i wykonać próbę podszycia nagłówkami przed odbiorem.
    Testy z fikcyjnymi CIDR-ami nie potwierdzają topologii Render.
+   Dodatkowo ustawić RENDER_EDGE_CIDRS na aktualne oficjalne
+   [zakresy Cloudflare](https://www.cloudflare.com/ips/). Muszą być publiczne
+   i zawarte w RENDER_PROXY_CIDRS. Każde żądanie publiczne musi mieć na
+   końcu X-Forwarded-For adres z tego zbioru. Sam prywatny peer nie wystarcza.
+   Podczas pierwszego wdrożenia zaobserwowano różne prywatne adresy ingress
+   dla strony, plików i POST; pojedyncze /32 dają okresowe błędy 400.
+   Render nie publikuje tu stałego zbioru prywatnych adresów ingress.
+   Zaufanie do sieci prywatnej platformy jest osobną decyzją operatora:
+   obejmuje także inne usługi w tym samym workspace/regionie, zgodnie z
+   [granicą sieci prywatnej Render](https://render.com/docs/private-network).
+   Nie zastępuje to autoryzacji kont, CSRF ani kontroli ról. Nie akceptować
+   wszystkich publicznych peerów i nie używać 0.0.0.0/0 ani ::/0.
 5. Sprawdzić health 200 i pełny SHA, migracje, wszystkie cztery procesy,
    restart i trwałość PDF-ów oraz danych. W Chrome wykonać OTP i pełny
    przebieg urzędu/UMP, odczyt archiwum i publiczną ochronę. Zweryfikować

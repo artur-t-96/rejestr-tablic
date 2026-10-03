@@ -1,0 +1,14 @@
+{
+  "job": "26f9e0f9-7dcb-4d0d-8e1a-f4a7ac46132f",
+  "status": "LOCAL_SAVED",
+  "attempts": 1,
+  "proof": [
+    {
+      "message_id_matches": true,
+      "recipient": "gni@example.invalid",
+      "attachment_count": 1,
+      "pdf_sha256_matches": true
+    }
+  ],
+  "external_delivery": false
+}

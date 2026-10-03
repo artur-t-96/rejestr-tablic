@@ -1,0 +1,1 @@
+PASS: 14 mailbox configuration scenarios; Exchange commands simulated; no live API or grant.

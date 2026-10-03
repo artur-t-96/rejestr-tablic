@@ -1,0 +1,53 @@
+{
+  "scope": "actual local HTTP with real file OTP; separate synthetic SQLite copy; no external API",
+  "pages": [
+    {
+      "page": 1,
+      "items": 50,
+      "next": "/api/requests/?q=PAGINACJA%2F&status=REJECTED&page=2",
+      "previous": null
+    },
+    {
+      "page": 2,
+      "items": 50,
+      "next": "/api/requests/?q=PAGINACJA%2F&status=REJECTED&page=3",
+      "previous": "/api/requests/?q=PAGINACJA%2F&status=REJECTED&page=1"
+    },
+    {
+      "page": 3,
+      "items": 50,
+      "next": "/api/requests/?q=PAGINACJA%2F&status=REJECTED&page=4",
+      "previous": "/api/requests/?q=PAGINACJA%2F&status=REJECTED&page=2"
+    },
+    {
+      "page": 4,
+      "items": 50,
+      "next": "/api/requests/?q=PAGINACJA%2F&status=REJECTED&page=5",
+      "previous": "/api/requests/?q=PAGINACJA%2F&status=REJECTED&page=3"
+    },
+    {
+      "page": 5,
+      "items": 50,
+      "next": "/api/requests/?q=PAGINACJA%2F&status=REJECTED&page=6",
+      "previous": "/api/requests/?q=PAGINACJA%2F&status=REJECTED&page=4"
+    },
+    {
+      "page": 6,
+      "items": 50,
+      "next": "/api/requests/?q=PAGINACJA%2F&status=REJECTED&page=7",
+      "previous": "/api/requests/?q=PAGINACJA%2F&status=REJECTED&page=5"
+    },
+    {
+      "page": 7,
+      "items": 5,
+      "next": null,
+      "previous": "/api/requests/?q=PAGINACJA%2F&status=REJECTED&page=6"
+    }
+  ],
+  "all_305_requests_present_once_in_stable_order": true,
+  "source_sha256": {
+    "registry/views.py": "c1855e8c3c02f2400be998f3500260f19d64e070ee180168a1480f1a3b213370",
+    "registry/pagination.py": "9dbf1ca6caefe3b6aa7b895cf16ef41851f4ccf52f71f11a20b5400e519ae2a1",
+    "registry/templates/registry/pagination.html": "b3f10e83fc32d6664c3344a65e81145a683f0eba9b340c65ab40fc3c3d3d6a01"
+  }
+}

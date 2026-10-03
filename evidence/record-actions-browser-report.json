@@ -1,0 +1,33 @@
+{
+  "fixture_only": true,
+  "chrome": {
+    "county_released_readonly_with_source": true,
+    "county_sent_readonly": true,
+    "county_allocated_edit_form_available": true,
+    "other_county_released_404": true,
+    "source_screenshot_visually_inspected": true,
+    "screenshot": "evidence/private/87-released-record-readonly.jpg"
+  },
+  "host_native": {
+    "tests": 37,
+    "passed": 37,
+    "seconds": 1.312,
+    "readonly_county_post_403_without_record_or_audit_changes": [
+      "RESERVED",
+      "SENT",
+      "RELEASED"
+    ],
+    "county_edit_form": [
+      "ALLOCATED",
+      "ISSUED",
+      "SOLD"
+    ],
+    "main_edit_form_all_six_statuses": true,
+    "main_extension_only_unexpired_reserved_sent": true
+  },
+  "copy_and_main_seven_business_tables_unchanged": true,
+  "scope_limits": [
+    "Bez rzeczywistego zapisu w Chrome w tym etapie.",
+    "Nie ponowiono PostgreSQL, backupu, pełnego WCAG ani pełnego odbioru systemu."
+  ]
+}

@@ -1,0 +1,8 @@
+Operations to perform:
+  Apply all migrations: auth, contenttypes, registry, sessions
+Running migrations:
+  Applying registry.0006_public_challenge... OK
+  Applying registry.0007_ezdincomingdocument... OK
+  Applying registry.0008_refresh_builtin_templates... OK
+  Applying registry.0009_require_finite_module_three_period... OK
+  Applying registry.0010_account_invitation... OK

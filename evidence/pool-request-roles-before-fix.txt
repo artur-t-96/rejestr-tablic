@@ -1,0 +1,114 @@
+Creating test database for alias 'default'...
+Destroying old test database for alias 'default'...
+...FFF.FFFFFFF
+======================================================================
+FAIL: test_main_form_offers_individual_only_even_with_pool_query_parameter (registry.test_pool_request_roles.PoolRequestRoleTests.test_main_form_offers_individual_only_even_with_pool_query_parameter) (kind='I')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_pool_request_roles.py", line 67, in test_main_form_offers_individual_only_even_with_pool_query_parameter
+    self.assertEqual([value for value, _label in form.fields["kind"].choices], ["I"])
+AssertionError: Lists differ: ['I', 'II', 'III'] != ['I']
+
+First list contains 2 additional elements.
+First extra element 1:
+'II'
+
+- ['I', 'II', 'III']
++ ['I']
+
+======================================================================
+FAIL: test_main_form_offers_individual_only_even_with_pool_query_parameter (registry.test_pool_request_roles.PoolRequestRoleTests.test_main_form_offers_individual_only_even_with_pool_query_parameter) (kind='II')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_pool_request_roles.py", line 67, in test_main_form_offers_individual_only_even_with_pool_query_parameter
+    self.assertEqual([value for value, _label in form.fields["kind"].choices], ["I"])
+AssertionError: Lists differ: ['I', 'II', 'III'] != ['I']
+
+First list contains 2 additional elements.
+First extra element 1:
+'II'
+
+- ['I', 'II', 'III']
++ ['I']
+
+======================================================================
+FAIL: test_main_form_offers_individual_only_even_with_pool_query_parameter (registry.test_pool_request_roles.PoolRequestRoleTests.test_main_form_offers_individual_only_even_with_pool_query_parameter) (kind='III')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_pool_request_roles.py", line 67, in test_main_form_offers_individual_only_even_with_pool_query_parameter
+    self.assertEqual([value for value, _label in form.fields["kind"].choices], ["I"])
+AssertionError: Lists differ: ['I', 'II', 'III'] != ['I']
+
+First list contains 2 additional elements.
+First extra element 1:
+'II'
+
+- ['I', 'II', 'III']
++ ['I']
+
+======================================================================
+FAIL: test_main_pool_api_and_forged_html_posts_are_forbidden_without_writes (registry.test_pool_request_roles.PoolRequestRoleTests.test_main_pool_api_and_forged_html_posts_are_forbidden_without_writes) (kind='II', path='/api/requests/')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_pool_request_roles.py", line 57, in test_main_pool_api_and_forged_html_posts_are_forbidden_without_writes
+    self.assertEqual(response.status_code, 403, response.content)
+AssertionError: 201 != 403 : b'{"id": "6e4f0a57-c34f-4763-a0c2-af767416b298", "reference": "W/2026/00002", "status": "DRAFT"}'
+
+======================================================================
+FAIL: test_main_pool_api_and_forged_html_posts_are_forbidden_without_writes (registry.test_pool_request_roles.PoolRequestRoleTests.test_main_pool_api_and_forged_html_posts_are_forbidden_without_writes) (kind='II', path='/panel/wnioski/nowy/')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_pool_request_roles.py", line 57, in test_main_pool_api_and_forged_html_posts_are_forbidden_without_writes
+    self.assertEqual(response.status_code, 403, response.content)
+AssertionError: 302 != 403 : b''
+
+======================================================================
+FAIL: test_main_pool_api_and_forged_html_posts_are_forbidden_without_writes (registry.test_pool_request_roles.PoolRequestRoleTests.test_main_pool_api_and_forged_html_posts_are_forbidden_without_writes) (kind='III', path='/api/requests/')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_pool_request_roles.py", line 57, in test_main_pool_api_and_forged_html_posts_are_forbidden_without_writes
+    self.assertEqual(response.status_code, 403, response.content)
+AssertionError: 201 != 403 : b'{"id": "b5945c01-3836-4a2a-920c-8b76e12a85bd", "reference": "W/2026/00004", "status": "DRAFT"}'
+
+======================================================================
+FAIL: test_main_pool_api_and_forged_html_posts_are_forbidden_without_writes (registry.test_pool_request_roles.PoolRequestRoleTests.test_main_pool_api_and_forged_html_posts_are_forbidden_without_writes) (kind='III', path='/panel/wnioski/nowy/')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_pool_request_roles.py", line 57, in test_main_pool_api_and_forged_html_posts_are_forbidden_without_writes
+    self.assertEqual(response.status_code, 403, response.content)
+AssertionError: 302 != 403 : b''
+
+======================================================================
+FAIL: test_main_pool_list_has_allocation_without_pool_application_link (registry.test_pool_request_roles.PoolRequestRoleTests.test_main_pool_list_has_allocation_without_pool_application_link)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_pool_request_roles.py", line 85, in test_main_pool_list_has_allocation_without_pool_application_link
+    self.assertNotContains(response, "Wniosek o pulę")
+AssertionError: 1 != 0 : 'Wniosek o pulę' unexpectedly found in the following response
+b'<!doctype html>\n<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Pule numer\xc3\xb3w \xc2\xb7 Dyna Rejestr Tablic</title><link rel="stylesheet" href="/static/registry/app.css?v=9"><script src="/static/registry/app.js?v=5" defer></script><script src="/static/registry/session.js?v=5" defer></script></head>\n<body><a class="skip" href="#main">Przejd\xc5\xba do tre\xc5\x9bci</a>\n<div class="environment">\xc5\x9arodowisko lokalne \xc2\xb7 dane fikcyjne \xc2\xb7 integracje zewn\xc4\x99trzne wymagaj\xc4\x85 konfiguracji</div>\n<header class="topbar"><a class="brand" href="/"><span class="brand-icon" aria-hidden="true">D</span><span>Dyna<span class="brand-sub">Rejestr Tablic \xc2\xb7 Wielkopolska</span></span></a><nav aria-label="Nawigacja g\xc5\x82\xc3\xb3wna"><a href="/">Sprawd\xc5\xba tablic\xc4\x99</a><a href="/panel/">Panel urz\xc4\x99du</a><button class="link" type="button" data-session-extend-now hidden>Przed\xc5\x82u\xc5\xbc logowanie</button><form action="/wyloguj/" method="post" class="inline"><input type="hidden" name="csrfmiddlewaretoken" value="uQPVwl8C8CBmiO8Mx6e7EmP2hZvqtpU69OaotRnfD8wyBqspHRkN8n1PINsCVJqK"><button class="link" type="submit">Wyloguj</button></form></nav></header>\n<div class="layout ">\n<aside class="sidebar"><p class="eyebrow">Panel urz\xc4\x99du</p><strong>ump@test.invalid</strong><p class="muted">Urz\xc4\x99dnik UMP<br>UMP test</p><nav aria-label="Menu panelu"><a href="/panel/">Przegl\xc4\x85d</a><a href="/panel/wnioski/">Wnioski</a><a href="/panel/ewidencja/">Ewidencja</a><a href="/panel/pule/">Pule numer\xc3\xb3w</a><a href="/panel/pisma/">Pisma i dokumenty</a><a href="/panel/import/">Import ewidencji</a><a href="/panel/integracje/">Integracje</a><a href="/panel/audyt/">Dziennik audytowy</a></nav><div class="sidebar-bottom">Wsp\xc3\xb3lna ewidencja wojew\xc3\xb3dztwa<br>35 urz\xc4\x99d\xc3\xb3w \xc2\xb7 3 modu\xc5\x82y</div></aside>\n<main id="main" tabindex="-1">\n<div class="page-head"><div><p class="eyebrow">Modu\xc5\x82y II i III</p><h1>Pule numer\xc3\xb3w</h1></div><div class="actions"><a class="button secondary" href="/panel/wnioski/nowy/?kind=III">Wniosek o pul\xc4\x99</a><a class="button secondary" href="/panel/import/pule/">Import historycznych pul</a><a class="button" href="/panel/pule/nowa/">+ Przydziel pul\xc4\x99</a></div></div><section class="card"><div class="table-wrap"><table><caption class="sr-only">Przydzielone pule numer\xc3\xb3w</caption><thead><tr><th>Rodzaj</th><th>Urz\xc4\x85d</th><th>Zakres</th><th>Wykorzystanie</th><th>Obowi\xc4\x85zuje</th></tr></thead><tbody><tr><td colspan="5" class="empty">Brak przydzielonych pul.</td></tr></tbody></table></div></section></main></div>\n\n<section id="session-notice" class="session-notice" hidden tabindex="-1" aria-labelledby="session-notice-title"\n  data-session-owner="2:MAIN:ump" data-status-url="/api/session/" data-extend-url="/api/session/extend/">\n  <h2 id="session-notice-title">Ko\xc5\x84czy si\xc4\x99 czas logowania</h2>\n  <p data-session-message>Przed\xc5\x82u\xc5\xbc czas, aby kontynuowa\xc4\x87 prac\xc4\x99. Wpisane dane pozostan\xc4\x85 w formularzu.</p>\n  <form data-session-extend method="post" action="/api/session/extend/">\n    <input type="hidden" name="csrfmiddlewaretoken" value="uQPVwl8C8CBmiO8Mx6e7EmP2hZvqtpU69OaotRnfD8wyBqspHRkN8n1PINsCVJqK"><input type="hidden" name="session_owner" value="2:MAIN:ump">\n    <input type="hidden" name="return_to" value="/panel/pule/">\n    <button type="submit">Przed\xc5\x82u\xc5\xbc czas logowania</button>\n  </form>\n  <a data-session-login class="button" hidden href="/logowanie/?next=/panel/pule/" target="_blank" rel="noopener">Zaloguj w nowej karcie</a>\n</section>\n<noscript><section class="card"><h2>Czas logowania</h2><p>Przed przed\xc5\x82u\xc5\xbceniem czasu zapisz formularz \xe2\x80\x94 strona zostanie od\xc5\x9bwie\xc5\xbcona.</p>\n  <form method="post" action="/api/session/extend/"><input type="hidden" name="csrfmiddlewaretoken" value="uQPVwl8C8CBmiO8Mx6e7EmP2hZvqtpU69OaotRnfD8wyBqspHRkN8n1PINsCVJqK">\n    <input type="hidden" name="session_owner" value="2:MAIN:ump"><input type="hidden" name="return_to" value="/panel/pule/">\n    <button type="submit">Przed\xc5\x82u\xc5\xbc czas logowania</button>\n  </form>\n</section></noscript>\n\n<footer>Wojew\xc3\xb3dzka ewidencja tablic rejestracyjnych \xc2\xb7 Dyna Rejestr Tablic</footer></body></html>\n'
+
+======================================================================
+FAIL: test_main_pool_service_denies_before_expiry_numbering_or_documents (registry.test_pool_request_roles.PoolRequestRoleTests.test_main_pool_service_denies_before_expiry_numbering_or_documents) (kind='II')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_pool_request_roles.py", line 41, in test_main_pool_service_denies_before_expiry_numbering_or_documents
+    with self.subTest(kind=kind), self.assertRaises(PermissionDenied):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: PermissionDenied not raised
+
+======================================================================
+FAIL: test_main_pool_service_denies_before_expiry_numbering_or_documents (registry.test_pool_request_roles.PoolRequestRoleTests.test_main_pool_service_denies_before_expiry_numbering_or_documents)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_pool_request_roles.py", line 43, in test_main_pool_service_denies_before_expiry_numbering_or_documents
+    self.assertEqual(self.snapshot(), before)
+AssertionError: {'reg[2163 chars]ue': 2}, {'id': 2, 'scope': 'LETTER.a', 'year'[135139 chars]c)}]} != {'reg[2163 chars]ue': 1}, {'id': 2, 'scope': 'LETTER.a', 'year'[67672 chars]c)}]}
+Diff is 251662 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.502s
+
+FAILED (failures=10)
+Destroying test database for alias 'default'...
+Found 8 test(s).
+System check identified no issues (0 silenced).

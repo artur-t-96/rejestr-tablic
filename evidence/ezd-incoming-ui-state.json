@@ -1,0 +1,59 @@
+{
+  "synthetic_operator": true,
+  "transport": "httpx.MockTransport; no external HTTP",
+  "actual_import_service_used": true,
+  "external_profile_configured_on_ui_server": false,
+  "database": "var/ezd-incoming-ui-20261003",
+  "rows": [
+    {
+      "uuid": "6e79eb96-735c-4a34-ae04-159159465d51",
+      "rpw_number": 17,
+      "status": "MATCHED",
+      "content_archived": true,
+      "sha256": "6375bbb95dc4e7756c547076f8194ae8e7534c017d6c7270ccd605b5f709d9ee",
+      "letter_uuid": "f0f117bc-7be0-4527-be13-099428aa5be1",
+      "request_uuid": "f6ff476d-cf07-450a-8d29-ab7c88f93a32"
+    },
+    {
+      "uuid": "3436d36a-fbcb-485a-84c8-df7bf236e517",
+      "rpw_number": 18,
+      "status": "UNMATCHED",
+      "content_archived": false,
+      "sha256": "6d3110e1d65068e2e3b76246975d14c5fff496ea3f50e863cc511a4aba478d6e",
+      "letter_uuid": null,
+      "request_uuid": null
+    }
+  ],
+  "after_browser": [
+    {
+      "uuid": "3436d36a-fbcb-485a-84c8-df7bf236e517",
+      "status": "UNMATCHED",
+      "letter_id": null,
+      "content_archived": false,
+      "pdf_hash_valid": null,
+      "link_status": "NOT_PUBLISHED",
+      "link_attempts": 0
+    },
+    {
+      "uuid": "6e79eb96-735c-4a34-ae04-159159465d51",
+      "status": "MATCHED",
+      "letter_id": 1,
+      "content_archived": true,
+      "pdf_hash_valid": true,
+      "link_status": "NOT_PUBLISHED",
+      "link_attempts": 0
+    }
+  ],
+  "browser_checks": {
+    "ump_otp": true,
+    "read_without_config_blocked": true,
+    "publish_without_config_blocked": true,
+    "link_opens_matching_request": true,
+    "archived_pdf_opened": true,
+    "pila_otp": true,
+    "other_office_list_empty": true,
+    "other_office_pdf_http_status": 404,
+    "console_errors_before_role_change": 0
+  },
+  "operator_link_published_events": 0
+}

@@ -1,0 +1,504 @@
+{
+  "verified_at": "2026-10-03T07:17:24.757441+00:00",
+  "application_revision": "4321275c2374d53045e00b8935a29d4fb086467d",
+  "scope": "Three positive workflows in user Chrome on separate SQLite copy; six cross-office and six administrator object GET denials; native database audit and six actual archived PDFs. This is not a complete endpoint/method/role matrix.",
+  "synthetic_data": true,
+  "goal_complete": false,
+  "requests": [
+    {
+      "id": 6,
+      "kind": "I",
+      "status": "APPROVED",
+      "reference_number": "W/2026/00006",
+      "case_number": "ODBIOR/2026/I",
+      "office_id": "gni",
+      "author_id": 3,
+      "decided_by_id": 2
+    },
+    {
+      "id": 7,
+      "kind": "II",
+      "status": "APPROVED",
+      "reference_number": "W/2026/00007",
+      "case_number": "ODBIOR/2026/II",
+      "office_id": "gni",
+      "author_id": 3,
+      "decided_by_id": 2
+    },
+    {
+      "id": 8,
+      "kind": "III",
+      "status": "APPROVED",
+      "reference_number": "W/2026/00008",
+      "case_number": "ODBIOR/2026/III",
+      "office_id": "gni",
+      "author_id": 3,
+      "decided_by_id": 2
+    }
+  ],
+  "individual": {
+    "number": "P8META",
+    "final_status": "RELEASED",
+    "version": 7,
+    "history": [
+      {
+        "action": "plate.reserved",
+        "before_status": null,
+        "after_status": "RESERVED",
+        "actor_id": 3,
+        "reason_present": false,
+        "timestamp": "2026-10-03 07:06:01.873926",
+        "owner_changed": false,
+        "note_changed": false
+      },
+      {
+        "action": "plate.submitted",
+        "before_status": "RESERVED",
+        "after_status": "SENT",
+        "actor_id": 3,
+        "reason_present": false,
+        "timestamp": "2026-10-03 07:06:12.607963",
+        "owner_changed": false,
+        "note_changed": false
+      },
+      {
+        "action": "plate.decided",
+        "before_status": "SENT",
+        "after_status": "ALLOCATED",
+        "actor_id": 2,
+        "reason_present": true,
+        "timestamp": "2026-10-03 07:07:13.692271",
+        "owner_changed": false,
+        "note_changed": false
+      },
+      {
+        "action": "plate.updated",
+        "before_status": "ALLOCATED",
+        "after_status": "ISSUED",
+        "actor_id": 3,
+        "reason_present": true,
+        "timestamp": "2026-10-03 07:08:56.633373",
+        "owner_changed": false,
+        "note_changed": false
+      },
+      {
+        "action": "plate.updated",
+        "before_status": "ISSUED",
+        "after_status": "SOLD",
+        "actor_id": 3,
+        "reason_present": true,
+        "timestamp": "2026-10-03 07:09:04.231369",
+        "owner_changed": false,
+        "note_changed": false
+      },
+      {
+        "action": "plate.updated",
+        "before_status": "SOLD",
+        "after_status": "SOLD",
+        "actor_id": 2,
+        "reason_present": true,
+        "timestamp": "2026-10-03 07:11:43.613218",
+        "owner_changed": true,
+        "note_changed": true
+      },
+      {
+        "action": "plate.updated",
+        "before_status": "SOLD",
+        "after_status": "RELEASED",
+        "actor_id": 2,
+        "reason_present": true,
+        "timestamp": "2026-10-03 07:11:55.413759",
+        "owner_changed": false,
+        "note_changed": false
+      }
+    ],
+    "public_after_sale": {
+      "unavailable": true,
+      "noOwnerVinBuyer": true
+    },
+    "public_after_release": {
+      "available": true
+    },
+    "vehicle_and_sale_preserved_after_correction_release": true,
+    "reservation_14_days_visible_in_screenshot": "evidence/128-final-individual-submitted.png"
+  },
+  "pools": [
+    {
+      "module": "II",
+      "numbers": [
+        "P031",
+        "P032",
+        "P033",
+        "P034",
+        "P035"
+      ],
+      "issued": 4,
+      "total": 5,
+      "percent": 80,
+      "valid_from": "2026-10-03",
+      "valid_until": null,
+      "station_present": false,
+      "office": "gni"
+    },
+    {
+      "module": "III",
+      "numbers": [
+        "P30001",
+        "P30002"
+      ],
+      "issued": 1,
+      "total": 2,
+      "percent": 50,
+      "valid_from": "2026-10-03",
+      "valid_until": "2026-12-31",
+      "station_present": true,
+      "office": "gni"
+    }
+  ],
+  "denied_gets": {
+    "pila": [
+      {
+        "path": "/panel/wnioski/fbff2b4f-003d-4f49-9856-8db64bd7b253/",
+        "actual_status": 404,
+        "source": "Chrome request confirmed in native server log"
+      },
+      {
+        "path": "/panel/wnioski/130f6e3b-bb26-4280-8b31-074bfca27cbe/",
+        "actual_status": 404,
+        "source": "Chrome request confirmed in native server log"
+      },
+      {
+        "path": "/panel/wnioski/844e31ce-074d-4ac0-92c7-7972d7873026/",
+        "actual_status": 404,
+        "source": "Chrome request confirmed in native server log"
+      },
+      {
+        "path": "/panel/ewidencja/62665c10-a20d-4463-9cec-0fb1eda45a41/",
+        "actual_status": 404,
+        "source": "Chrome request confirmed in native server log"
+      },
+      {
+        "path": "/panel/pule/ac71eb55-031f-4cbc-ab4b-84eea07eeafe/",
+        "actual_status": 404,
+        "source": "Chrome request confirmed in native server log"
+      },
+      {
+        "path": "/panel/pule/140908ba-b536-4d56-b318-9fd6e5842439/",
+        "actual_status": 404,
+        "source": "Chrome request confirmed in native server log"
+      }
+    ],
+    "administrator": [
+      {
+        "path": "/panel/ewidencja/62665c10-a20d-4463-9cec-0fb1eda45a41/",
+        "actual_status": 403,
+        "source": "Chrome request confirmed in native server log"
+      },
+      {
+        "path": "/panel/wnioski/fbff2b4f-003d-4f49-9856-8db64bd7b253/",
+        "actual_status": 403,
+        "source": "Chrome request confirmed in native server log"
+      },
+      {
+        "path": "/panel/wnioski/130f6e3b-bb26-4280-8b31-074bfca27cbe/",
+        "actual_status": 403,
+        "source": "Chrome request confirmed in native server log"
+      },
+      {
+        "path": "/panel/wnioski/844e31ce-074d-4ac0-92c7-7972d7873026/",
+        "actual_status": 403,
+        "source": "Chrome request confirmed in native server log"
+      },
+      {
+        "path": "/panel/pule/ac71eb55-031f-4cbc-ab4b-84eea07eeafe/",
+        "actual_status": 403,
+        "source": "Chrome request confirmed in native server log"
+      },
+      {
+        "path": "/panel/pule/140908ba-b536-4d56-b318-9fd6e5842439/",
+        "actual_status": 403,
+        "source": "Chrome request confirmed in native server log"
+      }
+    ]
+  },
+  "negative_operations_eight_tables_unchanged": {
+    "final-pool-collision-result.json": true,
+    "final-pila-result.json": true,
+    "final-admin-result.json": true
+  },
+  "notification": {
+    "id": 2,
+    "letter_id": 18,
+    "provider": "SMTP",
+    "operation": "DECISION_NOTICE",
+    "status": "LOCAL_SAVED",
+    "attempts": 1,
+    "result": {
+      "transport": "file",
+      "delivery_confirmed": false
+    },
+    "recipient": "gniezno@example.invalid",
+    "mime_sha256": "e0713ffd41d818ccd18c730f4f3e2165f2b948686662264f68bcc674964d7062",
+    "attachments": 0,
+    "request_link_verified": true,
+    "external_delivery_verified": false
+  },
+  "pdf": {
+    "samples": [
+      {
+        "id": 13,
+        "module": "I",
+        "kind": "APPLICATION",
+        "number": "DRT/gni/2026/000002",
+        "sha256": "66424a237bb600dd3c81cef804506c3ec4330406b5d0c1e53b38a5f823f119f5",
+        "pages": 1,
+        "text_within_bounds": true,
+        "decoded_qr": "http://127.0.0.1:8779/panel/wnioski/fbff2b4f-003d-4f49-9856-8db64bd7b253/",
+        "rendered_pages": [
+          "evidence/private/final-process-pdfs/13-I-APPLICATION-1.png"
+        ],
+        "visual_review_completed": true,
+        "archive_hash_current": true
+      },
+      {
+        "id": 14,
+        "module": "II",
+        "kind": "APPLICATION",
+        "number": "DRT/gni/2026/000003",
+        "sha256": "a4098b184623056ea43c029e8e267eb483d510cb7d2672ce62ce7735aff9a741",
+        "pages": 1,
+        "text_within_bounds": true,
+        "decoded_qr": "http://127.0.0.1:8779/panel/wnioski/130f6e3b-bb26-4280-8b31-074bfca27cbe/",
+        "rendered_pages": [
+          "evidence/private/final-process-pdfs/14-II-APPLICATION-1.png"
+        ],
+        "visual_review_completed": true,
+        "archive_hash_current": true
+      },
+      {
+        "id": 15,
+        "module": "III",
+        "kind": "APPLICATION",
+        "number": "DRT/gni/2026/000004",
+        "sha256": "cbd6683333afd9eeefb7321a748e21f861f44b706771fc4eeab225e248e660bf",
+        "pages": 1,
+        "text_within_bounds": true,
+        "decoded_qr": "http://127.0.0.1:8779/panel/wnioski/844e31ce-074d-4ac0-92c7-7972d7873026/",
+        "rendered_pages": [
+          "evidence/private/final-process-pdfs/15-III-APPLICATION-1.png"
+        ],
+        "visual_review_completed": true,
+        "archive_hash_current": true
+      },
+      {
+        "id": 16,
+        "module": "I",
+        "kind": "APPROVAL",
+        "number": "DRT/ump/2026/000003",
+        "sha256": "6c49d346450eb44d73d84db0eeae0460d2c2dd18d8503169ce14569c1033741d",
+        "pages": 1,
+        "text_within_bounds": true,
+        "decoded_qr": "http://127.0.0.1:8779/panel/wnioski/fbff2b4f-003d-4f49-9856-8db64bd7b253/",
+        "rendered_pages": [
+          "evidence/private/final-process-pdfs/16-I-APPROVAL-1.png"
+        ],
+        "visual_review_completed": true,
+        "archive_hash_current": true
+      },
+      {
+        "id": 17,
+        "module": "II",
+        "kind": "POOL",
+        "number": "DRT/ump/2026/000004",
+        "sha256": "fab3835c684342305439f07c68141d88dd9b9fdb315e661fefa30d8380a0d0e5",
+        "pages": 1,
+        "text_within_bounds": true,
+        "decoded_qr": "http://127.0.0.1:8779/panel/wnioski/130f6e3b-bb26-4280-8b31-074bfca27cbe/",
+        "rendered_pages": [
+          "evidence/private/final-process-pdfs/17-II-POOL-1.png"
+        ],
+        "visual_review_completed": true,
+        "archive_hash_current": true
+      },
+      {
+        "id": 18,
+        "module": "III",
+        "kind": "POOL",
+        "number": "DRT/ump/2026/000005",
+        "sha256": "ffddb3b75d66f81d52a2bf6e5062ae02953b83c4737b6c2d344855483b97b4d3",
+        "pages": 1,
+        "text_within_bounds": true,
+        "decoded_qr": "http://127.0.0.1:8779/panel/wnioski/844e31ce-074d-4ac0-92c7-7972d7873026/",
+        "rendered_pages": [
+          "evidence/private/final-process-pdfs/18-III-POOL-1.png"
+        ],
+        "visual_review_completed": true,
+        "archive_hash_current": true
+      }
+    ],
+    "browser_downloads_match_archive": true,
+    "all_pages_rendered": true,
+    "pdf_accessibility_verified": false
+  },
+  "screenshots": [
+    {
+      "path": "evidence/128-final-individual-submitted.png",
+      "sha256": "a7ead62ed364326252b31dfc1e50afa2a1e97079e346fed4ba0396957e3826e2",
+      "visual_review_completed": true
+    },
+    {
+      "path": "evidence/129-final-module-three-decision.png",
+      "sha256": "3c91815211d3b59630b694d37383e540247c94a0875858da153ea606d40af607",
+      "visual_review_completed": true
+    },
+    {
+      "path": "evidence/130-final-individual-sold.png",
+      "sha256": "9e2223fecd8e3e492feca232fcea2a1635538e0adb63e02fa9b65b8c8073125c",
+      "visual_review_completed": true
+    },
+    {
+      "path": "evidence/131-final-pool-alert.png",
+      "sha256": "395c74665ef39d9605a7572716cb3acd1955f5db6c6ab43783059251ebd4fb9d",
+      "visual_review_completed": true
+    },
+    {
+      "path": "evidence/132-final-module-three-issued.png",
+      "sha256": "77e85b2399980b09754b5eca19faf24d8bc38451efc823e1fd22d6c14e7367ab",
+      "visual_review_completed": true
+    },
+    {
+      "path": "evidence/133-final-office-isolation.png",
+      "sha256": "809121bebe1623e8bbe54668ea6099f855e008a9bbb1aedf221333c78d2af416",
+      "visual_review_completed": true
+    },
+    {
+      "path": "evidence/134-final-public-released.png",
+      "sha256": "32c02dfa33cc33442ddd31d193cd44b0c5194095cc2b5b0e31d0d3ac54a8f9f6",
+      "visual_review_completed": true
+    }
+  ],
+  "main_tables_preserved": {
+    "auth_group": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "auth_group_permissions": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "auth_permission": {
+      "count": 88,
+      "sha256": "d81143864f71efc3402e1bcc9ae3f5421e18dcf9efee1edb61ce0c065326b8f5"
+    },
+    "django_content_type": {
+      "count": 22,
+      "sha256": "8a88284a944a715ba29ed2d49506f1674d855c2d8c812157958a86da9d142756"
+    },
+    "django_migrations": {
+      "count": 25,
+      "sha256": "d8d81d68ea43e616dbd98a42f2c73826a3530efc19a3500a7b0004be3c17f032"
+    },
+    "django_session": {
+      "count": 9,
+      "sha256": "304f9c9b770c229deb5a4a54ba9e497033a465bbfaac8be4e449e0a417349778"
+    },
+    "registry_accountinvitation": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "registry_auditlog": {
+      "count": 58,
+      "sha256": "8939805567817df07a4d097f44b42faf3c5d6e5c09183ec6f41181d97fb0373f"
+    },
+    "registry_deliveryevidence": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "registry_ezdcaselink": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "registry_ezdincomingdocument": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "registry_integrationjob": {
+      "count": 1,
+      "sha256": "9bf08358aeebd3bfd880b6aa9609ec1ed0bcc754169aecdec43ec61771bd1ffd"
+    },
+    "registry_letter": {
+      "count": 12,
+      "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+    },
+    "registry_lettertemplate": {
+      "count": 4,
+      "sha256": "584be4e2a1a6830345cddee84a64abfbece9dec48c34cce5770104d87dcd612b"
+    },
+    "registry_logincode": {
+      "count": 12,
+      "sha256": "19d674e2e3a2f6f2c6ae7117bd7f505e43deea96e527595373d19546d8f49973"
+    },
+    "registry_numbersequence": {
+      "count": 3,
+      "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+    },
+    "registry_office": {
+      "count": 35,
+      "sha256": "6b99103fa7f946d5173675317eb210944fd0d6576abed661da85f0812518ed04"
+    },
+    "registry_platerecord": {
+      "count": 5,
+      "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+    },
+    "registry_pool": {
+      "count": 1,
+      "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+    },
+    "registry_poolslot": {
+      "count": 30,
+      "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+    },
+    "registry_publicchallenge": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "registry_ratebucket": {
+      "count": 7,
+      "sha256": "17006688d7a48a661f919c7d2868160cc5175e264285355bcd7ad01a9191a338"
+    },
+    "registry_request": {
+      "count": 5,
+      "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+    },
+    "registry_user": {
+      "count": 4,
+      "sha256": "d9381e6f688a293e5039d35817d59710b844522709df43bf51a66781c8610e98"
+    },
+    "registry_user_groups": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "registry_user_user_permissions": {
+      "count": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "sqlite_sequence": {
+      "count": 16,
+      "sha256": "ae81bf39af2fadf38fa352d6be81f7903b36ebd9ab7a6e65e1bd576858de2283"
+    }
+  },
+  "source_files_preserved": {
+    "Demo_Rejestr_Tablic.html": "d0170a1c73f2f045d3917e425695796a05869510304889c9ca510e11c99e4ab8",
+    "Specyfikacja_flow_tablice.html": "db1826c1e4835d6072fded20aa0098364e1673e293b7144f30175da3116dbde7"
+  },
+  "server_log_sha256": "0f743be623987cd6952c0b42595fbc625f74fe081c545a205b9c78f0dd8b66c2",
+  "external_operator_transmission": false,
+  "not_verified_here": [
+    "full endpoint/method/role matrix",
+    "full public WCAG and assistive technology acceptance",
+    "CAPTCHA completion",
+    "external SMTP/EZD/e-Doreczenia",
+    "qualified certificate",
+    "Linux/systemd/Nginx/TLS infrastructure"
+  ]
+}

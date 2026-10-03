@@ -1,0 +1,25 @@
+<li>
+  <time datetime="{{ event.created_at|date:'c' }}">{{ event.created_at|date:'d.m.Y H:i:s' }}</time>
+  <strong>{{ label }}</strong>
+  <span>{{ actor_label }}{% if event.reason %} · {{ event.reason }}{% endif %}</span>
+  <p class="history-context">{{ object_label }} · identyfikator {{ event.object_id }}{% if event.office_id %} · {{ event.office.name }}{% endif %}</p>
+  {% if show_values and changes %}
+    <details>
+      <summary>Wartości przed i po</summary>
+      <div class="table-wrap history-changes">
+        <table>
+          <caption>Zmiany: {{ label }}</caption>
+          <thead><tr><th scope="col">Pole</th><th scope="col">Przed</th><th scope="col">Po</th></tr></thead>
+          <tbody>{% for change in changes %}<tr><th scope="row">{{ change.label }}</th><td>{{ change.before }}</td><td>{{ change.after }}</td></tr>{% endfor %}</tbody>
+        </table>
+      </div>
+      <p class="muted">„Nie zapisano” oznacza brak wartości w tym zdarzeniu, a nie usunięcie danych.</p>
+    </details>
+  {% endif %}
+  <details>
+    <summary>Szczegóły techniczne zdarzenia</summary>
+    <dl><dt>Kod zdarzenia</dt><dd><code>{{ event.action }}</code></dd><dt>Obiekt</dt><dd>{{ event.object_type }} · {{ event.object_id }}</dd><dt>Identyfikator autora</dt><dd>{{ event.actor_id|default:'System' }}</dd><dt>Adres IP</dt><dd>{{ event.ip|default:'Nie zapisano' }}</dd></dl>
+    {% if show_values %}<pre>Przed: {{ raw_before }}
+Po: {{ raw_after }}</pre>{% endif %}
+  </details>
+</li>

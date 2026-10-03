@@ -1,0 +1,180 @@
+{
+  "fixture_only": true,
+  "actual_ump_history_verified": false,
+  "collision_preview": {
+    "number": "P001",
+    "all_seven_business_tables_unchanged": true
+  },
+  "valid_preview_business_tables_unchanged": true,
+  "import": {
+    "pools": 2,
+    "numbers": 4,
+    "issued": 2,
+    "missing_p032_not_created": true,
+    "new_requests": 0,
+    "new_letters": 0,
+    "new_integration_jobs": 0,
+    "source_sha256": "2f6114523ba6d160b04a840a44c3731a81f5b19d79a615368bbfb97cbb374fed",
+    "audit": [
+      {
+        "pool_uuid": "ed466aa82a6e40ed93314e95ac0e6645",
+        "metadata": {
+          "kind": "II",
+          "office_id": "gni",
+          "prefix": "P",
+          "valid_from": "2025-01-01",
+          "valid_until": "2025-12-31",
+          "station": "",
+          "source_reference": "FIKCYJNE/PISMO/2025/01",
+          "pool_ref": "TEST/LEGACY/II/01",
+          "office_name": "Starostwo Powiatowe w Gnieźnie",
+          "start": 31,
+          "end": 33,
+          "count": 2,
+          "issued": 1,
+          "first": "P031",
+          "last": "P033",
+          "source_sha256": "2f6114523ba6d160b04a840a44c3731a81f5b19d79a615368bbfb97cbb374fed",
+          "source_filename": "70-history-pools-fictional.csv",
+          "original_issuer_unknown": true,
+          "issuance_precision": "date"
+        },
+        "reason": "TEST: fikcyjny wykaz historyczny do sprawdzenia importu; dokumenty źródłowe FIKCYJNE/PISMO/2025/01 i /02.",
+        "slots": [
+          {
+            "number": "P031",
+            "ordinal": 31,
+            "issued_at": "2025-01-31 23:00:00",
+            "issued_by_id": null,
+            "case_number": "TEST/WYDANIE/2025/01"
+          },
+          {
+            "number": "P033",
+            "ordinal": 33,
+            "issued_at": null,
+            "issued_by_id": null,
+            "case_number": ""
+          }
+        ]
+      },
+      {
+        "pool_uuid": "d85c8e0edf8d419eb21105fac0d6acff",
+        "metadata": {
+          "kind": "III",
+          "office_id": "gni",
+          "prefix": "P6",
+          "valid_from": "2025-01-01",
+          "valid_until": "2025-12-31",
+          "station": "Fikcyjna stacja",
+          "source_reference": "FIKCYJNE/PISMO/2025/02",
+          "pool_ref": "TEST/LEGACY/III/01",
+          "office_name": "Starostwo Powiatowe w Gnieźnie",
+          "start": 1,
+          "end": 2,
+          "count": 2,
+          "issued": 1,
+          "first": "P60001",
+          "last": "P60002",
+          "source_sha256": "2f6114523ba6d160b04a840a44c3731a81f5b19d79a615368bbfb97cbb374fed",
+          "source_filename": "70-history-pools-fictional.csv",
+          "original_issuer_unknown": true,
+          "issuance_precision": "date"
+        },
+        "reason": "TEST: fikcyjny wykaz historyczny do sprawdzenia importu; dokumenty źródłowe FIKCYJNE/PISMO/2025/01 i /02.",
+        "slots": [
+          {
+            "number": "P60001",
+            "ordinal": 1,
+            "issued_at": "2025-02-28 23:00:00",
+            "issued_by_id": null,
+            "case_number": "TEST/WYDANIE/2025/02"
+          },
+          {
+            "number": "P60002",
+            "ordinal": 2,
+            "issued_at": null,
+            "issued_by_id": null,
+            "case_number": ""
+          }
+        ]
+      }
+    ]
+  },
+  "source_original_business_rows_preserved": true,
+  "main_business_tables_unchanged": {
+    "registry_request": {
+      "count": 5,
+      "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+    },
+    "registry_platerecord": {
+      "count": 5,
+      "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+    },
+    "registry_letter": {
+      "count": 12,
+      "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+    },
+    "registry_pool": {
+      "count": 1,
+      "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+    },
+    "registry_poolslot": {
+      "count": 30,
+      "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+    },
+    "registry_numbersequence": {
+      "count": 3,
+      "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+    }
+  },
+  "restore": {
+    "backup_sha256": "72ca3e1f5824a1f84c2c19431ba124d9f7976d879ba6a2d2dd16d5c5ece8e903",
+    "all_six_business_tables_and_audit_identical": true,
+    "tables": {
+      "registry_request": {
+        "count": 5,
+        "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+      },
+      "registry_platerecord": {
+        "count": 5,
+        "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+      },
+      "registry_letter": {
+        "count": 12,
+        "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+      },
+      "registry_pool": {
+        "count": 3,
+        "sha256": "450dfd72061d09b10905bb0f27bae41b3a4add0da477908e3f4946ad286195ff"
+      },
+      "registry_poolslot": {
+        "count": 34,
+        "sha256": "a15acffff50345ea2560b5b2b9a94693395704a59a16c6b42b2926615ab8aa41"
+      },
+      "registry_numbersequence": {
+        "count": 3,
+        "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+      },
+      "registry_auditlog": {
+        "count": 58,
+        "sha256": "abdd09a40c2f19278d9f815616478a6ecd75cada548bbe1c9ffb76c70f17c717"
+      }
+    },
+    "sessions_invalidated": true,
+    "runtime_started": false
+  },
+  "chrome": {
+    "ump_preview_and_apply": true,
+    "county_own_pool_and_source": true,
+    "county_import_forbidden": true,
+    "screenshots": [
+      "evidence/private/72-history-pools-collision.jpg",
+      "evidence/private/73-history-pools-preview.jpg",
+      "evidence/private/74-history-pools-imported.jpg",
+      "evidence/private/75-history-pools-county.jpg",
+      "evidence/private/76-history-pools-import-denied.jpg"
+    ],
+    "county_screenshot_visually_inspected": true
+  },
+  "postgres_two_simultaneous_imports": "one committed; one conflict; one pool; two slots; one audit; no letters"
+}

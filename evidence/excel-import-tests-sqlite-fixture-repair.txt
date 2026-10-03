@@ -1,0 +1,57 @@
+Creating test database for alias 'default'...
+Destroying old test database for alias 'default'...
+.............E.........................sss
+======================================================================
+ERROR: test_serial_dates_epochs_and_excel_phantom_day (registry.test_excel_imports.ExcelImportTests.test_serial_dates_epochs_and_excel_phantom_day)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/tabular_sources.py", line 119, in _xlsx_text
+    wb = load_workbook(BytesIO(data), read_only=True, data_only=False, keep_links=False)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/openpyxl/reader/excel.py", line 348, in load_workbook
+    reader.read()
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/openpyxl/reader/excel.py", line 301, in read
+    apply_stylesheet(self.archive, self.wb)
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/openpyxl/styles/stylesheet.py", line 209, in apply_stylesheet
+    stylesheet = Stylesheet.from_tree(node)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/openpyxl/styles/stylesheet.py", line 105, in from_tree
+    return super().from_tree(node)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/openpyxl/descriptors/serialisable.py", line 103, in from_tree
+    return cls(**attrib)
+           ^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/openpyxl/styles/stylesheet.py", line 96, in __init__
+    self.named_styles = self._merge_named_styles()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/openpyxl/styles/stylesheet.py", line 114, in _merge_named_styles
+    from_ref = [self._expand_named_style(style_ref) for style_ref in style_refs]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/openpyxl/styles/stylesheet.py", line 132, in _expand_named_style
+    named_style.font = self.fonts[xf.fontId]
+                       ~~~~~~~~~~^^^^^^^^^^^
+IndexError: list index out of range
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_excel_imports.py", line 195, in test_serial_dates_epochs_and_excel_phantom_day
+    checked = preview_source_import(serial(45658), "serial.xlsx")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/imports.py", line 129, in preview_source_import
+    metadata = read_source(
+               ^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/tabular_sources.py", line 188, in read_source
+    text, selected = _xlsx_text(data, sheet_name, fields, date_fields, max_rows)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/tabular_sources.py", line 177, in _xlsx_text
+    raise ValidationError(
+django.core.exceptions.ValidationError: ['Nie można odczytać poprawnego XLSX. Wybierz niezaszyfrowany plik zgodny ze wzorem.']
+
+----------------------------------------------------------------------
+Ran 42 tests in 0.729s
+
+FAILED (errors=1, skipped=3)
+Destroying test database for alias 'default'...
+Found 42 test(s).
+System check identified no issues (0 silenced).

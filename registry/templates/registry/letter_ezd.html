@@ -1,0 +1,11 @@
+{% extends 'registry/base.html' %}{% block title %}Pismo {{ letter.number }} w EZD · Dyna Rejestr Tablic{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">Powiązanie ze sprawą</p><h1>Zapis dokumentu w EZD RP</h1><p class="muted">{{ letter.number }} · {{ letter.title }}</p></div></div>
+<section class="card">
+<p>Dokument zostanie zapisany w EZD Twojego urzędu. Wysyłka do adresata i potwierdzenie doręczenia są osobnymi operacjami.</p>
+{% if config_error %}<div class="notice warning" role="status">{{ config_error }} Skontaktuj się z administratorem urzędu.</div>{% endif %}
+{% if link %}<dl><dt>Powiązana sprawa</dt><dd>{{ link.remote_symbol|default:'Oczekuje na ustalenie znaku' }}</dd><dt>Identyfikator EZD</dt><dd>{{ link.remote_id|default:'Nowa sprawa' }}</dd><dt>Stan powiązania</dt><dd>{{ link.state_label }}</dd></dl>{% endif %}
+<form method="post">{% csrf_token %}{{ form.as_div }}<button {% if config_error %}disabled{% endif %}>Dodaj dokument do kolejki EZD</button></form>
+<p><a href="{% url 'letter_pdf' letter.uuid %}" target="_blank" rel="noopener">Sprawdź PDF przed zapisem</a> · <a href="{% url 'letters_list' %}">Wróć do pism</a></p>
+</section>
+{% endblock %}

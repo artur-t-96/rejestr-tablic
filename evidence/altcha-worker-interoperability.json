@@ -1,0 +1,24 @@
+{
+  "widget_version": "3.2.4",
+  "vendor_integrity": "PASS",
+  "vectors": [
+    {
+      "name": "known-counter",
+      "algorithm": "PBKDF2/SHA-256",
+      "cost": 5000,
+      "counter": 17,
+      "worker_time_ms": 13.9,
+      "python_verification": "PASS",
+      "tampered_result_rejected": true
+    },
+    {
+      "name": "application-prefix",
+      "algorithm": "PBKDF2/SHA-256",
+      "cost": 5000,
+      "counter": 18,
+      "worker_time_ms": 14.4,
+      "python_verification": "PASS",
+      "tampered_result_rejected": true
+    }
+  ]
+}

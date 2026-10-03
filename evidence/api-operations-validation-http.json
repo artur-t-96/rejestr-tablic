@@ -1,0 +1,312 @@
+{
+  "scope": "Actual native HTTP on isolated SQLite backup, synthetic data, real file OTP and CSRF; zero external API calls and no private workers",
+  "cases": [
+    {
+      "path": "/api/requests/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/",
+      "method": "POST",
+      "status": 201,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/requests/62326277-5d50-4cf1-bddb-884bcce1c688/submit/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/62326277-5d50-4cf1-bddb-884bcce1c688/submit/",
+      "method": "POST",
+      "status": 200,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/requests/62326277-5d50-4cf1-bddb-884bcce1c688/decide/",
+      "method": "POST",
+      "status": 403,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/62326277-5d50-4cf1-bddb-884bcce1c688/decide/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/62326277-5d50-4cf1-bddb-884bcce1c688/decide/",
+      "method": "POST",
+      "status": 200,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/records/4ef74943-05d7-4bd0-a96b-915214c89060/",
+      "method": "PATCH",
+      "status": 200,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/records/4ef74943-05d7-4bd0-a96b-915214c89060/",
+      "method": "PATCH",
+      "status": 200,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/requests/",
+      "method": "POST",
+      "status": 201,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/requests/8824ce17-e862-4f75-a106-425f942d1adb/submit/",
+      "method": "POST",
+      "status": 200,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/requests/8824ce17-e862-4f75-a106-425f942d1adb/decide/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/8824ce17-e862-4f75-a106-425f942d1adb/decide/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/8824ce17-e862-4f75-a106-425f942d1adb/decide/",
+      "method": "POST",
+      "status": 200,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/pools/3dea0853-2fef-411d-b363-4fc6806e767d/issue/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/pools/3dea0853-2fef-411d-b363-4fc6806e767d/issue/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/pools/3dea0853-2fef-411d-b363-4fc6806e767d/issue/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/pools/3dea0853-2fef-411d-b363-4fc6806e767d/issue/",
+      "method": "POST",
+      "status": 404,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/pools/3dea0853-2fef-411d-b363-4fc6806e767d/issue/",
+      "method": "POST",
+      "status": 403,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/pools/3dea0853-2fef-411d-b363-4fc6806e767d/issue/",
+      "method": "POST",
+      "status": 200,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/pools/3dea0853-2fef-411d-b363-4fc6806e767d/issue/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/",
+      "method": "POST",
+      "status": 201,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/requests/c61ad952-7e92-4121-b1c7-18e304b729b1/submit/",
+      "method": "POST",
+      "status": 200,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/requests/c61ad952-7e92-4121-b1c7-18e304b729b1/decide/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/c61ad952-7e92-4121-b1c7-18e304b729b1/decide/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/c61ad952-7e92-4121-b1c7-18e304b729b1/decide/",
+      "method": "POST",
+      "status": 200,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/pools/e0e318a0-0465-4cfa-8e10-a1de472c2df5/issue/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/pools/e0e318a0-0465-4cfa-8e10-a1de472c2df5/issue/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/pools/e0e318a0-0465-4cfa-8e10-a1de472c2df5/issue/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/pools/e0e318a0-0465-4cfa-8e10-a1de472c2df5/issue/",
+      "method": "POST",
+      "status": 404,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/pools/e0e318a0-0465-4cfa-8e10-a1de472c2df5/issue/",
+      "method": "POST",
+      "status": 403,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/pools/e0e318a0-0465-4cfa-8e10-a1de472c2df5/issue/",
+      "method": "POST",
+      "status": 200,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/pools/e0e318a0-0465-4cfa-8e10-a1de472c2df5/issue/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/pools/",
+      "method": "POST",
+      "status": 403,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/pools/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/pools/",
+      "method": "POST",
+      "status": 201,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/pools/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/",
+      "method": "POST",
+      "status": 201,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/requests/9b9ebc45-9c5d-42ac-8e1d-5f129661a2bb/submit/",
+      "method": "POST",
+      "status": 200,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/requests/9b9ebc45-9c5d-42ac-8e1d-5f129661a2bb/withdraw/",
+      "method": "POST",
+      "status": 200,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/requests/",
+      "method": "POST",
+      "status": 201,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/requests/0e7f774a-a593-42a5-aa04-984a8d673d10/submit/",
+      "method": "POST",
+      "status": 200,
+      "all_eight_tables_unchanged": false
+    },
+    {
+      "path": "/api/requests/0e7f774a-a593-42a5-aa04-984a8d673d10/decide/",
+      "method": "POST",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "path": "/api/requests/0e7f774a-a593-42a5-aa04-984a8d673d10/decide/",
+      "method": "POST",
+      "status": 200,
+      "all_eight_tables_unchanged": false
+    }
+  ],
+  "health": {
+    "status": "ok",
+    "service": "dyna-rejestr-tablic",
+    "mode": "local",
+    "revision": "api-operations-worktree"
+  },
+  "main_all_eight_tables_unchanged": true,
+  "source_sha256": {
+    "registry/views.py": "b67c2900ad3f4c87d59a5340a602e1c694f2683f937d7127020ba0b0b188bfef",
+    "registry/api_validation.py": "56a1ac516ea44dc171b865bc49c88c378bca30269cb9d772c003b68ebdf9b13e",
+    "registry/services.py": "4163c73a2797cd41def4f8845c29dded1fc973169ca93f61b0e87e941526fb29",
+    "registry/test_api_operations.py": "aa40b795dec2452946575b40d9ea3eff3e396b10ff9d0ae74f42ff078bbbfdcd"
+  }
+}

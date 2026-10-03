@@ -1,0 +1,11 @@
+{% extends 'registry/base.html' %}{% block title %}Wyszukiwanie adresu e-Doręczeń · Dyna Rejestr Tablic{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">e-Doręczenia</p><h1>Wyszukiwanie adresu urzędu</h1></div></div>
+<section class="card">
+<p>Wyniki pochodzą z Bazy Adresów Elektronicznych w środowisku skonfigurowanym dla Twojego urzędu. Sprawdź tożsamość urzędu i właściwy adres przed przekazaniem go administratorowi do konfiguracji.</p>
+{% if config_error %}<div class="notice warning" role="status">{{ config_error }} Skontaktuj się z administratorem urzędu.</div>{% endif %}
+<form method="post">{% csrf_token %}{{ form.as_div }}<button {% if config_error %}disabled{% endif %}>Wyszukaj adres</button></form>
+</section>
+{% if results %}<section class="card"><h2>Wyniki wyszukiwania</h2><p>Łączna liczba wyników: {{ results.total }}. Wyświetlono do 20 pozycji na stronie.</p><div class="table-wrap"><table><caption class="sr-only">Wyniki wyszukiwania adresów e-Doręczeń</caption><thead><tr><th>Urząd</th><th>Adres do e-Doręczeń</th><th>Status</th><th>Adres główny</th></tr></thead><tbody>{% for row in results.rows %}<tr><td>{{ row.name }}</td><td>{{ row.ade }}</td><td>{% if row.active %}Aktywny i ujawniony{% else %}Nieaktywny lub nieujawniony{% endif %}</td><td>{{ row.main|yesno:'Tak,Nie,Nie podano' }}</td></tr>{% empty %}<tr><td colspan="4">Brak aktualnych wyników dla podmiotów publicznych.</td></tr>{% endfor %}</tbody></table></div></section>{% endif %}
+<p><a href="{% url 'integrations' %}">Wróć do integracji</a></p>
+{% endblock %}

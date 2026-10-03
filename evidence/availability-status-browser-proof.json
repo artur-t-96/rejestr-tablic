@@ -1,0 +1,140 @@
+{
+  "checked_at": "2026-10-03T07:46:54.930596+00:00",
+  "base_revision": "45ab47d236f28e832c712f7af9fa2b51f9ccd237",
+  "source_sha256": {
+    "registry/services.py": "a097425418512b4a73e1f4b56f9af93474c0bf8f0ecacb0eaa85c0e3945b06c1",
+    "registry/views.py": "e7ffa170d875d57b109567dac4435aa8dcd21cc56053d3a4daac8814a0d6c7c8",
+    "registry/templates/registry/public.html": "b2888373bc574436c22f80a762d93a14af9479467c9ef310ac5e264bc37e8deb",
+    "registry/test_availability_selection.py": "fcb20ff72fd00c6e9a69c11823c1e5253e12362988162390d994b530208bee36"
+  },
+  "scope": "Actual Chrome user profile on isolated native server: OTP for Gniezno, Pila and UMP; HTML result and logout/anonymous result. Native DOM focus and reflow measurements; all five screenshots viewed. No CAPTCHA solved, no external operator calls.",
+  "checks": [
+    {
+      "role": "county-gni",
+      "results": [
+        "PLP0ROLE✓ DostępnyZłóż wniosek",
+        "PLP1ROLE✓ DostępnyZłóż wniosek",
+        "PLP2ROLE✓ DostępnyZłóż wniosek",
+        "PLP3ROLE✓ DostępnyZłóż wniosek",
+        "PLP4ROLE✓ DostępnyZłóż wniosek",
+        "PLP5ROLE✓ DostępnyZłóż wniosek",
+        "PLP6ROLEZarezerwowany – wniosek w toku",
+        "PLP7ROLEZarezerwowany – wniosek w toku",
+        "PLP8ROLENiedostępny",
+        "PLP9ROLENiedostępny"
+      ],
+      "focus": "availability-result",
+      "pending_numbers": [
+        "P6ROLE",
+        "P7ROLE"
+      ]
+    },
+    {
+      "role": "anonymous",
+      "results": [
+        "PLP0ROLE✓ Dostępny",
+        "PLP1ROLE✓ Dostępny",
+        "PLP2ROLE✓ Dostępny",
+        "PLP3ROLE✓ Dostępny",
+        "PLP4ROLE✓ Dostępny",
+        "PLP5ROLE✓ Dostępny",
+        "PLP6ROLENiedostępny",
+        "PLP7ROLENiedostępny",
+        "PLP8ROLENiedostępny",
+        "PLP9ROLENiedostępny"
+      ],
+      "focus": "availability-result",
+      "pending_numbers": []
+    },
+    {
+      "role": "county-pil",
+      "results": [
+        "PLP0ROLE✓ DostępnyZłóż wniosek",
+        "PLP1ROLE✓ DostępnyZłóż wniosek",
+        "PLP2ROLE✓ DostępnyZłóż wniosek",
+        "PLP3ROLE✓ DostępnyZłóż wniosek",
+        "PLP4ROLE✓ DostępnyZłóż wniosek",
+        "PLP5ROLE✓ DostępnyZłóż wniosek",
+        "PLP6ROLENiedostępny",
+        "PLP7ROLENiedostępny",
+        "PLP8ROLENiedostępny",
+        "PLP9ROLEZarezerwowany – wniosek w toku"
+      ],
+      "focus": "availability-result",
+      "pending_numbers": [
+        "P9ROLE"
+      ]
+    },
+    {
+      "role": "main",
+      "results": [
+        "PLP0ROLE✓ DostępnyZłóż wniosek",
+        "PLP1ROLE✓ DostępnyZłóż wniosek",
+        "PLP2ROLE✓ DostępnyZłóż wniosek",
+        "PLP3ROLE✓ DostępnyZłóż wniosek",
+        "PLP4ROLE✓ DostępnyZłóż wniosek",
+        "PLP5ROLE✓ DostępnyZłóż wniosek",
+        "PLP6ROLEZarezerwowany – wniosek w toku",
+        "PLP7ROLEZarezerwowany – wniosek w toku",
+        "PLP8ROLENiedostępny",
+        "PLP9ROLEZarezerwowany – wniosek w toku"
+      ],
+      "focus": "availability-result",
+      "pending_numbers": [
+        "P6ROLE",
+        "P7ROLE",
+        "P9ROLE"
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "evidence/135-availability-county.jpg",
+      "sha256": "41dd3a131dbacc120a6762c3342fb1286711d318423991b8e21664e479602ef7",
+      "bytes": 188715,
+      "viewed": true
+    },
+    {
+      "path": "evidence/136-availability-county-320.jpg",
+      "sha256": "153ce75a1a30440ddb42d2165ece7ef0bb8165fa2fe2703018e8699dc5eeabf7",
+      "bytes": 145901,
+      "viewed": true
+    },
+    {
+      "path": "evidence/137-availability-public.jpg",
+      "sha256": "ec4df12e5af7609b067d6686f61594ff1484f0511359650844211ba84a8d38aa",
+      "bytes": 160344,
+      "viewed": true
+    },
+    {
+      "path": "evidence/138-availability-other-county.jpg",
+      "sha256": "7d69bd37c30771100f4faf732bda3ee874f74c076e6119fad2f51b29fd1f5ba2",
+      "bytes": 187650,
+      "viewed": true
+    },
+    {
+      "path": "evidence/139-availability-ump.jpg",
+      "sha256": "83b8bde1ecc4827ca0bdc2b829bf68bebe0ed858ba69dbb655d441e21396f4ee",
+      "bytes": 190419,
+      "viewed": true
+    }
+  ],
+  "reflow": {
+    "viewport": 320,
+    "documentWidth": 320,
+    "resultCardWidth": 117,
+    "resultCardScrollWidth": 115
+  },
+  "viewportReset": true,
+  "captchaSolved": false,
+  "initialCaptchaEncounter": "Shared 60-second IP query window reached by the earlier HTTP checks; waited for normal expiry, reopened the checker and submitted again without solving or bypassing CAPTCHA.",
+  "copy_registry_tables_preserved_excluding_security_and_audit": 15,
+  "user_fields_preserved_except_login_timestamp": true,
+  "existing_audit_rows_preserved": 109,
+  "new_audit_actions": {
+    "auth.login": 7
+  },
+  "main_tables_preserved": 27,
+  "external_operator_calls": false,
+  "goal_complete": false
+}

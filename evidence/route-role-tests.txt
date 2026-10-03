@@ -1,0 +1,54 @@
+Creating test database for alias 'default' ('/Users/arturtwardowski/Dyna Rejestr Tablic/var/test_registry.sqlite3')...
+Destroying old test database for alias 'default' ('/Users/arturtwardowski/Dyna Rejestr Tablic/var/test_registry.sqlite3')...
+Found 12 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: auth, contenttypes, registry, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying registry.0001_initial... OK
+  Applying registry.0002_integrationjob_claimed_until_integrationjob_payload_and_more... OK
+  Applying registry.0003_letter_signature_report_letter_signed_at_and_more... OK
+  Applying registry.0004_letter_replaces... OK
+  Applying registry.0005_numbersequence_letter_number_ordinal_and_more... OK
+  Applying registry.0006_public_challenge... OK
+  Applying registry.0007_ezdincomingdocument... OK
+  Applying registry.0008_refresh_builtin_templates... OK
+  Applying registry.0009_require_finite_module_three_period... OK
+  Applying registry.0010_account_invitation... OK
+  Applying sessions.0001_initial...test_all_routes_existing_objects_and_roles (registry.test_route_roles.RouteRoleMatrixTests.test_all_routes_existing_objects_and_roles) ... ok
+test_foreign_lists_export_and_api_never_contain_objects (registry.test_route_roles.RouteRoleMatrixTests.test_foreign_lists_export_and_api_never_contain_objects) ... ok
+test_actor_without_name_is_identified_and_rendering_does_not_query_per_event (registry.test_audit_presentation.AuditPresentationTests.test_actor_without_name_is_identified_and_rendering_does_not_query_per_event) ... ok
+test_admin_never_receives_business_values_even_in_technical_details (registry.test_audit_presentation.AuditPresentationTests.test_admin_never_receives_business_values_even_in_technical_details) ... ok
+test_county_audit_is_own_actions_and_other_office_record_is_hidden (registry.test_audit_presentation.AuditPresentationTests.test_county_audit_is_own_actions_and_other_office_record_is_hidden) ... ok
+test_empty_false_zero_and_missing_are_distinguished_without_inventing_deletion (registry.test_audit_presentation.AuditPresentationTests.test_empty_false_zero_and_missing_are_distinguished_without_inventing_deletion) ... ok
+test_html_nested_metadata_unknown_fields_and_action_are_escaped (registry.test_audit_presentation.AuditPresentationTests.test_html_nested_metadata_unknown_fields_and_action_are_escaped) ... ok
+test_pagination_reaches_old_events_and_keeps_office_and_actor_scope (registry.test_audit_presentation.AuditPresentationTests.test_pagination_reaches_old_events_and_keeps_office_and_actor_scope) ... ok
+test_real_correction_is_readable_and_does_not_rewrite_saved_history (registry.test_audit_presentation.AuditPresentationTests.test_real_correction_is_readable_and_does_not_rewrite_saved_history) ... ok
+test_request_and_record_statuses_have_their_own_meaning (registry.test_audit_presentation.AuditPresentationTests.test_request_and_record_statuses_have_their_own_meaning) ... ok
+test_saved_dates_timezone_and_legacy_payload_remain_inspectable (registry.test_audit_presentation.AuditPresentationTests.test_saved_dates_timezone_and_legacy_payload_remain_inspectable) ... ok
+test_transport_and_signature_states_use_event_meaning_instead_of_object_type (registry.test_audit_presentation.AuditPresentationTests.test_transport_and_signature_states_use_event_meaning_instead_of_object_type) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 3.463s
+
+OK
+Destroying test database for alias 'default' ('/Users/arturtwardowski/Dyna Rejestr Tablic/var/test_registry.sqlite3')...
+ OK
+System check identified no issues (0 silenced).

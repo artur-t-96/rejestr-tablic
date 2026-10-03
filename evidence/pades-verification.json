@@ -1,0 +1,28 @@
+{
+  "letter_uuid": "99425517-6508-47d6-845e-b7f0c86a8ec2",
+  "replaces": "5ddd83a0-121f-4647-b4de-f35c08c7ce14",
+  "report": {
+    "validated_at": "2026-10-02T23:32:50.437821+00:00",
+    "source_sha256": "a85cf9cde794d75c1f0b662f1dfb6d88dc709b580956dd292b1e6f08fb1af414",
+    "signed_sha256": "6f80ffdefafbe5c6cb40331ae3dd7dc9089c9373ec5e35f59a7977f5ad7dbf7c",
+    "signatures": [
+      {
+        "fingerprint_sha256": "e6f4bc4186d8d7d2d6ce84b07cd0167a629212ef6122a3d53b24ac16e8ca3b9f",
+        "field": "DynaSignature",
+        "signer_name": "DEMO niekwalifikowany | ump",
+        "intact": true,
+        "valid": true,
+        "trusted": true,
+        "coverage": "ENTIRE_FILE",
+        "certificate_time_valid": true
+      }
+    ],
+    "mode": "DEMO",
+    "qualification": "NOT_ASSESSED",
+    "revocation_policy": "DEMO_SOFT_FAIL",
+    "qualified_timestamp_verified": false,
+    "original_content_unchanged": true
+  },
+  "original_archived": true,
+  "external_service_test": false
+}

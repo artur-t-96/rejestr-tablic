@@ -1,0 +1,32 @@
+[
+  {
+    "action": "status",
+    "exit_code": 0,
+    "output": "pg_ctl: no server running",
+    "stderr": ""
+  },
+  {
+    "action": "start",
+    "exit_code": 0,
+    "output": "waiting for server to start.... done\nserver started\nPGHOST=/Users/arturtwardowski/Dyna Rejestr Tablic/var/postgres-native/socket\nPGPORT=18765\nPGUSER=dyna_pgtest\nPGDATABASE=drt_pg_local\nRola testowa ma CREATEDB dla testów Django; nie jest kontem produkcyjnym.",
+    "stderr": ""
+  },
+  {
+    "action": "status",
+    "exit_code": 0,
+    "output": "pg_ctl: server is running (PID: 6535)\n/Users/arturtwardowski/Dyna Rejestr Tablic/var/runtimes/postgresapp/Postgres.app/Contents/Versions/18/bin/postgres \"-D\" \"/Users/arturtwardowski/Dyna Rejestr Tablic/var/postgres-native/data\"",
+    "stderr": ""
+  },
+  {
+    "action": "stop",
+    "exit_code": 0,
+    "output": "waiting for server to shut down.... done\nserver stopped",
+    "stderr": ""
+  },
+  {
+    "action": "status",
+    "exit_code": 0,
+    "output": "pg_ctl: no server running",
+    "stderr": ""
+  }
+]

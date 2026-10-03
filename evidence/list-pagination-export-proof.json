@@ -1,0 +1,7 @@
+{
+  "source": "actual Chrome download from page 7 with filters",
+  "rows": 305,
+  "all_expected_fictional_owners_present": true,
+  "only_gni_released": true,
+  "sha256": "b403bc09a8aa25b921d857242bcaeeea24384445d385b390119e9a1ab110bca3"
+}

@@ -1,0 +1,73 @@
+{
+  "checked_at": "2026-10-03T08:25:03.785Z",
+  "scope": "Actual Chrome OTP login for MAIN and COUNTY on isolated SQLite copy; visible forms and two real business form submissions. Denied forged POSTs covered separately by native HTTP and tests; no CAPTCHA, reader, operator or production proof. These five screenshots precede the final submission guard; MAIN form and pools list did not subsequently change. Final draft submission UI is checked separately.",
+  "main_form": {
+    "countField": false,
+    "kindOptions": [
+      {
+        "label": "Tablica indywidualna",
+        "value": "I"
+      }
+    ],
+    "selectedKind": "I",
+    "stationField": false
+  },
+  "main_pool_links": [
+    {
+      "href": "/panel/import/pule/",
+      "text": "Import historycznych pul"
+    },
+    {
+      "href": "/panel/pule/nowa/",
+      "text": "+ Przydziel pulę"
+    },
+    {
+      "href": "/panel/pule/d1df5032-b499-48c2-989f-df378b1a3efb/",
+      "text": "Pula tablic zmniejszonych"
+    },
+    {
+      "href": "/panel/pule/af558441-cbdc-4115-8509-9d0c35ce9592/",
+      "text": "Pula tablic zmniejszonych"
+    },
+    {
+      "href": "/panel/pule/31600cfe-851d-4efc-8194-2bd6555cac0c/",
+      "text": "Pula tablic zmniejszonych"
+    },
+    {
+      "href": "/panel/pule/2bbe4755-4c4f-461b-b4a0-8348791c4324/",
+      "text": "Pula tablic do badań"
+    }
+  ],
+  "main_individual_request": "http://127.0.0.1:8786/panel/wnioski/b4ebd275-6763-4f51-8316-af8c3537a820/",
+  "county_pool_link": "/panel/wnioski/nowy/?kind=III",
+  "county_form": {
+    "countField": true,
+    "kindOptions": [
+      {
+        "label": "Tablica indywidualna",
+        "value": "I"
+      },
+      {
+        "label": "Pula tablic zmniejszonych",
+        "value": "II"
+      },
+      {
+        "label": "Pula tablic do badań",
+        "value": "III"
+      }
+    ],
+    "selectedKind": "III",
+    "stationField": true
+  },
+  "county_pool_request": "http://127.0.0.1:8786/panel/wnioski/ae3694b6-ae64-4145-8a83-acd79e4df5be/",
+  "actual_browser_business_posts": 2,
+  "screenshots": [
+    "144-ump-wniosek-indywidualny.jpg",
+    "145-ump-wlasny-wniosek-zapisany.jpg",
+    "146-ump-przydzial-bez-wniosku-o-pule.jpg",
+    "147-powiat-wniosek-o-pule.jpg",
+    "148-powiat-wniosek-iii-zapisany.jpg"
+  ],
+  "external_operator_calls": false,
+  "goal_complete": false
+}

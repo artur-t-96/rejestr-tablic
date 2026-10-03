@@ -1,0 +1,26 @@
+Creating test database for alias 'default'...
+Destroying old test database for alias 'default'...
+FF
+======================================================================
+FAIL: test_selected_digit_keeps_alternatives_and_all_three_text_variations (registry.test_suggestions.FreeSuggestionTests.test_selected_digit_keeps_alternatives_and_all_three_text_variations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_suggestions.py", line 26, in test_selected_digit_keeps_alternatives_and_all_three_text_variations
+    self.assertIn("P7KOW", suggestions)
+AssertionError: 'P7KOW' not found in ['P0KOWA', 'P1KOWA', 'P2KOWA', 'P3KOWA', 'P4KOWA', 'P5KOWA', 'P6KOWA', 'P8KOWA', 'P9KOWA', 'P0KOW', 'P1KOW', 'P2KOW']
+
+======================================================================
+FAIL: test_no_digit_selection_does_not_repeat_displayed_numbers (registry.test_suggestions.FreeSuggestionTests.test_no_digit_selection_does_not_repeat_displayed_numbers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_suggestions.py", line 35, in test_no_digit_selection_does_not_repeat_displayed_numbers
+    self.assertFalse({item["number"] for item in result["digits"]} & set(result["suggestions"]))
+AssertionError: {'P1KOWA', 'P0KOWA', 'P3KOWA', 'P9KOWA', 'P2KOWA', 'P5KOWA', 'P7KOWA', 'P6KOWA', 'P4KOWA', 'P8KOWA'} is not false
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.004s
+
+FAILED (failures=2)
+Destroying test database for alias 'default'...
+Found 2 test(s).
+System check identified no issues (0 silenced).

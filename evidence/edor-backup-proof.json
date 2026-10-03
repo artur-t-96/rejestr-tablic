@@ -1,0 +1,34 @@
+{
+  "checked_at": "2026-10-03",
+  "snapshot_database_sha256": "1c54e05daab377dc1cc03c4d28534998ed329f8bd37584b8f5124290f6ee53ee",
+  "snapshot_hash_verified": true,
+  "restore_integrity": "ok",
+  "restore_foreign_key_errors": 0,
+  "restored_sessions": 0,
+  "restored_unused_otp": 0,
+  "restored_automatically_dispatchable_jobs": 0,
+  "counts": {
+    "registry_lettertemplate": 4,
+    "registry_ratebucket": 5,
+    "registry_user_groups": 0,
+    "registry_user_user_permissions": 0,
+    "registry_logincode": 2,
+    "registry_office": 35,
+    "registry_letter": 8,
+    "registry_auditlog": 31,
+    "registry_platerecord": 4,
+    "registry_poolslot": 30,
+    "registry_request": 4,
+    "registry_deliveryevidence": 0,
+    "registry_user": 4,
+    "registry_pool": 1,
+    "registry_integrationjob": 1,
+    "registry_ezdcaselink": 0
+  },
+  "external_api_verified": false,
+  "health": {
+    "status": "ok",
+    "service": "dyna-rejestr-tablic",
+    "mode": "local"
+  }
+}

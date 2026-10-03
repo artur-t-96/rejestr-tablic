@@ -1,0 +1,17 @@
+-- Dedykowana nowa baza. Wykonuje administrator PostgreSQL po przegladzie.
+-- Hasla ustaw osobno przez \password; nie wpisuj ich do pliku ani polecen shell.
+CREATE ROLE dyna_owner LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS;
+CREATE ROLE dyna_runtime LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS;
+CREATE DATABASE dyna OWNER dyna_owner;
+REVOKE ALL ON DATABASE dyna FROM PUBLIC;
+GRANT CONNECT ON DATABASE dyna TO dyna_runtime;
+\connect dyna
+REVOKE CREATE ON SCHEMA public FROM PUBLIC;
+GRANT USAGE ON SCHEMA public TO dyna_runtime;
+ALTER DEFAULT PRIVILEGES FOR ROLE dyna_owner IN SCHEMA public
+    GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO dyna_runtime;
+ALTER DEFAULT PRIVILEGES FOR ROLE dyna_owner IN SCHEMA public
+    GRANT USAGE, SELECT ON SEQUENCES TO dyna_runtime;
+-- Takze po imporcie lub migracji tworzacej obiekty inna rola:
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO dyna_runtime;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO dyna_runtime;

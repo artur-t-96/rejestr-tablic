@@ -1,0 +1,25 @@
+{% extends 'registry/base.html' %}
+{% block title %}Import ewidencji indywidualnej · Dyna Rejestr Tablic{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">Migracja danych · moduł I</p><h1>Import ewidencji indywidualnej</h1><p class="muted">Wczytaj historyczne wpisy, sprawdź wszystkie pola i zatwierdź konkretny wykaz. Import nie jest nową decyzją.</p></div></div>
+<section class="card"><h2>Wykaz źródłowy</h2>
+<p>CSV UTF-8 ze średnikiem lub XLSX, do 500 wpisów i 2 MB. Obowiązkowe kolumny: number, owner, office_id. Obsługiwane statusy: ALLOCATED (przydzielony), ISSUED (wydany), SOLD (pojazd zbyty), RELEASED (zwolniony). Pusty status oznacza ALLOCATED.</p>
+<p>XLSX: pierwszy wiersz zawiera nagłówki wzoru; identyfikatory i pozostałe teksty zapisz jako tekst. Daty mogą być datami Excela bez godzin albo tekstem RRRR-MM-DD. Formuły, makra, ukryte wiersze/kolumny i scalone komórki wymagają przygotowania źródła.</p><p>Daty: RRRR-MM-DD. Wydany lub zbyty wpis wymaga VIN i daty rejestracji; zbyty także daty zbycia i nabywcy. Zwolniony wpis zachowuje historię i nie zwalnia innego aktywnego wpisu tego numeru.</p>
+<p><a href="?template=1">Pobierz nagłówki CSV</a> · <a href="{% url 'import_pools' %}">Import historycznych pul II i III</a></p>
+<form method="post" enctype="multipart/form-data">{% csrf_token %}<input type="hidden" name="action" value="preview">{{ upload_form.as_p }}<button>Sprawdź wykaz ewidencji</button></form>
+</section>
+{% if preview %}
+<section class="card"><h2>Podgląd wykazu · wpisy: {{ preview.rows|length }}</h2>
+{% for error in preview.errors %}<div class="notice error" role="alert">{{ error }}</div>{% endfor %}
+{% if saved %}<p>Plik: <strong>{{ saved.filename }}</strong>. Format: {{ saved.source_format }}{% if saved.source_sheet %}, arkusz: <strong>{{ saved.source_sheet }}</strong>{% endif %}. Podgląd ważny przez 15 minut.</p><p>SHA-256: <code>{{ preview.sha256 }}</code></p>{% endif %}
+<div class="table-wrap"><table><caption>Numery, właściciele i statusy</caption><thead><tr><th>Numer</th><th>Właściciel i adres</th><th>Urząd</th><th>Status</th><th>Pismo i uwaga</th></tr></thead><tbody>
+{% for row in preview_rows %}<tr><td class="number">{{ row.number }}</td><td>{{ row.owner }}<small>{{ row.address|default:'Brak adresu' }}</small></td><td>{{ row.office_name }}<small>{{ row.office_id }}</small></td><td>{{ row.status_label }}</td><td>{{ row.letter_number|default:'Brak numeru pisma' }}<small>{{ row.note|default:'Brak uwagi' }}</small></td></tr>{% endfor %}
+</tbody></table></div>
+<div class="table-wrap"><table><caption>Pojazdy i zbycie — te same wpisy</caption><thead><tr><th>Numer</th><th>VIN</th><th>Marka i model</th><th>Rejestracja</th><th>Zbycie i nabywca</th></tr></thead><tbody>
+{% for row in preview_rows %}<tr><td class="number">{{ row.number }}</td><td>{{ row.vin|default:'Brak VIN' }}</td><td>{{ row.make|default:'—' }} {{ row.model }}</td><td>{{ row.registration_date|default:'Nie podano' }}</td><td>{{ row.sale_date|default:'Nie podano' }}<small>{{ row.buyer|default:'Nie podano nabywcy' }}</small></td></tr>{% endfor %}
+</tbody></table></div>
+<nav aria-label="Strony wpisów importu"><p>Wpisy {{ preview_rows.start_index }}–{{ preview_rows.end_index }} z {{ preview.rows|length }} · strona {{ preview_rows.number }} z {{ preview_rows.paginator.num_pages }}</p>{% if preview_rows.has_previous %}<a href="?page={{ preview_rows.previous_page_number }}">Poprzednie wpisy</a>{% endif %} {% if preview_rows.has_next %}<a href="?page={{ preview_rows.next_page_number }}">Następne wpisy</a>{% endif %}</nav>
+{% if saved and not preview.errors %}<h3>Zatwierdzenie całego wykazu</h3><p>Zapis obejmie wszystkie wiersze pliku. Zachowaj źródłowy plik CSV/XLSX i dokumenty w archiwum urzędu. Aplikacja zapisze nazwę i sumę pliku, autora, czas oraz podstawę importu.</p><form method="post">{% csrf_token %}<input type="hidden" name="action" value="confirm">{{ confirm_form.as_p }}<button>Zatwierdź cały wykaz ewidencji</button></form>{% endif %}
+</section>
+{% endif %}
+{% endblock %}

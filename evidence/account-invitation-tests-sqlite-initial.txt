@@ -1,0 +1,137 @@
+Creating test database for alias 'default'...
+Destroying old test database for alias 'default'...
+................EE.......ss..
+======================================================================
+ERROR: test_uncertain_smtp_result_never_retries_without_operator_check (registry.test_account_invitations.AccountInvitationTests.test_uncertain_smtp_result_never_retries_without_operator_check)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/backends/base/base.py", line 298, in _cursor
+    return self._prepare_cursor(self.create_cursor(name))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 219, in create_cursor
+    return self.connection.cursor(factory=SQLiteCursorWrapper)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.ProgrammingError: Cannot operate on a closed database.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_account_invitations.py", line 198, in test_uncertain_smtp_result_never_retries_without_operator_check
+    call_command("process_account_invitations", stdout=StringIO())
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/core/management/__init__.py", line 194, in call_command
+    return command.execute(*args, **defaults)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/core/management/base.py", line 464, in execute
+    output = self.handle(*args, **options)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/management/commands/process_account_invitations.py", line 23, in handle
+    recovered = recover_invitations()
+                ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/account_invitations.py", line 166, in recover_invitations
+    for item in items:
+                ^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/models/query.py", line 386, in __iter__
+    self._fetch_all()
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/models/query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/models/query.py", line 93, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1621, in execute_sql
+    cursor = self.connection.cursor()
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/backends/base/base.py", line 320, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/backends/base/base.py", line 297, in _cursor
+    with self.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/backends/base/base.py", line 298, in _cursor
+    return self._prepare_cursor(self.create_cursor(name))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 219, in create_cursor
+    return self.connection.cursor(factory=SQLiteCursorWrapper)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: Cannot operate on a closed database.
+
+======================================================================
+ERROR: test_watch_processes_invitation_once (registry.test_account_invitations.AccountInvitationTests.test_watch_processes_invitation_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/backends/base/base.py", line 298, in _cursor
+    return self._prepare_cursor(self.create_cursor(name))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 219, in create_cursor
+    return self.connection.cursor(factory=SQLiteCursorWrapper)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.ProgrammingError: Cannot operate on a closed database.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_account_invitations.py", line 34, in setUp
+    self.admin, self.ump, self.a, self.b = fixtures()
+                                           ^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/tests.py", line 33, in fixtures
+    main = Office.objects.create(id="ump", name="UMP test", kind="MAIN", city="Poznań")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/models/query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/models/base.py", line 902, in save
+    self.save_base(
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/models/base.py", line 1008, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/models/base.py", line 1169, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/models/base.py", line 1210, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/models/query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1880, in execute_sql
+    with self.connection.cursor() as cursor:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/backends/base/base.py", line 320, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/backends/base/base.py", line 297, in _cursor
+    with self.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/backends/base/base.py", line 298, in _cursor
+    return self._prepare_cursor(self.create_cursor(name))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/db/backends/sqlite3/base.py", line 219, in create_cursor
+    return self.connection.cursor(factory=SQLiteCursorWrapper)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: Cannot operate on a closed database.
+
+----------------------------------------------------------------------
+Ran 29 tests in 1.094s
+
+FAILED (errors=2, skipped=2)
+Destroying test database for alias 'default'...
+Found 29 test(s).
+System check identified no issues (0 silenced).

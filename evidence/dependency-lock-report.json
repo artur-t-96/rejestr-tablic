@@ -1,0 +1,35 @@
+{
+  "verified_at": "2026-10-03T02:51:28.447877+00:00",
+  "source_base_revision": "755c6a657481c447c54af2371e870043dc89702b",
+  "python": "3.12.14",
+  "pip": "25.0.1",
+  "uv": "0.12.22",
+  "runtime_lock_sha256": "1df1506c74f6eae7e747d09d2b64ffd2dee25dced448bad603c8a6f1210b8f99",
+  "qa_lock_sha256": "6f8e2a7bcb67fdc04669b22c7c1bcf2bb785339647ba2576054693e467d88ace",
+  "core_package_count": 33,
+  "core_versions_preserved": true,
+  "wheel_download_hash_checks": {
+    "macos_arm64": true,
+    "linux_x86_64": true,
+    "linux_arm64": true
+  },
+  "clean_install_offline": true,
+  "clean_qa_install_offline": true,
+  "pip_check_passed": true,
+  "django_check_passed": true,
+  "focused_tests_passed": 34,
+  "focused_test_modules": [
+    "registry.test_session_control",
+    "registry.test_documents",
+    "registry.test_signatures"
+  ],
+  "pip_rejected_tampered_wheel": true,
+  "inventory_rejected_tampered_wheel": true,
+  "notice_files_preserved": 52,
+  "notice_hashes_checked": true,
+  "linux_execution_verified": false,
+  "postgresql_in_clean_environment_verified": false,
+  "full_license_compliance_verified": false,
+  "external_api_verified": false,
+  "runtime_and_qa_locks_regenerated_identically": true
+}

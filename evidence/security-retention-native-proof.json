@@ -1,0 +1,71 @@
+{
+  "scope": "Actual native Django commands on isolated SQLite backup with synthetic old security rows; no main deletions or external calls",
+  "base_revision": "319c543e9b0f5cd8234c65ecff1f1cf2b68aaa8a",
+  "classes_in_inventory": 19,
+  "preview": {
+    "mode": "preview",
+    "cutoff": "2026-10-02T06:52:11.493134+00:00",
+    "include_auth": true,
+    "candidates": {
+      "captcha": 1,
+      "rate_buckets": 1,
+      "login_codes": 2,
+      "sessions": 2
+    },
+    "deleted": {}
+  },
+  "legacy_scope_apply": {
+    "mode": "apply",
+    "cutoff": "2026-10-02T06:52:11.666801+00:00",
+    "include_auth": false,
+    "candidates": {
+      "captcha": 1,
+      "rate_buckets": 1
+    },
+    "deleted": {
+      "captcha": 1,
+      "rate_buckets": 1
+    }
+  },
+  "explicit_auth_apply": {
+    "mode": "apply",
+    "cutoff": "2026-10-02T06:52:11.847007+00:00",
+    "include_auth": true,
+    "candidates": {
+      "captcha": 0,
+      "rate_buckets": 0,
+      "login_codes": 2,
+      "sessions": 2
+    },
+    "deleted": {
+      "captcha": 0,
+      "rate_buckets": 0,
+      "login_codes": 2,
+      "sessions": 2
+    }
+  },
+  "repeated_apply": {
+    "mode": "apply",
+    "cutoff": "2026-10-02T06:52:12.027852+00:00",
+    "include_auth": true,
+    "candidates": {
+      "captcha": 0,
+      "rate_buckets": 0,
+      "login_codes": 0,
+      "sessions": 0
+    },
+    "deleted": {
+      "captcha": 0,
+      "rate_buckets": 0,
+      "login_codes": 0,
+      "sessions": 0
+    }
+  },
+  "all_non_security_tables_unchanged": true,
+  "all_main_tables_unchanged": true,
+  "source_sha256": {
+    "registry/management/commands/purge_security_state.py": "27ac3f156936d04a7e852011855f26cae74d1f3c49e88dfb3be8e24beeb55c2a",
+    "registry/management/commands/retention_inventory.py": "6df87c34d633aa94c18baa2b73219a9f25bdc5e694a469355d2cf26fca828997",
+    "registry/test_security_retention.py": "134d21902297d76c04ecc09f0026a311cb1c10a2254527b2dfef8e93880c5031"
+  }
+}

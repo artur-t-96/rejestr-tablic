@@ -1,0 +1,54 @@
+{
+  "checked_at_utc": "2026-10-03T03:45:36.351880+00:00",
+  "scope": "Alphabet and province choice for individual plates; comparison of temporary and professional categories. Not a legal opinion or full compliance audit.",
+  "sources": [
+    {
+      "url": "https://api.sejm.gov.pl/eli/acts/DU/2024/1709/text.html",
+      "file": "evidence/private/legal-2024-1709.html",
+      "sha256": "e9070fdcffeebc6e61c71cde7ef484f11dd82e157df80adb23165a5b6b5e577d",
+      "bytes": 1581063
+    },
+    {
+      "url": "https://api.sejm.gov.pl/eli/acts/DU/2024/1709",
+      "file": "evidence/private/legal-base-act-metadata-current.json",
+      "sha256": "270b1c38d980329da8af83f51fdbc08402d2a37d808feec40c9ff0cc54f9cd50",
+      "bytes": 1469
+    },
+    {
+      "url": "https://api.sejm.gov.pl/eli/acts/DU/2025/939/text.pdf",
+      "file": "evidence/private/legal-2025-939.pdf",
+      "sha256": "e481196f57c9867618c32be1a5d4679a98ef3ba9691474e4cdd878a8618e5582",
+      "bytes": 160762
+    },
+    {
+      "url": "https://api.sejm.gov.pl/eli/acts/DU/2026/891/text.pdf",
+      "file": "evidence/private/legal-2026-891.pdf",
+      "sha256": "5c1e2576203acc972fae27afbf1b10725852bde4f1a2f29a87ff5450d0aad787",
+      "bytes": 165311
+    },
+    {
+      "url": "https://eli.gov.pl/eli/DU/1997/602/uj/pol/pdf",
+      "file": "evidence/private/legal-road-law-current.pdf",
+      "sha256": "7dbc6739140be5fa3d430de96b59153693420337b233389b25449d8acb7ea168",
+      "bytes": 2095865
+    },
+    {
+      "url": "https://api.sejm.gov.pl/eli/acts/DU/2023/2616/text.html",
+      "file": "evidence/private/legal-professional-2023-2616.html",
+      "sha256": "71ebba8c03cb5dcfb5f0812b0722a496c6c4539594b82d279d6caf6e7e458635",
+      "bytes": 642834
+    },
+    {
+      "url": "https://api.sejm.gov.pl/eli/acts/DU/2026/1128/text.pdf",
+      "file": "evidence/private/legal-professional-2026-1128.pdf",
+      "sha256": "56ba5ff3d1c576a7909f9b0b2e66835d295875cdc327102e2b17356518cbc3f2",
+      "bytes": 503913
+    },
+    {
+      "url": "https://api.sejm.gov.pl/eli/acts/DU/2023/2616",
+      "file": "evidence/private/legal-professional-metadata.json",
+      "sha256": "78f04e3f4afa946e88709ef97a9d9c3c07e61330003f855b033e2dc66538792f",
+      "bytes": 1549
+    }
+  ]
+}

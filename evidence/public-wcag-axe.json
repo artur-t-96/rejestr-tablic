@@ -1,0 +1,6340 @@
+{
+  "scope": "Local Chrome axe WCAG A/AA scans plus manual keyboard, spacing, zoom, gating display; not full conformance or screen-reader/CAPTCHA-completion proof",
+  "base_revision": "93e9b496264da17a0ec8fbac42a5cdb38b662182",
+  "engine": "axe-core 4.13.0",
+  "npm_lock_sha256": "647ea7465481aeed8d134d4bb8893f82b2efd3811932a32b102423820437d1e4",
+  "configuration": {
+    "runOnly": {
+      "type": "tag",
+      "values": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa"
+      ]
+    }
+  },
+  "source_sha256_after_hint_fix": {
+    "registry/forms.py": "80324bfd118b39ee27bffc41bf38a03355a6dccafa1973f7bf1b5f89fa0c6572",
+    "registry/templates/registry/public.html": "56874e51465386f6cfeb60f323541d3e023a06ba61a62b5a7b511d51cbdbbca3",
+    "registry/test_accessibility.py": "b4c54e631949d30bdd391f2266bb42c7b42f8b4b026dea0e56315f27cea1483b"
+  },
+  "excluded_spacing_experiments": [
+    "1791009548866547000.json",
+    "1791009549072904000.json"
+  ],
+  "manual_gradient_contrast": {
+    "foreground": "#526575",
+    "ratios": {
+      "#e0eef0": 5.0782,
+      "#e9f0f5": 5.2478
+    },
+    "minimum": 4.5,
+    "passed": true,
+    "scope": "CSS gradient endpoints for decorative hero paragraph; not all CAPTCHA states"
+  },
+  "manual": {
+    "keyboard_focus": [
+      "main",
+      "form-errors",
+      "id_part",
+      "availability-result"
+    ],
+    "spacing_measured": {
+      "lead_font_px": 19,
+      "line_height_px": 28.5,
+      "letter_spacing_px": 2.28,
+      "paragraph_margin_px": 38
+    },
+    "width_pairs": [
+      [
+        320,
+        320
+      ],
+      [
+        900,
+        900
+      ],
+      [
+        640,
+        640
+      ]
+    ],
+    "native_chrome_zoom_percent": 200,
+    "native_chrome_zoom_reset_percent": 100,
+    "viewport_reset": true,
+    "captcha_completed": false,
+    "post_fix_field_description": "id_part_helptext id_part_error",
+    "post_fix_success": {
+      "part": "ANNA",
+      "available_variants": 9,
+      "unavailable": "P5ANNA"
+    }
+  },
+  "runs": [
+    {
+      "private_file": "1791009490180309000.json",
+      "raw_sha256": "443f612cc9708a4a95c11e7bf6711715afd46416250a47ccec4491f6de1d3a92",
+      "version": "4.13.0",
+      "url": "http://localhost:8776/",
+      "viewport": {
+        "width": 1280,
+        "height": 679,
+        "documentWidth": 1280
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"hero-plate\" aria-hidden=\"true\"><span class=\"plate\"><span class=\"eu\">★<br>PL</span><span>P0 DYNA</span></span><p>Pomysł na Twój numer</p></div>",
+                      "target": [
+                        ".hero-plate"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>Pomysł na Twój numer</p>",
+              "target": [
+                ".hero-plate > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "passes": [
+        {
+          "id": "aria-allowed-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-conditional-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-hidden-body",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "aria-hidden-focus",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "autocomplete-valid",
+          "tags": [
+            "cat.forms",
+            "wcag21aa",
+            "wcag135",
+            "EN-301-549",
+            "EN-9.1.3.5",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.13.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "bypass",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": 33
+        },
+        {
+          "id": "document-title",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag242",
+            "TTv5",
+            "TT12.a",
+            "EN-301-549",
+            "EN-9.2.4.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.5.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "duplicate-id-aria",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "html-has-lang",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "html-lang-valid",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.4.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "label",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "link-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "meta-viewport",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "nested-interactive",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 14
+        },
+        {
+          "id": "select-name",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        }
+      ],
+      "inapplicable": [
+        "area-alt",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-deprecated-role",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "avoid-inline-spacing",
+        "blink",
+        "definition-list",
+        "dlitem",
+        "frame-focusable-content",
+        "frame-title-unique",
+        "frame-title",
+        "html-xml-lang-mismatch",
+        "image-alt",
+        "input-button-name",
+        "input-image-alt",
+        "link-in-text-block",
+        "list",
+        "listitem",
+        "marquee",
+        "meta-refresh",
+        "object-alt",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "server-side-image-map",
+        "summary-name",
+        "svg-img-alt",
+        "td-headers-attr",
+        "th-has-data-cells",
+        "valid-lang",
+        "video-caption",
+        "no-autoplay-audio"
+      ],
+      "source_stage": "before_hint_fix"
+    },
+    {
+      "private_file": "1791009499731538000.json",
+      "raw_sha256": "8f23890f962d6ab5ac0aa3ad3bf7f5968c57ebca927596623f4db4173e287a71",
+      "version": "4.13.0",
+      "url": "http://localhost:8776/#main",
+      "viewport": {
+        "width": 1280,
+        "height": 679,
+        "documentWidth": 1280
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"hero-plate\" aria-hidden=\"true\"><span class=\"plate\"><span class=\"eu\">★<br>PL</span><span>P0 DYNA</span></span><p>Pomysł na Twój numer</p></div>",
+                      "target": [
+                        ".hero-plate"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>Pomysł na Twój numer</p>",
+              "target": [
+                ".hero-plate > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "passes": [
+        {
+          "id": "aria-allowed-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-conditional-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-hidden-body",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "aria-hidden-focus",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-valid-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "autocomplete-valid",
+          "tags": [
+            "cat.forms",
+            "wcag21aa",
+            "wcag135",
+            "EN-301-549",
+            "EN-9.1.3.5",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.13.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "bypass",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": 37
+        },
+        {
+          "id": "document-title",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag242",
+            "TTv5",
+            "TT12.a",
+            "EN-301-549",
+            "EN-9.2.4.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.5.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "duplicate-id-aria",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": 6
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "html-has-lang",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "html-lang-valid",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.4.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "label",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "link-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "list",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "listitem",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "meta-viewport",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "nested-interactive",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 14
+        },
+        {
+          "id": "select-name",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        }
+      ],
+      "inapplicable": [
+        "area-alt",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-deprecated-role",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "avoid-inline-spacing",
+        "blink",
+        "definition-list",
+        "dlitem",
+        "frame-focusable-content",
+        "frame-title-unique",
+        "frame-title",
+        "html-xml-lang-mismatch",
+        "image-alt",
+        "input-button-name",
+        "input-image-alt",
+        "link-in-text-block",
+        "marquee",
+        "meta-refresh",
+        "object-alt",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "server-side-image-map",
+        "summary-name",
+        "svg-img-alt",
+        "td-headers-attr",
+        "th-has-data-cells",
+        "valid-lang",
+        "video-caption",
+        "no-autoplay-audio"
+      ],
+      "source_stage": "before_hint_fix"
+    },
+    {
+      "private_file": "1791009521620441000.json",
+      "raw_sha256": "7fa0cd7ffb723e6c54dcc74cdd98f5fc4461a011aa695db1da853ee683485219",
+      "version": "4.13.0",
+      "url": "http://localhost:8776/#main",
+      "viewport": {
+        "width": 1280,
+        "height": 679,
+        "documentWidth": 1280
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"hero-plate\" aria-hidden=\"true\"><span class=\"plate\"><span class=\"eu\">★<br>PL</span><span>P0 DYNA</span></span><p>Pomysł na Twój numer</p></div>",
+                      "target": [
+                        ".hero-plate"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>Pomysł na Twój numer</p>",
+              "target": [
+                ".hero-plate > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "passes": [
+        {
+          "id": "aria-allowed-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-conditional-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-hidden-body",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "aria-hidden-focus",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-valid-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "autocomplete-valid",
+          "tags": [
+            "cat.forms",
+            "wcag21aa",
+            "wcag135",
+            "EN-301-549",
+            "EN-9.1.3.5",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.13.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "bypass",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": 80
+        },
+        {
+          "id": "document-title",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag242",
+            "TTv5",
+            "TT12.a",
+            "EN-301-549",
+            "EN-9.2.4.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.5.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "duplicate-id-aria",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "html-has-lang",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "html-lang-valid",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.4.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "label",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "link-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "meta-viewport",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "nested-interactive",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 14
+        },
+        {
+          "id": "select-name",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        }
+      ],
+      "inapplicable": [
+        "area-alt",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-deprecated-role",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "avoid-inline-spacing",
+        "blink",
+        "definition-list",
+        "dlitem",
+        "frame-focusable-content",
+        "frame-title-unique",
+        "frame-title",
+        "html-xml-lang-mismatch",
+        "image-alt",
+        "input-button-name",
+        "input-image-alt",
+        "link-in-text-block",
+        "list",
+        "listitem",
+        "marquee",
+        "meta-refresh",
+        "object-alt",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "server-side-image-map",
+        "summary-name",
+        "svg-img-alt",
+        "td-headers-attr",
+        "th-has-data-cells",
+        "valid-lang",
+        "video-caption",
+        "no-autoplay-audio"
+      ],
+      "source_stage": "before_hint_fix"
+    },
+    {
+      "private_file": "1791009573291416000.json",
+      "raw_sha256": "08c34485e60351b3297089f013b47131958370f708e0423533470486a2b0dedf",
+      "version": "4.13.0",
+      "url": "http://localhost:8776/",
+      "viewport": {
+        "width": 320,
+        "height": 900,
+        "documentWidth": 320
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"hero-plate\" aria-hidden=\"true\"><span class=\"plate\"><span class=\"eu\">★<br>PL</span><span>P0 DYNA</span></span><p>Pomysł na Twój numer</p></div>",
+                      "target": [
+                        ".hero-plate"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>Pomysł na Twój numer</p>",
+              "target": [
+                ".hero-plate > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "passes": [
+        {
+          "id": "aria-allowed-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-conditional-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-hidden-body",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "aria-hidden-focus",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "autocomplete-valid",
+          "tags": [
+            "cat.forms",
+            "wcag21aa",
+            "wcag135",
+            "EN-301-549",
+            "EN-9.1.3.5",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.13.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "bypass",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": 33
+        },
+        {
+          "id": "document-title",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag242",
+            "TTv5",
+            "TT12.a",
+            "EN-301-549",
+            "EN-9.2.4.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.5.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "duplicate-id-aria",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "html-has-lang",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "html-lang-valid",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.4.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "label",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "link-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "meta-viewport",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "nested-interactive",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 14
+        },
+        {
+          "id": "select-name",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        }
+      ],
+      "inapplicable": [
+        "area-alt",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-deprecated-role",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "avoid-inline-spacing",
+        "blink",
+        "definition-list",
+        "dlitem",
+        "frame-focusable-content",
+        "frame-title-unique",
+        "frame-title",
+        "html-xml-lang-mismatch",
+        "image-alt",
+        "input-button-name",
+        "input-image-alt",
+        "link-in-text-block",
+        "list",
+        "listitem",
+        "marquee",
+        "meta-refresh",
+        "object-alt",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "server-side-image-map",
+        "summary-name",
+        "svg-img-alt",
+        "td-headers-attr",
+        "th-has-data-cells",
+        "valid-lang",
+        "video-caption",
+        "no-autoplay-audio"
+      ],
+      "source_stage": "before_hint_fix"
+    },
+    {
+      "private_file": "1791009573432897000.json",
+      "raw_sha256": "145123e53b794082dded44ba9e7028c57a8679d0d6fd34d200946194f9f4020b",
+      "version": "4.13.0",
+      "url": "http://localhost:8776/",
+      "viewport": {
+        "width": 320,
+        "height": 900,
+        "documentWidth": 320
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"hero-plate\" aria-hidden=\"true\"><span class=\"plate\"><span class=\"eu\">★<br>PL</span><span>P0 DYNA</span></span><p>Pomysł na Twój numer</p></div>",
+                      "target": [
+                        ".hero-plate"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>Pomysł na Twój numer</p>",
+              "target": [
+                ".hero-plate > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "passes": [
+        {
+          "id": "aria-allowed-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-conditional-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-hidden-body",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "aria-hidden-focus",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-valid-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "autocomplete-valid",
+          "tags": [
+            "cat.forms",
+            "wcag21aa",
+            "wcag135",
+            "EN-301-549",
+            "EN-9.1.3.5",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.13.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "bypass",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": 80
+        },
+        {
+          "id": "document-title",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag242",
+            "TTv5",
+            "TT12.a",
+            "EN-301-549",
+            "EN-9.2.4.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.5.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "duplicate-id-aria",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "html-has-lang",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "html-lang-valid",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.4.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "label",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "link-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "meta-viewport",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "nested-interactive",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 14
+        },
+        {
+          "id": "select-name",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        }
+      ],
+      "inapplicable": [
+        "area-alt",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-deprecated-role",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "avoid-inline-spacing",
+        "blink",
+        "definition-list",
+        "dlitem",
+        "frame-focusable-content",
+        "frame-title-unique",
+        "frame-title",
+        "html-xml-lang-mismatch",
+        "image-alt",
+        "input-button-name",
+        "input-image-alt",
+        "link-in-text-block",
+        "list",
+        "listitem",
+        "marquee",
+        "meta-refresh",
+        "object-alt",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "server-side-image-map",
+        "summary-name",
+        "svg-img-alt",
+        "td-headers-attr",
+        "th-has-data-cells",
+        "valid-lang",
+        "video-caption",
+        "no-autoplay-audio"
+      ],
+      "source_stage": "before_hint_fix"
+    },
+    {
+      "private_file": "1791009591556540000.json",
+      "raw_sha256": "d5a2641b0ad59c53c5eacee1b9fccd43214f495fe506499b6756b5fec6dc0382",
+      "version": "4.13.0",
+      "url": "http://localhost:8776/",
+      "viewport": {
+        "width": 900,
+        "height": 600,
+        "documentWidth": 900
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"hero-plate\" aria-hidden=\"true\"><span class=\"plate\"><span class=\"eu\">★<br>PL</span><span>P0 DYNA</span></span><p>Pomysł na Twój numer</p></div>",
+                      "target": [
+                        ".hero-plate"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>Pomysł na Twój numer</p>",
+              "target": [
+                ".hero-plate > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "passes": [
+        {
+          "id": "aria-allowed-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-conditional-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-hidden-body",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "aria-hidden-focus",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-valid-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "autocomplete-valid",
+          "tags": [
+            "cat.forms",
+            "wcag21aa",
+            "wcag135",
+            "EN-301-549",
+            "EN-9.1.3.5",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.13.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "bypass",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": 33
+        },
+        {
+          "id": "document-title",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag242",
+            "TTv5",
+            "TT12.a",
+            "EN-301-549",
+            "EN-9.2.4.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.5.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "duplicate-id-aria",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "html-has-lang",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "html-lang-valid",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.4.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "label",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "link-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "meta-viewport",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "nested-interactive",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 14
+        },
+        {
+          "id": "select-name",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        }
+      ],
+      "inapplicable": [
+        "area-alt",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-deprecated-role",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "avoid-inline-spacing",
+        "blink",
+        "definition-list",
+        "dlitem",
+        "frame-focusable-content",
+        "frame-title-unique",
+        "frame-title",
+        "html-xml-lang-mismatch",
+        "image-alt",
+        "input-button-name",
+        "input-image-alt",
+        "link-in-text-block",
+        "list",
+        "listitem",
+        "marquee",
+        "meta-refresh",
+        "object-alt",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "server-side-image-map",
+        "summary-name",
+        "svg-img-alt",
+        "td-headers-attr",
+        "th-has-data-cells",
+        "valid-lang",
+        "video-caption",
+        "no-autoplay-audio"
+      ],
+      "source_stage": "before_hint_fix"
+    },
+    {
+      "private_file": "1791009591642646000.json",
+      "raw_sha256": "c6c150cdcc57cc8b2e67bd7c6caaab18350242e202f1151827f24a075831725c",
+      "version": "4.13.0",
+      "url": "http://localhost:8776/",
+      "viewport": {
+        "width": 900,
+        "height": 600,
+        "documentWidth": 900
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"hero-plate\" aria-hidden=\"true\"><span class=\"plate\"><span class=\"eu\">★<br>PL</span><span>P0 DYNA</span></span><p>Pomysł na Twój numer</p></div>",
+                      "target": [
+                        ".hero-plate"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>Pomysł na Twój numer</p>",
+              "target": [
+                ".hero-plate > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "passes": [
+        {
+          "id": "aria-allowed-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-conditional-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-hidden-body",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "aria-hidden-focus",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-valid-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "autocomplete-valid",
+          "tags": [
+            "cat.forms",
+            "wcag21aa",
+            "wcag135",
+            "EN-301-549",
+            "EN-9.1.3.5",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.13.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "bypass",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": 37
+        },
+        {
+          "id": "document-title",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag242",
+            "TTv5",
+            "TT12.a",
+            "EN-301-549",
+            "EN-9.2.4.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.5.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "duplicate-id-aria",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": 6
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "html-has-lang",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "html-lang-valid",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.4.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "label",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "link-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "list",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "listitem",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "meta-viewport",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "nested-interactive",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 14
+        },
+        {
+          "id": "select-name",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        }
+      ],
+      "inapplicable": [
+        "area-alt",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-deprecated-role",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "avoid-inline-spacing",
+        "blink",
+        "definition-list",
+        "dlitem",
+        "frame-focusable-content",
+        "frame-title-unique",
+        "frame-title",
+        "html-xml-lang-mismatch",
+        "image-alt",
+        "input-button-name",
+        "input-image-alt",
+        "link-in-text-block",
+        "marquee",
+        "meta-refresh",
+        "object-alt",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "server-side-image-map",
+        "summary-name",
+        "svg-img-alt",
+        "td-headers-attr",
+        "th-has-data-cells",
+        "valid-lang",
+        "video-caption",
+        "no-autoplay-audio"
+      ],
+      "source_stage": "before_hint_fix"
+    },
+    {
+      "private_file": "1791009631778632000.json",
+      "raw_sha256": "64eda43ec213b8b6398729a3a7c37dfecdcd6dc5298821861994b6b08633c948",
+      "version": "4.13.0",
+      "url": "http://localhost:8776/",
+      "viewport": {
+        "width": 640,
+        "height": 311,
+        "documentWidth": 640
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"hero-plate\" aria-hidden=\"true\"><span class=\"plate\"><span class=\"eu\">★<br>PL</span><span>P0 DYNA</span></span><p>Pomysł na Twój numer</p></div>",
+                      "target": [
+                        ".hero-plate"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>Pomysł na Twój numer</p>",
+              "target": [
+                ".hero-plate > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "passes": [
+        {
+          "id": "aria-allowed-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-conditional-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-hidden-body",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "aria-hidden-focus",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-valid-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "autocomplete-valid",
+          "tags": [
+            "cat.forms",
+            "wcag21aa",
+            "wcag135",
+            "EN-301-549",
+            "EN-9.1.3.5",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.13.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "bypass",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": 80
+        },
+        {
+          "id": "document-title",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag242",
+            "TTv5",
+            "TT12.a",
+            "EN-301-549",
+            "EN-9.2.4.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.5.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "duplicate-id-aria",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "html-has-lang",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "html-lang-valid",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.4.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "label",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "link-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "meta-viewport",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "nested-interactive",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 14
+        },
+        {
+          "id": "select-name",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        }
+      ],
+      "inapplicable": [
+        "area-alt",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-deprecated-role",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "avoid-inline-spacing",
+        "blink",
+        "definition-list",
+        "dlitem",
+        "frame-focusable-content",
+        "frame-title-unique",
+        "frame-title",
+        "html-xml-lang-mismatch",
+        "image-alt",
+        "input-button-name",
+        "input-image-alt",
+        "link-in-text-block",
+        "list",
+        "listitem",
+        "marquee",
+        "meta-refresh",
+        "object-alt",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "server-side-image-map",
+        "summary-name",
+        "svg-img-alt",
+        "td-headers-attr",
+        "th-has-data-cells",
+        "valid-lang",
+        "video-caption",
+        "no-autoplay-audio"
+      ],
+      "source_stage": "before_hint_fix"
+    },
+    {
+      "private_file": "1791009667844716000.json",
+      "raw_sha256": "572450c3c83ecd03bdd009202b7da93f30256124bc0dd340b52f637ece1ee6f7",
+      "version": "4.13.0",
+      "url": "http://localhost:8776/",
+      "viewport": {
+        "width": 1280,
+        "height": 631,
+        "documentWidth": 1280
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"hero-plate\" aria-hidden=\"true\"><span class=\"plate\"><span class=\"eu\">★<br>PL</span><span>P0 DYNA</span></span><p>Pomysł na Twój numer</p></div>",
+                      "target": [
+                        ".hero-plate"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>Pomysł na Twój numer</p>",
+              "target": [
+                ".hero-plate > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "passes": [
+        {
+          "id": "aria-allowed-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "aria-conditional-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "aria-hidden-body",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "aria-hidden-focus",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "aria-valid-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "autocomplete-valid",
+          "tags": [
+            "cat.forms",
+            "wcag21aa",
+            "wcag135",
+            "EN-301-549",
+            "EN-9.1.3.5",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.13.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "bypass",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": 41
+        },
+        {
+          "id": "document-title",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag242",
+            "TTv5",
+            "TT12.a",
+            "EN-301-549",
+            "EN-9.2.4.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.5.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "duplicate-id-aria",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": 7
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "html-has-lang",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "html-lang-valid",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.4.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "label",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "link-in-text-block",
+          "tags": [
+            "cat.color",
+            "wcag2a",
+            "wcag141",
+            "TTv5",
+            "TT13.a",
+            "EN-301-549",
+            "EN-9.1.4.1",
+            "RGAAv4",
+            "RGAA-10.6.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "link-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "list",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "listitem",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "meta-viewport",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "nested-interactive",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 15
+        },
+        {
+          "id": "select-name",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        }
+      ],
+      "inapplicable": [
+        "area-alt",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-deprecated-role",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "avoid-inline-spacing",
+        "blink",
+        "definition-list",
+        "dlitem",
+        "frame-focusable-content",
+        "frame-title-unique",
+        "frame-title",
+        "html-xml-lang-mismatch",
+        "image-alt",
+        "input-button-name",
+        "input-image-alt",
+        "marquee",
+        "meta-refresh",
+        "object-alt",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "server-side-image-map",
+        "summary-name",
+        "svg-img-alt",
+        "td-headers-attr",
+        "th-has-data-cells",
+        "valid-lang",
+        "video-caption",
+        "no-autoplay-audio"
+      ],
+      "source_stage": "before_hint_fix"
+    },
+    {
+      "private_file": "1791009739524338000.json",
+      "raw_sha256": "c354556efcce58400ecba10994953afaa93cb21a576c36ef251d32670d3cefbd",
+      "version": "4.13.0",
+      "url": "http://localhost:8776/?part=ANNA&prefix=P&digit=",
+      "viewport": {
+        "width": 1280,
+        "height": 624,
+        "documentWidth": 1280
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"hero-plate\" aria-hidden=\"true\"><span class=\"plate\"><span class=\"eu\">★<br>PL</span><span>P0 DYNA</span></span><p>Pomysł na Twój numer</p></div>",
+                      "target": [
+                        ".hero-plate"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>Pomysł na Twój numer</p>",
+              "target": [
+                ".hero-plate > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "passes": [
+        {
+          "id": "aria-allowed-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-conditional-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-hidden-body",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "aria-hidden-focus",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-valid-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "autocomplete-valid",
+          "tags": [
+            "cat.forms",
+            "wcag21aa",
+            "wcag135",
+            "EN-301-549",
+            "EN-9.1.3.5",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.13.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "bypass",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": 37
+        },
+        {
+          "id": "document-title",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag242",
+            "TTv5",
+            "TT12.a",
+            "EN-301-549",
+            "EN-9.2.4.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.5.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "duplicate-id-aria",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "html-has-lang",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "html-lang-valid",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.4.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "label",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "link-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "list",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "listitem",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "meta-viewport",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "nested-interactive",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 14
+        },
+        {
+          "id": "select-name",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        }
+      ],
+      "inapplicable": [
+        "area-alt",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-deprecated-role",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "avoid-inline-spacing",
+        "blink",
+        "definition-list",
+        "dlitem",
+        "frame-focusable-content",
+        "frame-title-unique",
+        "frame-title",
+        "html-xml-lang-mismatch",
+        "image-alt",
+        "input-button-name",
+        "input-image-alt",
+        "link-in-text-block",
+        "marquee",
+        "meta-refresh",
+        "object-alt",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "server-side-image-map",
+        "summary-name",
+        "svg-img-alt",
+        "td-headers-attr",
+        "th-has-data-cells",
+        "valid-lang",
+        "video-caption",
+        "no-autoplay-audio"
+      ],
+      "source_stage": "before_hint_fix"
+    },
+    {
+      "private_file": "1791009764408837000.json",
+      "raw_sha256": "6573466f5dc4224e049e9dad7ac83ab85d9b28c9e43183edf1a7410259384111",
+      "version": "4.13.0",
+      "url": "http://localhost:8776/",
+      "formDescription": "id_part_helptext",
+      "spacing": {
+        "letter": "2.28px",
+        "line": "28.5px",
+        "paragraph": "38px"
+      },
+      "viewport": {
+        "width": 320,
+        "height": 900,
+        "documentWidth": 320
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"hero-plate\" aria-hidden=\"true\"><span class=\"plate\"><span class=\"eu\">★<br>PL</span><span>P0 DYNA</span></span><p>Pomysł na Twój numer</p></div>",
+                      "target": [
+                        ".hero-plate"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>Pomysł na Twój numer</p>",
+              "target": [
+                ".hero-plate > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "passes": [
+        {
+          "id": "aria-allowed-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-conditional-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-hidden-body",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "aria-hidden-focus",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "aria-valid-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "autocomplete-valid",
+          "tags": [
+            "cat.forms",
+            "wcag21aa",
+            "wcag135",
+            "EN-301-549",
+            "EN-9.1.3.5",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.13.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "bypass",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": 33
+        },
+        {
+          "id": "document-title",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag242",
+            "TTv5",
+            "TT12.a",
+            "EN-301-549",
+            "EN-9.2.4.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.5.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "duplicate-id-aria",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "html-has-lang",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "html-lang-valid",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.4.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "label",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "link-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "meta-viewport",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "nested-interactive",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 14
+        },
+        {
+          "id": "select-name",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        }
+      ],
+      "inapplicable": [
+        "area-alt",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-deprecated-role",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "avoid-inline-spacing",
+        "blink",
+        "definition-list",
+        "dlitem",
+        "frame-focusable-content",
+        "frame-title-unique",
+        "frame-title",
+        "html-xml-lang-mismatch",
+        "image-alt",
+        "input-button-name",
+        "input-image-alt",
+        "link-in-text-block",
+        "list",
+        "listitem",
+        "marquee",
+        "meta-refresh",
+        "object-alt",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "server-side-image-map",
+        "summary-name",
+        "svg-img-alt",
+        "td-headers-attr",
+        "th-has-data-cells",
+        "valid-lang",
+        "video-caption",
+        "no-autoplay-audio"
+      ],
+      "source_stage": "after_hint_fix"
+    },
+    {
+      "private_file": "1791009764566722000.json",
+      "raw_sha256": "9e713ccce6d1df59d481dcf9046cc14c8e9756140e42734ab81b9b027847f7c6",
+      "version": "4.13.0",
+      "url": "http://localhost:8776/",
+      "formDescription": "id_part_helptext id_part_error",
+      "spacing": {
+        "letter": "2.28px",
+        "line": "28.5px",
+        "paragraph": "38px"
+      },
+      "viewport": {
+        "width": 320,
+        "height": 900,
+        "documentWidth": 320
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"hero-plate\" aria-hidden=\"true\"><span class=\"plate\"><span class=\"eu\">★<br>PL</span><span>P0 DYNA</span></span><p>Pomysł na Twój numer</p></div>",
+                      "target": [
+                        ".hero-plate"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>Pomysł na Twój numer</p>",
+              "target": [
+                ".hero-plate > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "passes": [
+        {
+          "id": "aria-allowed-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-conditional-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-hidden-body",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "aria-hidden-focus",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-valid-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "autocomplete-valid",
+          "tags": [
+            "cat.forms",
+            "wcag21aa",
+            "wcag135",
+            "EN-301-549",
+            "EN-9.1.3.5",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.13.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "bypass",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": 39
+        },
+        {
+          "id": "document-title",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag242",
+            "TTv5",
+            "TT12.a",
+            "EN-301-549",
+            "EN-9.2.4.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.5.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "duplicate-id-aria",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": 7
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "html-has-lang",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "html-lang-valid",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.4.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "label",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "link-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "nodes": 5
+        },
+        {
+          "id": "list",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "listitem",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "meta-viewport",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "nested-interactive",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 14
+        },
+        {
+          "id": "select-name",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        }
+      ],
+      "inapplicable": [
+        "area-alt",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-deprecated-role",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "avoid-inline-spacing",
+        "blink",
+        "definition-list",
+        "dlitem",
+        "frame-focusable-content",
+        "frame-title-unique",
+        "frame-title",
+        "html-xml-lang-mismatch",
+        "image-alt",
+        "input-button-name",
+        "input-image-alt",
+        "link-in-text-block",
+        "marquee",
+        "meta-refresh",
+        "object-alt",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "server-side-image-map",
+        "summary-name",
+        "svg-img-alt",
+        "td-headers-attr",
+        "th-has-data-cells",
+        "valid-lang",
+        "video-caption",
+        "no-autoplay-audio"
+      ],
+      "source_stage": "after_hint_fix"
+    },
+    {
+      "private_file": "1791009782961186000.json",
+      "raw_sha256": "8ff652f9909aaca00d620ac65c927bc880610c2f15210c2f72a7e10bb2cbc747",
+      "version": "4.13.0",
+      "url": "http://localhost:8776/",
+      "formDescription": "id_part_helptext",
+      "spacing": {
+        "letter": "2.28px",
+        "line": "28.5px",
+        "paragraph": "38px"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 623,
+        "documentWidth": 1280
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"hero-plate\" aria-hidden=\"true\"><span class=\"plate\"><span class=\"eu\">★<br>PL</span><span>P0 DYNA</span></span><p>Pomysł na Twój numer</p></div>",
+                      "target": [
+                        ".hero-plate"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>Pomysł na Twój numer</p>",
+              "target": [
+                ".hero-plate > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "passes": [
+        {
+          "id": "aria-allowed-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-conditional-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-hidden-body",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "aria-hidden-focus",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-valid-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "autocomplete-valid",
+          "tags": [
+            "cat.forms",
+            "wcag21aa",
+            "wcag135",
+            "EN-301-549",
+            "EN-9.1.3.5",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.13.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "bypass",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": 37
+        },
+        {
+          "id": "document-title",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag242",
+            "TTv5",
+            "TT12.a",
+            "EN-301-549",
+            "EN-9.2.4.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.5.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "duplicate-id-aria",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": 6
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "html-has-lang",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "html-lang-valid",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.4.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "label",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "link-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "list",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "listitem",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "meta-viewport",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "nested-interactive",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 14
+        },
+        {
+          "id": "select-name",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        }
+      ],
+      "inapplicable": [
+        "area-alt",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-deprecated-role",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "avoid-inline-spacing",
+        "blink",
+        "definition-list",
+        "dlitem",
+        "frame-focusable-content",
+        "frame-title-unique",
+        "frame-title",
+        "html-xml-lang-mismatch",
+        "image-alt",
+        "input-button-name",
+        "input-image-alt",
+        "link-in-text-block",
+        "marquee",
+        "meta-refresh",
+        "object-alt",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "server-side-image-map",
+        "summary-name",
+        "svg-img-alt",
+        "td-headers-attr",
+        "th-has-data-cells",
+        "valid-lang",
+        "video-caption",
+        "no-autoplay-audio"
+      ],
+      "source_stage": "after_hint_fix"
+    },
+    {
+      "private_file": "1791009877056632000.json",
+      "raw_sha256": "21bc88b63997c0b691bfb71d8b2d8d1e8cd463bfc86e490410bb06818a11b9f4",
+      "version": "4.13.0",
+      "url": "http://localhost:8776/",
+      "formDescription": "id_part_helptext",
+      "spacing": {
+        "letter": "2.28px",
+        "line": "28.5px",
+        "paragraph": "38px"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 623,
+        "documentWidth": 1280
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"hero-plate\" aria-hidden=\"true\"><span class=\"plate\"><span class=\"eu\">★<br>PL</span><span>P0 DYNA</span></span><p>Pomysł na Twój numer</p></div>",
+                      "target": [
+                        ".hero-plate"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>Pomysł na Twój numer</p>",
+              "target": [
+                ".hero-plate > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "passes": [
+        {
+          "id": "aria-allowed-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-conditional-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-hidden-body",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "aria-hidden-focus",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "nodes": 2
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "aria-valid-attr",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "autocomplete-valid",
+          "tags": [
+            "cat.forms",
+            "wcag21aa",
+            "wcag135",
+            "EN-301-549",
+            "EN-9.1.3.5",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.13.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "button-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "bypass",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "color-contrast",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "nodes": 80
+        },
+        {
+          "id": "document-title",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag242",
+            "TTv5",
+            "TT12.a",
+            "EN-301-549",
+            "EN-9.2.4.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.5.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "duplicate-id-aria",
+          "tags": [
+            "cat.parsing",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-8.2.1"
+          ],
+          "nodes": 6
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "nodes": 3
+        },
+        {
+          "id": "html-has-lang",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "html-lang-valid",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.4.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "label",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "link-name",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "nodes": 4
+        },
+        {
+          "id": "meta-viewport",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "nodes": 1
+        },
+        {
+          "id": "nested-interactive",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "nodes": 14
+        },
+        {
+          "id": "select-name",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "nodes": 2
+        }
+      ],
+      "inapplicable": [
+        "area-alt",
+        "aria-braille-equivalent",
+        "aria-command-name",
+        "aria-deprecated-role",
+        "aria-input-field-name",
+        "aria-meter-name",
+        "aria-progressbar-name",
+        "aria-required-attr",
+        "aria-required-children",
+        "aria-required-parent",
+        "aria-roles",
+        "aria-tab-name",
+        "aria-toggle-field-name",
+        "aria-tooltip-name",
+        "avoid-inline-spacing",
+        "blink",
+        "definition-list",
+        "dlitem",
+        "frame-focusable-content",
+        "frame-title-unique",
+        "frame-title",
+        "html-xml-lang-mismatch",
+        "image-alt",
+        "input-button-name",
+        "input-image-alt",
+        "link-in-text-block",
+        "list",
+        "listitem",
+        "marquee",
+        "meta-refresh",
+        "object-alt",
+        "role-img-alt",
+        "scrollable-region-focusable",
+        "server-side-image-map",
+        "summary-name",
+        "svg-img-alt",
+        "td-headers-attr",
+        "th-has-data-cells",
+        "valid-lang",
+        "video-caption",
+        "no-autoplay-audio"
+      ],
+      "source_stage": "after_hint_fix"
+    }
+  ],
+  "main_and_copy_eight_business_audit_tables_unchanged": true,
+  "source_sha256_before_hint_fix": {
+    "registry/forms.py": "c7f67c7ea006b84a1d065fd8f9146d73436d9f59f211579cc5bdf5341165eb4b",
+    "registry/templates/registry/public.html": "7a7ea6f7b995be4f4c7ce9f13d12b70a06d7d1605897cefbe4a696320bcd872a",
+    "registry/test_accessibility.py": "0ce55c31d73f402a1f3f34b505b4e9a508afea4bcfdd9ea3fa03b3e4a129d2a0"
+  }
+}

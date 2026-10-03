@@ -1,0 +1,13 @@
+<nav class="list-pages" aria-label="Strony listy wyników">
+  <p>{% if page_obj.paginator.count %}Pozycje {{ page_obj.start_index }}–{{ page_obj.end_index }} z {{ page_obj.paginator.count }} · Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}.{% else %}Liczba wyników: 0.{% endif %}</p>
+  {% if page_obj.has_other_pages %}<div class="actions">
+    {% if page_obj.has_previous %}
+      {% if page_obj.number > 2 %}<a class="button secondary" href="{% querystring page=1 %}#list-results">Pierwsza strona</a>{% endif %}
+      <a class="button secondary" href="{% querystring page=page_obj.previous_page_number %}#list-results">Poprzednia strona</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+      <a class="button secondary" href="{% querystring page=page_obj.next_page_number %}#list-results">Następna strona</a>
+      {% if page_obj.next_page_number < page_obj.paginator.num_pages %}<a class="button secondary" href="{% querystring page=page_obj.paginator.num_pages %}#list-results">Ostatnia strona</a>{% endif %}
+    {% endif %}
+  </div>{% endif %}
+</nav>

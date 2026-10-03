@@ -1,0 +1,31 @@
+{
+  "synthetic_ui_only": true,
+  "external_profile_configured": false,
+  "worker_started": false,
+  "jobs": [
+    {
+      "uuid": "9d7d03ebe909430cb495ff248a6bd983",
+      "status": "CONFIG_ERROR",
+      "attempts": 0,
+      "pdf_hash_valid": true,
+      "restore_marker": false,
+      "send_checkpoint": "NOT_STARTED"
+    },
+    {
+      "uuid": "f67f999b9b0a45fbb5e8493fbdbb507d",
+      "status": "REVIEW_REQUIRED",
+      "attempts": 0,
+      "pdf_hash_valid": true,
+      "restore_marker": false,
+      "send_checkpoint": "IN_FLIGHT"
+    },
+    {
+      "uuid": "d56229c9123f4e4ba1da66e71f7a87b2",
+      "status": "CONFIG_ERROR",
+      "attempts": 0,
+      "pdf_hash_valid": true,
+      "restore_marker": true,
+      "send_checkpoint": "NOT_STARTED"
+    }
+  ]
+}

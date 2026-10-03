@@ -1,0 +1,46 @@
+Creating test database for alias 'default' ('/Users/arturtwardowski/Dyna Rejestr Tablic/var/test_registry.sqlite3')...
+Destroying old test database for alias 'default' ('/Users/arturtwardowski/Dyna Rejestr Tablic/var/test_registry.sqlite3')...
+Found 4 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: auth, contenttypes, registry, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying registry.0001_initial... OK
+  Applying registry.0002_integrationjob_claimed_until_integrationjob_payload_and_more... OK
+  Applying registry.0003_letter_signature_report_letter_signed_at_and_more... OK
+  Applying registry.0004_letter_replaces... OK
+  Applying registry.0005_numbersequence_letter_number_ordinal_and_more... OK
+  Applying registry.0006_public_challenge... OK
+  Applying registry.0007_ezdincomingdocument... OK
+  Applying registry.0008_refresh_builtin_templates... OK
+  Applying registry.0009_require_finite_module_three_period... OK
+  Applying registry.0010_account_invitation... OK
+  Applying sessions.0001_initial...test_delete_cannot_download_pdf_or_append_download_audit (registry.test_http_methods.HttpMethodContractTests.test_delete_cannot_download_pdf_or_append_download_audit) ... ok
+test_every_configured_url_rejects_methods_outside_its_contract_without_business_writes (registry.test_http_methods.HttpMethodContractTests.test_every_configured_url_rejects_methods_outside_its_contract_without_business_writes) ... ok
+test_method_control_preserves_api_authentication_and_role_checks (registry.test_http_methods.HttpMethodContractTests.test_method_control_preserves_api_authentication_and_role_checks) ... ok
+test_unsupported_api_method_is_rejected_before_reading_invalid_json (registry.test_http_methods.HttpMethodContractTests.test_unsupported_api_method_is_rejected_before_reading_invalid_json) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.235s
+
+OK
+Destroying test database for alias 'default' ('/Users/arturtwardowski/Dyna Rejestr Tablic/var/test_registry.sqlite3')...
+ OK
+System check identified no issues (0 silenced).

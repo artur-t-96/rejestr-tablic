@@ -1,0 +1,60 @@
+{
+  "request_uuid": "500ceb2d-653e-4976-b504-fcfc46a60a81",
+  "reference": "W/2026/00005",
+  "case_number": "TEST/NUMERACJA/001",
+  "status": "APPROVED",
+  "letters": [
+    {
+      "uuid": "1939b7c8-6c4c-4caf-ba25-1e5536ecac01",
+      "number": "DRT/gni/2026/000001",
+      "year": 2026,
+      "ordinal": 1,
+      "sha256": "3d1cd05e3e12776ca9d923389559a7cebe7599d2312b33bf55dc88f43c8398a2",
+      "signature_status": "UNSIGNED",
+      "replaces_uuid": null,
+      "pdf_path": "evidence/private/numbering/1939b7c8-6c4c-4caf-ba25-1e5536ecac01.pdf"
+    },
+    {
+      "uuid": "735aa6fc-6f46-4699-a479-f11411343e41",
+      "number": "DRT/ump/2026/000001",
+      "year": 2026,
+      "ordinal": 1,
+      "sha256": "9028fcc3370df51207a07388e8a159c6b60f376c933c89baeac6f8177ff94971",
+      "signature_status": "TEST_SIGNED",
+      "replaces_uuid": null,
+      "pdf_path": "evidence/numeracja-decyzja.pdf",
+      "verified_report": {
+        "validated_at": "2026-10-02T23:44:35.296267+00:00",
+        "source_sha256": "cddf63536a21eb20ec66db511d6e3c59736e9ec7a838313c58275c75a4aa14b5",
+        "signed_sha256": "9028fcc3370df51207a07388e8a159c6b60f376c933c89baeac6f8177ff94971",
+        "signatures": [
+          {
+            "fingerprint_sha256": "e6f4bc4186d8d7d2d6ce84b07cd0167a629212ef6122a3d53b24ac16e8ca3b9f",
+            "field": "DynaSignature",
+            "signer_name": "DEMO niekwalifikowany | ump",
+            "intact": true,
+            "valid": true,
+            "trusted": true,
+            "coverage": "ENTIRE_FILE",
+            "certificate_time_valid": true
+          }
+        ],
+        "mode": "DEMO",
+        "qualification": "NOT_ASSESSED",
+        "revocation_policy": "DEMO_SOFT_FAIL",
+        "qualified_timestamp_verified": false,
+        "original_content_unchanged": true
+      }
+    },
+    {
+      "uuid": "966bf7c9-d7eb-466c-91f6-3ecf2e423f75",
+      "number": "DRT/ump/2026/000002",
+      "year": 2026,
+      "ordinal": 2,
+      "sha256": "8d5ecf0f3cecfb00c603ab70c1fceeccec47dfbbff0020ce50fbb7e2c6f34496",
+      "signature_status": "UNSIGNED",
+      "replaces_uuid": "735aa6fc-6f46-4699-a479-f11411343e41",
+      "pdf_path": "evidence/private/numbering/966bf7c9-d7eb-466c-91f6-3ecf2e423f75.pdf"
+    }
+  ]
+}

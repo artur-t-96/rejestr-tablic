@@ -1,0 +1,26 @@
+{
+  "version": "PostgreSQL 18.6 (Postgres.app) on aarch64-apple-darwin23.6.0, compiled by Apple clang version 15.0.0 (clang-1500.3.9.4), 64-bit",
+  "role": "dyna_pgtest",
+  "database": "drt_pg_local",
+  "privileges": {
+    "superuser": false,
+    "create_role": false,
+    "create_database": true,
+    "replication": false,
+    "bypass_rls": false
+  },
+  "settings": {
+    "listen_addresses": "",
+    "port": "18765",
+    "unix_socket_permissions": "0700",
+    "max_connections": "20",
+    "shared_buffers": "16MB",
+    "fsync": "on",
+    "synchronous_commit": "on",
+    "statement_timeout": "15s",
+    "lock_timeout": "5s",
+    "data_checksums": "on"
+  },
+  "primary_sqlite_untouched": true,
+  "baseline_deadlocks_in_application_database": 0
+}

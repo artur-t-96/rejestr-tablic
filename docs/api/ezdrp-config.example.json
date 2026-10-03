@@ -1,0 +1,17 @@
+{
+  "offices": {
+    "ump": {
+      "api_url": "https://integrator.PRZYDZIELONA-INSTANCJA.invalid",
+      "token_url": "https://sso.PRZYDZIELONA-INSTANCJA.invalid/connect/token",
+      "web_host": "web.PRZYDZIELONA-INSTANCJA.invalid",
+      "pid": "UZUPELNIJ-ID-PODMIOTU",
+      "aki": "UZUPELNIJ-ID-KLUCZA",
+      "sid": "UZUPELNIJ-ID-STANOWISKA",
+      "api_key_file": "/etc/dyna-rejestr/secrets/ump-ezdrp-key",
+      "jrwa_id": "UZUPELNIJ-ID-WYKAZU",
+      "archival_category": "UZGODNIJ-Z-KANCELARIA",
+      "download_origins": ["https://filerepo.PRZYDZIELONA-INSTANCJA.invalid"],
+      "metadata": {}
+    }
+  }
+}

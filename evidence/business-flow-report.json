@@ -1,0 +1,89 @@
+{
+  "verified_at": "2026-10-03T03:13:53.119784+00:00",
+  "environment": "isolated SQLite; Chrome user profile; localhost:8774",
+  "business_scenario_base_revision": "7ab396675bd6d89ca150e65a0ce404950c3ae995",
+  "availability_fix_revision": "e3f095d",
+  "history_fix_revision": "2e42a639f1e002421116a1c47ed1894d8f4d769f",
+  "individual_flow": {
+    "request_reference": "W/2026/00004",
+    "public_initial_available": true,
+    "reservation_14_days_visible": true,
+    "county_submit_main_accept": true,
+    "registration_sets_issued": true,
+    "sale_sets_sold": true,
+    "public_sale_unavailable_no_owner": true,
+    "main_owner_correction_with_reason": true,
+    "main_release_preserves_record_and_history": true,
+    "public_released_available": true,
+    "document_count": 2,
+    "document_integrity_and_reference_text": true,
+    "document_visual_inspection_in_this_stage": false
+  },
+  "withdrawal_flow": {
+    "request_reference": "W/2026/00005",
+    "same_number_reused_after_release": true,
+    "plate_history_statuses": [
+      "RESERVED",
+      "SENT",
+      "RELEASED"
+    ],
+    "old_and_new_records_retained": true,
+    "active_records_for_number": 0
+  },
+  "browser_fix_checks": {
+    "selected_digit_only_one_primary_result": true,
+    "pila_foreign_request_404_polish": true,
+    "pila_return_to_empty_own_panel": true
+  },
+  "tests": {
+    "availability_core_public_protection": {
+      "passed": 37,
+      "log": "evidence/availability-selection-tests.txt"
+    },
+    "history_availability_core": {
+      "passed": 31,
+      "log": "evidence/plate-lifecycle-history-tests.txt"
+    },
+    "overlapping_test_sets": true,
+    "postgresql_rerun_in_this_stage": false
+  },
+  "primary_business_data_unchanged": true,
+  "primary_business_tables": {
+    "registry_request": {
+      "count": 5,
+      "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+    },
+    "registry_platerecord": {
+      "count": 5,
+      "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+    },
+    "registry_letter": {
+      "count": 12,
+      "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+    },
+    "registry_pool": {
+      "count": 1,
+      "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+    },
+    "registry_poolslot": {
+      "count": 30,
+      "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+    },
+    "registry_numbersequence": {
+      "count": 3,
+      "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+    }
+  },
+  "external_api_verified": false,
+  "full_goal_verified": false,
+  "open_browser_scope": [
+    "admin workflows",
+    "modules II and III",
+    "import/export",
+    "remaining invalid operations and status branches"
+  ],
+  "open_ui_findings": [
+    "technical audit action names",
+    "vehicle form shown for uneditable released county record"
+  ]
+}

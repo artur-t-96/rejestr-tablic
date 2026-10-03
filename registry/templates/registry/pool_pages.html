@@ -1,0 +1,7 @@
+<p class="muted">Numery {{ slots.start_index }}–{{ slots.end_index }} z {{ slots.paginator.count }} · strona {{ slots.number }} z {{ slots.paginator.num_pages }}</p>
+{% if slots.has_other_pages %}
+<nav class="actions" aria-label="Strony numerów puli">
+  {% if slots.has_previous %}<a class="button secondary small" href="?page=1">Pierwsza strona</a><a class="button secondary small" href="?page={{ slots.previous_page_number }}">Poprzednia strona</a>{% endif %}
+  {% if slots.has_next %}<a class="button secondary small" href="?page={{ slots.next_page_number }}">Następna strona</a><a class="button secondary small" href="?page={{ slots.paginator.num_pages }}">Ostatnia strona</a>{% endif %}
+</nav>
+{% endif %}

@@ -1,0 +1,36 @@
+{
+  "scope": "native Gunicorn 23 + PostgreSQL 18.6; proxy headers supplied by test HTTP client, not actual Nginx/TLS",
+  "synthetic_release_revision": true,
+  "external_api_verified": false,
+  "linux_systemd_verified": false,
+  "nginx_https_verified": false,
+  "checks": {
+    "trusted_proxy_https_no_redirect": true,
+    "missing_proxy_headers_http_400": true,
+    "foreign_host_http_400": true,
+    "http_redirects_to_https": true,
+    "availability_two_proxy_clients_http_200": true,
+    "runtime_role_no_admin_flags": true,
+    "runtime_create_table_denied": true,
+    "actual_database_rate_buckets_distinct_and_spoofed_xff_ignored": true,
+    "owner_role_rejected_by_runtime_preflight": true,
+    "runtime_role_actual_pg_dump_backup": true
+  },
+  "health": {
+    "status": "ok",
+    "service": "dyna-rejestr-tablic",
+    "mode": "office",
+    "revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "initial_install_counts": {
+    "registry_office": 35,
+    "registry_user": 1,
+    "registry_request": 0,
+    "registry_letter": 0,
+    "registry_platerecord": 0
+  },
+  "verified_at": "2026-10-03T01:39:06.544361+00:00",
+  "runtime_backup_sha256": "ce963c963e3fed2de38c032005802c91ed5bcbb33257b60d7846eebc397d8d7b",
+  "gunicorn_test_process_stopped": true,
+  "temporary_local_peer_rules_restored": true
+}

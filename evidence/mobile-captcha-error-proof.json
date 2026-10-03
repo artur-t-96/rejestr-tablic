@@ -1,0 +1,68 @@
+{
+  "checked_at": "2026-10-03T09:58:20.028727+00:00",
+  "application_revision": "855358b7ab48059ff03d711c7d61b7eb4dd78e6c",
+  "scope": "Actual native Chrome challenge error 429 at measured 320x900. Isolated copy, threshold1, no code/CSS change; no new expiry/spoken-output acceptance.",
+  "challenge_requests": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    429
+  ],
+  "actual_checkbox_request": 429,
+  "measurement": {
+    "error": "  Weryfikacja nie powiodła się. Spróbuj ponownie później.",
+    "height": 900,
+    "part": "ANNA",
+    "popover": {
+      "bottom": 517.8203125,
+      "height": 52,
+      "left": 43,
+      "right": 283,
+      "top": 465.8203125,
+      "width": 240,
+      "x": 43,
+      "y": 465.8203125
+    },
+    "scrollWidth": 320,
+    "widget": {
+      "bottom": 495.8203125,
+      "height": 70,
+      "left": 37,
+      "right": 283,
+      "top": 425.8203125,
+      "width": 246,
+      "x": 37,
+      "y": 425.8203125
+    },
+    "width": 320
+  },
+  "screenshot": {
+    "path": "evidence/private/163-mobile-captcha-error-320.png",
+    "sha256": "78780d84564721b125a79d0eb72d0766ee08f99d26cb9fac227944c2dc636f8f",
+    "visually_inspected": true
+  },
+  "chrome_restored": {
+    "device_width": 400,
+    "device_height": "blank",
+    "device_toolbar": false,
+    "devtools_closed": true,
+    "test_tab_closed": true
+  },
+  "isolated_server_stopped": true,
+  "main_tables_preserved": 27,
+  "main_health": {
+    "status": "ok",
+    "service": "dyna-rejestr-tablic",
+    "mode": "local",
+    "revision": "855358b7ab48059ff03d711c7d61b7eb4dd78e6c"
+  },
+  "reader_acceptance": "Unverified: no accessible speech/caption output through tool; repeated limitation. AX/focus are not spoken-output evidence.",
+  "github_render_publication": "Deferred under user full-local-readiness condition."
+}

@@ -1,0 +1,1203 @@
+{
+  "revision": "dc3d6dfb15c3f27412850425d1f0bac3c016a8ec",
+  "verified_at": "2026-10-03T07:01:29.448365+00:00",
+  "scope": "Native SQLite and PostgreSQL snapshot/restore, then PostgreSQL 0005 to 0010 upgrade on an isolated restored database; not full system acceptance",
+  "external_services_called": false,
+  "sources_preserved": {
+    "sqlite": {
+      "auth_group": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth_group_permissions": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth_permission": {
+        "count": 88,
+        "sha256": "d81143864f71efc3402e1bcc9ae3f5421e18dcf9efee1edb61ce0c065326b8f5"
+      },
+      "django_content_type": {
+        "count": 22,
+        "sha256": "8a88284a944a715ba29ed2d49506f1674d855c2d8c812157958a86da9d142756"
+      },
+      "django_migrations": {
+        "count": 25,
+        "sha256": "d8d81d68ea43e616dbd98a42f2c73826a3530efc19a3500a7b0004be3c17f032"
+      },
+      "django_session": {
+        "count": 9,
+        "sha256": "304f9c9b770c229deb5a4a54ba9e497033a465bbfaac8be4e449e0a417349778"
+      },
+      "registry_accountinvitation": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_auditlog": {
+        "count": 58,
+        "sha256": "8939805567817df07a4d097f44b42faf3c5d6e5c09183ec6f41181d97fb0373f"
+      },
+      "registry_deliveryevidence": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ezdcaselink": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ezdincomingdocument": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_integrationjob": {
+        "count": 1,
+        "sha256": "9bf08358aeebd3bfd880b6aa9609ec1ed0bcc754169aecdec43ec61771bd1ffd"
+      },
+      "registry_letter": {
+        "count": 12,
+        "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+      },
+      "registry_lettertemplate": {
+        "count": 4,
+        "sha256": "584be4e2a1a6830345cddee84a64abfbece9dec48c34cce5770104d87dcd612b"
+      },
+      "registry_logincode": {
+        "count": 12,
+        "sha256": "19d674e2e3a2f6f2c6ae7117bd7f505e43deea96e527595373d19546d8f49973"
+      },
+      "registry_numbersequence": {
+        "count": 3,
+        "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+      },
+      "registry_office": {
+        "count": 35,
+        "sha256": "6b99103fa7f946d5173675317eb210944fd0d6576abed661da85f0812518ed04"
+      },
+      "registry_platerecord": {
+        "count": 5,
+        "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+      },
+      "registry_pool": {
+        "count": 1,
+        "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+      },
+      "registry_poolslot": {
+        "count": 30,
+        "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+      },
+      "registry_publicchallenge": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ratebucket": {
+        "count": 7,
+        "sha256": "17006688d7a48a661f919c7d2868160cc5175e264285355bcd7ad01a9191a338"
+      },
+      "registry_request": {
+        "count": 5,
+        "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+      },
+      "registry_user": {
+        "count": 4,
+        "sha256": "d9381e6f688a293e5039d35817d59710b844522709df43bf51a66781c8610e98"
+      },
+      "registry_user_groups": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_user_user_permissions": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "sqlite_sequence": {
+        "count": 16,
+        "sha256": "ae81bf39af2fadf38fa352d6be81f7903b36ebd9ab7a6e65e1bd576858de2283"
+      }
+    },
+    "postgresql": {
+      "auth_group": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth_group_permissions": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth_permission": {
+        "count": 76,
+        "sha256": "03023a0b4657ac3e59926a6d53df8c6a06e4f33c74506b7a901585ae150c8798"
+      },
+      "django_content_type": {
+        "count": 19,
+        "sha256": "1305d96569a2fb9df51861721f0f4325548e93f76c4f5a545742463eeb0eae59"
+      },
+      "django_migrations": {
+        "count": 20,
+        "sha256": "f80a512303bccf19b9a46e8f540bd8ea28f7976cd48c2e2c909631fb9702512a"
+      },
+      "django_session": {
+        "count": 1,
+        "sha256": "3311e533ee49e903e2b29c9d73f941129f8cf22fe01212d93c211cc7eda7f298"
+      },
+      "registry_auditlog": {
+        "count": 31,
+        "sha256": "14678d30c39c85abea6816febbf0469dca6e8008879dedf318022770f7dd1d84"
+      },
+      "registry_deliveryevidence": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ezdcaselink": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_integrationjob": {
+        "count": 1,
+        "sha256": "58d43c0e396a860d630d21e0a154356808aba7667d8d5da3a7562879fbaa6b50"
+      },
+      "registry_letter": {
+        "count": 8,
+        "sha256": "c468dfd16611c4d5afe33aedc211dc59194e39ba4bfdb801ae6f4bb48d3664a0"
+      },
+      "registry_lettertemplate": {
+        "count": 4,
+        "sha256": "a0420887f653bc191a56a3b7fa39e9d129b345edb1f870c15d0877b9fe2be682"
+      },
+      "registry_logincode": {
+        "count": 2,
+        "sha256": "a4feec694b94cd9a856c1e3cb6ead7b4da9f7d90567d39e31306ac8b1ff04c3b"
+      },
+      "registry_numbersequence": {
+        "count": 3,
+        "sha256": "bd3368167fe7af16bb39e56143cb6f90f6ff8355231ba588fcf6fcea32dfeaf5"
+      },
+      "registry_office": {
+        "count": 35,
+        "sha256": "36c5af3acac4a8bcb1104708ee230ee26b1105c577e51ae3a01e3297384d1346"
+      },
+      "registry_platerecord": {
+        "count": 4,
+        "sha256": "c7e527a984d317e2408b79ad834a596fccc5b4cf642d04e4839400c57b718824"
+      },
+      "registry_pool": {
+        "count": 1,
+        "sha256": "e09d44a842f3af93dba4cfd3b958b4367956cd5ae38e43ca63ae67550145ea72"
+      },
+      "registry_poolslot": {
+        "count": 30,
+        "sha256": "6735fff16774398eb5d9ccd7414c1b7e0b62b6fa253d8a5d9c0273ab78bf7c48"
+      },
+      "registry_ratebucket": {
+        "count": 4,
+        "sha256": "acd04ce36003c228fb798b9bce071c045276bc858f25c8532beeb5b0463237b6"
+      },
+      "registry_request": {
+        "count": 4,
+        "sha256": "6d007213573010eae27fa1158f891f3a55cdf17c8681d0568cfdc37adcf86584"
+      },
+      "registry_user": {
+        "count": 4,
+        "sha256": "78e40409bfc0f159070ace4932a09abeb2bd6711618d7f5a116cf32d119db081"
+      },
+      "registry_user_groups": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_user_user_permissions": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    }
+  },
+  "restore": {
+    "sqlite": {
+      "allowed_changes": {
+        "django_session": {
+          "removed_sessions": 9
+        }
+      },
+      "tables": {
+        "auth_group": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth_group_permissions": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth_permission": {
+          "count": 88,
+          "sha256": "d81143864f71efc3402e1bcc9ae3f5421e18dcf9efee1edb61ce0c065326b8f5"
+        },
+        "django_content_type": {
+          "count": 22,
+          "sha256": "8a88284a944a715ba29ed2d49506f1674d855c2d8c812157958a86da9d142756"
+        },
+        "django_migrations": {
+          "count": 25,
+          "sha256": "d8d81d68ea43e616dbd98a42f2c73826a3530efc19a3500a7b0004be3c17f032"
+        },
+        "django_session": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_accountinvitation": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_auditlog": {
+          "count": 58,
+          "sha256": "8939805567817df07a4d097f44b42faf3c5d6e5c09183ec6f41181d97fb0373f"
+        },
+        "registry_deliveryevidence": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_ezdcaselink": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_ezdincomingdocument": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_integrationjob": {
+          "count": 1,
+          "sha256": "9bf08358aeebd3bfd880b6aa9609ec1ed0bcc754169aecdec43ec61771bd1ffd"
+        },
+        "registry_letter": {
+          "count": 12,
+          "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+        },
+        "registry_lettertemplate": {
+          "count": 4,
+          "sha256": "584be4e2a1a6830345cddee84a64abfbece9dec48c34cce5770104d87dcd612b"
+        },
+        "registry_logincode": {
+          "count": 12,
+          "sha256": "19d674e2e3a2f6f2c6ae7117bd7f505e43deea96e527595373d19546d8f49973"
+        },
+        "registry_numbersequence": {
+          "count": 3,
+          "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+        },
+        "registry_office": {
+          "count": 35,
+          "sha256": "6b99103fa7f946d5173675317eb210944fd0d6576abed661da85f0812518ed04"
+        },
+        "registry_platerecord": {
+          "count": 5,
+          "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+        },
+        "registry_pool": {
+          "count": 1,
+          "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+        },
+        "registry_poolslot": {
+          "count": 30,
+          "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+        },
+        "registry_publicchallenge": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_ratebucket": {
+          "count": 7,
+          "sha256": "17006688d7a48a661f919c7d2868160cc5175e264285355bcd7ad01a9191a338"
+        },
+        "registry_request": {
+          "count": 5,
+          "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+        },
+        "registry_user": {
+          "count": 4,
+          "sha256": "d9381e6f688a293e5039d35817d59710b844522709df43bf51a66781c8610e98"
+        },
+        "registry_user_groups": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_user_user_permissions": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "sqlite_sequence": {
+          "count": 16,
+          "sha256": "ae81bf39af2fadf38fa352d6be81f7903b36ebd9ab7a6e65e1bd576858de2283"
+        }
+      },
+      "backup": {
+        "archive_sha256": "5bf054ec9723bafcbbed73bde7fd0420f8b75bf0a4a09d915fb080bfd42eca65",
+        "archive_mode": "0o600",
+        "manifest": {
+          "format": 1,
+          "created_at": "2026-10-03T06:58:38.953155+00:00",
+          "database_sha256": "e13a757cee481b9b95374ee1f1a205e297d882d20a7964fa60dfa44b2b6d6867",
+          "counts": {
+            "registry_lettertemplate": 4,
+            "registry_ratebucket": 7,
+            "registry_user_groups": 0,
+            "registry_user_user_permissions": 0,
+            "registry_logincode": 12,
+            "registry_office": 35,
+            "registry_auditlog": 58,
+            "registry_platerecord": 5,
+            "registry_poolslot": 30,
+            "registry_deliveryevidence": 0,
+            "registry_user": 4,
+            "registry_integrationjob": 1,
+            "registry_ezdcaselink": 0,
+            "registry_letter": 12,
+            "registry_request": 5,
+            "registry_numbersequence": 3,
+            "registry_publicchallenge": 0,
+            "registry_ezdincomingdocument": 0,
+            "registry_pool": 1,
+            "registry_accountinvitation": 0
+          },
+          "secrets_included": false,
+          "pdf_storage": "database"
+        }
+      }
+    },
+    "postgresql": {
+      "allowed_changes": {
+        "django_session": {
+          "removed_sessions": 1
+        },
+        "registry_integrationjob": {
+          "rows": 1,
+          "fields": [
+            "error",
+            "status"
+          ]
+        }
+      },
+      "tables": {
+        "auth_group": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth_group_permissions": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "auth_permission": {
+          "count": 76,
+          "sha256": "03023a0b4657ac3e59926a6d53df8c6a06e4f33c74506b7a901585ae150c8798"
+        },
+        "django_content_type": {
+          "count": 19,
+          "sha256": "1305d96569a2fb9df51861721f0f4325548e93f76c4f5a545742463eeb0eae59"
+        },
+        "django_migrations": {
+          "count": 20,
+          "sha256": "f80a512303bccf19b9a46e8f540bd8ea28f7976cd48c2e2c909631fb9702512a"
+        },
+        "django_session": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_auditlog": {
+          "count": 31,
+          "sha256": "14678d30c39c85abea6816febbf0469dca6e8008879dedf318022770f7dd1d84"
+        },
+        "registry_deliveryevidence": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_ezdcaselink": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_integrationjob": {
+          "count": 1,
+          "sha256": "521b26c52599b4378944aaa0c2c674dd10d8bf3fee3ad282997aebc09a6e73d9"
+        },
+        "registry_letter": {
+          "count": 8,
+          "sha256": "c468dfd16611c4d5afe33aedc211dc59194e39ba4bfdb801ae6f4bb48d3664a0"
+        },
+        "registry_lettertemplate": {
+          "count": 4,
+          "sha256": "a0420887f653bc191a56a3b7fa39e9d129b345edb1f870c15d0877b9fe2be682"
+        },
+        "registry_logincode": {
+          "count": 2,
+          "sha256": "a4feec694b94cd9a856c1e3cb6ead7b4da9f7d90567d39e31306ac8b1ff04c3b"
+        },
+        "registry_numbersequence": {
+          "count": 3,
+          "sha256": "bd3368167fe7af16bb39e56143cb6f90f6ff8355231ba588fcf6fcea32dfeaf5"
+        },
+        "registry_office": {
+          "count": 35,
+          "sha256": "36c5af3acac4a8bcb1104708ee230ee26b1105c577e51ae3a01e3297384d1346"
+        },
+        "registry_platerecord": {
+          "count": 4,
+          "sha256": "c7e527a984d317e2408b79ad834a596fccc5b4cf642d04e4839400c57b718824"
+        },
+        "registry_pool": {
+          "count": 1,
+          "sha256": "e09d44a842f3af93dba4cfd3b958b4367956cd5ae38e43ca63ae67550145ea72"
+        },
+        "registry_poolslot": {
+          "count": 30,
+          "sha256": "6735fff16774398eb5d9ccd7414c1b7e0b62b6fa253d8a5d9c0273ab78bf7c48"
+        },
+        "registry_ratebucket": {
+          "count": 4,
+          "sha256": "acd04ce36003c228fb798b9bce071c045276bc858f25c8532beeb5b0463237b6"
+        },
+        "registry_request": {
+          "count": 4,
+          "sha256": "6d007213573010eae27fa1158f891f3a55cdf17c8681d0568cfdc37adcf86584"
+        },
+        "registry_user": {
+          "count": 4,
+          "sha256": "78e40409bfc0f159070ace4932a09abeb2bd6711618d7f5a116cf32d119db081"
+        },
+        "registry_user_groups": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "registry_user_user_permissions": {
+          "count": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      },
+      "backup": {
+        "archive_sha256": "ab7b023e2d13b9e1fe31a1b1da83fe7db1f1cf0c0e271401fbab0f034be1f0e5",
+        "archive_mode": "0o600",
+        "manifest": {
+          "format": 2,
+          "engine": "postgresql",
+          "schema": "public",
+          "created_at": "2026-10-03T06:58:44.172965+00:00",
+          "source_database": "drt_pg_local",
+          "server_version_num": "180006",
+          "database_properties": {
+            "encoding": "UTF8",
+            "collate": "C",
+            "ctype": "C",
+            "provider": "c",
+            "locale": null,
+            "icu_rules": null,
+            "version": null
+          },
+          "client_version": "pg_dump (PostgreSQL) 18.6 (Postgres.app)",
+          "database_sha256": "d1dc4bc4a6f9e337181aa706f30368cf5eaa8c1e1f4b18559ff5b37383edd0d4",
+          "counts": {
+            "auth_group": 0,
+            "auth_group_permissions": 0,
+            "auth_permission": 76,
+            "django_content_type": 19,
+            "django_migrations": 20,
+            "django_session": 1,
+            "registry_auditlog": 31,
+            "registry_deliveryevidence": 0,
+            "registry_ezdcaselink": 0,
+            "registry_integrationjob": 1,
+            "registry_letter": 8,
+            "registry_lettertemplate": 4,
+            "registry_logincode": 2,
+            "registry_numbersequence": 3,
+            "registry_office": 35,
+            "registry_platerecord": 4,
+            "registry_pool": 1,
+            "registry_poolslot": 30,
+            "registry_ratebucket": 4,
+            "registry_request": 4,
+            "registry_user": 4,
+            "registry_user_groups": 0,
+            "registry_user_user_permissions": 0
+          },
+          "migrations": [
+            [
+              "auth",
+              "0001_initial"
+            ],
+            [
+              "auth",
+              "0002_alter_permission_name_max_length"
+            ],
+            [
+              "auth",
+              "0003_alter_user_email_max_length"
+            ],
+            [
+              "auth",
+              "0004_alter_user_username_opts"
+            ],
+            [
+              "auth",
+              "0005_alter_user_last_login_null"
+            ],
+            [
+              "auth",
+              "0006_require_contenttypes_0002"
+            ],
+            [
+              "auth",
+              "0007_alter_validators_add_error_messages"
+            ],
+            [
+              "auth",
+              "0008_alter_user_username_max_length"
+            ],
+            [
+              "auth",
+              "0009_alter_user_last_name_max_length"
+            ],
+            [
+              "auth",
+              "0010_alter_group_name_max_length"
+            ],
+            [
+              "auth",
+              "0011_update_proxy_permissions"
+            ],
+            [
+              "auth",
+              "0012_alter_user_first_name_max_length"
+            ],
+            [
+              "contenttypes",
+              "0001_initial"
+            ],
+            [
+              "contenttypes",
+              "0002_remove_content_type_name"
+            ],
+            [
+              "registry",
+              "0001_initial"
+            ],
+            [
+              "registry",
+              "0002_integrationjob_claimed_until_integrationjob_payload_and_more"
+            ],
+            [
+              "registry",
+              "0003_letter_signature_report_letter_signed_at_and_more"
+            ],
+            [
+              "registry",
+              "0004_letter_replaces"
+            ],
+            [
+              "registry",
+              "0005_numbersequence_letter_number_ordinal_and_more"
+            ],
+            [
+              "sessions",
+              "0001_initial"
+            ]
+          ],
+          "configuration_secrets_included": false,
+          "authentication_data_included": true,
+          "pdf_storage": "database",
+          "snapshot_consistent": true
+        }
+      }
+    }
+  },
+  "upgrade": {
+    "tables": {
+      "auth_group": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth_group_permissions": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth_permission": {
+        "count": 88,
+        "sha256": "cab51a4ceacf0439fe19bbfb6bc73253b9a260c3e9489651d0676e3ed995f77a"
+      },
+      "django_content_type": {
+        "count": 22,
+        "sha256": "094602c6462404332c02c9bb2a35a97d9479ec031f239c9c71a2cd99224aeb34"
+      },
+      "django_migrations": {
+        "count": 25,
+        "sha256": "6dde6fb0bcc77a7ad579c27f249a9b111e77f27463499effc79e91636fbed6b3"
+      },
+      "django_session": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_accountinvitation": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_auditlog": {
+        "count": 35,
+        "sha256": "7890192588a4533230a95b06b698f1350b4e3443791919c0aa024560e8552298"
+      },
+      "registry_deliveryevidence": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ezdcaselink": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ezdincomingdocument": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_integrationjob": {
+        "count": 1,
+        "sha256": "521b26c52599b4378944aaa0c2c674dd10d8bf3fee3ad282997aebc09a6e73d9"
+      },
+      "registry_letter": {
+        "count": 8,
+        "sha256": "c468dfd16611c4d5afe33aedc211dc59194e39ba4bfdb801ae6f4bb48d3664a0"
+      },
+      "registry_lettertemplate": {
+        "count": 4,
+        "sha256": "584be4e2a1a6830345cddee84a64abfbece9dec48c34cce5770104d87dcd612b"
+      },
+      "registry_logincode": {
+        "count": 2,
+        "sha256": "a4feec694b94cd9a856c1e3cb6ead7b4da9f7d90567d39e31306ac8b1ff04c3b"
+      },
+      "registry_numbersequence": {
+        "count": 3,
+        "sha256": "bd3368167fe7af16bb39e56143cb6f90f6ff8355231ba588fcf6fcea32dfeaf5"
+      },
+      "registry_office": {
+        "count": 35,
+        "sha256": "36c5af3acac4a8bcb1104708ee230ee26b1105c577e51ae3a01e3297384d1346"
+      },
+      "registry_platerecord": {
+        "count": 4,
+        "sha256": "c7e527a984d317e2408b79ad834a596fccc5b4cf642d04e4839400c57b718824"
+      },
+      "registry_pool": {
+        "count": 1,
+        "sha256": "e09d44a842f3af93dba4cfd3b958b4367956cd5ae38e43ca63ae67550145ea72"
+      },
+      "registry_poolslot": {
+        "count": 30,
+        "sha256": "6735fff16774398eb5d9ccd7414c1b7e0b62b6fa253d8a5d9c0273ab78bf7c48"
+      },
+      "registry_publicchallenge": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ratebucket": {
+        "count": 4,
+        "sha256": "acd04ce36003c228fb798b9bce071c045276bc858f25c8532beeb5b0463237b6"
+      },
+      "registry_request": {
+        "count": 4,
+        "sha256": "6d007213573010eae27fa1158f891f3a55cdf17c8681d0568cfdc37adcf86584"
+      },
+      "registry_user": {
+        "count": 4,
+        "sha256": "78e40409bfc0f159070ace4932a09abeb2bd6711618d7f5a116cf32d119db081"
+      },
+      "registry_user_groups": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_user_user_permissions": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    },
+    "migration_steps": 5,
+    "new_tables": [
+      "registry_accountinvitation",
+      "registry_ezdincomingdocument",
+      "registry_publicchallenge"
+    ],
+    "template_updates": 4,
+    "audit_events_added": 4,
+    "archived_documents_and_business_rows_unchanged": true
+  },
+  "sources_preserved_after_upgrade": {
+    "sqlite": {
+      "auth_group": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth_group_permissions": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth_permission": {
+        "count": 88,
+        "sha256": "d81143864f71efc3402e1bcc9ae3f5421e18dcf9efee1edb61ce0c065326b8f5"
+      },
+      "django_content_type": {
+        "count": 22,
+        "sha256": "8a88284a944a715ba29ed2d49506f1674d855c2d8c812157958a86da9d142756"
+      },
+      "django_migrations": {
+        "count": 25,
+        "sha256": "d8d81d68ea43e616dbd98a42f2c73826a3530efc19a3500a7b0004be3c17f032"
+      },
+      "django_session": {
+        "count": 9,
+        "sha256": "304f9c9b770c229deb5a4a54ba9e497033a465bbfaac8be4e449e0a417349778"
+      },
+      "registry_accountinvitation": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_auditlog": {
+        "count": 58,
+        "sha256": "8939805567817df07a4d097f44b42faf3c5d6e5c09183ec6f41181d97fb0373f"
+      },
+      "registry_deliveryevidence": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ezdcaselink": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ezdincomingdocument": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_integrationjob": {
+        "count": 1,
+        "sha256": "9bf08358aeebd3bfd880b6aa9609ec1ed0bcc754169aecdec43ec61771bd1ffd"
+      },
+      "registry_letter": {
+        "count": 12,
+        "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+      },
+      "registry_lettertemplate": {
+        "count": 4,
+        "sha256": "584be4e2a1a6830345cddee84a64abfbece9dec48c34cce5770104d87dcd612b"
+      },
+      "registry_logincode": {
+        "count": 12,
+        "sha256": "19d674e2e3a2f6f2c6ae7117bd7f505e43deea96e527595373d19546d8f49973"
+      },
+      "registry_numbersequence": {
+        "count": 3,
+        "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+      },
+      "registry_office": {
+        "count": 35,
+        "sha256": "6b99103fa7f946d5173675317eb210944fd0d6576abed661da85f0812518ed04"
+      },
+      "registry_platerecord": {
+        "count": 5,
+        "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+      },
+      "registry_pool": {
+        "count": 1,
+        "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+      },
+      "registry_poolslot": {
+        "count": 30,
+        "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+      },
+      "registry_publicchallenge": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ratebucket": {
+        "count": 7,
+        "sha256": "17006688d7a48a661f919c7d2868160cc5175e264285355bcd7ad01a9191a338"
+      },
+      "registry_request": {
+        "count": 5,
+        "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+      },
+      "registry_user": {
+        "count": 4,
+        "sha256": "d9381e6f688a293e5039d35817d59710b844522709df43bf51a66781c8610e98"
+      },
+      "registry_user_groups": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_user_user_permissions": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "sqlite_sequence": {
+        "count": 16,
+        "sha256": "ae81bf39af2fadf38fa352d6be81f7903b36ebd9ab7a6e65e1bd576858de2283"
+      }
+    },
+    "postgresql": {
+      "auth_group": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth_group_permissions": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth_permission": {
+        "count": 76,
+        "sha256": "03023a0b4657ac3e59926a6d53df8c6a06e4f33c74506b7a901585ae150c8798"
+      },
+      "django_content_type": {
+        "count": 19,
+        "sha256": "1305d96569a2fb9df51861721f0f4325548e93f76c4f5a545742463eeb0eae59"
+      },
+      "django_migrations": {
+        "count": 20,
+        "sha256": "f80a512303bccf19b9a46e8f540bd8ea28f7976cd48c2e2c909631fb9702512a"
+      },
+      "django_session": {
+        "count": 1,
+        "sha256": "3311e533ee49e903e2b29c9d73f941129f8cf22fe01212d93c211cc7eda7f298"
+      },
+      "registry_auditlog": {
+        "count": 31,
+        "sha256": "14678d30c39c85abea6816febbf0469dca6e8008879dedf318022770f7dd1d84"
+      },
+      "registry_deliveryevidence": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ezdcaselink": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_integrationjob": {
+        "count": 1,
+        "sha256": "58d43c0e396a860d630d21e0a154356808aba7667d8d5da3a7562879fbaa6b50"
+      },
+      "registry_letter": {
+        "count": 8,
+        "sha256": "c468dfd16611c4d5afe33aedc211dc59194e39ba4bfdb801ae6f4bb48d3664a0"
+      },
+      "registry_lettertemplate": {
+        "count": 4,
+        "sha256": "a0420887f653bc191a56a3b7fa39e9d129b345edb1f870c15d0877b9fe2be682"
+      },
+      "registry_logincode": {
+        "count": 2,
+        "sha256": "a4feec694b94cd9a856c1e3cb6ead7b4da9f7d90567d39e31306ac8b1ff04c3b"
+      },
+      "registry_numbersequence": {
+        "count": 3,
+        "sha256": "bd3368167fe7af16bb39e56143cb6f90f6ff8355231ba588fcf6fcea32dfeaf5"
+      },
+      "registry_office": {
+        "count": 35,
+        "sha256": "36c5af3acac4a8bcb1104708ee230ee26b1105c577e51ae3a01e3297384d1346"
+      },
+      "registry_platerecord": {
+        "count": 4,
+        "sha256": "c7e527a984d317e2408b79ad834a596fccc5b4cf642d04e4839400c57b718824"
+      },
+      "registry_pool": {
+        "count": 1,
+        "sha256": "e09d44a842f3af93dba4cfd3b958b4367956cd5ae38e43ca63ae67550145ea72"
+      },
+      "registry_poolslot": {
+        "count": 30,
+        "sha256": "6735fff16774398eb5d9ccd7414c1b7e0b62b6fa253d8a5d9c0273ab78bf7c48"
+      },
+      "registry_ratebucket": {
+        "count": 4,
+        "sha256": "acd04ce36003c228fb798b9bce071c045276bc858f25c8532beeb5b0463237b6"
+      },
+      "registry_request": {
+        "count": 4,
+        "sha256": "6d007213573010eae27fa1158f891f3a55cdf17c8681d0568cfdc37adcf86584"
+      },
+      "registry_user": {
+        "count": 4,
+        "sha256": "78e40409bfc0f159070ace4932a09abeb2bd6711618d7f5a116cf32d119db081"
+      },
+      "registry_user_groups": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_user_user_permissions": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    }
+  },
+  "restored_demo_signature_checks": [
+    {
+      "original_sha256": "2259cc280cef7c101d2210a85f0fb7b8e33cfd1beef22f9c2e1f702ff03ca6ae",
+      "signed_sha256": "8b6e48cb01a5aa896e9700a859dbf95ee52183202911a856bfc1c94e5726d741",
+      "mode": "DEMO",
+      "qualification": "NOT_ASSESSED",
+      "original_content_unchanged": true,
+      "signatures": [
+        {
+          "intact": true,
+          "valid": true,
+          "trusted": true,
+          "coverage": "ENTIRE_FILE",
+          "certificate_time_valid": true
+        }
+      ]
+    }
+  ],
+  "health_restored": {
+    "status": "ok",
+    "service": "dyna-rejestr-tablic",
+    "mode": "local",
+    "revision": "dc3d6dfb15c3f27412850425d1f0bac3c016a8ec"
+  },
+  "health_main": {
+    "status": "ok",
+    "service": "dyna-rejestr-tablic",
+    "mode": "local",
+    "revision": "dc3d6dfb15c3f27412850425d1f0bac3c016a8ec"
+  },
+  "chrome": {
+    "browser": "Chrome, user profile",
+    "real_otp_login": true,
+    "restored_panel_visible": true,
+    "held_queue_visible": true,
+    "signature_archive_visible": true,
+    "downloaded_pdf_sha256": "8b6e48cb01a5aa896e9700a859dbf95ee52183202911a856bfc1c94e5726d741",
+    "screenshots": [
+      "evidence/126-final-restored-queue.png",
+      "evidence/127-final-restored-signature.png"
+    ],
+    "scope": "UMP on restored PostgreSQL; not all roles or all three business processes",
+    "all_eight_business_and_queue_tables_unchanged": true
+  },
+  "restored_worker": {
+    "command": "manage.py process_integrations",
+    "exit_code": 0,
+    "output_empty": true,
+    "scope": "One SMTP job held in REVIEW_REQUIRED; external services not called",
+    "job_unchanged_after_worker_and_chrome": true
+  },
+  "source_sha256": {
+    "registry/postgres_backup.py": "7a3ff205c1eb2ab863291121c08faae569bc5c0f3dc687f9e3654c64b723234f",
+    "registry/backup_integrity.py": "5bfed2c5888d6c64e01e8bb42149a7ba85a81777624bfdb42a81ff5a0e45fa02",
+    "registry/management/commands/backup_registry.py": "f4d6541fc7900108ba6d012685836df8d4527f5c2d00cba22b8cbe548bfc408a",
+    "registry/management/commands/restore_registry.py": "96975c4855a1703811dec33de7c769e89ebc4177e14cfdf524b0b5c8c0f83b03",
+    "registry/test_database_concurrency.py": "58f5f7c48d37a17480c38f88fb488285f56c175f2c7f073922dce3e0e8ecc4cf",
+    "registry/tests.py": "9db65fc1724d2503a9794297f822991fd45940b51e2e7b3a3f95f7a6631690f7",
+    "registry/test_postgres_backup.py": "459a41b411168ff26b4633b990575639a8cfe837226bf9b19de2292ffb389894",
+    "registry/test_reservation_completion.py": "26c5bf36bda9ef191f52b3ac2561def0a3ca32043e37c4381bb904415c13c6ff",
+    "registry/test_numbering.py": "4aca8da5f1192474f8a1c025b76b1f915cbcc57c414d54d779ca16e28f7c1f3c"
+  },
+  "sources_preserved_after_chrome": {
+    "sqlite": {
+      "auth_group": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth_group_permissions": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth_permission": {
+        "count": 88,
+        "sha256": "d81143864f71efc3402e1bcc9ae3f5421e18dcf9efee1edb61ce0c065326b8f5"
+      },
+      "django_content_type": {
+        "count": 22,
+        "sha256": "8a88284a944a715ba29ed2d49506f1674d855c2d8c812157958a86da9d142756"
+      },
+      "django_migrations": {
+        "count": 25,
+        "sha256": "d8d81d68ea43e616dbd98a42f2c73826a3530efc19a3500a7b0004be3c17f032"
+      },
+      "django_session": {
+        "count": 9,
+        "sha256": "304f9c9b770c229deb5a4a54ba9e497033a465bbfaac8be4e449e0a417349778"
+      },
+      "registry_accountinvitation": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_auditlog": {
+        "count": 58,
+        "sha256": "8939805567817df07a4d097f44b42faf3c5d6e5c09183ec6f41181d97fb0373f"
+      },
+      "registry_deliveryevidence": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ezdcaselink": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ezdincomingdocument": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_integrationjob": {
+        "count": 1,
+        "sha256": "9bf08358aeebd3bfd880b6aa9609ec1ed0bcc754169aecdec43ec61771bd1ffd"
+      },
+      "registry_letter": {
+        "count": 12,
+        "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+      },
+      "registry_lettertemplate": {
+        "count": 4,
+        "sha256": "584be4e2a1a6830345cddee84a64abfbece9dec48c34cce5770104d87dcd612b"
+      },
+      "registry_logincode": {
+        "count": 12,
+        "sha256": "19d674e2e3a2f6f2c6ae7117bd7f505e43deea96e527595373d19546d8f49973"
+      },
+      "registry_numbersequence": {
+        "count": 3,
+        "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+      },
+      "registry_office": {
+        "count": 35,
+        "sha256": "6b99103fa7f946d5173675317eb210944fd0d6576abed661da85f0812518ed04"
+      },
+      "registry_platerecord": {
+        "count": 5,
+        "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+      },
+      "registry_pool": {
+        "count": 1,
+        "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+      },
+      "registry_poolslot": {
+        "count": 30,
+        "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+      },
+      "registry_publicchallenge": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ratebucket": {
+        "count": 7,
+        "sha256": "17006688d7a48a661f919c7d2868160cc5175e264285355bcd7ad01a9191a338"
+      },
+      "registry_request": {
+        "count": 5,
+        "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+      },
+      "registry_user": {
+        "count": 4,
+        "sha256": "d9381e6f688a293e5039d35817d59710b844522709df43bf51a66781c8610e98"
+      },
+      "registry_user_groups": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_user_user_permissions": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "sqlite_sequence": {
+        "count": 16,
+        "sha256": "ae81bf39af2fadf38fa352d6be81f7903b36ebd9ab7a6e65e1bd576858de2283"
+      }
+    },
+    "postgresql": {
+      "auth_group": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth_group_permissions": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "auth_permission": {
+        "count": 76,
+        "sha256": "03023a0b4657ac3e59926a6d53df8c6a06e4f33c74506b7a901585ae150c8798"
+      },
+      "django_content_type": {
+        "count": 19,
+        "sha256": "1305d96569a2fb9df51861721f0f4325548e93f76c4f5a545742463eeb0eae59"
+      },
+      "django_migrations": {
+        "count": 20,
+        "sha256": "f80a512303bccf19b9a46e8f540bd8ea28f7976cd48c2e2c909631fb9702512a"
+      },
+      "django_session": {
+        "count": 1,
+        "sha256": "3311e533ee49e903e2b29c9d73f941129f8cf22fe01212d93c211cc7eda7f298"
+      },
+      "registry_auditlog": {
+        "count": 31,
+        "sha256": "14678d30c39c85abea6816febbf0469dca6e8008879dedf318022770f7dd1d84"
+      },
+      "registry_deliveryevidence": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_ezdcaselink": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_integrationjob": {
+        "count": 1,
+        "sha256": "58d43c0e396a860d630d21e0a154356808aba7667d8d5da3a7562879fbaa6b50"
+      },
+      "registry_letter": {
+        "count": 8,
+        "sha256": "c468dfd16611c4d5afe33aedc211dc59194e39ba4bfdb801ae6f4bb48d3664a0"
+      },
+      "registry_lettertemplate": {
+        "count": 4,
+        "sha256": "a0420887f653bc191a56a3b7fa39e9d129b345edb1f870c15d0877b9fe2be682"
+      },
+      "registry_logincode": {
+        "count": 2,
+        "sha256": "a4feec694b94cd9a856c1e3cb6ead7b4da9f7d90567d39e31306ac8b1ff04c3b"
+      },
+      "registry_numbersequence": {
+        "count": 3,
+        "sha256": "bd3368167fe7af16bb39e56143cb6f90f6ff8355231ba588fcf6fcea32dfeaf5"
+      },
+      "registry_office": {
+        "count": 35,
+        "sha256": "36c5af3acac4a8bcb1104708ee230ee26b1105c577e51ae3a01e3297384d1346"
+      },
+      "registry_platerecord": {
+        "count": 4,
+        "sha256": "c7e527a984d317e2408b79ad834a596fccc5b4cf642d04e4839400c57b718824"
+      },
+      "registry_pool": {
+        "count": 1,
+        "sha256": "e09d44a842f3af93dba4cfd3b958b4367956cd5ae38e43ca63ae67550145ea72"
+      },
+      "registry_poolslot": {
+        "count": 30,
+        "sha256": "6735fff16774398eb5d9ccd7414c1b7e0b62b6fa253d8a5d9c0273ab78bf7c48"
+      },
+      "registry_ratebucket": {
+        "count": 4,
+        "sha256": "acd04ce36003c228fb798b9bce071c045276bc858f25c8532beeb5b0463237b6"
+      },
+      "registry_request": {
+        "count": 4,
+        "sha256": "6d007213573010eae27fa1158f891f3a55cdf17c8681d0568cfdc37adcf86584"
+      },
+      "registry_user": {
+        "count": 4,
+        "sha256": "78e40409bfc0f159070ace4932a09abeb2bd6711618d7f5a116cf32d119db081"
+      },
+      "registry_user_groups": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "registry_user_user_permissions": {
+        "count": 0,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      }
+    }
+  },
+  "cleanup": {
+    "restored_webserver_exit_code": 0,
+    "postgres_status": "pg_ctl: no server running",
+    "private_cluster_stopped": true,
+    "backups_and_restored_data_preserved": true
+  }
+}

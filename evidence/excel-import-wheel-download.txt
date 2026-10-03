@@ -1,0 +1,80 @@
+Ignoring tzdata: markers 'sys_platform == "win32"' don't match your environment
+Collecting altcha==2.1.0 (from -r requirements.txt (line 3))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/altcha-2.1.0-py3-none-any.whl
+Collecting anyio==4.15.1 (from -r requirements.txt (line 7))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/anyio-4.15.1-py3-none-any.whl
+Collecting asgiref==3.12.1 (from -r requirements.txt (line 11))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/asgiref-3.12.1-py3-none-any.whl
+Collecting asn1crypto==1.5.1 (from -r requirements.txt (line 15))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/asn1crypto-1.5.1-py2.py3-none-any.whl
+Collecting certifi==2026.7.22 (from -r requirements.txt (line 23))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/certifi-2026.7.22-py3-none-any.whl
+Collecting cffi==2.1.1 (from -r requirements.txt (line 30))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/cffi-2.1.1-cp312-cp312-macosx_11_0_arm64.whl
+Collecting charset-normalizer==3.5.2 (from -r requirements.txt (line 132))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/charset_normalizer-3.5.2-cp312-cp312-macosx_10_13_universal2.whl
+Collecting cryptography==47.0.0 (from -r requirements.txt (line 308))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/cryptography-47.0.0-cp311-abi3-macosx_10_9_universal2.whl
+Collecting defusedxml==0.7.1 (from -r requirements.txt (line 362))
+  Using cached defusedxml-0.7.1-py2.py3-none-any.whl (25 kB)
+Collecting django==5.2.17 (from -r requirements.txt (line 366))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/django-5.2.17-py3-none-any.whl
+Collecting et-xmlfile==2.0.0 (from -r requirements.txt (line 370))
+  Using cached et_xmlfile-2.0.0-py3-none-any.whl (18 kB)
+Collecting gunicorn==23.0.0 (from -r requirements.txt (line 374))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/gunicorn-23.0.0-py3-none-any.whl
+Collecting h11==0.16.0 (from -r requirements.txt (line 378))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/h11-0.16.0-py3-none-any.whl
+Collecting httpcore==1.0.9 (from -r requirements.txt (line 382))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/httpcore-1.0.9-py3-none-any.whl
+Collecting httpx==0.28.1 (from -r requirements.txt (line 386))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/httpx-0.28.1-py3-none-any.whl
+Collecting idna==3.20 (from -r requirements.txt (line 390))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/idna-3.20-py3-none-any.whl
+Collecting lxml==6.1.3 (from -r requirements.txt (line 397))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/lxml-6.1.3-cp312-cp312-macosx_10_13_universal2.whl
+Collecting openpyxl==3.1.5 (from -r requirements.txt (line 575))
+  Using cached openpyxl-3.1.5-py2.py3-none-any.whl (250 kB)
+Collecting oscrypto==1.3.0 (from -r requirements.txt (line 579))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/oscrypto-1.3.0-py2.py3-none-any.whl
+Collecting packaging==26.3 (from -r requirements.txt (line 583))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/packaging-26.3-py3-none-any.whl
+Collecting pillow==12.3.0 (from -r requirements.txt (line 587))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/pillow-12.3.0-cp312-cp312-macosx_11_0_arm64.whl
+Collecting psycopg==3.3.6 (from -r requirements.txt (line 676))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/psycopg-3.3.6-py3-none-any.whl
+Collecting psycopg-binary==3.3.6 (from -r requirements.txt (line 680))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/psycopg_binary-3.3.6-cp312-cp312-macosx_11_0_arm64.whl
+Collecting pycparser==3.0 (from -r requirements.txt (line 748))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/pycparser-3.0-py3-none-any.whl
+Collecting pyhanko==0.35.0 (from -r requirements.txt (line 752))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/pyhanko-0.35.0-py3-none-any.whl
+Collecting pyhanko-certvalidator==0.31.0 (from -r requirements.txt (line 756))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/pyhanko_certvalidator-0.31.0-py3-none-any.whl
+Collecting pyjwt==2.15.1 (from -r requirements.txt (line 762))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/pyjwt-2.15.1-py3-none-any.whl
+Collecting pypdf==6.19.0 (from -r requirements.txt (line 766))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/pypdf-6.19.0-py3-none-any.whl
+Collecting pyyaml==6.0.3 (from -r requirements.txt (line 770))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/pyyaml-6.0.3-cp312-cp312-macosx_11_0_arm64.whl
+Collecting reportlab==4.5.1 (from -r requirements.txt (line 845))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/reportlab-4.5.1-py3-none-any.whl
+Collecting requests==2.34.2 (from -r requirements.txt (line 849))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/requests-2.34.2-py3-none-any.whl
+Collecting sqlparse==0.6.0 (from -r requirements.txt (line 855))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/sqlparse-0.6.0-py3-none-any.whl
+Collecting typing-extensions==4.16.0 (from -r requirements.txt (line 859))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/typing_extensions-4.16.0-py3-none-any.whl
+Collecting tzlocal==5.4.4 (from -r requirements.txt (line 872))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/tzlocal-5.4.4-py3-none-any.whl
+Collecting uritools==6.1.3 (from -r requirements.txt (line 876))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/uritools-6.1.3-py3-none-any.whl
+Collecting urllib3==2.8.0 (from -r requirements.txt (line 880))
+  File was already downloaded /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-wheels-macos-20261003/urllib3-2.8.0-py3-none-any.whl
+Saved ./var/dependency-wheels-macos-20261003/defusedxml-0.7.1-py2.py3-none-any.whl
+Saved ./var/dependency-wheels-macos-20261003/et_xmlfile-2.0.0-py3-none-any.whl
+Saved ./var/dependency-wheels-macos-20261003/openpyxl-3.1.5-py2.py3-none-any.whl
+Successfully downloaded altcha anyio asgiref asn1crypto certifi cffi charset-normalizer cryptography defusedxml django et-xmlfile gunicorn h11 httpcore httpx idna lxml openpyxl oscrypto packaging pillow psycopg psycopg-binary pycparser pyhanko pyhanko-certvalidator pyjwt pypdf pyyaml reportlab requests sqlparse typing-extensions tzlocal uritools urllib3
+
+[notice] A new release of pip is available: 25.0.1 -> 26.2.1
+[notice] To update, run: /Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/bin/python -m pip install --upgrade pip

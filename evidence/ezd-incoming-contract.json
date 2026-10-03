@@ -1,0 +1,16 @@
+{
+  "source": "https://integrator-api.demo.ezdrp.gov.pl/swagger/v2/swagger.json",
+  "http_status": 200,
+  "current_contract_matches_stored": true,
+  "sha256": "f4a44316998fc046c983a916d365141ade63dee832f4396ab6701cbd13ba3bff",
+  "verified_at": "2026-10-03T01:21:45.317429+00:00",
+  "read_operations": [
+    "POST /ezdrp/integrator/v2/rpw/_search",
+    "GET /ezdrp/integrator/v2/rpw/{numer}/{rok}/metadane",
+    "GET /ezdrp/integrator/v2/dokumenty/{idDokumentPrzestrzeni}",
+    "GET /ezdrp/integrator/v2/dokumenty/{idDokumentPrzestrzeni}/link",
+    "GET /ezdrp/integrator/v2/dokumenty/{idDokumentPrzestrzeni}/metadane"
+  ],
+  "write_operation": "PUT /ezdrp/integrator/v2/dokumenty/{idDokumentPrzestrzeni}/metadane",
+  "operator_business_flow_verified": false
+}

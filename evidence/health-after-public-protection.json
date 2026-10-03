@@ -1,0 +1,43 @@
+{
+  "health_status": 200,
+  "body": {
+    "status": "ok",
+    "service": "dyna-rejestr-tablic",
+    "mode": "local"
+  },
+  "primary_business_data_unchanged": true,
+  "migration": "0006_public_challenge",
+  "business_tables": {
+    "registry_request": {
+      "count": 5,
+      "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+    },
+    "registry_platerecord": {
+      "count": 5,
+      "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+    },
+    "registry_letter": {
+      "count": 12,
+      "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+    },
+    "registry_pool": {
+      "count": 1,
+      "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+    },
+    "registry_poolslot": {
+      "count": 30,
+      "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+    },
+    "registry_numbersequence": {
+      "count": 3,
+      "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+    }
+  },
+  "native_postgres_stopped": true,
+  "captcha_chrome_completed": false,
+  "captcha_chrome_requires_confirmation": true,
+  "verified_at": "2026-10-03T00:46:35.870803+00:00",
+  "business_hash_method": "sha256(repr(SELECT * ORDER BY id).encode())",
+  "static_css_version": 4,
+  "offline_worker_interoperability": "PASS; evidence/altcha-worker-interoperability.json"
+}

@@ -1,0 +1,93 @@
+{
+  "scope": "real local HTTP, separate SQLite copy, file email OTP; synthetic SOLD fixture; no external API",
+  "server_health": {
+    "status": "ok",
+    "service": "dyna-rejestr-tablic",
+    "mode": "local",
+    "revision": "api-validation-worktree"
+  },
+  "cases": [
+    {
+      "case": "invalid_sale_date",
+      "status": 400,
+      "error": "Pole sale_date: podaj datę w formacie RRRR-MM-DD albo null.",
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "case": "invalid_calendar_day",
+      "status": 400,
+      "error": "Pole sale_date: podaj istniejącą datę kalendarzową.",
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "case": "date_zero",
+      "status": 400,
+      "error": "Pole sale_date: podaj datę w formacie RRRR-MM-DD albo null.",
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "case": "fields_null",
+      "status": 400,
+      "error": "Pole fields musi być niepustym obiektem JSON.",
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "case": "boolean_version",
+      "status": 400,
+      "error": "Pole version musi być dodatnią liczbą całkowitą.",
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "case": "non_object_body",
+      "status": 400,
+      "error": "Treść żądania musi być obiektem JSON.",
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "case": "missing_csrf",
+      "status": 403,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "case": "valid_sale_date",
+      "status": 200,
+      "version": 2,
+      "before": {
+        "status": "SOLD",
+        "sale_date": "2025-02-01"
+      },
+      "after": {
+        "sale_date": "2025-02-28",
+        "status": "SOLD"
+      },
+      "reason": "Poprawa daty HTTP"
+    },
+    {
+      "case": "stale_version",
+      "status": 400,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "case": "explicit_null",
+      "status": 200,
+      "sale_date": null,
+      "status_after": "ISSUED",
+      "version": 3
+    },
+    {
+      "case": "pila_scope",
+      "status": 404,
+      "all_eight_tables_unchanged": true
+    },
+    {
+      "case": "admin_scope",
+      "status": 403,
+      "all_eight_tables_unchanged": true
+    }
+  ],
+  "source_sha256": {
+    "registry/views.py": "e875780ae9d44ca90643fbfbff42f36f39bced348a1c24b3ba44f80586be3bc8",
+    "registry/api_validation.py": "17739a934569268b408ac0661347961c6fcc7ba7100b43b438d5d6714f1db2dd",
+    "registry/test_api_validation.py": "b6ad2c1f55dd592d51cd4028a890607206653616cea282d9d6598b6992d188b8"
+  }
+}

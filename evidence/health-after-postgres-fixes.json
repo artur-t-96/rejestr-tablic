@@ -1,0 +1,10 @@
+{
+  "url": "http://127.0.0.1:8765/api/health/",
+  "http_status": 200,
+  "body": {
+    "status": "ok",
+    "service": "dyna-rejestr-tablic",
+    "mode": "local"
+  },
+  "postgres_test_application_stopped": true
+}

@@ -1,0 +1,74 @@
+{
+  "checked_at": "2026-10-03T08:38:10.966758+00:00",
+  "revision": "413f73ce70680da5d5177010bcbf17d0d271d91c",
+  "scope": "Preparation of two isolated current-code public acceptance copies and initial native Chrome states; CAPTCHA checkbox remains unchecked and no proof computed. VoiceOver observed off. This is readiness for final tests, not completion of CAPTCHA or reader/WCAG acceptance.",
+  "health": {
+    "8765": {
+      "status": "ok",
+      "service": "dyna-rejestr-tablic",
+      "mode": "local",
+      "revision": "176927740d467a41b866b6f58416c0474cdb7856"
+    },
+    "8787": {
+      "status": "ok",
+      "service": "dyna-rejestr-tablic",
+      "mode": "local",
+      "revision": "413f73ce70680da5d5177010bcbf17d0d271d91c"
+    },
+    "8788": {
+      "status": "ok",
+      "service": "dyna-rejestr-tablic",
+      "mode": "local",
+      "revision": "413f73ce70680da5d5177010bcbf17d0d271d91c"
+    }
+  },
+  "source_sha256": {
+    "config/settings.py": "856705ea4d34a09223f22126fc0f3d909cc40802b4d3f48986ef2033f0e87a56",
+    "registry/views.py": "a1c0a597d43104e2218ad51cecd32d6d2d3ea7153ce0c048927ed7745e449cab",
+    "registry/services.py": "68f752b39e8ea06d4b7733d8ab39af216167a463a9ed4ae040faba71fd72957e",
+    "registry/forms.py": "61dcf7ed33f83800ba400d48abf0edd28d6efe2a9c9f6687e783acd93eee6c22",
+    "registry/suggestions.py": "c235e4ba55e7ad2d73e6e3dcf89cc34d1b7cb83fb333c694254b6516cc95d137",
+    "registry/public_protection.py": "7f7f8352bf8df4656cab88b3056253c8f76109dac0480f30578dde7d6668458e",
+    "registry/templates/registry/public.html": "b2888373bc574436c22f80a762d93a14af9479467c9ef310ac5e264bc37e8deb",
+    "registry/templates/registry/base.html": "eca397f246f66f87c7469f1f44bb1c62365c4bf974e9ffa33d5fe8a5a3ed30c1",
+    "registry/static/registry/app.css": "74777732d9def093b33d44c080a9246b0736a32bc33020bcdad943fe22e42182",
+    "registry/static/registry/app.js": "7237441c6f0fa4f94ea4f67e1a90a3de31edd1541dbb2edeefc1bc11cc7d2845",
+    "registry/static/registry/public-captcha.js": "0fed76668e74be10e67b0ae8aeb0c32e185278ab38b67a3c545ad41235d169db",
+    "registry/static/registry/altcha/widget.js": "d1f46180ad7f4f61bf9a3be10a92317c60a9e9020a128d0aae7d3c020cc55df8",
+    "registry/static/registry/altcha/widget.css": "03622256effb4e962d0c1da9a59684cf237f541f290703934c07a97dabcbad47",
+    "registry/static/registry/altcha/pl.js": "29bfc902b5354b97bdb94310d4b98c2d9d1749d0d7361a79c4fc86e8f402a408"
+  },
+  "captcha_copy": {
+    "url": "http://127.0.0.1:8787/",
+    "threshold": 1,
+    "query_limit": 30,
+    "cost": 5000,
+    "actual_browser_posts": 2,
+    "statuses_from_server_log": [
+      200,
+      403
+    ],
+    "main_focus": "form-errors",
+    "input_preserved": "ANNA",
+    "checkbox_checked": false,
+    "tables_changed": [
+      "registry_ratebucket"
+    ],
+    "other_tables_preserved": 26,
+    "public_challenges_created": 0
+  },
+  "reader_copy": {
+    "url": "http://127.0.0.1:8788/",
+    "threshold": 10,
+    "tables_preserved": 27,
+    "voiceover_enabled": false,
+    "reader_test_executed": false
+  },
+  "main_tables_preserved": 27,
+  "screenshots": [
+    "151-aktualny-publiczny-captcha-oczekuje.jpg",
+    "152-aktualny-publiczny-przed-czytnikiem.jpg"
+  ],
+  "external_operator_calls": false,
+  "goal_complete": false
+}

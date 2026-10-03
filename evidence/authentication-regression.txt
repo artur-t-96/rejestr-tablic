@@ -1,0 +1,9 @@
+Using existing test database for alias 'default'...
+....................................
+----------------------------------------------------------------------
+Ran 36 tests in 1.897s
+
+OK
+Preserving test database for alias 'default'...
+Found 36 test(s).
+System check identified no issues (0 silenced).

@@ -1,0 +1,28 @@
+{
+  "target": "render-whitenoise-universal-wheel-only",
+  "lock": "requirements.txt",
+  "lock_sha256": "17cec87cca4a91a02cacc5cc7d20d1b48b2008d73f9b8f7b00c684a9ed3d4a15",
+  "package_count": 1,
+  "packages": [
+    {
+      "name": "whitenoise",
+      "version": "6.12.0",
+      "wheel": "whitenoise-6.12.0-py3-none-any.whl",
+      "sha256": "fc5e8c572e33ebf24795b47b6a7da8da3c00cff2349f5b04c02f28d0cc5a3cc2",
+      "hash_matches_lock": true,
+      "license_metadata": "MIT",
+      "registry": "https://pypi.org/project/whitenoise/6.12.0/",
+      "notices": [
+        {
+          "archive_path": "whitenoise-6.12.0.dist-info/licenses/LICENSE",
+          "path": "third_party/notices/whitenoise-6.12.0/whitenoise-6.12.0.dist-info/licenses/LICENSE",
+          "sha256": "ebfd469b4fb6b5adada547747e1e8da725ecf20595d54aced043275d4f4a3600"
+        }
+      ],
+      "notice_present": true
+    }
+  ],
+  "target_execution_verified": false,
+  "complete_license_compliance_verified": false,
+  "bundled_native_components_fully_inventoried": false
+}

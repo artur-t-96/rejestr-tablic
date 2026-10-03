@@ -1,0 +1,39 @@
+{
+  "downloaded_on": "2026-10-03",
+  "files": [
+    {
+      "file": "ezdrp-v1.json",
+      "source": "https://integrator-api.demo.ezdrp.gov.pl/swagger.json",
+      "sha256": "17ec504ba51f3698b6d4eda5554d8d17ed037ae6515751e32f5b389010d0d169",
+      "bytes": 184656,
+      "info_version": "26.307.10",
+      "paths": 80
+    },
+    {
+      "file": "ezdrp-v2.json",
+      "source": "https://integrator-api.demo.ezdrp.gov.pl/swagger/v2/swagger.json",
+      "sha256": "f4a44316998fc046c983a916d365141ade63dee832f4396ab6701cbd13ba3bff",
+      "bytes": 663538,
+      "info_version": "v2",
+      "paths": 113
+    },
+    {
+      "file": "uaapi_3.0.8.2.yaml",
+      "source": "https://edoreczenia.poczta-polska.pl/wp-content/uploads/2026/05/uaapi_3.0.8.2.zip",
+      "archive_member": "uaapi_3.0.8.2.yaml",
+      "sha256": "d6eb38dd5ecf1859346568bcedafdee5efdb48a584ef7f0db905975fe8b9aa83",
+      "bytes": 106302,
+      "info_version": "3.0.8",
+      "paths": 35
+    },
+    {
+      "file": "se-api_v.4.0.5.yaml",
+      "source": "https://www.gov.pl/attachment/89fa728d-0342-41e2-85d5-de4556ff80fa",
+      "archive_member": "word/embeddings/oleObject1.bin → Ole10Native → se-api_v.4.0.5.zip → se-api_v.4.0.5.yaml",
+      "sha256": "ae44baff4a43eae5316ab42b81394e07af9f431cb0267ffdc9c23dcc635f5927",
+      "bytes": 24481,
+      "info_version": "4.0.5",
+      "paths": 3
+    }
+  ]
+}

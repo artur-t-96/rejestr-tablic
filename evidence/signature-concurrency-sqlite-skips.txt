@@ -1,0 +1,10 @@
+Creating test database for alias 'default'...
+Destroying old test database for alias 'default'...
+ssssssssss
+----------------------------------------------------------------------
+Ran 10 tests in 0.000s
+
+OK (skipped=10)
+Destroying test database for alias 'default'...
+Found 10 test(s).
+System check identified no issues (0 silenced).

@@ -1,0 +1,151 @@
+{
+  "checked_at": "2026-10-03T08:26:59.646666+00:00",
+  "base_revision": "9fce1d8a72bcb01e3fa4316c9822bf0aa97c7633",
+  "scope": "Actual host-native HTTP, real local file OTP and CSRF, isolated SQLite copy, MAIN II/III creation and submission denied via API and forged HTML with all 27 tables unchanged; MAIN individual requests, COUNTY pool applications and MAIN decisions/direct II allocation. No browser/operator proof in this file.",
+  "source_sha256": {
+    "registry/services.py": "68f752b39e8ea06d4b7733d8ab39af216167a463a9ed4ae040faba71fd72957e",
+    "registry/forms.py": "61dcf7ed33f83800ba400d48abf0edd28d6efe2a9c9f6687e783acd93eee6c22",
+    "registry/views.py": "a1c0a597d43104e2218ad51cecd32d6d2d3ea7153ce0c048927ed7745e449cab",
+    "registry/templates/registry/pools.html": "a98a9991a920b868e92f9f5a25c8e833e5a9d27046695a12a9643d58b392a254",
+    "registry/templates/registry/request_detail.html": "1ce11cec9b3c6967aa68845cbc37a36be9d64f95e6b0f4f4ab856c21701b71ba",
+    "registry/test_pool_request_roles.py": "c712e2ddb4252e1f36eec9346b8559068382d70667fef441c799e3563e1e9103"
+  },
+  "http_business_posts": 17,
+  "forbidden_posts": 8,
+  "successful_posts": 9,
+  "denial_tables_preserved": 27,
+  "main_tables_preserved": 27,
+  "legacy_audit_rows_preserved": 58,
+  "legacy_pdf_archives_preserved": 12,
+  "checks": [
+    {
+      "actor": "MAIN",
+      "kind": "II",
+      "path": "/api/requests/",
+      "status": 403,
+      "csrf": true,
+      "all_27_tables_unchanged": true
+    },
+    {
+      "actor": "MAIN",
+      "kind": "II",
+      "path": "/panel/wnioski/nowy/",
+      "status": 403,
+      "csrf": true,
+      "all_27_tables_unchanged": true
+    },
+    {
+      "actor": "MAIN",
+      "kind": "III",
+      "path": "/api/requests/",
+      "status": 403,
+      "csrf": true,
+      "all_27_tables_unchanged": true
+    },
+    {
+      "actor": "MAIN",
+      "kind": "III",
+      "path": "/panel/wnioski/nowy/",
+      "status": 403,
+      "csrf": true,
+      "all_27_tables_unchanged": true
+    },
+    {
+      "actor": "MAIN",
+      "kind": "I",
+      "path": "/panel/wnioski/nowy/",
+      "status": 302,
+      "csrf": true
+    },
+    {
+      "actor": "MAIN",
+      "kind": "I",
+      "path": "/api/requests/",
+      "status": 201,
+      "csrf": true
+    },
+    {
+      "actor": "COUNTY",
+      "kind": "II",
+      "path": "/panel/wnioski/nowy/",
+      "status": 302,
+      "csrf": true
+    },
+    {
+      "actor": "MAIN",
+      "kind": "II",
+      "path": "/api/requests/89532c93-4928-4a9a-8c90-a5b9d9c29a1a/submit/",
+      "status": 403,
+      "csrf": true,
+      "all_27_tables_unchanged": true
+    },
+    {
+      "actor": "MAIN",
+      "kind": "II",
+      "path": "/panel/wnioski/89532c93-4928-4a9a-8c90-a5b9d9c29a1a/submit/",
+      "status": 403,
+      "csrf": true,
+      "all_27_tables_unchanged": true
+    },
+    {
+      "actor": "COUNTY",
+      "kind": null,
+      "path": "/api/requests/89532c93-4928-4a9a-8c90-a5b9d9c29a1a/submit/",
+      "status": 200,
+      "csrf": true
+    },
+    {
+      "actor": "MAIN",
+      "kind": null,
+      "path": "/api/requests/89532c93-4928-4a9a-8c90-a5b9d9c29a1a/decide/",
+      "status": 200,
+      "csrf": true
+    },
+    {
+      "actor": "COUNTY",
+      "kind": "III",
+      "path": "/api/requests/",
+      "status": 201,
+      "csrf": true
+    },
+    {
+      "actor": "MAIN",
+      "kind": "III",
+      "path": "/api/requests/d5497a3e-c3ea-422e-b955-955cd2c910a8/submit/",
+      "status": 403,
+      "csrf": true,
+      "all_27_tables_unchanged": true
+    },
+    {
+      "actor": "MAIN",
+      "kind": "III",
+      "path": "/panel/wnioski/d5497a3e-c3ea-422e-b955-955cd2c910a8/submit/",
+      "status": 403,
+      "csrf": true,
+      "all_27_tables_unchanged": true
+    },
+    {
+      "actor": "COUNTY",
+      "kind": null,
+      "path": "/api/requests/d5497a3e-c3ea-422e-b955-955cd2c910a8/submit/",
+      "status": 200,
+      "csrf": true
+    },
+    {
+      "actor": "MAIN",
+      "kind": null,
+      "path": "/api/requests/d5497a3e-c3ea-422e-b955-955cd2c910a8/decide/",
+      "status": 200,
+      "csrf": true
+    },
+    {
+      "actor": "MAIN",
+      "kind": "II",
+      "path": "/api/pools/",
+      "status": 201,
+      "csrf": true
+    }
+  ],
+  "external_operator_calls": false,
+  "goal_complete": false
+}

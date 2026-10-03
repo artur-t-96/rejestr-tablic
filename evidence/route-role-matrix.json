@@ -1,0 +1,1172 @@
+{
+  "application_revision": "3c53b4fed4ad2a67a8d6921cc388dd9ea806105d",
+  "role_order": [
+    "anonymous",
+    "admin",
+    "main",
+    "county",
+    "other"
+  ],
+  "cases": [
+    {
+      "method": "GET",
+      "path": "/",
+      "label": "/",
+      "statuses": {
+        "anonymous": 200,
+        "admin": 200,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/logowanie/",
+      "label": "/logowanie/",
+      "statuses": {
+        "anonymous": 200,
+        "admin": 302,
+        "main": 302,
+        "county": 302,
+        "other": 302
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/logowanie/kod/",
+      "label": "/logowanie/kod/",
+      "statuses": {
+        "anonymous": 200,
+        "admin": 200,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/wyloguj/",
+      "label": "/wyloguj/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 302,
+        "main": 302,
+        "county": 302,
+        "other": 302
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/",
+      "label": "/panel/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 302,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/wnioski/",
+      "label": "/panel/wnioski/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/wnioski/nowy/",
+      "label": "/panel/wnioski/nowy/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "label": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "label": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 302,
+        "county": 302,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/ewidencja/",
+      "label": "/panel/ewidencja/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "label": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/ewidencja/e7dc8d9e-faf2-40bd-b053-e9b3a1a844d1/przedluz/",
+      "label": "/panel/ewidencja/e7dc8d9e-faf2-40bd-b053-e9b3a1a844d1/przedluz/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 302,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/eksport/",
+      "label": "/panel/eksport/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/import/",
+      "label": "/panel/import/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/import/pule/",
+      "label": "/panel/import/pule/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/pule/",
+      "label": "/panel/pule/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/pule/nowa/",
+      "label": "/panel/pule/nowa/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "label": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/pisma/",
+      "label": "/panel/pisma/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/pdf/",
+      "label": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/pdf/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "label": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 403,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "label": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 403,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wyslij/",
+      "label": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wyslij/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 403,
+        "county": 302,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "label": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 403,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/audyt/",
+      "label": "/panel/audyt/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/integracje/",
+      "label": "/panel/integracje/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/integracje/ezd/wplywy/",
+      "label": "/panel/integracje/ezd/wplywy/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/link/",
+      "label": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/link/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 404,
+        "county": 302,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/pdf/",
+      "label": "/panel/integracje/ezd/wplywy/7429d8d0-6c5c-4306-b6d1-d2a359161cb6/pdf/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 404,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/integracje/adresy/",
+      "label": "/panel/integracje/adresy/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "label": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/dowody/1/",
+      "label": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/dowody/1/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/administracja/",
+      "label": "/panel/administracja/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/administracja/konta/3/zaproszenia/",
+      "label": "/panel/administracja/konta/3/zaproszenia/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "label": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/administracja/user/nowy/",
+      "label": "/panel/administracja/user/nowy/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/administracja/user/3/",
+      "label": "/panel/administracja/user/3/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/administracja/office/nowy/",
+      "label": "/panel/administracja/office/nowy/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/administracja/office/gni/",
+      "label": "/panel/administracja/office/gni/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/administracja/template/nowy/",
+      "label": "/panel/administracja/template/nowy/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/administracja/template/1/",
+      "label": "/panel/administracja/template/1/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/health/",
+      "label": "/api/health/",
+      "statuses": {
+        "anonymous": 200,
+        "admin": 200,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/session/",
+      "label": "/api/session/",
+      "statuses": {
+        "anonymous": 401,
+        "admin": 200,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/session/extend/",
+      "label": "/api/session/extend/",
+      "statuses": {
+        "anonymous": 401,
+        "admin": 200,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/availability/?part=ROLE",
+      "label": "/api/availability/?part=ROLE",
+      "statuses": {
+        "anonymous": 200,
+        "admin": 200,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/public-challenge/",
+      "label": "/api/public-challenge/",
+      "statuses": {
+        "anonymous": 200,
+        "admin": 200,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/requests/",
+      "label": "/api/requests/",
+      "statuses": {
+        "anonymous": 401,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "label": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/withdraw/",
+      "statuses": {
+        "anonymous": 401,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "label": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "statuses": {
+        "anonymous": 401,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/pools/",
+      "label": "/api/pools/",
+      "statuses": {
+        "anonymous": 401,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/pools/0b2998bc-1f74-4211-8431-0b658b186564/issue/",
+      "label": "/api/pools/0b2998bc-1f74-4211-8431-0b658b186564/issue/",
+      "statuses": {
+        "anonymous": 401,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/podpis/",
+      "label": "UMP sender podpis",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/wersja/",
+      "label": "UMP sender wersja",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/ezd/",
+      "label": "UMP sender ezd",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/pule/de82254a-0b67-4765-bbe9-71d90d752d9f/",
+      "label": "module III pool",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/wnioski/131ab119-791a-42b1-bf34-06a88e7f5927/",
+      "label": "module III request",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/",
+      "label": "validation boundary: /",
+      "statuses": {
+        "anonymous": 200,
+        "admin": 200,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/logowanie/",
+      "label": "validation boundary: /logowanie/",
+      "statuses": {
+        "anonymous": 200,
+        "admin": 302,
+        "main": 302,
+        "county": 302,
+        "other": 302
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/logowanie/kod/",
+      "label": "validation boundary: /logowanie/kod/",
+      "statuses": {
+        "anonymous": 200,
+        "admin": 200,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/wnioski/nowy/",
+      "label": "validation boundary: /panel/wnioski/nowy/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "label": "validation boundary: /panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "label": "validation boundary: /panel/ewidencja/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/import/",
+      "label": "validation boundary: /panel/import/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/import/pule/",
+      "label": "validation boundary: /panel/import/pule/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/pule/nowa/",
+      "label": "validation boundary: /panel/pule/nowa/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "label": "validation boundary: /panel/pule/0b2998bc-1f74-4211-8431-0b658b186564/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "label": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/podpis/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 403,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "label": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 403,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "label": "validation boundary: /panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/ezd/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 403,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/integracje/ezd/wplywy/",
+      "label": "validation boundary: /panel/integracje/ezd/wplywy/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/integracje/adresy/",
+      "label": "validation boundary: /panel/integracje/adresy/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 200
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "label": "validation boundary: /panel/integracje/edor/76853b13-9605-4321-bb65-633dc88ddc9a/wznow/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/administracja/konta/3/zaproszenia/",
+      "label": "validation boundary: /panel/administracja/konta/3/zaproszenia/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "label": "validation boundary: /panel/administracja/konta/3/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/administracja/user/nowy/",
+      "label": "validation boundary: /panel/administracja/user/nowy/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/administracja/user/3/",
+      "label": "validation boundary: /panel/administracja/user/3/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/administracja/office/nowy/",
+      "label": "validation boundary: /panel/administracja/office/nowy/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/administracja/office/gni/",
+      "label": "validation boundary: /panel/administracja/office/gni/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/administracja/template/nowy/",
+      "label": "validation boundary: /panel/administracja/template/nowy/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/administracja/template/1/",
+      "label": "validation boundary: /panel/administracja/template/1/",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 200,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/requests/",
+      "label": "validation boundary: /api/requests/",
+      "statuses": {
+        "anonymous": 401,
+        "admin": 403,
+        "main": 400,
+        "county": 400,
+        "other": 400
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/pools/",
+      "label": "validation boundary: /api/pools/",
+      "statuses": {
+        "anonymous": 401,
+        "admin": 403,
+        "main": 400,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/podpis/",
+      "label": "validation boundary: UMP sender podpis",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/wersja/",
+      "label": "validation boundary: UMP sender wersja",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/pisma/2cae5880-f8f4-4741-b1f5-059abbd05a83/ezd/",
+      "label": "validation boundary: UMP sender ezd",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/pule/de82254a-0b67-4765-bbe9-71d90d752d9f/",
+      "label": "validation boundary: module III pool",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/wnioski/131ab119-791a-42b1-bf34-06a88e7f5927/",
+      "label": "validation boundary: module III request",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 404
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "label": "/api/records/c0eb4ea7-0f93-401d-a48f-745bec992c33/",
+      "statuses": {
+        "anonymous": 401,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/wnioski/nowy/",
+      "label": "valid new request",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 302,
+        "county": 302,
+        "other": 302
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/wnioski/917e2163-8b1b-46fd-b579-f187f797a6a5/",
+      "label": "valid decision",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 302,
+        "county": 403,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/wnioski/f053a1a6-fb5e-4f3f-addc-80618cbe3104/submit/",
+      "label": "valid HTML submit",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 302,
+        "county": 302,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/requests/f053a1a6-fb5e-4f3f-addc-80618cbe3104/submit/",
+      "label": "valid API submit",
+      "statuses": {
+        "anonymous": 401,
+        "admin": 403,
+        "main": 200,
+        "county": 200,
+        "other": 404
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/requests/917e2163-8b1b-46fd-b579-f187f797a6a5/decide/",
+      "label": "valid API decision",
+      "statuses": {
+        "anonymous": 401,
+        "admin": 403,
+        "main": 200,
+        "county": 403,
+        "other": 403
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/wersja/",
+      "label": "valid letter revision",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 403,
+        "county": 302,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/pisma/9ac2f2d2-a8e1-468a-b34b-7a3ee82455e4/dowody/1/",
+      "label": "evidence belongs to a different letter",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 403,
+        "main": 404,
+        "county": 404,
+        "other": 404
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/panel/administracja/konta/4/zaproszenia/0344b93f-0ed8-4ec0-990e-2203840642fd/",
+      "label": "invitation belongs to a different account",
+      "statuses": {
+        "anonymous": 302,
+        "admin": 404,
+        "main": 403,
+        "county": 403,
+        "other": 403
+      }
+    }
+  ],
+  "unit_role_scenarios": 480,
+  "route_method_pairs": 70,
+  "all_unit_cases_passed": true,
+  "positive_write_transactions_rolled_back": true,
+  "empty_form_boundaries_do_not_prove_submission": true,
+  "test_source_sha256": "53e51afa24189517936b782d6e61792eacc8c04b854bd0717d11972be31ca7ff",
+  "test_log_sha256": "2a438501fe1c28d9d4e0ae472ed1b1abd3e5c2c6c494e712d50aeb6c74267ac0",
+  "goal_complete": false
+}

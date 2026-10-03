@@ -1,0 +1,18 @@
+{% extends 'registry/base.html' %}
+{% block title %}Wpis {{ record.display_number }} · Dyna Rejestr Tablic{% endblock %}
+{% block content %}
+<div class="page-head"><div><p class="eyebrow">Wpis w ewidencji</p><h1>{{ record.display_number }}</h1><p class="muted">{{ record.office.name }}</p></div><span class="status {{ record.status }}">{{ record.get_status_display }}</span></div>
+<div class="grid2"><section class="card"><h2>Dane wpisu</h2>
+{% if user.role == 'COUNTY' %}<p>Właściciel: <strong>{{ record.owner }}</strong></p><p>Numer pisma: {{ record.letter_number|default:'—' }}</p>{% endif %}
+{% if can_edit %}<form method="post">{% csrf_token %}{{ form.as_div }}<button>Zapisz zmianę</button></form>
+{% else %}
+{% if record.status == 'RELEASED' %}<p class="notice">Ten wpis dokumentuje zwolniony numer. Dane pojazdu w tym wpisie pozostają historią. Nową rezerwację tworzy się przez nowy wniosek.</p>
+{% else %}<p class="notice">Wniosek nie został jeszcze zaakceptowany. Dane pojazdu możesz uzupełnić po przydziale numeru.</p>{% endif %}
+<dl><dt>Adres właściciela</dt><dd>{{ record.address|default:'Nie podano' }}</dd><dt>VIN</dt><dd>{{ record.vin|default:'Nie podano' }}</dd><dt>Marka i model</dt><dd>{{ record.make|default:'—' }} {{ record.model }}</dd><dt>Data rejestracji</dt><dd>{{ record.registration_date|date:'d.m.Y'|default:'Nie podano' }}</dd><dt>Data zbycia</dt><dd>{{ record.sale_date|date:'d.m.Y'|default:'Nie podano' }}</dd><dt>Nabywca</dt><dd>{{ record.buyer|default:'Nie podano' }}</dd><dt>Uwagi</dt><dd>{{ record.note|default:'Brak uwag' }}</dd></dl>
+{% endif %}
+</section><section class="card"><h2>Historia i rezerwacja</h2>
+{% if can_extend %}<p>Rezerwacja do: {{ record.reservation_until|date:'d.m.Y H:i' }}</p><form method="post" action="{% url 'reservation_extend' record.uuid %}">{% csrf_token %}<label for="days">Przedłużenie w dniach</label><input id="days" name="days" type="number" value="14" min="1" max="90" required><label for="extend-reason">Powód przedłużenia</label><input id="extend-reason" name="reason" required><button class="secondary">Przedłuż rezerwację</button></form>{% endif %}
+{% if import_event.after.source_sha256 %}<h3>Źródło historycznego wpisu</h3><dl><dt>Plik wykazu</dt><dd>{{ import_event.after.source_filename }}</dd>{% if import_event.after.source_format %}<dt>Format</dt><dd>{{ import_event.after.source_format }}</dd>{% endif %}{% if import_event.after.source_sheet %}<dt>Arkusz</dt><dd>{{ import_event.after.source_sheet }}</dd>{% endif %}<dt>SHA-256 pliku</dt><dd><code>{{ import_event.after.source_sha256 }}</code></dd><dt>Importował</dt><dd>{{ import_event.actor.get_full_name|default:'System' }} · {{ import_event.created_at|date:'d.m.Y H:i' }}</dd><dt>Podstawa importu</dt><dd>{{ import_event.reason }}</dd></dl><p>Daty rejestracji i zbycia pochodzą z wykazu. Data dawnego przydziału nie jest ustalona.</p>{% endif %}
+{% include 'registry/history.html' %}
+</section></div>
+{% endblock %}

@@ -1,0 +1,78 @@
+Creating test database for alias 'default'...
+Destroying old test database for alias 'default'...
+....E.......F.........................sss
+======================================================================
+ERROR: test_corrupt_saved_source_returns_form_error_instead_of_500 (registry.test_excel_imports.ExcelImportTests.test_corrupt_saved_source_returns_form_error_instead_of_500)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/tabular_sources.py", line 215, in unpack_source
+    return base64.b64decode(saved["source_base64"], validate=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/base64.py", line 88, in b64decode
+    return binascii.a2b_base64(s, strict_mode=validate)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+binascii.Error: Only base64 data is allowed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/record_import_views.py", line 112, in import_records
+    unpack_source(saved), saved["filename"], saved.get("source_sheet", "")
+    ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/tabular_sources.py", line 217, in unpack_source
+    raise ValidationError("Źródło podglądu jest niepoprawne. Wczytaj plik ponownie.") from exc
+django.core.exceptions.ValidationError: ['Źródło podglądu jest niepoprawne. Wczytaj plik ponownie.']
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_excel_imports.py", line 346, in test_corrupt_saved_source_returns_form_error_instead_of_500
+    self.assertContains(self.client.get(url), "Źródło podglądu jest niepoprawne")
+                        ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/test/client.py", line 1127, in get
+    response = super().get(
+               ^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/test/client.py", line 475, in get
+    return self.generic(
+           ^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/test/client.py", line 671, in generic
+    return self.request(**r)
+           ^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/test/client.py", line 1090, in request
+    self.check_exception(response)
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/test/client.py", line 805, in check_exception
+    raise exc_value
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/views/decorators/http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/record_import_views.py", line 117, in import_records
+    upload_form.add_error("file", error)
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/django/forms/forms.py", line 315, in add_error
+    if field in self.cleaned_data:
+                ^^^^^^^^^^^^^^^^^
+AttributeError: 'RecordImportUploadForm' object has no attribute 'cleaned_data'. Did you mean: 'changed_data'?
+
+======================================================================
+FAIL: test_pool_import_preserves_holes_dates_and_source (registry.test_excel_imports.ExcelImportTests.test_pool_import_preserves_holes_dates_and_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/registry/test_excel_imports.py", line 281, in test_pool_import_preserves_holes_dates_and_source
+    self.assertEqual(PoolSlot.objects.get(number="P030").issued_at.date(), date(2025, 2, 1))
+AssertionError: datetime.date(2025, 1, 31) != datetime.date(2025, 2, 1)
+
+----------------------------------------------------------------------
+Ran 41 tests in 0.760s
+
+FAILED (failures=1, errors=1, skipped=3)
+Destroying test database for alias 'default'...
+Found 41 test(s).
+System check identified no issues (0 silenced).

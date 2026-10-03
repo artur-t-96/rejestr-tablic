@@ -1,0 +1,121 @@
+{
+  "generated_at": "2026-10-03T06:52:12.377619+00:00",
+  "mode": "read_only",
+  "business_retention_policy": "requires_office_decision",
+  "scope": "aggregate database counts and dates; excludes files, contents and personal identifiers",
+  "classes": {
+    "plate_records": {
+      "count": 5,
+      "oldest": "2026-10-02T22:32:59.173580+00:00",
+      "newest": "2026-10-02T23:42:33.925867+00:00",
+      "category_field": "status",
+      "categories": [
+        {
+          "category": "ALLOCATED",
+          "count": 4
+        },
+        {
+          "category": "SENT",
+          "count": 1
+        }
+      ],
+      "offices_with_data": 1
+    },
+    "requests": {
+      "count": 5,
+      "oldest": "2026-10-02T22:32:59.174335+00:00",
+      "newest": "2026-10-02T23:42:33.928114+00:00",
+      "category_field": "status",
+      "categories": [
+        {
+          "category": "APPROVED",
+          "count": 4
+        },
+        {
+          "category": "SENT",
+          "count": 1
+        }
+      ],
+      "offices_with_data": 1
+    },
+    "pools": {
+      "count": 1,
+      "oldest": "2026-10-02T22:32:59.222014+00:00",
+      "newest": "2026-10-02T22:32:59.222014+00:00",
+      "category_field": "kind",
+      "categories": [
+        {
+          "category": "II",
+          "count": 1
+        }
+      ],
+      "offices_with_data": 1
+    },
+    "letters": {
+      "count": 12,
+      "oldest": "2026-10-02T22:32:59.175473+00:00",
+      "newest": "2026-10-02T23:43:36.229620+00:00"
+    },
+    "integration_jobs": {
+      "count": 1,
+      "oldest": "2026-10-02T22:54:53.682550+00:00",
+      "newest": "2026-10-02T22:54:53.682550+00:00"
+    },
+    "delivery_evidence": {
+      "count": 0,
+      "oldest": null,
+      "newest": null
+    },
+    "ezd_incoming": {
+      "count": 0,
+      "oldest": null,
+      "newest": null
+    },
+    "account_invitations": {
+      "count": 0,
+      "oldest": null,
+      "newest": null
+    },
+    "audit_logs": {
+      "count": 58,
+      "oldest": "2026-10-02T22:32:59.173954+00:00",
+      "newest": "2026-10-03T06:25:41.908022+00:00"
+    },
+    "login_codes": {
+      "count": 12,
+      "oldest": "2026-10-02T22:33:33.510297+00:00",
+      "newest": "2026-10-03T06:25:34.057495+00:00"
+    },
+    "ezd_links": {
+      "count": 0,
+      "oldest": null,
+      "newest": null
+    },
+    "sessions": {
+      "count": 9,
+      "first_expiry": "2026-10-02T23:36:30.355632+00:00",
+      "last_expiry": "2026-10-03T07:25:41.908536+00:00"
+    },
+    "pool_slots": {
+      "count": 30
+    },
+    "accounts": {
+      "count": 4
+    },
+    "offices": {
+      "count": 35
+    },
+    "number_sequences": {
+      "count": 3
+    },
+    "letter_templates": {
+      "count": 4
+    },
+    "public_challenges": {
+      "count": 0
+    },
+    "rate_buckets": {
+      "count": 7
+    }
+  }
+}

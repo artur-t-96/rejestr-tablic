@@ -1,0 +1,12 @@
+Planned operations:
+registry.0006_public_challenge
+    Create model PublicChallenge
+registry.0007_ezdincomingdocument
+    Create model EZDIncomingDocument
+registry.0008_refresh_builtin_templates
+    Raw Python operation
+registry.0009_require_finite_module_three_period
+    Raw Python operation
+    Create constraint pool_iii_finite_period on model pool
+registry.0010_account_invitation
+    Create model AccountInvitation

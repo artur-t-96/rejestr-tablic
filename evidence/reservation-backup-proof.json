@@ -1,0 +1,67 @@
+{
+  "main_business_tables_unchanged": {
+    "registry_request": {
+      "count": 5,
+      "sha256": "7cc5ce08123afce7986a9b609201bc2bba634c7912676270c4e1a35dbeb1d2ee"
+    },
+    "registry_platerecord": {
+      "count": 5,
+      "sha256": "c069bc2dcb7a9799c38b1a4e9e5dd8c91c13942ae1284eecb61d1d049dbcb83b"
+    },
+    "registry_letter": {
+      "count": 12,
+      "sha256": "f5bcad3145287d4acb782c7ff63c19cfc383a326cc17455f634fd1a6790a1621"
+    },
+    "registry_pool": {
+      "count": 1,
+      "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+    },
+    "registry_poolslot": {
+      "count": 30,
+      "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+    },
+    "registry_numbersequence": {
+      "count": 3,
+      "sha256": "15cd83d07f0ad9de30b448908e5db8b63f57673ba22893ed0e48196710c28834"
+    },
+    "registry_integrationjob": {
+      "count": 1,
+      "sha256": "9bf08358aeebd3bfd880b6aa9609ec1ed0bcc754169aecdec43ec61771bd1ffd"
+    }
+  },
+  "private_backup_restore_identical": {
+    "registry_request": {
+      "count": 7,
+      "sha256": "20570ca104a0144aa5ff416234fd66876d6e1a2d076c1c07ad86a543415e0b13"
+    },
+    "registry_platerecord": {
+      "count": 7,
+      "sha256": "21121cff9a1ba5619be4d8cb0fecba6192f1f5d44902e4ea7503d70ab26d8259"
+    },
+    "registry_letter": {
+      "count": 15,
+      "sha256": "d777261f1de44bee59409eb09656bae03c50fb33f8ce4c31c8cc52a28489a551"
+    },
+    "registry_pool": {
+      "count": 1,
+      "sha256": "32f8046a19ae6ca9f0701c7e25ba479b1cd10eec3a9af1b8a04155a67fa93bf2"
+    },
+    "registry_poolslot": {
+      "count": 30,
+      "sha256": "a56fa7a29caea89b0add232892c55f61b914b93545288610a0ee1d34a3724fb0"
+    },
+    "registry_numbersequence": {
+      "count": 3,
+      "sha256": "8ddd7160e94a26cb77fb0f2c0e08b84a6460f2e6643824ee5f9eb183419e715b"
+    },
+    "registry_integrationjob": {
+      "count": 1,
+      "sha256": "9bf08358aeebd3bfd880b6aa9609ec1ed0bcc754169aecdec43ec61771bd1ffd"
+    },
+    "registry_auditlog": {
+      "count": 73,
+      "sha256": "dc59ef6c0c828769d115304d26209b6c9502db342b732c18e823d3c5781832e2"
+    }
+  },
+  "restored_sessions_and_otp_invalidated": true
+}

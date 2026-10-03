@@ -1,0 +1,9 @@
+{% extends 'registry/base.html' %}
+{% block title %}Nie znaleziono strony · Dyna Rejestr Tablic{% endblock %}
+{% block content %}
+<section class="card form-card">
+  <h1>Nie znaleziono strony</h1>
+  <p>Nie można otworzyć tego adresu. Sprawdź link lub wróć do listy dostępnych spraw.</p>
+  <p>{% if user.is_authenticated %}<a class="button" href="{% url 'dashboard' %}">Wróć do panelu</a>{% else %}<a class="button" href="{% url 'public' %}">Sprawdź dostępność tablicy</a>{% endif %}</p>
+</section>
+{% endblock %}

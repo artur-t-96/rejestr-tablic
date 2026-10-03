@@ -1,0 +1,150 @@
+Creating test database for alias 'default' ('/Users/arturtwardowski/Dyna Rejestr Tablic/var/test_registry.sqlite3')...
+Destroying old test database for alias 'default' ('/Users/arturtwardowski/Dyna Rejestr Tablic/var/test_registry.sqlite3')...
+Found 62 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: auth, contenttypes, registry, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying registry.0001_initial... OK
+  Applying registry.0002_integrationjob_claimed_until_integrationjob_payload_and_more... OK
+  Applying registry.0003_letter_signature_report_letter_signed_at_and_more... OK
+  Applying registry.0004_letter_replaces... OK
+  Applying registry.0005_numbersequence_letter_number_ordinal_and_more... OK
+  Applying registry.0006_public_challenge... OK
+  Applying registry.0007_ezdincomingdocument... OK
+  Applying registry.0008_refresh_builtin_templates... OK
+  Applying registry.0009_require_finite_module_three_period... OK
+  Applying sessions.0001_initial...test_approval_queues_once_atomically_without_sending_email_in_request (registry.test_decision_notifications.DecisionNoticeTests.test_approval_queues_once_atomically_without_sending_email_in_request) ... ok
+test_both_validity_boundaries_are_inclusive_and_outside_dates_block_issue (registry.test_decision_notifications.DecisionNoticeTests.test_both_validity_boundaries_are_inclusive_and_outside_dates_block_issue) ... ok
+test_corrupt_or_missing_snapshot_does_not_fall_back_to_sending_letter_pdf (registry.test_decision_notifications.DecisionNoticeTests.test_corrupt_or_missing_snapshot_does_not_fall_back_to_sending_letter_pdf) ... ok
+test_form_reports_end_date_error_on_field_and_rejection_and_module_two_still_work (registry.test_decision_notifications.DecisionNoticeTests.test_form_reports_end_date_error_on_field_and_rejection_and_module_two_still_work) ... ok
+test_iii_database_constraint_cannot_be_bypassed_by_update (registry.test_decision_notifications.DecisionNoticeTests.test_iii_database_constraint_cannot_be_bypassed_by_update) ... ok
+test_invalid_snapshot_header_is_diagnosed_before_transport (registry.test_decision_notifications.DecisionNoticeTests.test_invalid_snapshot_header_is_diagnosed_before_transport) ... ok
+test_missing_and_reversed_periods_leave_request_pending_and_no_notice (registry.test_decision_notifications.DecisionNoticeTests.test_missing_and_reversed_periods_leave_request_pending_and_no_notice) ... ok
+test_outbox_failure_rolls_back_entire_decision_pool_letter_and_audit (registry.test_decision_notifications.DecisionNoticeTests.test_outbox_failure_rolls_back_entire_decision_pool_letter_and_audit) ... ok
+test_rejection_notifies_author_and_does_not_require_pool_dates (registry.test_decision_notifications.DecisionNoticeTests.test_rejection_notifies_author_and_does_not_require_pool_dates) ... ok
+test_request_page_explains_local_notice_and_foreign_office_cannot_read_it (registry.test_decision_notifications.DecisionNoticeTests.test_request_page_explains_local_notice_and_foreign_office_cannot_read_it) ... ok
+test_unconfigured_smtp_preserves_decision_and_marks_notice_configuration_error (registry.test_decision_notifications.DecisionNoticeTests.test_unconfigured_smtp_preserves_decision_and_marks_notice_configuration_error) ... ok
+test_unknown_transport_result_and_interrupted_worker_never_retry_automatically (registry.test_decision_notifications.DecisionNoticeTests.test_unknown_transport_result_and_interrupted_worker_never_retry_automatically) ... ok
+test_worker_notifies_author_using_immutable_snapshot_and_no_pdf_or_private_details (registry.test_decision_notifications.DecisionNoticeTests.test_worker_notifies_author_using_immutable_snapshot_and_no_pdf_or_private_details) ... ok
+test_all_slots_are_reachable_beyond_old_500_limit (registry.test_pool_browser.PoolBrowserTests.test_all_slots_are_reachable_beyond_old_500_limit) ... ok
+test_foreign_office_cannot_read_or_issue_last_page (registry.test_pool_browser.PoolBrowserTests.test_foreign_office_cannot_read_or_issue_last_page) ... ok
+test_invalid_page_values_are_safe_and_bounded (registry.test_pool_browser.PoolBrowserTests.test_invalid_page_values_are_safe_and_bounded) ... ok
+test_issue_and_error_preserve_page_and_duplicate_is_rejected (registry.test_pool_browser.PoolBrowserTests.test_issue_and_error_preserve_page_and_duplicate_is_rejected) ... ok
+test_native_date_widgets_use_iso_even_in_polish_locale (registry.test_pool_browser.PoolBrowserTests.test_native_date_widgets_use_iso_even_in_polish_locale) ... ok
+test_outside_validity_cannot_issue (registry.test_pool_browser.PoolBrowserTests.test_outside_validity_cannot_issue) ... ok
+test_actual_pdf_contains_polish_text_and_reference (registry.tests.CoreTests.test_actual_pdf_contains_polish_text_and_reference) ... ok
+test_admin_cannot_access_business_records (registry.tests.CoreTests.test_admin_cannot_access_business_records) ... ok
+test_all_panel_pages_render_for_their_roles (registry.tests.CoreTests.test_all_panel_pages_render_for_their_roles) ... ok
+test_audit_is_immutable (registry.tests.CoreTests.test_audit_is_immutable) ... ok
+test_county_cannot_decide_or_override_owner (registry.tests.CoreTests.test_county_cannot_decide_or_override_owner) ... ok
+test_csrf_is_required_for_mutations (registry.tests.CoreTests.test_csrf_is_required_for_mutations) ... ok
+test_csv_export_filters_scope_and_escapes_formulas (registry.tests.CoreTests.test_csv_export_filters_scope_and_escapes_formulas) ... ok
+test_duplicate_reservation_is_blocked_by_service_and_database (registry.tests.CoreTests.test_duplicate_reservation_is_blocked_by_service_and_database) ... ok
+test_expiry_releases_reservation_and_expires_request (registry.tests.CoreTests.test_expiry_releases_reservation_and_expires_request) ... ok
+test_formats (registry.tests.CoreTests.test_formats) ... ok
+test_import_preview_and_atomic_apply (registry.tests.CoreTests.test_import_preview_and_atomic_apply) ... ok
+test_lifecycle_and_sale_does_not_release (registry.tests.CoreTests.test_lifecycle_and_sale_does_not_release) ... ok
+test_module_three_requires_request_and_matches_count (registry.tests.CoreTests.test_module_three_requires_request_and_matches_count) ... ok
+test_other_county_cannot_read_or_mutate_foreign_record (registry.tests.CoreTests.test_other_county_cannot_read_or_mutate_foreign_record) ... ok
+test_pool_overlap_and_duplicate_issue (registry.tests.CoreTests.test_pool_overlap_and_duplicate_issue) ... ok
+test_public_never_exposes_personal_data (registry.tests.CoreTests.test_public_never_exposes_personal_data) ... ok
+test_rejection_requires_reason_and_releases_number (registry.tests.CoreTests.test_rejection_requires_reason_and_releases_number) ... ok
+test_single_use_otp_and_disabled_office (registry.tests.CoreTests.test_single_use_otp_and_disabled_office) ... ok
+test_stale_version_is_rejected (registry.tests.CoreTests.test_stale_version_is_rejected) ... ok
+test_ump_can_extend_and_county_cannot (registry.tests.CoreTests.test_ump_can_extend_and_county_cannot) ... ok
+test_withdrawal_releases_and_retains_history (registry.tests.CoreTests.test_withdrawal_releases_and_retains_history) ... ok
+test_backup_integrity_rejects_tampered_signed_document (registry.test_signatures.SignatureTests.test_backup_integrity_rejects_tampered_signed_document) ... ok
+test_changed_bytes_uncovered_tail_and_unsigned_file_reject (registry.test_signatures.SignatureTests.test_changed_bytes_uncovered_tail_and_unsigned_file_reject) ... ok
+test_decision_notice_does_not_prevent_signing_the_official_reply (registry.test_signatures.SignatureTests.test_decision_notice_does_not_prevent_signing_the_official_reply) ... ok
+test_demo_command_private_files_and_no_overwrite (registry.test_signatures.SignatureTests.test_demo_command_private_files_and_no_overwrite) ... ok
+test_http_import_report_download_and_role_isolation (registry.test_signatures.SignatureTests.test_http_import_report_download_and_role_isolation) ... ok
+test_import_valid_signed_original_without_private_key (registry.test_signatures.SignatureTests.test_import_valid_signed_original_without_private_key) ... ok
+test_new_revision_preserves_signed_original_and_queue (registry.test_signatures.SignatureTests.test_new_revision_preserves_signed_original_and_queue) ... ok
+test_offline_hard_fail_with_valid_ca_and_crl (registry.test_signatures.SignatureTests.test_offline_hard_fail_with_valid_ca_and_crl) ... ok
+test_offline_hard_fail_without_revocation_data_rejects (registry.test_signatures.SignatureTests.test_offline_hard_fail_without_revocation_data_rejects) ... Validation error [cert context: Common Name: Podpis TESTOWY Urząd A]: The path could not be validated because no revocation information could be found for the end-entity certificate Common Name: Podpis TESTOWY Urząd A
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko/sign/validation/generic_cms.py", line 1238, in handle_certvalidator_errors
+    return CertvalidatorOperationResult(success_result=await coro)
+                                                       ^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko/sign/validation/generic_cms.py", line 635, in _check
+    path: ValidationPath = await find_valid_path(
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko_certvalidator/__init__.py", line 50, in find_valid_path
+    raise exceptions[0]
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko_certvalidator/__init__.py", line 33, in find_valid_path
+    await async_validate_path(
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko_certvalidator/validate.py", line 148, in async_validate_path
+    return await intl_validate_path(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko_certvalidator/validate.py", line 1086, in intl_validate_path
+    await _check_revocation(
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko_certvalidator/validate.py", line 1408, in _check_revocation
+    raise InsufficientRevinfoError.from_state(
+pyhanko_certvalidator.errors.InsufficientRevinfoError: The path could not be validated because no revocation information could be found for the end-entity certificate Common Name: Podpis TESTOWY Urząd A
+ok
+test_original_with_modified_title_signed_validly_is_rejected (registry.test_signatures.SignatureTests.test_original_with_modified_title_signed_validly_is_rejected) ... ok
+test_public_config_and_demo_in_production_are_rejected (registry.test_signatures.SignatureTests.test_public_config_and_demo_in_production_are_rejected) ... ok
+test_real_pades_signature_and_archive_preserves_original (registry.test_signatures.SignatureTests.test_real_pades_signature_and_archive_preserves_original) ... ok
+test_resigning_and_signing_queued_letter_are_blocked (registry.test_signatures.SignatureTests.test_resigning_and_signing_queued_letter_are_blocked) ... ok
+test_revoked_certificate_is_rejected_with_real_crl (registry.test_signatures.SignatureTests.test_revoked_certificate_is_rejected_with_real_crl) ... Validation error [cert context: Common Name: Podpis TESTOWY Urząd A]: CRL indicates the end-entity certificate was revoked at 03:27:22 on 2026-10-03, due to an unspecified reason.
+Traceback (most recent call last):
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko/sign/validation/generic_cms.py", line 1238, in handle_certvalidator_errors
+    return CertvalidatorOperationResult(success_result=await coro)
+                                                       ^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko/sign/validation/generic_cms.py", line 635, in _check
+    path: ValidationPath = await find_valid_path(
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko_certvalidator/__init__.py", line 50, in find_valid_path
+    raise exceptions[0]
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko_certvalidator/__init__.py", line 33, in find_valid_path
+    await async_validate_path(
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko_certvalidator/validate.py", line 148, in async_validate_path
+    return await intl_validate_path(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko_certvalidator/validate.py", line 1086, in intl_validate_path
+    await _check_revocation(
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko_certvalidator/validate.py", line 1329, in _check_revocation
+    await verify_crl(
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko_certvalidator/revinfo/validate_crl.py", line 1062, in verify_crl
+    await _process(certificate_list_cont, delta_lists_by_issuer)
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko_certvalidator/revinfo/validate_crl.py", line 1040, in _process
+    interim_reasons = await _handle_single_crl(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/arturtwardowski/Dyna Rejestr Tablic/var/dependency-clean-20261003/lib/python3.12/site-packages/pyhanko_certvalidator/revinfo/validate_crl.py", line 654, in _handle_single_crl
+    raise RevokedError.format(
+pyhanko_certvalidator.errors.RevokedError: CRL indicates the end-entity certificate was revoked at 03:27:22 on 2026-10-03, due to an unspecified reason.
+ok
+test_stale_letter_queue_uses_latest_signed_document (registry.test_signatures.SignatureTests.test_stale_letter_queue_uses_latest_signed_document) ... ok
+test_unauthorized_certificate_and_users_cannot_sign (registry.test_signatures.SignatureTests.test_unauthorized_certificate_and_users_cannot_sign) ... ok
+test_valid_signature_over_changed_page_contents_is_rejected (registry.test_signatures.SignatureTests.test_valid_signature_over_changed_page_contents_is_rejected) ... ok
+test_legacy_missing_period_stops_migration_without_guessing_or_deleting_data (registry.test_decision_notifications.FinitePeriodMigrationTests.test_legacy_missing_period_stops_migration_without_guessing_or_deleting_data) ... ok
+test_real_file_message_backup_and_restore_quarantine (registry.test_decision_notifications.NoticeBackupTests.test_real_file_message_backup_and_restore_quarantine) ... ok
+test_watch_processes_notice_once_and_leaves_other_operations_queued (registry.test_decision_notifications.NoticeBackupTests.test_watch_processes_notice_once_and_leaves_other_operations_queued) ... ok
+test_backup_rejects_corrupted_evidence_and_queue_payload (registry.test_integration_restore.IntegrationRestoreTests.test_backup_rejects_corrupted_evidence_and_queue_payload) ... ok
+test_restored_queue_never_resends_a_snapshot_job_automatically (registry.test_integration_restore.IntegrationRestoreTests.test_restored_queue_never_resends_a_snapshot_job_automatically) ... ok
+
+----------------------------------------------------------------------
+Ran 62 tests in 4.977s
+
+OK
+Destroying test database for alias 'default' ('/Users/arturtwardowski/Dyna Rejestr Tablic/var/test_registry.sqlite3')...
+ OK
+System check identified no issues (0 silenced).

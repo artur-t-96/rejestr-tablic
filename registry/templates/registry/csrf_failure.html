@@ -1,0 +1,12 @@
+{% extends 'registry/base.html' %}
+{% block title %}Formularz wymaga odświeżenia · Dyna Rejestr Tablic{% endblock %}
+{% block content %}
+<section class="card login-card">
+  <p class="eyebrow">Ochrona formularza</p>
+  <h1>Nie wykonano tej operacji</h1>
+  <p>Nie można potwierdzić bezpieczeństwa formularza. Mogło to nastąpić po ponownym logowaniu w innej karcie, zmianie konta lub wygaśnięciu logowania.</p>
+  <p>Wróć do poprzedniej strony w przeglądarce. Zanim ją odświeżysz, zachowaj potrzebne, niezapisane dane w bezpiecznym miejscu. Następnie zaloguj się i ponownie sprawdź formularz.</p>
+  <p>System nie ponowił operacji ani nie zapisał danych z odrzuconego żądania.</p>
+  <a class="button" href="{% url 'login_email' %}{% if next_path %}?next={{ next_path|urlencode }}{% endif %}">Przejdź do logowania</a>
+</section>
+{% endblock %}

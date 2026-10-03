@@ -1,0 +1,8 @@
+2026-10-03; host-native; no Docker
+Command: var/dependency-clean-20261003/bin/python manage.py test registry.test_public_protection registry.test_accessibility --noinput
+Found 18 tests.
+Ran 18 tests in 0.576s
+OK (skipped=1): 17 PASS, 1 PostgreSQL concurrency SKIP.
+System check identified no issues (0 silenced).
+This run covers server protection and HTML accessibility; it does not execute a browser or VoiceOver.
+JavaScript: Node 22.23.0 --check registry/static/registry/public-captcha.js passed.

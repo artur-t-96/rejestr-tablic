@@ -1,0 +1,59 @@
+Creating test database for alias 'default' ('test_drt_pg_local')...
+Found 18 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: auth, contenttypes, registry, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying registry.0001_initial... OK
+  Applying registry.0002_integrationjob_claimed_until_integrationjob_payload_and_more... OK
+  Applying registry.0003_letter_signature_report_letter_signed_at_and_more... OK
+  Applying registry.0004_letter_replaces... OK
+  Applying registry.0005_numbersequence_letter_number_ordinal_and_more... OK
+  Applying registry.0006_public_challenge... OK
+  Applying registry.0007_ezdincomingdocument... OK
+  Applying registry.0008_refresh_builtin_templates... OK
+  Applying registry.0009_require_finite_module_three_period... OK
+  Applying registry.0010_account_invitation... OK
+  Applying sessions.0001_initial...test_expired_reservation_cannot_be_extended_sent_or_decided (registry.test_database_concurrency.ReservationDeadlineTests.test_expired_reservation_cannot_be_extended_sent_or_decided) ... ok
+test_otp_for_administrator_without_office (registry.test_database_concurrency.ReservationDeadlineTests.test_otp_for_administrator_without_office) ... ok
+test_overlapping_pools_concurrently (registry.tests.ConcurrencyTests.test_overlapping_pools_concurrently) ... ok
+test_two_offices_only_one_reservation (registry.tests.ConcurrencyTests.test_two_offices_only_one_reservation) ... ok
+test_decision_and_withdrawal_leave_consistent_request_and_plate (registry.test_database_concurrency.DatabaseConcurrencyTests.test_decision_and_withdrawal_leave_consistent_request_and_plate) ... ok
+test_expiry_with_waiting_withdrawal_has_no_deadlock (registry.test_database_concurrency.DatabaseConcurrencyTests.test_expiry_with_waiting_withdrawal_has_no_deadlock) ... ok
+test_office_document_lock_allows_unrelated_new_document_foreign_keys (registry.test_database_concurrency.DatabaseConcurrencyTests.test_office_document_lock_allows_unrelated_new_document_foreign_keys) ... ok
+test_same_pool_number_can_only_be_issued_once (registry.test_database_concurrency.DatabaseConcurrencyTests.test_same_pool_number_can_only_be_issued_once) ... ok
+test_two_workers_claim_one_job_without_duplicate_send (registry.test_database_concurrency.DatabaseConcurrencyTests.test_two_workers_claim_one_job_without_duplicate_send) ... ok
+test_two_expiry_workers_write_each_status_and_audit_once (registry.test_reservation_completion.ReservationExpiryConcurrencyTests.test_two_expiry_workers_write_each_status_and_audit_once) ... ok
+test_simultaneous_first_request_numbers_are_unique (registry.test_numbering.NumberingConcurrencyTests.test_simultaneous_first_request_numbers_are_unique) ... ok
+test_simultaneous_letter_revisions_preserve_original_and_get_unique_numbers (registry.test_numbering.NumberingConcurrencyTests.test_simultaneous_letter_revisions_preserve_original_and_get_unique_numbers) ... ok
+test_corrupt_source_document_and_rewound_counter_prevent_backup (registry.test_postgres_backup.PostgresBackupTests.test_corrupt_source_document_and_rewound_counter_prevent_backup) ... ok
+test_existing_backup_is_preserved_and_missing_tool_does_not_publish (registry.test_postgres_backup.PostgresBackupTests.test_existing_backup_is_preserved_and_missing_tool_does_not_publish) ... ok
+test_manifest_mismatch_quarantines_only_new_database (registry.test_postgres_backup.PostgresBackupTests.test_manifest_mismatch_quarantines_only_new_database) ... ok
+test_real_backup_restore_signed_pdf_evidence_queue_sessions_and_counters (registry.test_postgres_backup.PostgresBackupTests.test_real_backup_restore_signed_pdf_evidence_queue_sessions_and_counters) ... ok
+test_snapshot_counts_and_dump_exclude_concurrent_committed_request (registry.test_postgres_backup.PostgresBackupTests.test_snapshot_counts_and_dump_exclude_concurrent_committed_request) ... ok
+test_tampered_archive_and_existing_target_never_overwrite_source (registry.test_postgres_backup.PostgresBackupTests.test_tampered_archive_and_existing_target_never_overwrite_source) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 3.788s
+
+OK
+Destroying test database for alias 'default' ('test_drt_pg_local')...
+ OK
+System check identified no issues (0 silenced).

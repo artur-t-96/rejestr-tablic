@@ -37,6 +37,9 @@ def build_settings(environment, current):
     hosts = environment.get("DJANGO_ALLOWED_HOSTS", "").split(",")
     if hosts != [url.hostname]:
         fail("DJANGO_ALLOWED_HOSTS musi wskazywać dokładnie domenę APP_URL.")
+    if environment.get("DYNA_DEMO") and environment["DYNA_DEMO"] != url.hostname:
+        # Flaga skopiowana na inną usługę nie włączy wejścia bez kodu e-mail.
+        fail("DYNA_DEMO musi być równe domenie APP_URL tej instancji demonstracyjnej.")
     revision = environment.get("RENDER_GIT_COMMIT", "")
     if not re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", revision):
         fail("Brak pełnego RENDER_GIT_COMMIT.")

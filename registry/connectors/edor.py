@@ -23,7 +23,7 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from django.conf import settings
 
-from .ezdrp import ConnectorError, private_text
+from .ezdrp import ConnectorError, private_text, simulated
 
 TOKEN_CACHE = {}
 TOKEN_LOCK = threading.RLock()
@@ -172,9 +172,15 @@ def load_profile(office_id):
         if not isinstance(system_name, str) or not re.fullmatch(r"[A-Za-z0-9_.-]{1,120}", system_name):
             raise ConnectorError("Niepoprawna nazwa zarejestrowanego systemu e-Doręczeń.")
         environment = config["environment"]
-        if environment not in {"INT", "PROD"}:
-            raise ConnectorError("Wskaż środowisko e-Doręczeń INT lub PROD.")
         ua_url, se_url = endpoint(config["ua_url"]), endpoint(config["se_url"])
+        if environment == "SYMULATOR" or simulated(ua_url):
+            # Symulator musi być nazwany wprost i działa tylko w trybie demonstracyjnym.
+            if not (environment == "SYMULATOR" and simulated(ua_url) and settings.DEMO_MODE):
+                raise ConnectorError(
+                    "Profil symulatora e-Doręczeń działa wyłącznie w trybie demonstracyjnym."
+                )
+        elif environment not in {"INT", "PROD"}:
+            raise ConnectorError("Wskaż środowisko e-Doręczeń INT lub PROD.")
         if not ua_url.endswith("/api/v3") or not se_url.endswith("/api/se/v4"):
             raise ConnectorError("Konektor wymaga UA API v3 i SE API v4.")
         return EDorProfile(
@@ -202,6 +208,10 @@ def load_profile(office_id):
 class EDorClient:
     def __init__(self, profile, *, transport=None):
         self.profile = profile
+        if transport is None and simulated(profile.ua_url):
+            from registry.simulators import transport as simulator_transport
+
+            transport = simulator_transport()
         self.http = httpx.Client(
             timeout=httpx.Timeout(30, connect=10),
             verify=profile.ca_file or True,

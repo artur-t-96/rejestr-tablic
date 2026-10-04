@@ -17,6 +17,8 @@ def build_settings(environment, current):
         fail("Profil urzędowy wymaga DYNA_ENV=onprem.")
     if current["DEBUG"]:
         fail("Profil urzędowy nie dopuszcza DEBUG.")
+    if environment.get("DYNA_DEMO") or current.get("DEMO_MODE"):
+        fail("Profil urzędowy nie dopuszcza trybu demonstracyjnego (DYNA_DEMO).")
     secret = current["SECRET_KEY"]
     if len(secret) < 50 or len(set(secret)) < 5 or secret.startswith("django-insecure-"):
         fail("Ustaw niezależny, losowy DJANGO_SECRET_KEY o długości co najmniej 50 znaków.")

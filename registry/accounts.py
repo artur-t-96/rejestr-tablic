@@ -5,17 +5,21 @@ from django.db import transaction
 from django.db.models import ProtectedError
 from django.utils import timezone
 
+from .demo import demo_viewer, is_demo_email
 from .models import AccountInvitation, LoginCode, User
 from .services import audit, require_role
 
 REMOVED_DOMAIN = "usuniete.invalid"
 
 
-def account_label(user, *, with_email=False):
+def account_label(user, *, viewer=None, with_email=False):
     """Podpis konta w historii; zamknięte konto zachowuje imię i nazwisko bez adresu."""
     name = user.get_full_name()
     if user.removed_at:
         return f"{name or 'Użytkownik'} (konto usunięte)"
+    if viewer is not None and demo_viewer(viewer) and not is_demo_email(user.email):
+        # Instancja demo jest współdzielona: konto demo nie poznaje danych kont rzeczywistych.
+        return "Konto urzędowe"
     if with_email:
         return f"{name} · {user.email}" if name else user.email
     return name or user.email

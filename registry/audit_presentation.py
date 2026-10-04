@@ -42,6 +42,8 @@ ACTION_LABELS = {
     "letter.posted": "Odnotowano wysyłkę pisma pocztą",
     "registry.exported": "Wyeksportowano ewidencję",
     "auth.login": "Zalogowano użytkownika",
+    "auth.demo_login": "Wejście demonstracyjne na fikcyjne konto",
+    "demo.code_rotated": "Zmieniono kod dostępu demo",
     "auth.mail_failed": "Nie udało się wysłać kodu logowania",
     "auth.session_extended": "Przedłużono sesję użytkownika",
     "admin.office_saved": "Zapisano ustawienia urzędu",
@@ -89,6 +91,7 @@ OBJECT_LABELS = {
     "Office": "Urząd",
     "LetterTemplate": "Szablon pisma",
     "FlaggedWord": "Słowo ze słownika ostrzeżeń",
+    "DemoAccessCode": "Kod dostępu demo",
     "IntegrationJob": "Operacja zewnętrzna",
     "AccountInvitation": "Zaproszenie do konta",
     "EZDCaseLink": "Powiązanie sprawy EZD",
@@ -207,7 +210,7 @@ def display_value(event, key, value):
     return str(value)
 
 
-def present_event(event):
+def present_event(event, viewer=None):
     before, after = event.before, event.after
     if (
         event.object_type == "User"
@@ -248,7 +251,7 @@ def present_event(event):
         "event": event,
         "label": ACTION_LABELS.get(event.action, "Zdarzenie systemowe"),
         "object_label": OBJECT_LABELS.get(event.object_type, event.object_type),
-        "actor_label": account_label(event.actor) if event.actor_id else "System",
+        "actor_label": account_label(event.actor, viewer=viewer) if event.actor_id else "System",
         "changes": changes,
         "raw_before": json.dumps(before, ensure_ascii=False, indent=2),
         "raw_after": json.dumps(after, ensure_ascii=False, indent=2),

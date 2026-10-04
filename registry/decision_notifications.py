@@ -10,6 +10,7 @@ from django.core.validators import validate_email
 from django.db import transaction
 
 from .connectors.ezdrp import ConnectorError
+from .demo_mail import deliver, demo_only
 from .documents import document_link
 from .models import IntegrationJob, Request
 from .services import audit, require_role
@@ -92,6 +93,9 @@ def send_decision_notice(job):
         [message["to"]],
         headers={"Message-ID": f"<{job.uuid}@dyna-rejestr.local>"},
     )
-    if email.send() != 1:
+    stored = demo_only(email.to)
+    if deliver(email) != 1:
         raise ValidationError("Nie potwierdzono przyjęcia powiadomienia.")
+    if stored:
+        return "LOCAL_SAVED"
     return "LOCAL_SAVED" if settings.EMAIL_BACKEND.endswith("filebased.EmailBackend") else "ACCEPTED"

@@ -129,9 +129,19 @@ POOL_ALERT_PERCENT = int(os.environ.get("POOL_ALERT_PERCENT", "80"))
 if not (0 < RESERVATION_REMINDER_DAYS < RESERVATION_DAYS and 1 <= POOL_ALERT_PERCENT <= 100):
     raise RuntimeError("Niepoprawny próg przypomnienia o rezerwacji lub alertu puli.")
 PDF_FONT = os.environ.get("PDF_FONT", str(BASE_DIR / "registry" / "fonts" / "DejaVuSans.ttf"))
-EZDRP_CONFIG_FILE = os.environ.get("EZDRP_CONFIG_FILE", "")
-EDOR_CONFIG_FILE = os.environ.get("EDOR_CONFIG_FILE", "")
-SIGNING_CONFIG_FILE = os.environ.get("SIGNING_CONFIG_FILE", "")
+# Tryb demonstracyjny: wejście bez kodu e-mail dla fikcyjnych kont i wbudowane symulatory
+# operatorów. Wyłącznie na instancji z danymi fikcyjnymi; profil urzędowy odmawia startu z tą flagą.
+DEMO_MODE = bool(os.environ.get("DYNA_DEMO"))
+DEMO_DIR = DATA_DIR / "demo"
+# W demo brak własnej konfiguracji oznacza profile symulatora przygotowane przez `prepare_demo`.
+EZDRP_CONFIG_FILE = os.environ.get("EZDRP_CONFIG_FILE") or (str(DEMO_DIR / "ezdrp.json") if DEMO_MODE else "")
+EDOR_CONFIG_FILE = os.environ.get("EDOR_CONFIG_FILE") or (str(DEMO_DIR / "edor.json") if DEMO_MODE else "")
+SIGNING_CONFIG_FILE = os.environ.get("SIGNING_CONFIG_FILE") or (
+    str(DEMO_DIR / "signing.json") if DEMO_MODE else ""
+)
+# Odstępy obserwatora e-Doręczeń; w demo krótkie, żeby obieg dało się pokazać w minutę.
+EDOR_FIRST_CHECK_SECONDS = 5 if DEMO_MODE else 60
+EDOR_MONITOR_SECONDS = 15 if DEMO_MODE else 300
 
 # CAPTCHA nie usuwa niezależnego limitu HTML/API; oba liczone na REMOTE_ADDR.
 PUBLIC_QUERY_LIMIT = int(os.environ.get("PUBLIC_QUERY_LIMIT", "30"))

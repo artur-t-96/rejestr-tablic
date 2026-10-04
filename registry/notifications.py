@@ -13,6 +13,7 @@ from django.db.models import F
 from django.urls import reverse
 from django.utils import timezone
 
+from .demo_mail import deliver
 from .models import Office, PlateRecord, Pool, Request
 from .services import audit
 
@@ -27,7 +28,7 @@ def send_notice(recipients, subject, body, *, obj, action, details=None):
         audit(None, action + "_skipped", obj, after=details, reason="Brak adresu e-mail odbiorcy.")
         return False
     try:
-        sent = EmailMessage(subject, body, settings.DEFAULT_FROM_EMAIL, recipients).send() == 1
+        sent = deliver(EmailMessage(subject, body, settings.DEFAULT_FROM_EMAIL, recipients)) == 1
     except Exception:
         # Transport poczty zgłasza różne wyjątki; każdy oznacza brak potwierdzenia przyjęcia.
         sent = False

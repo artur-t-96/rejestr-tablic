@@ -9,11 +9,15 @@ from django.core.mail import EmailMessage
 from django.db import transaction
 from django.utils import timezone
 
-from .connectors.ezdrp import ConnectorError, EZDRPClient, load_profile, opaque_id
+from .connectors.ezdrp import ConnectorError, EZDRPClient, load_profile, opaque_id, simulated
+from .demo_mail import deliver, demo_only
 from .documents import document_payload, lock_letter
 from .models import EZDCaseLink, IntegrationJob, Letter, Office
 from .microsoft_mail import configuration_ready, transport_name
 from .services import audit, require_role
+
+
+SIMULATOR_MODE = "Symulator wbudowany — bez połączenia z operatorem"
 
 
 def configuration_status(office_id=None):
@@ -24,13 +28,17 @@ def configuration_status(office_id=None):
             load_profile(office_id)
         ezd_configured = bool(office_id)
         ezd_description = "Zapis PDF w sprawie EZD RP API v2. Wysyłka korespondencji jest osobną operacją."
+        ezd_simulated = bool(office_id) and simulated(load_profile(office_id).api_url)
     except ConnectorError as exc:
         ezd_configured = False
         ezd_description = str(exc)
+        ezd_simulated = False
+    edor_simulated = False
     try:
         profile = load_edor_profile(office_id)
         edor_configured = True
         edor_description = f"Przesyłki elektroniczne, statusy i dowody. Środowisko: {profile.environment}."
+        edor_simulated = profile.environment == "SYMULATOR"
     except ConnectorError as exc:
         edor_configured = False
         edor_description = str(exc)
@@ -40,14 +48,14 @@ def configuration_status(office_id=None):
             "name": "EZD RP",
             "configured": ezd_configured,
             "description": ezd_description,
-            "mode": "Brak testu z rzeczywistą usługą",
+            "mode": SIMULATOR_MODE if ezd_simulated else "Brak testu z rzeczywistą usługą",
         },
         {
             "id": "EDOR",
             "name": "e-Doręczenia",
             "configured": edor_configured,
             "description": edor_description,
-            "mode": "Brak testu z rzeczywistą usługą",
+            "mode": SIMULATOR_MODE if edor_simulated else "Brak testu z rzeczywistą usługą",
         },
         {
             "id": "SMTP",
@@ -596,8 +604,11 @@ def send_email(job):
         bytes(job.payload),
         "application/pdf",
     )
-    if email.send() != 1:
+    stored = demo_only(email.to)
+    if deliver(email) != 1:
         raise ValidationError("Serwer pocztowy nie potwierdził przyjęcia wiadomości.")
+    if stored:
+        return "LOCAL_SAVED"
     return (
         "LOCAL_SAVED"
         if settings.LOCAL and settings.EMAIL_BACKEND.endswith("filebased.EmailBackend")

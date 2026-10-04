@@ -1,5 +1,6 @@
 import csv
 import hashlib
+import hmac
 import ipaddress
 import secrets
 from datetime import timedelta
@@ -24,6 +25,10 @@ from django.views.decorators.http import require_http_methods, require_POST
 
 from .accounts import account_label
 from .authentication import safe_login_return
+from .demo import ACCOUNTS as DEMO_ACCOUNTS
+from .demo import DOMAIN as DEMO_DOMAIN
+from .demo import SEEDED as DEMO_SEEDED
+from .demo import demo_viewer, is_demo_email
 from .forms import (
     CheckForm,
     DecisionForm,
@@ -42,6 +47,8 @@ from .integrations import MAIL_RETRYABLE
 from .models import (
     AuditLog,
     DeliveryEvidence,
+    DemoAccessCode,
+    DemoMessage,
     FlaggedWord,
     IntegrationJob,
     Letter,
@@ -178,6 +185,9 @@ def login_email(request):
             form.add_error(None, "Limit prób logowania. Spróbuj ponownie za 15 minut.")
             return render(request, "registry/login.html", {"form": form, "next_path": next_path}, status=429)
         user = User.objects.filter(email__iexact=email, is_active=True).first()
+        if user and is_demo_email(user.email):
+            # Konta demo wchodzą wyłącznie wejściem demonstracyjnym; tu wyglądają jak nieistniejące.
+            user = None
         request.session["login_next"] = next_path
         previous_code_id = request.session.get("login_code_id", -1)
         request.session["login_code_id"] = -1
@@ -214,6 +224,79 @@ def login_email(request):
                 )
         return redirect("login_code")
     return render(request, "registry/login.html", {"form": form, "next_path": next_path})
+
+
+@require_http_methods(["GET", "POST"])
+def demo_login(request):
+    """Wejście demonstracyjne: wspólny kod dostępu, potem fikcyjna rola jednym kliknięciem."""
+    if not settings.DEMO_MODE:
+        raise Http404
+    if request.user.is_authenticated and not demo_viewer(request.user):
+        return redirect("dashboard")
+    unlocked = request.session.get("demo_unlocked") is True or demo_viewer(request.user)
+    error, status = "", 200
+    if request.method == "POST" and not unlocked:
+        current = DemoAccessCode.objects.first()
+        given = request.POST.get("code", "").strip()
+        if not rate_limit("demo-code:" + rate_client(request), 10, 900):
+            error, status = "Limit prób. Spróbuj ponownie za 15 minut.", 429
+        elif (
+            current
+            and given
+            and hmac.compare_digest(
+                hashlib.sha256(given.encode()).digest(), hashlib.sha256(current.code.encode()).digest()
+            )
+        ):
+            request.session["demo_unlocked"] = True
+            return redirect("demo_login")
+        else:
+            error = "Niepoprawny kod dostępu demo."
+    elif request.method == "POST":
+        account = User.objects.filter(
+            email=f"{request.POST.get('account', '')}@{DEMO_DOMAIN}", email__in=DEMO_SEEDED, is_active=True
+        ).first()
+        if account and account.access_allowed:
+            login(request, account, backend="django.contrib.auth.backends.ModelBackend")
+            audit(account, "auth.demo_login", account, ip=ip(request))
+            return redirect("dashboard")
+        error = "To konto demonstracyjne jest niedostępne. Wybierz inną rolę."
+    emails = {user.email: user for user in User.objects.filter(email__in=DEMO_SEEDED, is_active=True)}
+    roles = [
+        {"key": key, "label": label}
+        for key, _role, _office, _first, _last, label in DEMO_ACCOUNTS
+        if f"{key}@{DEMO_DOMAIN}" in emails and emails[f"{key}@{DEMO_DOMAIN}"].access_allowed
+    ]
+    return render(
+        request,
+        "registry/demo_login.html",
+        {"unlocked": unlocked, "roles": roles, "error": error},
+        status=status,
+    )
+
+
+@login_required
+@require_http_methods(["GET"])
+def demo_inbox(request):
+    """Wiadomości, które system wysłał na niedoręczalne adresy demonstracyjne."""
+    if not demo_viewer(request.user):
+        raise Http404
+    messages_ = DemoMessage.objects.all()
+    if request.user.role != "ADMIN":
+        messages_ = messages_.filter(recipient__in=[request.user.email, request.user.office.email.lower()])
+    return render(request, "registry/demo_inbox.html", list_context(request, messages_, "inbox"))
+
+
+@login_required
+@require_POST
+def demo_code_rotate(request):
+    """Rzeczywisty administrator wymienia kod wejścia demo, np. po zakończonej prezentacji."""
+    require_role(request.user, "ADMIN")
+    if not settings.DEMO_MODE or demo_viewer(request.user):
+        raise Http404
+    code = DemoAccessCode.objects.create(code=secrets.token_urlsafe(9), created_by=request.user)
+    audit(request.user, "demo.code_rotated", code, ip=ip(request))
+    messages.success(request, "Kod dostępu demo został zmieniony. Poprzedni przestał działać.")
+    return redirect("admin_panel")
 
 
 @require_http_methods(["GET", "POST"])
@@ -499,7 +582,7 @@ def request_detail(request, uuid):
             "req": req,
             "check": check,
             "suggested": suggested,
-            "author_label": account_label(req.author, with_email=True),
+            "author_label": account_label(req.author, viewer=request.user, with_email=True),
             "current_record": current_record,
             "request_number": req.record.display_number if req.record_id else "",
             "form": form,
@@ -887,6 +970,11 @@ def audit_list(request):
     events = AuditLog.objects.select_related("actor", "office")
     if request.user.role == "COUNTY":
         events = events.filter(actor=request.user)
+    elif demo_viewer(request.user):
+        events = events.filter(
+            Q(actor__email__endswith="@" + DEMO_DOMAIN)
+            | Q(actor__isnull=True) & ~Q(object_type__in=["User", "AccountInvitation", "DemoAccessCode"])
+        )
     return render(request, "registry/audit.html", history_context(request, events))
 
 
@@ -905,6 +993,10 @@ def admin_panel(request):
     users = User.objects.select_related("office")
     if not show_removed:
         users = users.filter(removed_at__isnull=True)
+    demo_admin = demo_viewer(request.user)
+    if demo_admin:
+        # Administrator demo zarządza wyłącznie kontami demonstracyjnymi.
+        users = users.filter(email__endswith="@" + DEMO_DOMAIN)
     return render(
         request,
         "registry/admin_panel.html",
@@ -914,6 +1006,8 @@ def admin_panel(request):
             "show_removed": show_removed,
             "templates": LetterTemplate.objects.all(),
             "flags": FlaggedWord.objects.all(),
+            "demo_admin": demo_admin,
+            "demo_code": DemoAccessCode.objects.first() if settings.DEMO_MODE and not demo_admin else None,
         },
     )
 
@@ -934,6 +1028,12 @@ def admin_edit(request, kind, pk=None):
     obj = get_object_or_404(model, pk=pk) if pk else None
     if kind == "user" and obj and obj.removed_at:
         raise Http404
+    demo_admin = demo_viewer(request.user)
+    if demo_admin and (
+        kind != "user" or (obj and (not is_demo_email(obj.email) or obj.email in DEMO_SEEDED))
+    ):
+        # Urzędy, szablony i słownik są wspólne z kontami rzeczywistymi; konta wejściowe demo są stałe.
+        raise PermissionDenied("W trybie demo administrator zmienia tylko dodatkowe konta demonstracyjne.")
     if kind == "user" and obj and request.method == "POST" and request.POST.get("action") == "remove":
         return remove_account_action(request, obj)
     form = form_class(request.POST or None, instance=obj)
@@ -972,6 +1072,8 @@ def admin_edit(request, kind, pk=None):
                     before = {key: getattr(old, key) for key in UserForm.Meta.fields if key != "office"}
                     before["office"] = old.office_id
                 item = form.save(commit=False)
+                if demo_admin and not is_demo_email(item.email):
+                    raise ValidationError(f"W trybie demo załóż konto z adresem w domenie @{DEMO_DOMAIN}.")
                 if kind == "template":
                     item.revision += 1
                 item.full_clean()
@@ -1220,6 +1322,22 @@ def ezd_incoming(request):
     from .models import EZDIncomingDocument
 
     require_role(request.user, "COUNTY", "MAIN")
+    if request.method == "POST" and request.POST.get("action") == "sync":
+        from .ezd_incoming import sync_incoming
+
+        try:
+            found, rows = sync_incoming(
+                request.user, reason="Odczyt nowych wpływów z ekranu Wpływy z EZD", ip=ip(request)
+            )
+            messages.success(
+                request,
+                f"Nowych przesyłek w RPW: {found}. Sprawdzono dokumentów PDF: {len(rows)}."
+                if found
+                else "Brak nowych przesyłek w RPW z ostatnich 7 dni.",
+            )
+        except (ValidationError, ConnectorError) as exc:
+            messages.error(request, "; ".join(exc.messages) if isinstance(exc, ValidationError) else str(exc))
+        return redirect("ezd_incoming")
     form = EZDIncomingForm(request.POST or None, initial={"year": timezone.localdate().year})
     if request.method == "POST" and form.is_valid():
         try:

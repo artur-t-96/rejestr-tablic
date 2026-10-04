@@ -82,6 +82,10 @@ class User(AbstractUser):
     def access_allowed(self):
         if not self.is_active or self.removed_at:
             return False
+        demo = self.email.lower().endswith("@demo.invalid")
+        if demo and not settings.DEMO_MODE:
+            # Konta demonstracyjne istnieją tylko przy włączonym trybie demo.
+            return False
         if self.role == "ADMIN":
             return self.office_id is None
         if (
@@ -90,6 +94,8 @@ class User(AbstractUser):
             or ((self.role == "MAIN") != (self.office.kind == "MAIN"))
         ):
             return False
+        if demo:
+            return True
         domains = self.office.allowed_domains
         if not isinstance(domains, list) or any(not isinstance(d, str) for d in domains):
             return False
@@ -112,6 +118,9 @@ class User(AbstractUser):
                 raise ValidationError(
                     "Niepoprawna konfiguracja domen e-mail urzędu. Popraw ją przed zapisaniem konta."
                 ) from exc
+        if settings.DEMO_MODE and self.email.lower().endswith("@demo.invalid"):
+            # Konto demo nie korzysta z listy domen urzędu; wchodzi wyłącznie wejściem demonstracyjnym.
+            return
         if self.office_id and self.is_active and not self.office.allowed_domains and not settings.LOCAL:
             raise ValidationError("Skonfiguruj dozwolone domeny e-mail urzędu przed aktywowaniem dostępu.")
         if (
@@ -373,6 +382,44 @@ class FlaggedWord(models.Model):
 
     def __str__(self):
         return self.word
+
+
+class DemoAccessCode(models.Model):
+    """Wspólny kod wejścia demonstracyjnego; obowiązuje najnowszy."""
+
+    code = models.CharField(max_length=64)
+    created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at", "-pk"]
+
+
+class DemoMessage(models.Model):
+    """Wiadomość do niedoręczalnego adresu demo, pokazywana w „Skrzynce demo”."""
+
+    recipient = models.EmailField()
+    subject = models.CharField(max_length=300)
+    body = models.TextField()
+    attachments = models.JSONField(default=list)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at", "-pk"]
+
+
+class SimulatorObject(models.Model):
+    """Stan wbudowanych symulatorów EZD RP i e-Doręczeń; nie pochodzi od operatora."""
+
+    kind = models.CharField(max_length=20)
+    key = models.CharField(max_length=200)
+    office = models.ForeignKey(Office, null=True, on_delete=models.PROTECT)
+    data = models.JSONField(default=dict)
+    content = models.BinaryField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["kind", "key"], name="unique_simulator_object")]
 
 
 class LetterTemplate(models.Model):

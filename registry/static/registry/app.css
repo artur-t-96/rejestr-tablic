@@ -30,3 +30,4 @@ input,select,textarea{max-width:100%}.letter-item>div{min-width:0}
 .history-changes caption{text-align:left;font-weight:650;padding:0 0 8px}
 .history-changes th,.history-changes td{white-space:pre-wrap;overflow-wrap:anywhere;min-width:110px}
 .history-changes tbody th{letter-spacing:normal;text-transform:none}
+.environment.demo{background:#fff8e8;color:#6b4a0a;border-bottom-color:#e6d3a0;font-weight:600}.login-card form+form{margin-top:-12px}

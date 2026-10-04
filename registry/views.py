@@ -233,10 +233,11 @@ def demo_login(request):
         raise Http404
     if request.user.is_authenticated and not demo_viewer(request.user):
         return redirect("dashboard")
-    unlocked = request.session.get("demo_unlocked") is True or demo_viewer(request.user)
+    current = DemoAccessCode.objects.first()
+    # Sesja pamięta, którym kodem została odblokowana; zmiana kodu od razu ją zamyka.
+    unlocked = bool(current) and request.session.get("demo_code") == current.pk
     error, status = "", 200
     if request.method == "POST" and not unlocked:
-        current = DemoAccessCode.objects.first()
         given = request.POST.get("code", "").strip()
         if not rate_limit("demo-code:" + rate_client(request), 10, 900):
             error, status = "Limit prób. Spróbuj ponownie za 15 minut.", 429
@@ -247,7 +248,7 @@ def demo_login(request):
                 hashlib.sha256(given.encode()).digest(), hashlib.sha256(current.code.encode()).digest()
             )
         ):
-            request.session["demo_unlocked"] = True
+            request.session["demo_code"] = current.pk
             return redirect("demo_login")
         else:
             error = "Niepoprawny kod dostępu demo."
@@ -257,6 +258,7 @@ def demo_login(request):
         ).first()
         if account and account.access_allowed:
             login(request, account, backend="django.contrib.auth.backends.ModelBackend")
+            request.session["demo_code"] = current.pk
             audit(account, "auth.demo_login", account, ip=ip(request))
             return redirect("dashboard")
         error = "To konto demonstracyjne jest niedostępne. Wybierz inną rolę."
@@ -278,12 +280,19 @@ def demo_login(request):
 @require_http_methods(["GET"])
 def demo_inbox(request):
     """Wiadomości, które system wysłał na niedoręczalne adresy demonstracyjne."""
-    if not demo_viewer(request.user):
+    if not settings.DEMO_MODE:
         raise Http404
     messages_ = DemoMessage.objects.all()
     if request.user.role != "ADMIN":
         messages_ = messages_.filter(recipient__in=[request.user.email, request.user.office.email.lower()])
-    return render(request, "registry/demo_inbox.html", list_context(request, messages_, "inbox"))
+    elif demo_viewer(request.user):
+        # Administrator demo nie czyta wiadomości kierowanych na adresy rzeczywiste.
+        messages_ = messages_.filter(recipient__endswith="@" + DEMO_DOMAIN)
+    return render(
+        request,
+        "registry/demo_inbox.html",
+        {**list_context(request, messages_, "inbox"), "mask_real": demo_viewer(request.user)},
+    )
 
 
 @login_required
@@ -1327,7 +1336,7 @@ def ezd_incoming(request):
         from .ezd_incoming import sync_incoming
 
         try:
-            found, rows = sync_incoming(
+            found, rows, failed, more = sync_incoming(
                 request.user, reason="Odczyt nowych wpływów z ekranu Wpływy z EZD", ip=ip(request)
             )
             messages.success(
@@ -1336,6 +1345,15 @@ def ezd_incoming(request):
                 if found
                 else "Brak nowych przesyłek w RPW z ostatnich 7 dni.",
             )
+            if failed:
+                messages.error(
+                    request,
+                    "Nie udało się odczytać RPW: "
+                    + ", ".join(f"{number}/{year}" for number, year in failed)
+                    + ". Sprawdź je pojedynczo po numerze.",
+                )
+            if more:
+                messages.info(request, "W rejestrze są kolejne nowe przesyłki. Uruchom odczyt ponownie.")
         except (ValidationError, ConnectorError) as exc:
             messages.error(request, "; ".join(exc.messages) if isinstance(exc, ValidationError) else str(exc))
         return redirect("ezd_incoming")
@@ -1398,6 +1416,8 @@ def edor_resume(request, uuid):
     from .forms import EDorResumeForm
 
     require_role(request.user, "ADMIN")
+    if demo_viewer(request.user):
+        raise PermissionDenied("W trybie demo administrator nie wznawia operacji e-Doręczeń.")
     job = get_object_or_404(IntegrationJob, uuid=uuid, provider="EDOR")
     mode = edor_resume_mode(job)
     form = EDorResumeForm(

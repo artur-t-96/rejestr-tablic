@@ -50,8 +50,8 @@ class SimulatorFlowTests(DemoBase):
         self.assertTrue(all("SYMULACJA" in content for content in evidence.values()))
 
         # Pismo „wpłynęło” do EZD w UMP; urzędnik odczytuje nowe wpływy bez wpisywania numeru.
-        found, rows = sync_incoming(self.ump_demo, reason="Odczyt testowy")
-        self.assertEqual((found, len(rows)), (1, 1))
+        found, rows, failed, more = sync_incoming(self.ump_demo, reason="Odczyt testowy")
+        self.assertEqual((found, len(rows), failed, more), (1, 1, [], False))
         row = rows[0]
         self.assertEqual((row.status, row.letter_id), ("MATCHED", application.pk))
         self.assertTrue(row.request_url.endswith(reverse("request_detail", args=[req.uuid])))
@@ -66,7 +66,7 @@ class SimulatorFlowTests(DemoBase):
         self.assertEqual(ezd_job.status, "REGISTERED")
         self.assertTrue(Letter.objects.get(pk=approval.pk).ezd_id.startswith("SIM-DOK-"))
         self.assertEqual(self.run_job(enqueue(self.ump_demo, approval, "EDOR")).status, "EDOR_DELIVERED")
-        found, rows = sync_incoming(self.county, reason="Odczyt w powiecie")
+        found, rows, _failed, _more = sync_incoming(self.county, reason="Odczyt w powiecie")
         self.assertEqual((found, rows[0].status, rows[0].letter_id), (1, "MATCHED", approval.pk))
 
         notice = IntegrationJob.objects.get(operation="DECISION_NOTICE")
@@ -102,6 +102,34 @@ class SimulatorFlowTests(DemoBase):
         self.assertEqual(sync_incoming(self.demo["powiat-pila"], reason="Obcy urząd")[0], 0)
         self.assertEqual(SimulatorObject.objects.filter(kind="EZD_RPW", office_id="ump").count(), 1)
         self.assertFalse(EZDIncomingDocument.objects.filter(office_id="pil").exists())
+
+    def test_one_broken_entry_does_not_hide_later_ones_and_batches_are_bounded(self):
+        from .simulators import ezd
+
+        for index in range(3):
+            ezd.register_incoming(
+                "ump", b"%PDF-1.4 obcy dokument " + bytes([48 + index]), "obcy.pdf", "Nadawca"
+            )
+        broken = SimulatorObject.objects.get(kind="EZD_RPW", key__endswith=":2")
+        SimulatorObject.objects.filter(kind="EZD_DOC", key=broken.data["documents"][0]).update(
+            content=b"to nie jest PDF"
+        )
+        year = timezone.localdate().year
+        found, rows, failed, more = sync_incoming(self.ump_demo, reason="Odczyt z błędem")
+        self.assertEqual((found, len(rows), failed, more), (3, 2, [(2, year)], False))
+        ezd.register_incoming("ump", b"%PDF-1.4 kolejny", "obcy.pdf", "Nadawca")
+        ezd.register_incoming("ump", b"%PDF-1.4 jeszcze jeden", "obcy.pdf", "Nadawca")
+        self.assertTrue(sync_incoming(self.ump_demo, batch=1, reason="Porcja")[3])
+
+    def test_simulator_refuses_messages_over_the_daily_limit(self):
+        with override_settings(DEMO_DAILY_MESSAGES=1):
+            first = create_request(self.county, data("P6SYM"))
+            delivered = self.run_job(enqueue(self.county, first.letters.get(), "EDOR"))
+            self.assertEqual(delivered.status, "EDOR_DELIVERED")
+            second = create_request(self.county, data("P7SYM"))
+            job = process_job(enqueue(self.county, second.letters.get(), "EDOR"))
+            self.assertEqual(job.status, "RETRY")
+        self.assertEqual(SimulatorObject.objects.filter(kind="EDOR_MESSAGE").count(), 1)
 
     def test_simulator_profiles_fail_closed_outside_demo_mode(self):
         self.assertTrue(all(item["configured"] for item in configuration_status("gni")[:2]))

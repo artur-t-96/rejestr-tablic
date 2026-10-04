@@ -20,7 +20,7 @@ from django.db import transaction
 from django.utils import timezone as django_timezone
 
 from . import demo
-from .models import DemoAccessCode, Office, Request, User
+from .models import DemoAccessCode, DemoMessage, Office, Pool, Request, SimulatorObject, User
 
 SIGNING_DAYS = 365
 OFFICE_DEFAULTS = {
@@ -245,7 +245,7 @@ def seed_cases(users):
             # Numer zajęty przez wcześniejsze dane instancji; dane pokazowe nie są warunkiem działania.
             continue
     span = suggest_pool_range("II", "P", 30)
-    if span:
+    if span and not Pool.objects.filter(office_id="gni", kind="II").exists():
         try:
             with transaction.atomic():
                 allocate_pool(
@@ -265,8 +265,16 @@ def seed_cases(users):
     return created
 
 
+def purge_old():
+    """Stare wiadomości skrzynki i stan symulatorów nie są potrzebne; ograniczają przyrost bazy."""
+    limit = django_timezone.now() - timedelta(days=settings.DEMO_KEEP_DAYS)
+    DemoMessage.objects.filter(created_at__lt=limit).delete()
+    SimulatorObject.objects.filter(created_at__lt=limit).exclude(kind="EZD_CASE").delete()
+
+
 def prepare():
     users = ensure_accounts()
     write_profiles()
     ensure_access_code()
+    purge_old()
     return seed_cases(users)

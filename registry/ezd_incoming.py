@@ -308,8 +308,12 @@ def publish_incoming_link(user, incoming_uuid, *, reason="", transport=None, ip=
         return current
 
 
-def sync_incoming(user, *, days=7, max_pages=10, reason="", ip=None, transport=None):
-    """Odczytuje z RPW przesyłki z ostatnich dni, których urząd jeszcze nie pobrał."""
+def sync_incoming(user, *, days=7, max_pages=10, batch=25, reason="", ip=None, transport=None):
+    """Odczytuje z RPW przesyłki z ostatnich dni, których urząd jeszcze nie pobrał.
+
+    Zwraca: liczbę nowych numerów w porcji, odczytane dokumenty, numery z błędem i informację,
+    czy zostały kolejne. Jedno kliknięcie czyta najwyżej `batch` przesyłek.
+    """
     require_role(user, "COUNTY", "MAIN")
     profile = load_profile(user.office_id)
     today = timezone.localdate()
@@ -327,7 +331,11 @@ def sync_incoming(user, *, days=7, max_pages=10, reason="", ip=None, transport=N
                 break
         else:
             raise ConnectorError("Rejestr RPW ma więcej stron niż limit odczytu. Zawęź okres.", state="RETRY")
-    rows = []
-    for number, year in fresh:
-        rows += receive_rpw(user, number, year, transport=transport, reason=reason, ip=ip)
-    return len(fresh), rows
+    rows, failed = [], []
+    for number, year in fresh[:batch]:
+        try:
+            rows += receive_rpw(user, number, year, transport=transport, reason=reason, ip=ip)
+        except (ValidationError, ConnectorError):
+            # Błąd jest już w dzienniku (`ezd.incoming.read.error`); kolejne przesyłki czytamy dalej.
+            failed.append((number, year))
+    return len(fresh[:batch]), rows, failed, len(fresh) > batch

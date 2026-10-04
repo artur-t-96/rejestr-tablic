@@ -4,6 +4,8 @@ from django.conf import settings
 from django.contrib.auth import logout
 from django.http import HttpResponseBadRequest
 
+from .demo import demo_viewer
+
 
 class OnPremProxyMiddleware:
     """Nginx nadpisuje oba nagłówki; dostęp wyłącznie przez lokalny upstream."""
@@ -37,6 +39,13 @@ class AccountMiddleware:
     def __call__(self, request):
         if request.user.is_authenticated and not request.user.access_allowed:
             logout(request)
+        elif request.user.is_authenticated and demo_viewer(request.user):
+            # Sesja demo jest ważna tylko z aktualnym kodem dostępu; zmiana kodu kończy pokaz.
+            from .models import DemoAccessCode
+
+            current = DemoAccessCode.objects.values_list("pk", flat=True).first()
+            if current is None or request.session.get("demo_code") != current:
+                logout(request)
         response = self.get_response(request)
         if request.path.startswith(("/panel/", "/api/", "/logowanie/")):
             response["Cache-Control"] = "no-store"

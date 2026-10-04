@@ -40,6 +40,11 @@ def build_settings(environment, current):
     if environment.get("DYNA_DEMO") and environment["DYNA_DEMO"] != url.hostname:
         # Flaga skopiowana na inną usługę nie włączy wejścia bez kodu e-mail.
         fail("DYNA_DEMO musi być równe domenie APP_URL tej instancji demonstracyjnej.")
+    if environment.get("DYNA_DEMO") and any(
+        environment.get(name) for name in ("EZDRP_CONFIG_FILE", "EDOR_CONFIG_FILE", "SIGNING_CONFIG_FILE")
+    ):
+        # Konta demo nie mogą wysyłać przez prawdziwego operatora ani podpisywać kluczem urzędu.
+        fail("W trybie demonstracyjnym integracje i podpis działają wyłącznie na symulatorach.")
     revision = environment.get("RENDER_GIT_COMMIT", "")
     if not re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", revision):
         fail("Brak pełnego RENDER_GIT_COMMIT.")

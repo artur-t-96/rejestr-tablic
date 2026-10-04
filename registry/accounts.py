@@ -15,11 +15,12 @@ REMOVED_DOMAIN = "usuniete.invalid"
 def account_label(user, *, viewer=None, with_email=False):
     """Podpis konta w historii; zamknięte konto zachowuje imię i nazwisko bez adresu."""
     name = user.get_full_name()
+    if viewer is not None and demo_viewer(viewer) and not (is_demo_email(user.email) or user.is_demo_removed):
+        # Instancja demo jest współdzielona: konto demo nie poznaje danych kont rzeczywistych,
+        # także zamkniętych.
+        return "Konto urzędowe"
     if user.removed_at:
         return f"{name or 'Użytkownik'} (konto usunięte)"
-    if viewer is not None and demo_viewer(viewer) and not is_demo_email(user.email):
-        # Instancja demo jest współdzielona: konto demo nie poznaje danych kont rzeczywistych.
-        return "Konto urzędowe"
     if with_email:
         return f"{name} · {user.email}" if name else user.email
     return name or user.email
@@ -50,7 +51,9 @@ def remove_account(actor, user_pk, version, reason, ip=None):
         # Konto pracowało w systemie: wnioski, decyzje i dziennik muszą nadal wskazywać, kto działał.
         user.is_active = False
         user.removed_at = timezone.now()
-        user.email = user.username = f"usuniete-{user_pk}@{REMOVED_DOMAIN}"
+        # Zamknięte konto demo zachowuje oznaczenie, żeby pozostało widoczne dla kont demo.
+        marker = "demo-" if is_demo_email(user.email) else ""
+        user.email = user.username = f"usuniete-{marker}{user_pk}@{REMOVED_DOMAIN}"
         user.set_unusable_password()
         user.save(update_fields=["is_active", "removed_at", "email", "username", "password"])
         LoginCode.objects.filter(user=user).delete()

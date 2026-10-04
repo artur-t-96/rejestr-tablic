@@ -131,7 +131,11 @@ if not (0 < RESERVATION_REMINDER_DAYS < RESERVATION_DAYS and 1 <= POOL_ALERT_PER
 PDF_FONT = os.environ.get("PDF_FONT", str(BASE_DIR / "registry" / "fonts" / "DejaVuSans.ttf"))
 # Tryb demonstracyjny: wejście bez kodu e-mail dla fikcyjnych kont i wbudowane symulatory
 # operatorów. Wyłącznie na instancji z danymi fikcyjnymi; profil urzędowy odmawia startu z tą flagą.
-DEMO_MODE = bool(os.environ.get("DYNA_DEMO"))
+DEMO_MODE = os.environ.get("DYNA_DEMO", "").strip().lower() not in ("", "0", "false", "no")
+# Dzienne limity kont demo: instancja pokazowa dzieli bazę 1 GB z kontami rzeczywistymi.
+DEMO_DAILY_REQUESTS = 200
+DEMO_DAILY_MESSAGES = 300
+DEMO_KEEP_DAYS = 30
 DEMO_DIR = DATA_DIR / "demo"
 # W demo brak własnej konfiguracji oznacza profile symulatora przygotowane przez `prepare_demo`.
 EZDRP_CONFIG_FILE = os.environ.get("EZDRP_CONFIG_FILE") or (str(DEMO_DIR / "ezdrp.json") if DEMO_MODE else "")

@@ -3,7 +3,7 @@
 import json
 import re
 import uuid
-from datetime import date
+from datetime import date, timedelta
 from email.parser import BytesParser
 from email.policy import HTTP
 
@@ -183,6 +183,9 @@ def handle(request, office_id):
         attachments = []
         for document_id in entry.data["documents"]:
             item = document(office_id, document_id)
+            if item is None:
+                # Dokument usunięty przy sprzątaniu starych danych symulatora.
+                continue
             attachments.append(
                 {
                     "idDokumentPrzestrzeni": item.key,
@@ -203,9 +206,12 @@ def handle(request, office_id):
     if path == "/rpw/_search" and method == "POST":
         start, end = date.fromisoformat(body["dataOd"]), date.fromisoformat(body["dataDo"])
         page = int(body.get("page", 0))
+        # Zawężenie w bazie po dacie utworzenia; dokładne porównanie po dacie wpisu.
         rows = [
             entry
-            for entry in SimulatorObject.objects.filter(kind="EZD_RPW", office_id=office_id).order_by("pk")
+            for entry in SimulatorObject.objects.filter(
+                kind="EZD_RPW", office_id=office_id, created_at__date__gte=start - timedelta(days=1)
+            ).order_by("pk")
             if start <= date.fromisoformat(entry.data["date"]) <= end
         ]
         pages = max(1, -(-len(rows) // 25))

@@ -4,7 +4,7 @@ import tempfile
 from pathlib import Path
 
 from django.core import mail, signing
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.core.mail import EmailMessage
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
@@ -13,11 +13,22 @@ from config.onprem import build_settings as build_onprem
 from config.render import build_settings as build_render
 
 from .account_invitations import process_invitation
+from .accounts import remove_account
 from .demo import DOMAIN
 from .demo_mail import deliver
 from .demo_setup import ensure_access_code, ensure_accounts, prepare
 from .forms import account_settings_snapshot
-from .models import AccountInvitation, AuditLog, DemoAccessCode, DemoMessage, LoginCode, Office, Request, User
+from .models import (
+    AccountInvitation,
+    AuditLog,
+    DemoAccessCode,
+    DemoMessage,
+    LoginCode,
+    Office,
+    Pool,
+    Request,
+    User,
+)
 from .services import create_request, decide_request, send_request
 from .test_onprem import OnPremConfigurationTests
 from .test_render import RenderSettingsTests
@@ -106,8 +117,22 @@ class DemoLoginTests(DemoBase):
     def test_real_account_is_not_offered_demo_entry_and_keeps_otp(self):
         self.client.force_login(self.a)
         self.assertRedirects(self.client.get(reverse("demo_login")), reverse("dashboard"))
-        self.assertNotContains(self.client.get(reverse("dashboard")), "Skrzynka demo")
-        self.assertEqual(self.client.get(reverse("demo_inbox")).status_code, 404)
+        # Konto rzeczywiste na instancji demo też czyta swoją korespondencję obiegu w skrzynce.
+        DemoMessage.objects.create(recipient=self.a.email, subject="Dla konta rzeczywistego", body="x")
+        self.assertContains(self.client.get(reverse("demo_inbox")), "Dla konta rzeczywistego")
+
+    def test_changing_the_code_ends_unlocked_and_logged_in_demo_sessions(self):
+        waiting, working = Client(), Client()
+        waiting.post(reverse("demo_login"), {"code": self.code})
+        self.enter("ump", working)
+        self.assertEqual(working.get(reverse("dashboard")).status_code, 200)
+        DemoAccessCode.objects.create(code="nowy-kod-po-pokazie")
+        waiting.post(reverse("demo_login"), {"account": "ump"})
+        self.assertNotIn("_auth_user_id", waiting.session)
+        self.assertContains(waiting.get(reverse("demo_login")), "Kod dostępu demo")
+        response = working.get(reverse("dashboard"))
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse("login_email"), response["Location"])
 
 
 class DemoAdminTests(DemoBase):
@@ -147,6 +172,8 @@ class DemoAdminTests(DemoBase):
                 self.assertEqual(self.client.get(url).status_code, 403)
                 self.assertEqual(self.client.post(url, self.payload()).status_code, 403)
         self.assertEqual(self.client.post(reverse("demo_code_rotate")).status_code, 404)
+        job_uuid = "00000000-0000-0000-0000-000000000001"
+        self.assertEqual(self.client.get(reverse("edor_resume", args=[job_uuid])).status_code, 403)
         url = reverse("admin_new", args=["user"])
         self.assertContains(self.client.post(url, self.payload(email="obcy@test.invalid")), "@demo.invalid")
         self.assertFalse(User.objects.filter(email="obcy@test.invalid").exists())
@@ -202,18 +229,49 @@ class DemoPrivacyTests(DemoBase):
         self.client.force_login(self.ump)
         self.assertContains(self.client.get(reverse("request_detail", args=[req.uuid])), "a@test.invalid")
 
-    def test_mail_to_demo_addresses_is_stored_and_real_addresses_are_sent(self):
-        message = EmailMessage("Temat", "Treść", "rejestr@example.org", [f"ump@{DOMAIN}", "real@example.org"])
+    def test_workflow_mail_never_leaves_the_demo_instance(self):
+        recipients = [f"ump@{DOMAIN}", "kontakt@prawdziwy-urzad.example.org"]
+        message = EmailMessage("Temat", "Treść od konta demo", "rejestr@example.org", list(recipients))
         message.attach("pismo.pdf", b"%PDF-1.4", "application/pdf")
         self.assertEqual(deliver(message), 1)
-        stored = DemoMessage.objects.get()
-        self.assertEqual((stored.recipient, stored.attachments), (f"ump@{DOMAIN}", ["pismo.pdf"]))
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertEqual(sorted(DemoMessage.objects.values_list("recipient", flat=True)), sorted(recipients))
+        self.assertEqual(DemoMessage.objects.first().attachments, ["pismo.pdf"])
+
+    def test_invitations_to_real_accounts_still_use_real_mail(self):
+        message = EmailMessage(
+            "Konto", "Treść", "rejestr@example.org", [f"nowy@{DOMAIN}", "real@example.org"]
+        )
+        self.assertEqual(deliver(message, workflow=False), 1)
         self.assertEqual(mail.outbox[0].to, ["real@example.org"])
-        self.assertEqual(deliver(EmailMessage("T", "B", "rejestr@example.org", [f"ump@{DOMAIN}"])), 1)
-        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(DemoMessage.objects.get().recipient, f"nowy@{DOMAIN}")
         with override_settings(DEMO_MODE=False):
             deliver(EmailMessage("T", "B", "rejestr@example.org", [f"ump@{DOMAIN}"]))
         self.assertEqual(len(mail.outbox), 2)
+
+    def test_demo_viewers_do_not_see_import_author_origin_or_closed_real_account(self):
+        User.objects.filter(pk=self.a.pk).update(first_name="Realna", last_name="Osoba")
+        self.a.refresh_from_db()
+        req = create_request(self.a, data())
+        send_request(self.a, req.uuid)
+        AuditLog.objects.filter(object_type="Request").update(ip="198.51.100.77")
+        remove_account(self.admin, self.a.pk, account_settings_snapshot(self.a), "Odejście")
+        self.enter("ump")
+        page = self.client.get(reverse("request_detail", args=[req.uuid]))
+        for hidden in ("Realna Osoba", "198.51.100.77", "Adres IP"):
+            self.assertNotContains(page, hidden)
+        self.assertContains(page, "Konto urzędowe")
+        self.client.force_login(self.ump)
+        page = self.client.get(reverse("request_detail", args=[req.uuid]))
+        self.assertContains(page, "Realna Osoba (konto usunięte)")
+        self.assertContains(page, "198.51.100.77")
+
+    def test_daily_request_quota_applies_to_demo_accounts_only(self):
+        with override_settings(DEMO_DAILY_REQUESTS=1):
+            create_request(self.demo["powiat-gniezno"], data("P1DEMO"))
+            with self.assertRaisesRegex(ValidationError, "limit wniosków"):
+                create_request(self.demo["powiat-pila"], data("P2DEMO"))
+            create_request(self.a, data("P3DEMO"))
 
     def test_inbox_shows_own_and_office_messages_only(self):
         DemoMessage.objects.create(recipient=f"ump@{DOMAIN}", subject="Dla UMP", body="x")
@@ -236,6 +294,15 @@ class DemoProvisioningTests(DemoBase):
         self.assertEqual(
             (User.objects.count(), Request.objects.count(), DemoAccessCode.objects.count()), counts
         )
+        # Dane pokazowe nie mnożą się także wtedy, gdy konta wejściowe trzeba było odtworzyć.
+        for key in ("powiat-gniezno", "powiat-pila"):
+            user = User.objects.get(email=f"{key}@{DOMAIN}")
+            remove_account(self.admin, user.pk, account_settings_snapshot(user), "Odtworzenie konta")
+        pools = Pool.objects.count()
+        prepare()
+        prepare()
+        self.assertEqual(Pool.objects.count(), pools)
+        self.assertTrue(User.objects.get(email=f"powiat-gniezno@{DOMAIN}").access_allowed)
         self.assertEqual(Office.objects.get(pk="ump").allowed_domains, ["example.org"])
         office = Office.objects.get(pk="gni")
         self.assertTrue(office.active and office.ade.startswith("AE:PL-") and office.email.endswith(DOMAIN))
@@ -256,7 +323,11 @@ class DemoProvisioningTests(DemoBase):
 
 class DemoProfileFlagTests(RenderSettingsTests):
     def test_render_accepts_flag_only_when_it_names_this_host(self):
-        build_render({**self.environment, "DYNA_DEMO": "rejestr.example.org"}, self.current)
+        demo = {**self.environment, "DYNA_DEMO": "rejestr.example.org"}
+        build_render(demo, self.current)
+        for name in ("EZDRP_CONFIG_FILE", "EDOR_CONFIG_FILE", "SIGNING_CONFIG_FILE"):
+            with self.subTest(name=name), self.assertRaisesRegex(ImproperlyConfigured, "symulatorach"):
+                build_render({**demo, name: "/var/data/prawdziwy.json"}, self.current)
         for value in ("1", "inna.example.org"):
             with self.subTest(value=value), self.assertRaises(ImproperlyConfigured):
                 build_render({**self.environment, "DYNA_DEMO": value}, self.current)

@@ -8,7 +8,9 @@ import base64
 import json
 import re
 import uuid
+from datetime import timedelta
 
+from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
 
@@ -125,6 +127,11 @@ def handle(request):
         return reply(404, {"error": "Operacja nieobsługiwana przez symulator e-Doręczeń."})
     sender, rest = match[1], match[2]
     if rest == "/messages" and method == "POST":
+        recent = SimulatorObject.objects.filter(
+            kind="EDOR_MESSAGE", created_at__gte=timezone.now() - timedelta(days=1)
+        ).count()
+        if recent >= settings.DEMO_DAILY_MESSAGES:
+            return reply(429, {"error": "Dzienny limit wiadomości symulatora został wyczerpany."})
         message = accept_message(sender, body)
         if message is None:
             return reply(400, {"error": "Symulator wymaga adresata z rejestru urzędów i załącznika PDF."})

@@ -121,7 +121,8 @@ def process_invitation(invitation_id):
             return item
     # Poczta poza transakcją. Sam Message-ID nie gwarantuje deduplikacji SMTP.
     try:
-        stored = demo_only([item.email])
+        # Zaproszenie do konta rzeczywistego wychodzi prawdziwą pocztą także na instancji demo.
+        stored = demo_only([item.email], workflow=False)
         sent = deliver(
             EmailMessage(
                 item.subject,
@@ -129,7 +130,8 @@ def process_invitation(invitation_id):
                 settings.DEFAULT_FROM_EMAIL,
                 [item.email],
                 headers={"Message-ID": f"<account-{item.uuid}@dyna-rejestr.local>"},
-            )
+            ),
+            workflow=False,
         )
         if sent != 1:
             raise ValidationError("Brak potwierdzenia SMTP")

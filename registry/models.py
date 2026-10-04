@@ -79,6 +79,10 @@ class User(AbstractUser):
         ]
 
     @property
+    def is_demo_removed(self):
+        return bool(self.removed_at) and self.email.startswith("usuniete-demo-")
+
+    @property
     def access_allowed(self):
         if not self.is_active or self.removed_at:
             return False

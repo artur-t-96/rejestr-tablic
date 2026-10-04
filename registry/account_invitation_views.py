@@ -35,7 +35,7 @@ class InvitationForm(forms.Form):
 @require_http_methods(["GET", "POST"])
 def account_invitations(request, user_pk, uuid=None):
     require_role(request.user, "ADMIN")
-    user = get_object_or_404(User.objects.select_related("office"), pk=user_pk)
+    user = get_object_or_404(User.objects.select_related("office"), pk=user_pk, removed_at__isnull=True)
     item = get_object_or_404(AccountInvitation, user=user, uuid=uuid) if uuid else None
     snapshot = {
         "actor": request.user.pk,

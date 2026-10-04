@@ -64,6 +64,8 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=8, choices=Role.choices, default=Role.COUNTY)
     office = models.ForeignKey(Office, null=True, blank=True, on_delete=models.PROTECT)
+    # Konto zamknięte przez administratora: zostaje w historii bez adresu e-mail i bez dostępu.
+    removed_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         constraints = [
@@ -78,7 +80,7 @@ class User(AbstractUser):
 
     @property
     def access_allowed(self):
-        if not self.is_active:
+        if not self.is_active or self.removed_at:
             return False
         if self.role == "ADMIN":
             return self.office_id is None

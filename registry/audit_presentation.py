@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.utils.dateparse import parse_date, parse_datetime
 
 from . import models
+from .accounts import account_label
 
 ACTION_LABELS = {
     "request.created": "Utworzono wniosek",
@@ -45,6 +46,8 @@ ACTION_LABELS = {
     "auth.session_extended": "Przedłużono sesję użytkownika",
     "admin.office_saved": "Zapisano ustawienia urzędu",
     "admin.user_saved": "Zapisano ustawienia konta",
+    "admin.user_deleted": "Usunięto konto bez historii",
+    "admin.user_closed": "Zamknięto konto z zachowaniem historii",
     "admin.template_saved": "Zapisano szablon pisma",
     "admin.flag_saved": "Zapisano słowo w słowniku ostrzeżeń",
     "account.invitation_queued": "Dodano zaproszenie do kolejki",
@@ -206,6 +209,17 @@ def display_value(event, key, value):
 
 def present_event(event):
     before, after = event.before, event.after
+    if (
+        event.object_type == "User"
+        and models.User.objects.filter(pk=event.object_id, removed_at__isnull=False).exists()
+    ):
+        # Dziennik jest niezmienny, więc adres usuniętego konta ukrywamy przy wyświetlaniu.
+        before, after = (
+            {k: "usunięto z kontem" if k == "email" else v for k, v in values.items()}
+            if isinstance(values, dict)
+            else values
+            for values in (before, after)
+        )
     changes = []
     if isinstance(before, dict) and isinstance(after, dict):
         for key in dict.fromkeys([*before, *after]):
@@ -234,7 +248,7 @@ def present_event(event):
         "event": event,
         "label": ACTION_LABELS.get(event.action, "Zdarzenie systemowe"),
         "object_label": OBJECT_LABELS.get(event.object_type, event.object_type),
-        "actor_label": (event.actor.get_full_name() or event.actor.email) if event.actor_id else "System",
+        "actor_label": account_label(event.actor) if event.actor_id else "System",
         "changes": changes,
         "raw_before": json.dumps(before, ensure_ascii=False, indent=2),
         "raw_after": json.dumps(after, ensure_ascii=False, indent=2),

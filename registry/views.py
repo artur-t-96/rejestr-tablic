@@ -22,6 +22,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods, require_POST
 
+from .accounts import account_label
 from .authentication import safe_login_return
 from .forms import (
     CheckForm,
@@ -498,6 +499,7 @@ def request_detail(request, uuid):
             "req": req,
             "check": check,
             "suggested": suggested,
+            "author_label": account_label(req.author, with_email=True),
             "current_record": current_record,
             "request_number": req.record.display_number if req.record_id else "",
             "form": form,
@@ -899,12 +901,17 @@ def history_context(request, events):
 @require_http_methods(["GET"])
 def admin_panel(request):
     require_role(request.user, "ADMIN")
+    show_removed = request.GET.get("usuniete") == "1"
+    users = User.objects.select_related("office")
+    if not show_removed:
+        users = users.filter(removed_at__isnull=True)
     return render(
         request,
         "registry/admin_panel.html",
         {
             "offices": Office.objects.all(),
-            "users": User.objects.select_related("office"),
+            "users": users,
+            "show_removed": show_removed,
             "templates": LetterTemplate.objects.all(),
             "flags": FlaggedWord.objects.all(),
         },
@@ -925,6 +932,10 @@ def admin_edit(request, kind, pk=None):
         raise Http404
     model, form_class, label = models[kind]
     obj = get_object_or_404(model, pk=pk) if pk else None
+    if kind == "user" and obj and obj.removed_at:
+        raise Http404
+    if kind == "user" and obj and request.method == "POST" and request.POST.get("action") == "remove":
+        return remove_account_action(request, obj)
     form = form_class(request.POST or None, instance=obj)
     if obj and kind == "office":
         form.fields["id"].disabled = True
@@ -1002,8 +1013,41 @@ def admin_edit(request, kind, pk=None):
     return render(
         request,
         "registry/form.html",
-        {"form": form, "title": "Konfiguracja: " + label, "submit": "Zapisz"},
+        {
+            "form": form,
+            "title": "Konfiguracja: " + label,
+            "submit": "Zapisz",
+            # Usuwanie tylko cudzego, istniejącego konta; wersja ta sama co w formularzu edycji.
+            "remove_version": form.initial.get("account_version")
+            if kind == "user" and obj and obj.pk != request.user.pk
+            else "",
+        },
     )
+
+
+def remove_account_action(request, target):
+    from django.core import signing
+
+    from .accounts import remove_account
+
+    try:
+        try:
+            version = signing.loads(
+                request.POST.get("account_version", ""), salt="admin-account-version", max_age=1800
+            )
+        except signing.BadSignature as exc:
+            raise ValidationError("Formularz konta wygasł lub został zmieniony. Otwórz go ponownie.") from exc
+        result = remove_account(request.user, target.pk, version, request.POST.get("reason", ""), ip(request))
+    except ValidationError as error:
+        messages.error(request, "; ".join(error.messages))
+        return redirect("admin_edit", kind="user", pk=target.pk)
+    messages.success(
+        request,
+        "Konto usunięte."
+        if result == "deleted"
+        else "Konto zamknięte i ukryte. Historia zachowuje imię i nazwisko bez adresu e-mail.",
+    )
+    return redirect("admin_panel")
 
 
 @login_required

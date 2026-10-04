@@ -7,6 +7,8 @@ from django.core.validators import validate_email
 from django.db import models
 from django.db.models import Q
 
+from .validation import display_number
+
 
 class Office(models.Model):
     id = models.SlugField(primary_key=True)
@@ -237,7 +239,7 @@ class PlateRecord(models.Model):
 
     @property
     def display_number(self):
-        return self.number[:2] + " " + self.number[2:]
+        return display_number(self.number)
 
 
 class Request(models.Model):

@@ -1,9 +1,10 @@
 from django.test import TestCase
 
+from .forms import CheckForm
 from .models import AuditLog, Letter, NumberSequence, PlateRecord, Request
 from .services import availability
 from .tests import fixtures
-from .validation import validate_number
+from .validation import display_number, validate_number
 
 
 class FreeSuggestionTests(TestCase):
@@ -16,28 +17,19 @@ class FreeSuggestionTests(TestCase):
             for model in (PlateRecord, Request, Letter, AuditLog, NumberSequence)
         }
 
-    def test_selected_digit_keeps_alternatives_and_all_three_text_variations(self):
+    def test_selected_digit_offers_same_part_with_other_digits_then_other_letter(self):
         before = self.snapshot()
-        result = availability("KOWA", digit=7)
-        suggestions = result["suggestions"]
-        for digit in range(10):
-            if digit != 7:
-                self.assertIn(f"P{digit}KOWA", suggestions)
-        self.assertIn("P7KOW", suggestions)
-        self.assertIn("P7KOWAS", suggestions)
-        self.assertTrue(any(len(number[2:]) == 4 and number[2:] != "KOWA" for number in suggestions))
-        self.assertNotIn("P7KOWA", suggestions)
-        self.assertEqual(len(suggestions), 12)
+        suggestions = availability("URBAN", "M", 1)["suggestions"]
+        expected = [f"M{d}URBAN" for d in range(10) if d != 1] + [f"P{d}URBAN" for d in range(10)]
+        self.assertEqual(suggestions, expected)
         self.assertEqual(self.snapshot(), before)
 
-    def test_no_digit_selection_does_not_repeat_displayed_numbers(self):
+    def test_no_digit_selection_offers_only_the_other_letter(self):
         result = availability("KOWA")
+        self.assertEqual(result["suggestions"], [f"M{d}KOWA" for d in range(10)])
         self.assertFalse({item["number"] for item in result["digits"]} & set(result["suggestions"]))
-        self.assertTrue(any(len(number[2:]) == 3 for number in result["suggestions"]))
-        self.assertTrue(any(len(number[2:]) == 5 for number in result["suggestions"]))
-        self.assertTrue(any(len(number[2:]) == 4 for number in result["suggestions"]))
 
-    def test_minimum_maximum_length_numeric_suffix_and_both_prefixes(self):
+    def test_individual_part_is_never_changed(self):
         for part in ("ABC", "KOWA", "KOWAL", "A12", "AB1C", "ABC12", "PPP"):
             for prefix in ("P", "M"):
                 for digit in (None, 0, 7):
@@ -45,16 +37,14 @@ class FreeSuggestionTests(TestCase):
                         result = availability(part, prefix, digit)
                         suggestions = result["suggestions"]
                         self.assertEqual(len(suggestions), len(set(suggestions)))
-                        self.assertLessEqual(len(suggestions), 12)
                         self.assertGreater(len(suggestions), 0)
                         for number in suggestions:
                             self.assertEqual(validate_number(number), number)
-                            self.assertTrue(number.startswith(prefix))
-                            self.assertNotIn("Q", number)
+                            self.assertEqual(number[2:], part)
                         self.assertFalse({item["number"] for item in result["digits"]} & set(suggestions))
 
     def test_occupied_variants_from_any_office_are_excluded_and_released_can_return(self):
-        initial = availability("KOWA")["suggestions"]
+        initial = availability("KOWA", "P", 7)["suggestions"]
         for index, number in enumerate(initial):
             PlateRecord.objects.create(
                 number=number,
@@ -67,10 +57,7 @@ class FreeSuggestionTests(TestCase):
         released.status = "RELEASED"
         released.save(update_fields=["status"])
         before = self.snapshot()
-        result = availability("KOWA")
-        self.assertIn(initial[0], result["suggestions"])
-        self.assertFalse(set(initial[1:]) & set(result["suggestions"]))
-        self.assertEqual(len(result["suggestions"]), 12)
+        self.assertEqual(availability("KOWA", "P", 7)["suggestions"], [initial[0]])
         self.assertEqual(self.snapshot(), before)
 
     def test_html_and_api_share_only_free_suggestions_without_owner_details(self):
@@ -83,6 +70,24 @@ class FreeSuggestionTests(TestCase):
                 self.assertEqual(page.status_code, 200)
                 self.assertEqual(page.context["result"]["suggestions"], response.json()["suggestions"])
                 for number in response.json()["suggestions"]:
-                    self.assertContains(page, f"<span>{number}</span>")
+                    self.assertContains(page, f"<span>{display_number(number)}</span>")
                 self.assertNotContains(response, "Właściciel wyłącznie testowy")
                 self.assertEqual(response["Cache-Control"], "no-store")
+
+
+class PublicCheckerLayoutTests(TestCase):
+    def test_fields_follow_the_order_on_the_plate(self):
+        self.assertEqual(list(CheckForm().fields), ["prefix", "digit", "part"])
+        html = self.client.get("/").content.decode()
+        self.assertLess(html.index('id="id_prefix"'), html.index('id="id_digit"'))
+        self.assertLess(html.index('id="id_digit"'), html.index('id="id_part"'))
+
+    def test_numbers_are_shown_with_a_gap_and_api_keeps_plain_number(self):
+        self.assertEqual(display_number("M1URBAN"), "M1 URBAN")
+        page = self.client.post("/", {"prefix": "M", "digit": "1", "part": "urban"})
+        self.assertContains(page, "<span>M1 URBAN</span>")
+        self.assertNotContains(page, "<span>M1URBAN</span>")
+        self.assertContains(page, "Ten sam wyróżnik z inną cyfrą lub literą województwa")
+        # API zachowuje dotychczasowy kontrakt: numer bez odstępu.
+        data = self.client.get("/api/availability/", {"prefix": "M", "digit": "1", "part": "URBAN"}).json()
+        self.assertEqual(data["digits"], [{"number": "M1URBAN", "available": True}])

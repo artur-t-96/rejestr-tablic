@@ -140,6 +140,10 @@ def role_cases(obj):
     add("/", public)
     add("/logowanie/", (200, 302, 302, 302, 302))
     add("/logowanie/kod/", public)
+    # Tryb demonstracyjny jest domyślnie wyłączony: jego trasy nie istnieją dla nikogo.
+    add("/logowanie/demo/", (404, 404, 404, 404, 404))
+    add("/panel/demo/poczta/", (302, 404, 404, 404, 404))
+    add("/panel/administracja/demo/kod/", (302, 404, 403, 403, 403), "POST")
     add("/wyloguj/", (302, 302, 302, 302, 302), "POST")
     add("/panel/", (302, 302, 200, 200, 200))
     add("/panel/wnioski/", business_list)

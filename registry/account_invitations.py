@@ -10,6 +10,7 @@ from django.core.mail import EmailMessage
 from django.db import transaction
 from django.utils import timezone
 
+from .demo_mail import deliver, demo_only
 from .models import AccountInvitation, User
 from .microsoft_mail import configuration_ready
 from .services import audit, require_role
@@ -120,18 +121,23 @@ def process_invitation(invitation_id):
             return item
     # Poczta poza transakcją. Sam Message-ID nie gwarantuje deduplikacji SMTP.
     try:
-        sent = EmailMessage(
-            item.subject,
-            item.body,
-            settings.DEFAULT_FROM_EMAIL,
-            [item.email],
-            headers={"Message-ID": f"<account-{item.uuid}@dyna-rejestr.local>"},
-        ).send()
+        # Zaproszenie do konta rzeczywistego wychodzi prawdziwą pocztą także na instancji demo.
+        stored = demo_only([item.email], workflow=False)
+        sent = deliver(
+            EmailMessage(
+                item.subject,
+                item.body,
+                settings.DEFAULT_FROM_EMAIL,
+                [item.email],
+                headers={"Message-ID": f"<account-{item.uuid}@dyna-rejestr.local>"},
+            ),
+            workflow=False,
+        )
         if sent != 1:
             raise ValidationError("Brak potwierdzenia SMTP")
         status = (
             "LOCAL_SAVED"
-            if settings.LOCAL and settings.EMAIL_BACKEND.endswith("filebased.EmailBackend")
+            if stored or (settings.LOCAL and settings.EMAIL_BACKEND.endswith("filebased.EmailBackend"))
             else "ACCEPTED"
         )
         error = ""

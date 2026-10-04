@@ -19,7 +19,7 @@ nie ustaleniem kategorii archiwalnej spraw urzędu.
 | Pule i wydania | Urząd, zakres, okres/stacja, wydający i sprawa; kontrola kolizji. | Okres historii wydań i dokumentów źródłowych; los numeru po anonimizacji. |
 | PDF, podpisy, wpływy i dowody operatora | Oryginalne bajty, hash i powiązanie ze sprawą. | Archiwum właściwe, zakres przechowywania w aplikacji, sprawdzenie podpisów i ślad przekazania. |
 | Dziennik audytowy | Chroniona historia operacji i korekt; nie usuwana przez porządkowanie techniczne. | Osobny okres, dostęp i wymogi rozliczalności/archiwizacji. |
-| Konta, zaproszenia i powiadomienia | Role, domeny, dezaktywacja i trwały status obsługi. | Okres po dezaktywacji; powiązania z audytem i sprawami; treści wiadomości i wyniki wysyłki. |
+| Konta, zaproszenia i powiadomienia | Role, domeny, dezaktywacja, usunięcie konta (bez historii: kasowane; z historią: zamknięte bez adresu e-mail, `KONTA-I-ZAPROSZENIA.md`) i trwały status obsługi. | Okres po dezaktywacji; powiązania z audytem i sprawami; treści wiadomości i wyniki wysyłki. |
 | OTP i sesje w bazie | Ważność i jednorazowość OTP, termin sesji; opcjonalne porządkowanie poniżej. | Zatwierdzenie technicznego progu i harmonogramu. |
 | Liczniki i wyzwania publiczne | Dotychczasowy ograniczony zakres porządkowania, oparty na czasie. | Monitoring wykonania i wymagania incydentowe. |
 | Lokalna skrzynka MIME, źródłowe CSV/XLSX, eksporty, kopie i logi | Osobne pliki poza tabelami; nie są objęte nowym usuwaniem. Lokalnie wyłącznie dane fikcyjne. | Polityka plików i kopii, bezpieczne przechowywanie, kanały eksportu i sposób zniszczenia. |

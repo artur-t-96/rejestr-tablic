@@ -7,6 +7,11 @@ def normalize(value):
     return re.sub(r"\s+", "", str(value)).upper()
 
 
+def display_number(number):
+    """Zapis jak na tablicy: litera województwa i cyfra, odstęp, wyróżnik."""
+    return number[:2] + " " + number[2:]
+
+
 def validate_part(value):
     part = normalize(value)
     # § 30 ust. 1 i ust. 2 pkt 4 rozporządzenia Dz.U. 2024 poz. 1709:

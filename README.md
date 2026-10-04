@@ -31,6 +31,8 @@ Przegląd 67 wymagań, konta i otwarte czynności:
 Kolejka decyzji, weryfikacja numeru, przypomnienia, wysyłka pocztą, przegląd
 urzędów i ochrona logowania:
 [USPRAWNIENIA-PRACY-URZEDOW.md](docs/USPRAWNIENIA-PRACY-URZEDOW.md).
+Wejście demonstracyjne bez konta, symulatory EZD RP i e-Doręczeń, podpis demo:
+[TRYB-DEMO-I-SYMULATORY.md](docs/TRYB-DEMO-I-SYMULATORY.md).
 
 System wdrożono na Renderze. Przebiegi trzech modułów i lokalne testy dokumentów, importów,
 uprawnień oraz kopii opisują powyższe raporty. CAPTCHA ukończono w rzeczywistym

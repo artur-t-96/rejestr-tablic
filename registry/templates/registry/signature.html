@@ -1,4 +1,4 @@
-{% extends 'registry/base.html' %}{% block title %}Podpis pisma {{ letter.number }} · Dyna Rejestr Tablic{% endblock %}{% block content %}
+{% extends 'registry/base.html' %}{% load audit_history %}{% block title %}Podpis pisma {{ letter.number }} · Dyna Rejestr Tablic{% endblock %}{% block content %}
 <div class="page-head"><div><p class="eyebrow">Dokumenty</p><h1>Podpis pisma</h1><p class="muted">{{ letter.number }} · {{ letter.title }}</p></div></div>
 <section class="card form-card">
 <p><strong>{{ letter.signature_label }}</strong></p>{% if letter.replaces_id %}<p>Nowa wersja pisma {{ letter.replaces.number }}.</p>{% endif %}
@@ -9,6 +9,6 @@
 {% if locked %}<p>Pismo jest podpisane lub przekazane do kolejki. Ta wersja jest zamknięta do podpisywania.</p>{% elif profile %}
 <form method="post" enctype="multipart/form-data">{% csrf_token %}{{ form.as_div }}<div class="form-actions"><button type="submit">Zweryfikuj i zapisz podpisany PDF</button></div></form>
 {% endif %}
-{% if letter.signature_report %}<h2>Wynik weryfikacji</h2><p>Treść oryginału zachowana. Status kwalifikowany i kwalifikowany znacznik czasu: nieocenione.</p><p>Polityka unieważnienia: {{ letter.signature_report.revocation_policy }}.</p><p>Sprawdzono: {{ letter.signed_at|date:'d.m.Y H:i' }}. Użytkownik: {{ letter.signed_by.email }}.</p>
+{% if letter.signature_report %}<h2>Wynik weryfikacji</h2><p>Treść oryginału zachowana. Status kwalifikowany i kwalifikowany znacznik czasu: nieocenione.</p><p>Polityka unieważnienia: {{ letter.signature_report.revocation_policy }}.</p><p>Sprawdzono: {{ letter.signed_at|date:'d.m.Y H:i' }}. Użytkownik: {{ letter.signed_by|account_for:user }}.</p>
 {% for signature in letter.signature_report.signatures %}<p>{{ signature.signer_name }} · integralność i podpis poprawne · certyfikat zgodny z konfiguracją urzędu.</p><p class="muted">SHA-256 certyfikatu: {{ signature.fingerprint_sha256 }}</p>{% endfor %}{% endif %}
 <p><a href="{% url 'letter_revision' letter.uuid %}">Utwórz nową wersję pisma</a></p><p><a href="{% url 'letters_list' %}">Wróć do pism</a></p></section>{% endblock %}

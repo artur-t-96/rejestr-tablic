@@ -7,6 +7,8 @@ from django.core.validators import validate_email
 from django.db import models
 from django.db.models import Q
 
+from .validation import display_number
+
 
 class Office(models.Model):
     id = models.SlugField(primary_key=True)
@@ -62,6 +64,8 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=8, choices=Role.choices, default=Role.COUNTY)
     office = models.ForeignKey(Office, null=True, blank=True, on_delete=models.PROTECT)
+    # Konto zamknięte przez administratora: zostaje w historii bez adresu e-mail i bez dostępu.
+    removed_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         constraints = [
@@ -75,8 +79,16 @@ class User(AbstractUser):
         ]
 
     @property
+    def is_demo_removed(self):
+        return bool(self.removed_at) and self.email.startswith("usuniete-demo-")
+
+    @property
     def access_allowed(self):
-        if not self.is_active:
+        if not self.is_active or self.removed_at:
+            return False
+        demo = self.email.lower().endswith("@demo.invalid")
+        if demo and not settings.DEMO_MODE:
+            # Konta demonstracyjne istnieją tylko przy włączonym trybie demo.
             return False
         if self.role == "ADMIN":
             return self.office_id is None
@@ -86,6 +98,8 @@ class User(AbstractUser):
             or ((self.role == "MAIN") != (self.office.kind == "MAIN"))
         ):
             return False
+        if demo:
+            return True
         domains = self.office.allowed_domains
         if not isinstance(domains, list) or any(not isinstance(d, str) for d in domains):
             return False
@@ -108,6 +122,9 @@ class User(AbstractUser):
                 raise ValidationError(
                     "Niepoprawna konfiguracja domen e-mail urzędu. Popraw ją przed zapisaniem konta."
                 ) from exc
+        if settings.DEMO_MODE and self.email.lower().endswith("@demo.invalid"):
+            # Konto demo nie korzysta z listy domen urzędu; wchodzi wyłącznie wejściem demonstracyjnym.
+            return
         if self.office_id and self.is_active and not self.office.allowed_domains and not settings.LOCAL:
             raise ValidationError("Skonfiguruj dozwolone domeny e-mail urzędu przed aktywowaniem dostępu.")
         if (
@@ -237,7 +254,7 @@ class PlateRecord(models.Model):
 
     @property
     def display_number(self):
-        return self.number[:2] + " " + self.number[2:]
+        return display_number(self.number)
 
 
 class Request(models.Model):
@@ -369,6 +386,44 @@ class FlaggedWord(models.Model):
 
     def __str__(self):
         return self.word
+
+
+class DemoAccessCode(models.Model):
+    """Wspólny kod wejścia demonstracyjnego; obowiązuje najnowszy."""
+
+    code = models.CharField(max_length=64)
+    created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at", "-pk"]
+
+
+class DemoMessage(models.Model):
+    """Wiadomość do niedoręczalnego adresu demo, pokazywana w „Skrzynce demo”."""
+
+    recipient = models.EmailField()
+    subject = models.CharField(max_length=300)
+    body = models.TextField()
+    attachments = models.JSONField(default=list)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at", "-pk"]
+
+
+class SimulatorObject(models.Model):
+    """Stan wbudowanych symulatorów EZD RP i e-Doręczeń; nie pochodzi od operatora."""
+
+    kind = models.CharField(max_length=20)
+    key = models.CharField(max_length=200)
+    office = models.ForeignKey(Office, null=True, on_delete=models.PROTECT)
+    data = models.JSONField(default=dict)
+    content = models.BinaryField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["kind", "key"], name="unique_simulator_object")]
 
 
 class LetterTemplate(models.Model):

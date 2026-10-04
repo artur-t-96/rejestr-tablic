@@ -18,7 +18,7 @@
   {% endif %}
   <details>
     <summary>Szczegóły techniczne zdarzenia</summary>
-    <dl><dt>Kod zdarzenia</dt><dd><code>{{ event.action }}</code></dd><dt>Obiekt</dt><dd>{{ event.object_type }} · {{ event.object_id }}</dd><dt>Identyfikator autora</dt><dd>{{ event.actor_id|default:'System' }}</dd><dt>Adres IP</dt><dd>{{ event.ip|default:'Nie zapisano' }}</dd></dl>
+    <dl><dt>Kod zdarzenia</dt><dd><code>{{ event.action }}</code></dd><dt>Obiekt</dt><dd>{{ event.object_type }} · {{ event.object_id }}</dd>{% if show_origin %}<dt>Identyfikator autora</dt><dd>{{ event.actor_id|default:'System' }}</dd><dt>Adres IP</dt><dd>{{ event.ip|default:'Nie zapisano' }}</dd>{% endif %}</dl>
     {% if show_values %}<pre>Przed: {{ raw_before }}
 Po: {{ raw_after }}</pre>{% endif %}
   </details>

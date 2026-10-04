@@ -9,6 +9,7 @@ urlpatterns = [
     path("", v.public, name="public"),
     path("logowanie/", v.login_email, name="login_email"),
     path("logowanie/kod/", v.login_code, name="login_code"),
+    path("logowanie/demo/", v.demo_login, name="demo_login"),
     path("wyloguj/", v.logout_view, name="logout"),
     path("panel/", v.dashboard, name="dashboard"),
     path("panel/wnioski/", v.requests_list, name="requests_list"),
@@ -50,6 +51,8 @@ urlpatterns = [
     path("panel/integracje/edor/<uuid:uuid>/wznow/", v.edor_resume, name="edor_resume"),
     path("panel/pisma/<uuid:uuid>/dowody/<int:evidence_pk>/", v.delivery_evidence, name="delivery_evidence"),
     path("panel/administracja/", v.admin_panel, name="admin_panel"),
+    path("panel/administracja/demo/kod/", v.demo_code_rotate, name="demo_code_rotate"),
+    path("panel/demo/poczta/", v.demo_inbox, name="demo_inbox"),
     path(
         "panel/administracja/konta/<int:user_pk>/zaproszenia/",
         account_invitation_views.account_invitations,

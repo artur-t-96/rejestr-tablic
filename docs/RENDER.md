@@ -51,6 +51,13 @@ pg_dump/pg_restore klientem 18.6 w pakiecie dla Render.
 [CI main](https://github.com/artur-t-96/rejestr-tablic/actions/runs/37129212494).
 Nie używano lokalnego Dockera.
 
+## Tryb demonstracyjny
+
+Instancja Render służy jako demo. Zmienna `DYNA_DEMO` równa domenie z `APP_URL` włącza wejście
+demonstracyjne, konta `@demo.invalid` i symulatory integracji; przy starcie działa `prepare_demo`.
+Kod dostępu jest w panelu administratora. Usunięcie zmiennej i ponowne wdrożenie wyłącza tryb:
+konta demo tracą dostęp, a profile symulatorów są odrzucane. Opis: [TRYB-DEMO-I-SYMULATORY.md](TRYB-DEMO-I-SYMULATORY.md).
+
 ## Aktualizacja
 
 1. Utworzyć skupiony PR przez Dynaminds Codex Bot (`codex-gh` dla zapisów),

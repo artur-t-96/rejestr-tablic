@@ -6,6 +6,8 @@ from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import IntegrityError, transaction
 from django.utils import timezone
 
+from .demo import DOMAIN as DEMO_DOMAIN
+from .demo import demo_viewer
 from .models import AuditLog, Letter, Office, PlateRecord, Pool, PoolSlot, Request
 from .suggestions import free_suggestions
 from .validation import pool_numbers, validate_number, validate_part, validate_vin
@@ -153,6 +155,14 @@ def create_request(user, data, ip=None):
     if not data.get("case_number", "").strip():
         raise ValidationError("Podaj numer sprawy.")
     expire_reservations()
+    if demo_viewer(user) and (
+        Request.objects.filter(
+            author__email__endswith="@" + DEMO_DOMAIN, created_at__gte=timezone.now() - timedelta(days=1)
+        ).count()
+        >= settings.DEMO_DAILY_REQUESTS
+    ):
+        # Wspólna instancja pokazowa: ograniczamy przyrost bazy powodowany przez konta demo.
+        raise ValidationError("Dzienny limit wniosków w trybie demonstracyjnym został wyczerpany.")
     record = None
     if kind == "I":
         number = validate_number(data.get("number", ""))

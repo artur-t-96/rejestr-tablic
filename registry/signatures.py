@@ -91,9 +91,12 @@ def load_profile(office_id):
         if not config:
             raise ValidationError("Nie skonfigurowano podpisywania dokumentów dla tego urzędu.")
         mode = config["mode"]
-        if mode not in {"DEMO", "LOCAL_PEM"} or (mode == "DEMO" and not settings.LOCAL):
+        if mode not in {"DEMO", "LOCAL_PEM"} or (
+            mode == "DEMO" and not (settings.LOCAL or settings.DEMO_MODE)
+        ):
             raise ValidationError(
-                "Podpis DEMO jest dostępny tylko lokalnie. Produkcyjny profil wymaga LOCAL_PEM."
+                "Podpis DEMO jest dostępny tylko lokalnie i w trybie demonstracyjnym. "
+                "Produkcyjny profil wymaga LOCAL_PEM."
             )
         users = config["authorized_users"]
         fingerprints = config["allowed_certificate_fingerprints"]

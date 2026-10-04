@@ -44,6 +44,14 @@ def private_text(path):
         raise ConnectorError("Nie można odczytać prywatnej konfiguracji EZD RP.") from exc
 
 
+SIMULATOR_SUFFIX = ".symulator.invalid"
+
+
+def simulated(url):
+    """Adres wbudowanego symulatora; nigdy nie jest rozwiązywany w sieci."""
+    return isinstance(url, str) and (urlsplit(url).hostname or "").endswith(SIMULATOR_SUFFIX)
+
+
 def https_url(value, *, root=False):
     parsed = urlsplit(value)
     if (
@@ -102,6 +110,8 @@ def load_profile(office_id):
         for item in metadata.values():
             if not isinstance(item, dict) or not item.get("key") or not item.get("name"):
                 raise ConnectorError("Mapowanie metadanych wymaga klucza i nazwy atrybutu w EZD.")
+        if simulated(value["api_url"]) and not settings.DEMO_MODE:
+            raise ConnectorError("Profil symulatora EZD RP działa wyłącznie w trybie demonstracyjnym.")
         return EZDProfile(
             api_url=https_url(value["api_url"], root=True),
             token_url=https_url(value["token_url"]),
@@ -133,6 +143,10 @@ class EZDRPClient:
 
     def __init__(self, profile, *, transport=None):
         self.profile = profile
+        if transport is None and simulated(profile.api_url):
+            from registry.simulators import transport as simulator_transport
+
+            transport = simulator_transport()
         self.http = httpx.Client(
             timeout=httpx.Timeout(30, connect=10),
             verify=profile.ca_file or True,

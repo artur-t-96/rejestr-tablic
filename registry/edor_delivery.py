@@ -3,6 +3,7 @@
 import hashlib
 from datetime import timedelta
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils import timezone
@@ -141,14 +142,14 @@ def process_edor(job, *, transport=None):
             checkpoint(job, "send", "COMPLETED", output)
             job.result["task_id"] = output["task_id"]
             # Odrębne wywołanie obserwatora. Przyjęcie zadania nie jest nadaniem.
-            job.next_attempt_at = timezone.now() + timedelta(seconds=60)
+            job.next_attempt_at = timezone.now() + timedelta(seconds=settings.EDOR_FIRST_CHECK_SECONDS)
             return "MONITORING"
         task_id = step["output"]["task_id"]
         job.result["task_id"] = task_id
         if not job.remote_id:
             message_id = client.task_message(task_id, recipient)
             if not message_id:
-                job.next_attempt_at = timezone.now() + timedelta(seconds=60)
+                job.next_attempt_at = timezone.now() + timedelta(seconds=settings.EDOR_FIRST_CHECK_SECONDS)
                 return "MONITORING"
             job.remote_id = message_id
             job.save(update_fields=["remote_id", "updated_at"])
@@ -209,7 +210,7 @@ def process_edor(job, *, transport=None):
             if kinds & required:
                 job.next_attempt_at = None
                 return status
-        job.next_attempt_at = timezone.now() + timedelta(minutes=5)
+        job.next_attempt_at = timezone.now() + timedelta(seconds=settings.EDOR_MONITOR_SECONDS)
         return "MONITORING"
 
 

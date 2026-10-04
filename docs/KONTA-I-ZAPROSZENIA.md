@@ -107,3 +107,17 @@ zostały sprawdzone. Potrzebne: host/port, konfiguracja TLS i zaufania,
 uprawniony nadawca, ewentualne uwierzytelnianie oraz uzgodniona skrzynka
 odbiorcza do testów. Sekrety należy podać w konfiguracji serwera, bez
 przesyłania ich w raporcie. Nie wysłano rzeczywistych wiadomości ani zgłoszeń.
+
+## Usuwanie konta (04.10.2026)
+
+Formularz konta w panelu administratora ma sekcję „Usuń konto" (wymaga powodu; własnego konta nie da
+się usunąć).
+
+- Konto, które nigdy nie pracowało w systemie, jest kasowane razem ze swoimi zaproszeniami.
+- Konto z historią (wnioski, decyzje, wydania, podpisy, zdarzenia w dzienniku) jest trwale zamykane:
+  traci dostęp, znika z domyślnej listy („Pokaż usunięte" je przywraca do widoku), adres e-mail jest
+  zastępowany znacznikiem `usuniete-<id>@usuniete.invalid`, a imię i nazwisko zostają. W historii
+  występuje jako „Imię Nazwisko (konto usunięte)".
+- Dziennik audytowy jest niezmienny, więc dawny adres w starych zdarzeniach konta jest ukrywany przy
+  wyświetlaniu, nie kasowany z bazy. Treść i adres zaproszeń zamkniętego konta są usuwane.
+- Zdarzenia: `admin.user_deleted`, `admin.user_closed`. Testy: `registry/test_account_removal.py`.

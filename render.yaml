@@ -20,6 +20,9 @@ services:
         value: render
       - key: DYNA_DATA_DIR
         value: /var/data
+      # Tryb demonstracyjny tylko dla instancji z danymi fikcyjnymi; wartość = domena z APP_URL.
+      - key: DYNA_DEMO
+        sync: false
       - key: DJANGO_SETTINGS_MODULE
         value: config.settings_render
       - key: DJANGO_SECRET_KEY

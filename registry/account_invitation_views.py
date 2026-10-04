@@ -4,11 +4,12 @@ from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core import signing
-from django.core.exceptions import ValidationError
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 
 from .account_invitations import context, enqueue_invitation, manage_invitation
+from .demo import demo_viewer, is_demo_email
 from .models import AccountInvitation, User
 from .services import require_role
 
@@ -35,7 +36,9 @@ class InvitationForm(forms.Form):
 @require_http_methods(["GET", "POST"])
 def account_invitations(request, user_pk, uuid=None):
     require_role(request.user, "ADMIN")
-    user = get_object_or_404(User.objects.select_related("office"), pk=user_pk)
+    user = get_object_or_404(User.objects.select_related("office"), pk=user_pk, removed_at__isnull=True)
+    if demo_viewer(request.user) and not is_demo_email(user.email):
+        raise PermissionDenied("W trybie demo administrator zarządza tylko kontami demonstracyjnymi.")
     item = get_object_or_404(AccountInvitation, user=user, uuid=uuid) if uuid else None
     snapshot = {
         "actor": request.user.pk,

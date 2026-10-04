@@ -24,6 +24,10 @@ def main():
     # Dysk dostępny dopiero w start command. Nie inicjalizujemy kont ani fikcyjnych danych.
     subprocess.run([sys.executable, "manage.py", "check", "--deploy", "--fail-level", "ERROR"], check=True)
     subprocess.run([sys.executable, "manage.py", "migrate", "--noinput"], check=True)
+    if os.environ.get("DYNA_DEMO"):
+        # Dane pokazowe nie są warunkiem działania: błąd przygotowania demo nie zatrzymuje usługi.
+        if subprocess.run([sys.executable, "manage.py", "prepare_demo"], check=False).returncode:
+            print("UWAGA: prepare_demo zakończone błędem; tryb demo może być niepełny.", flush=True)
     commands = [
         [sys.executable, "-m", "gunicorn", "config.wsgi:application", "--config", "deploy/render-gunicorn.py"],
         [sys.executable, "manage.py", "expire_reservations", "--watch"],

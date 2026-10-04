@@ -73,6 +73,16 @@ class RecordImportConfirmForm(PoolImportConfirmForm):
 
 
 class CheckForm(forms.Form):
+    # Kolejność pól jak na tablicy: litera województwa, cyfra, wyróżnik.
+    prefix = forms.ChoiceField(
+        label="Województwo",
+        choices=[("P", "P · Wielkopolska"), ("M", "M · Wielkopolska")],
+    )
+    digit = forms.ChoiceField(
+        label="Cyfra",
+        required=False,
+        choices=[("", "Wszystkie cyfry")] + [(str(n), str(n)) for n in range(10)],
+    )
     part = forms.CharField(
         label="Twój wyróżnik",
         max_length=5,
@@ -82,15 +92,6 @@ class CheckForm(forms.Form):
             "Wpisz 3–5 znaków: litery A–Z z wyjątkiem Q. "
             "Cyfry mogą wystąpić wyłącznie na dwóch ostatnich pozycjach."
         ),
-    )
-    prefix = forms.ChoiceField(
-        label="Województwo",
-        choices=[("P", "P · Wielkopolska"), ("M", "M · Wielkopolska")],
-    )
-    digit = forms.ChoiceField(
-        label="Cyfra",
-        required=False,
-        choices=[("", "Wszystkie cyfry")] + [(str(n), str(n)) for n in range(10)],
     )
 
     def clean_part(self):

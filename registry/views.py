@@ -1007,6 +1007,7 @@ def admin_panel(request):
             "templates": LetterTemplate.objects.all(),
             "flags": FlaggedWord.objects.all(),
             "demo_admin": demo_admin,
+            "demo_seeded": DEMO_SEEDED,
             "demo_code": DemoAccessCode.objects.first() if settings.DEMO_MODE and not demo_admin else None,
         },
     )

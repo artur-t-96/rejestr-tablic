@@ -21,6 +21,11 @@ w imieniu urzędu bez jego upoważnienia.
 Po przeglądzie funkcji względem specyfikacji dodano usprawnienia pracy UMP i
 urzędów: [USPRAWNIENIA-PRACY-URZEDOW.md](USPRAWNIENIA-PRACY-URZEDOW.md).
 
+Po uwagach recenzenta (04.10): kolejność pól i zapis numeru w sprawdzarce, podpowiedzi
+bez zmiany wyróżnika, usuwanie kont, tryb demonstracyjny i symulatory integracji:
+[TRYB-DEMO-I-SYMULATORY.md](TRYB-DEMO-I-SYMULATORY.md). EZD RP, e-Doręczenia i podpis
+kwalifikowany nadal nie były wykonane z prawdziwym operatorem.
+
 Poniżej zachowano chronologię wcześniejszych prac. Sformułowania o
 oczekiwaniu na publikację, aplikację Microsoft i CI dotyczą dawnych etapów.
 

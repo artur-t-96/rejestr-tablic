@@ -19,7 +19,6 @@ from django.db import IntegrityError, transaction
 from django.db.models import Count, OuterRef, Prefetch, Q, Subquery
 from django.http import Http404, HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods, require_POST
 
@@ -38,8 +37,10 @@ from .forms import (
     OfficeForm,
     PoolForm,
     RecordForm,
+    ReleaseForm,
     RequestForm,
     TemplateForm,
+    TransferForm,
     UserForm,
     account_settings_snapshot,
 )
@@ -64,6 +65,7 @@ from .models import (
 from .pagination import PAGE_SIZE, list_context, list_page, page_url
 from .security import rate_limit
 from .services import (
+    TRANSFER_STATUSES,
     allocate_pool,
     audit,
     availability,
@@ -75,9 +77,9 @@ from .services import (
     record_postal_dispatch,
     require_role,
     restore_expired_request,
-    revoke_slot_issue,
     scalar,
     send_request,
+    transfer_record,
     update_record,
     visible,
     withdraw_request,
@@ -390,7 +392,7 @@ def dashboard(request):
     expire_reservations()
     reqs = visible(request.user, Request.objects.select_related("office", "record"))
     records = visible(request.user, PlateRecord.objects.all())
-    pools = pools_with_usage(visible(request.user, Pool.objects.select_related("office")))
+    pools = visible(request.user, Pool.objects.all())
     pending = reqs.filter(status="SENT")
     queue = request.user.role == "MAIN" and pending.exists()
     return render(
@@ -403,33 +405,31 @@ def dashboard(request):
             "pending_count": pending.count(),
             "records_count": records.exclude(status="RELEASED").count(),
             "sold_count": records.filter(status="SOLD").count(),
-            "pools_count": len(pools),
-            "alerts": [p for p in pools if p.usage_percent >= settings.POOL_ALERT_PERCENT],
+            "pools_count": pools.count(),
         },
     )
 
 
-def pools_with_usage(pools):
-    """Lista pul z wykorzystaniem policzonym jednym zapytaniem zamiast kilku na pulę."""
+def pools_with_range(pools):
+    """Pule z zakresem i liczbą numerów policzonymi jednym zapytaniem zamiast kilku na pulę.
+
+    Wykorzystania puli nie śledzimy: urząd dostaje informację o przydzielonym zakresie i dacie.
+    """
     slots = PoolSlot.objects.filter(pool=OuterRef("pk"))
-    pools = list(
+    return list(
         pools.annotate(
             slot_total=Count("slots"),
-            slot_used=Count("slots", filter=Q(slots__issued_at__isnull=False)),
             first_number=Subquery(slots.order_by("ordinal").values("number")[:1]),
             last_number=Subquery(slots.order_by("-ordinal").values("number")[:1]),
         )
     )
-    for pool in pools:
-        pool.usage_percent = round(100 * pool.slot_used / pool.slot_total) if pool.slot_total else 0
-    return pools
 
 
 @login_required
 @require_http_methods(["GET"])
 def requests_list(request):
     expire_reservations()
-    # Kolejka decyzji: sprawy czekające najdłużej na górze.
+    # Kolejka do rozpatrzenia: sprawy czekające najdłużej na górze.
     ordering = ("sent_at", "pk") if request.GET.get("status") == "SENT" else ("-created_at", "-pk")
     return render(
         request,
@@ -547,7 +547,7 @@ def request_detail(request, uuid):
                     data,
                     ip(request),
                 )
-                messages.success(request, "Decyzja zapisana. Pismo zwrotne jest dostępne poniżej.")
+                messages.success(request, "Uzasadnienie zapisane. Pismo zwrotne jest dostępne poniżej.")
                 return redirect("request_detail", uuid=uuid)
             except ValidationError as error:
                 form_errors(form, error)
@@ -636,7 +636,7 @@ def request_action(request, uuid, action):
                 letter__request__uuid=uuid, provider="SMTP", operation="DECISION_NOTICE"
             )
             requeue_mail(request.user, job, ip(request))
-            messages.success(request, "Powiadomienie o decyzji wróciło do kolejki wysyłki.")
+            messages.success(request, "Powiadomienie o rozpatrzeniu wniosku wróciło do kolejki wysyłki.")
         else:
             raise Http404
     except (ValidationError, ValueError) as error:
@@ -705,6 +705,13 @@ def record_detail(request, uuid):
             return redirect("record_detail", uuid=uuid)
         except ValidationError as error:
             form_errors(form, error)
+    # Zbycie pojazdu ma dwa różne zakończenia: przeniesienie wpisu do innego urzędu
+    # (numer zostaje zajęty) albo zwolnienie numeru do puli wolnych.
+    can_close = (
+        request.user.role == "MAIN"
+        and record.status in TRANSFER_STATUSES
+        and not Request.objects.filter(record=record, status__in=["DRAFT", "SENT"]).exists()
+    )
     return render(
         request,
         "registry/record_detail.html",
@@ -712,6 +719,8 @@ def record_detail(request, uuid):
             "record": record,
             "form": form,
             "can_edit": can_edit,
+            "transfer_form": TransferForm(record=record) if can_close else None,
+            "release_form": ReleaseForm(record=record) if can_close else None,
             "can_extend": request.user.role == "MAIN"
             and record.status in {"RESERVED", "SENT"}
             and record.reservation_until is not None
@@ -748,6 +757,72 @@ def reservation_extend(request, uuid):
 
 
 @login_required
+@require_POST
+def record_transfer(request, uuid):
+    require_role(request.user, "MAIN")
+    record = get_object_or_404(visible(request.user, PlateRecord.objects.all()), uuid=uuid)
+    form = TransferForm(request.POST, record=record)
+    if not form.is_valid():
+        errors = [
+            f"{form.fields[name].label}: {error}" if name in form.fields else error
+            for name, field_errors in form.errors.items()
+            for error in field_errors
+        ]
+        messages.error(request, "; ".join(errors))
+        return redirect("record_detail", uuid=uuid)
+    data = form.cleaned_data
+    try:
+        transfer_record(
+            request.user,
+            uuid,
+            {
+                "office_id": data["office"].pk,
+                "owner": data["owner"],
+                "address": data["address"],
+                "registration_date": data["registration_date"],
+            },
+            data["reason"],
+            data["version"],
+            ip(request),
+        )
+        messages.success(
+            request,
+            f"Wpis przeniesiony do urzędu {data['office'].name}. Numer pozostaje zajęty.",
+        )
+    except ValidationError as error:
+        messages.error(request, "; ".join(error.messages))
+    return redirect("record_detail", uuid=uuid)
+
+
+@login_required
+@require_POST
+def record_release(request, uuid):
+    require_role(request.user, "MAIN")
+    record = get_object_or_404(visible(request.user, PlateRecord.objects.all()), uuid=uuid)
+    form = ReleaseForm(request.POST, record=record)
+    if not form.is_valid():
+        messages.error(request, "Podaj powód zwolnienia numeru.")
+        return redirect("record_detail", uuid=uuid)
+    if record.status not in TRANSFER_STATUSES:
+        messages.error(request, "Zwolnić można tylko wpis przydzielony, wydany albo z pojazdem zbytym.")
+        return redirect("record_detail", uuid=uuid)
+    try:
+        update_record(
+            request.user,
+            uuid,
+            {"status": "RELEASED"},
+            form.cleaned_data["reason"],
+            form.cleaned_data["version"],
+            ip(request),
+            action="plate.released",
+        )
+        messages.success(request, "Numer zwolniony i wrócił do puli wolnych numerów.")
+    except ValidationError as error:
+        messages.error(request, "; ".join(error.messages))
+    return redirect("record_detail", uuid=uuid)
+
+
+@login_required
 @require_http_methods(["GET"])
 def pools_list(request):
     return render(
@@ -757,7 +832,6 @@ def pools_list(request):
             "pools": pool_rows(request),
             "kinds": Request.Kind.choices[1:],
             "offices": Office.objects.filter(active=True) if request.user.role == "MAIN" else [],
-            "alert_percent": settings.POOL_ALERT_PERCENT,
         },
     )
 
@@ -768,10 +842,7 @@ def pool_rows(request):
         pools = pools.filter(kind=request.GET["kind"])
     if request.GET.get("office"):
         pools = pools.filter(office_id=request.GET["office"])
-    pools = pools_with_usage(pools)
-    if request.GET.get("sort") == "usage":
-        pools.sort(key=lambda pool: pool.usage_percent, reverse=True)
-    return pools
+    return pools_with_range(pools)
 
 
 @login_required
@@ -800,42 +871,16 @@ def pool_new(request):
 
 
 @login_required
-@require_http_methods(["GET", "POST"])
+@require_http_methods(["GET"])
 def pool_detail(request, uuid):
     pool = get_object_or_404(visible(request.user, Pool.objects.select_related("office")), uuid=uuid)
-    slots = Paginator(pool.slots.all(), 100).get_page(request.GET.get("page"))
-    if request.method == "POST":
-        try:
-            if request.POST.get("action") == "revoke":
-                revoke_slot_issue(
-                    request.user,
-                    uuid,
-                    int(request.POST.get("slot", 0)),
-                    request.POST.get("reason", ""),
-                    ip(request),
-                )
-                messages.success(request, "Wydanie cofnięte; numer wrócił do puli.")
-            else:
-                issue_slot(
-                    request.user,
-                    uuid,
-                    int(request.POST.get("slot", 0)),
-                    request.POST.get("case_number", ""),
-                    ip(request),
-                )
-                messages.success(request, "Wydanie numeru zapisane.")
-            return redirect(reverse("pool_detail", kwargs={"uuid": uuid}) + f"?page={slots.number}")
-        except (ValidationError, ValueError, ObjectDoesNotExist) as error:
-            messages.error(request, str(error))
     return render(
         request,
         "registry/pool_detail.html",
         {
             "pool": pool,
-            "slots": slots,
+            "slots": Paginator(pool.slots.all(), 100).get_page(request.GET.get("page")),
             "letters": pool.letters.all(),
-            "can_issue": pool.valid_from <= timezone.localdate()
-            and (pool.valid_until is None or pool.valid_until >= timezone.localdate()),
             "import_event": AuditLog.objects.filter(
                 object_type="Pool", object_id=str(pool.pk), action="pool.imported"
             )
@@ -1187,8 +1232,8 @@ def export_records(request):
             for r in request_queryset(request).order_by("-created_at", "-pk")
         ]
     elif what == "pule":
-        header = ["kind", "office_id", "first_number", "last_number", "total", "issued", "percent"]
-        header += ["valid_from", "valid_until", "station"]
+        header = ["kind", "office_id", "first_number", "last_number", "total"]
+        header += ["valid_from", "valid_until", "station", "allocated_at"]
         rows = [
             [
                 p.kind,
@@ -1196,17 +1241,16 @@ def export_records(request):
                 p.first_number,
                 p.last_number,
                 p.slot_total,
-                p.slot_used,
-                p.usage_percent,
                 scalar(p.valid_from),
                 scalar(p.valid_until),
                 p.station,
+                p.created_at.isoformat(),
             ]
             for p in pool_rows(request)
         ]
     elif what == "urzedy":
         header = ["office_id", "name", "active_plates", "pending_requests", "sold_vehicles"]
-        header += ["pool_ii_total", "pool_ii_issued", "pool_iii_total", "pool_iii_issued"]
+        header += ["pool_ii_total", "pool_iii_total"]
         rows = [
             [
                 o.pk,
@@ -1215,9 +1259,7 @@ def export_records(request):
                 o.pending_requests,
                 o.sold_vehicles,
                 o.pool_ii_total,
-                o.pool_ii_issued,
                 o.pool_iii_total,
-                o.pool_iii_issued,
             ]
             for o in office_rows(request.user)
         ]
@@ -1277,9 +1319,7 @@ def office_rows(user):
     )
     slots = {
         (row["pool__office_id"], row["pool__kind"]): row
-        for row in PoolSlot.objects.values("pool__office_id", "pool__kind").annotate(
-            total=Count("pk"), issued=Count("pk", filter=Q(issued_at__isnull=False))
-        )
+        for row in PoolSlot.objects.values("pool__office_id", "pool__kind").annotate(total=Count("pk"))
     }
     for office in offices:
         office.active_plates = sum(n for (pk, _), n in plates.items() if pk == office.pk)
@@ -1288,7 +1328,6 @@ def office_rows(user):
         for kind, name in (("II", "pool_ii"), ("III", "pool_iii")):
             row = slots.get((office.pk, kind), {})
             setattr(office, name + "_total", row.get("total", 0))
-            setattr(office, name + "_issued", row.get("issued", 0))
     return offices
 
 

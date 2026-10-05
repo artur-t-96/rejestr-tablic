@@ -62,7 +62,7 @@ DEFAULT_TEMPLATES = {
     ),
     "APPROVAL": (
         "Potwierdzenie możliwości wydania tablic indywidualnych",
-        "W odpowiedzi na wniosek ${reference}, znak sprawy ${case_number}, potwierdzamy możliwość wydania tablic ${subject}.\nWnioskodawca: ${owner}\nUzasadnienie decyzji: ${reason}",
+        "W odpowiedzi na wniosek ${reference}, znak sprawy ${case_number}, potwierdzamy możliwość wydania tablic ${subject}.\nWnioskodawca: ${owner}\nUzasadnienie: ${reason}",
     ),
     "REJECTION": (
         "Odmowa przydziału",

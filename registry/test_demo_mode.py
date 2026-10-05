@@ -25,6 +25,7 @@ from .models import (
     DemoMessage,
     LoginCode,
     Office,
+    PlateRecord,
     Pool,
     Request,
     User,
@@ -222,7 +223,7 @@ class DemoPrivacyTests(DemoBase):
             self.assertNotContains(page, hidden)
         decide_request(self.demo["ump"], req.uuid, True)
         audit = self.client.get(reverse("audit_list"))
-        self.assertContains(audit, "Zapisano decyzję UMP")
+        self.assertContains(audit, "Zapisano stanowisko UMP")
         for hidden in ("a@test.invalid", "Realna Osoba", "Utworzono wniosek"):
             self.assertNotContains(audit, hidden)
         # Konto rzeczywiste nadal widzi autora w pełni.
@@ -308,6 +309,19 @@ class DemoProvisioningTests(DemoBase):
         self.assertTrue(office.active and office.ade.startswith("AE:PL-") and office.email.endswith(DOMAIN))
         for name in ("ezdrp.json", "edor.json", "signing.json"):
             self.assertEqual((Path(self.settings_dir()) / name).stat().st_mode & 0o777, 0o600)
+
+    def test_demo_pools_have_realistic_size_and_a_sold_vehicle_awaits_ump(self):
+        from django.db.models import Count
+
+        prepare()
+        sizes = {
+            (pool.office_id, pool.kind): pool.size for pool in Pool.objects.annotate(size=Count("slots"))
+        }
+        self.assertEqual(sizes, {("gni", "II"): 1000, ("pil", "II"): 1000, ("gni", "III"): 1000})
+        sold = PlateRecord.objects.get(number="P7ZBYT")
+        self.assertEqual((sold.status, sold.office_id), ("SOLD", "gni"))
+        prepare()
+        self.assertEqual(Pool.objects.count(), 3)
 
     def settings_dir(self):
         from django.conf import settings

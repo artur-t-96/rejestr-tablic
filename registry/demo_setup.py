@@ -20,7 +20,7 @@ from django.db import transaction
 from django.utils import timezone as django_timezone
 
 from . import demo
-from .models import DemoAccessCode, DemoMessage, Office, Pool, Request, SimulatorObject, User
+from .models import DemoAccessCode, DemoMessage, Office, PlateRecord, Pool, SimulatorObject, User
 
 SIGNING_DAYS = 365
 OFFICE_DEFAULTS = {
@@ -210,20 +210,22 @@ def ensure_access_code():
 
 
 def seed_cases(users):
-    """Kilka fikcyjnych spraw, żeby każda rola miała co obejrzeć; pomijane, gdy już istnieją."""
-    from .number_checks import suggest_pool_range
-    from .services import allocate_pool, create_request, decide_request, send_request
+    """Kilka fikcyjnych spraw, żeby każda rola miała co obejrzeć; pomijane, gdy numer już istnieje."""
+    from .services import create_request, decide_request, send_request, update_record
 
     gniezno, pila, ump = users["powiat-gniezno"], users["powiat-pila"], users["ump"]
-    if Request.objects.filter(author__in=[gniezno, pila]).exists():
-        return 0
     created = 0
     cases = (
         (gniezno, "P0DEMO", "Osoba Pokazowa Alfa", "approve"),
         (gniezno, "P1URBAN", "Firma Pokazowa Beta", "wait"),
         (pila, "M2PILA", "Osoba Pokazowa Gamma", "draft"),
+        # Pojazd zbyty: UMP pokazuje na nim przeniesienie do innego urzędu albo zwolnienie numeru.
+        (gniezno, "P7ZBYT", "Osoba Pokazowa Delta", "sold"),
     )
+    today = django_timezone.localdate()
     for author, number, owner, step in cases:
+        if PlateRecord.objects.filter(number=number).exists():
+            continue
         try:
             with transaction.atomic():
                 req = create_request(
@@ -238,30 +240,91 @@ def seed_cases(users):
                 )
                 if step != "draft":
                     send_request(author, req.uuid)
-                if step == "approve":
+                if step in ("approve", "sold"):
                     decide_request(ump, req.uuid, True, "Dane pokazowe")
+                if step == "sold":
+                    record = PlateRecord.objects.get(pk=req.record_id)
+                    update_record(
+                        author,
+                        record.uuid,
+                        {
+                            "vin": "WVWZZZ1JZXW000001",
+                            "make": "Pokazowa",
+                            "model": "Demo",
+                            "registration_date": today - timedelta(days=400),
+                            "sale_date": today - timedelta(days=7),
+                            "buyer": "Nabywca Pokazowy z Piły",
+                        },
+                        "Dane pokazowe",
+                        record.version,
+                    )
                 created += 1
         except ValidationError:
             # Numer zajęty przez wcześniejsze dane instancji; dane pokazowe nie są warunkiem działania.
             continue
-    span = suggest_pool_range("II", "P", 30)
-    if span and not Pool.objects.filter(office_id="gni", kind="II").exists():
+    return created
+
+
+# Pule pokazowe w realnej skali: urząd dostaje zakres około tysiąca numerów.
+DEMO_POOL_SIZE = 1000
+DEMO_POOLS = (
+    ("powiat-gniezno", "II", "P"),
+    ("powiat-pila", "II", "P"),
+    ("powiat-gniezno", "III", "P0"),
+)
+
+
+def seed_pools(users):
+    """Po jednej puli ~1000 numerów na urząd i moduł; pomijane, gdy urząd ma już taką pulę."""
+    from django.db.models import Count
+
+    from .number_checks import suggest_pool_range
+    from .services import allocate_pool, create_request, decide_request, send_request
+
+    ump = users["ump"]
+    created = 0
+    for key, kind, prefix in DEMO_POOLS:
+        author = users[key]
+        if (
+            Pool.objects.filter(office_id=author.office_id, kind=kind)
+            .annotate(size=Count("slots"))
+            .filter(size__gte=DEMO_POOL_SIZE)
+            .exists()
+        ):
+            continue
+        span = suggest_pool_range(kind, prefix, DEMO_POOL_SIZE)
+        if not span:
+            continue
+        today = django_timezone.localdate()
+        pool_data = {"prefix": prefix, "start": span[0], "end": span[1], "valid_from": today}
         try:
             with transaction.atomic():
-                allocate_pool(
-                    ump,
-                    {
-                        "kind": "II",
-                        "office": "gni",
-                        "prefix": "P",
-                        "start": span[0],
-                        "end": span[1],
-                        "valid_from": django_timezone.localdate(),
-                    },
-                )
+                if kind == "II":
+                    allocate_pool(ump, {**pool_data, "kind": kind, "office": author.office_id})
+                else:
+                    # Moduł III zawsze zaczyna wniosek urzędu.
+                    req = create_request(
+                        author,
+                        {
+                            "kind": kind,
+                            "case_number": f"DEMO/PULA-{kind}/{author.office_id.upper()}",
+                            "count": DEMO_POOL_SIZE,
+                            "station": "Stacja kontroli pojazdów (dane pokazowe)",
+                            "justification": "Dane pokazowe",
+                        },
+                    )
+                    send_request(author, req.uuid)
+                    decide_request(
+                        ump,
+                        req.uuid,
+                        True,
+                        "Dane pokazowe",
+                        {**pool_data, "valid_until": today.replace(year=today.year + 1)},
+                    )
                 created += 1
         except ValidationError:
-            pass
+            # Zakres zajęty przez wcześniejsze dane instancji; pule pokazowe nie są warunkiem działania.
+            continue
     return created
 
 
@@ -277,4 +340,4 @@ def prepare():
     write_profiles()
     ensure_access_code()
     purge_old()
-    return seed_cases(users)
+    return seed_cases(users) + seed_pools(users)

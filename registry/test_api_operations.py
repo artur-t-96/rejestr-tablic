@@ -2,7 +2,6 @@ from datetime import timedelta
 
 from django.core.exceptions import ValidationError
 from django.test import TestCase
-from django.urls import reverse
 from django.utils import timezone
 
 from .models import AuditLog, IntegrationJob, Letter, NumberSequence, PlateRecord, Pool, PoolSlot, Request
@@ -105,7 +104,7 @@ class ApiOperationValidationTests(TestCase):
         ):
             self.rejected(url, payload)
 
-    def test_service_and_html_share_case_number_limit_and_service_rejects_coercion(self):
+    def test_service_rejects_long_case_number_and_coercion(self):
         pool = self.pool()
         slot = pool.slots.first()
         for slot_id, case in (
@@ -118,13 +117,6 @@ class ApiOperationValidationTests(TestCase):
             with self.assertRaises(ValidationError):
                 issue_slot(self.county, pool.uuid, slot_id, case)
             self.assertEqual(self.snapshot(), before)
-        before = self.snapshot()
-        response = self.client.post(
-            reverse("pool_detail", args=[pool.uuid]), {"slot": slot.pk, "case_number": "X" * 101}
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "najwyżej 100 znaków")
-        self.assertEqual(self.snapshot(), before)
 
     def test_request_field_types_and_identity_overrides_are_rejected(self):
         for field in ("kind", "number", "owner", "address", "vin", "case_number", "station", "justification"):

@@ -93,7 +93,7 @@ def decision_values(payload, kind):
     )
     if kind == "I" or not values["approve"]:
         if pool is not None:
-            raise ValidationError("Ta decyzja nie przydziela puli; pomiń pole pool.")
+            raise ValidationError("To rozpatrzenie nie przydziela puli; pomiń pole pool.")
         return values, None
     return values, pool_values(pool, decision=True)
 

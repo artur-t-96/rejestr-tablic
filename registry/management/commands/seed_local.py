@@ -138,7 +138,7 @@ class Command(BaseCommand):
                     "office": "gni",
                     "prefix": "P",
                     "start": 1,
-                    "end": 30,
+                    "end": 1000,
                     "valid_from": timezone.localdate(),
                 },
             )

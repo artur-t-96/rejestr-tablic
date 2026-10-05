@@ -48,7 +48,7 @@ def remove_account(actor, user_pk, version, reason, ip=None):
             AccountInvitation.objects.filter(user=user).delete()
             user.delete()
     except ProtectedError:
-        # Konto pracowało w systemie: wnioski, decyzje i dziennik muszą nadal wskazywać, kto działał.
+        # Konto pracowało w systemie: wnioski, rozpatrzenia i dziennik muszą nadal wskazywać, kto działał.
         user.is_active = False
         user.removed_at = timezone.now()
         # Zamknięte konto demo zachowuje oznaczenie, żeby pozostało widoczne dla kont demo.

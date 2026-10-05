@@ -265,7 +265,7 @@ class Request(models.Model):
 
     class Status(models.TextChoices):
         DRAFT = "DRAFT", "Szkic"
-        SENT = "SENT", "Oczekuje na decyzję"
+        SENT = "SENT", "Oczekuje na rozpatrzenie"
         APPROVED = "APPROVED", "Zaakceptowany"
         REJECTED = "REJECTED", "Odrzucony"
         WITHDRAWN = "WITHDRAWN", "Wycofany"
@@ -358,10 +358,6 @@ class Pool(models.Model):
     def used(self):
         return self.slots.filter(issued_at__isnull=False).count()
 
-    @property
-    def percent(self):
-        return round(100 * self.used / self.total) if self.total else 0
-
 
 class PoolSlot(models.Model):
     pool = models.ForeignKey(Pool, on_delete=models.PROTECT, related_name="slots")
@@ -376,7 +372,7 @@ class PoolSlot(models.Model):
 
 
 class FlaggedWord(models.Model):
-    """Słownik ostrzeżeń dla UMP; ocena treści wyróżnika pozostaje decyzją urzędnika."""
+    """Słownik ostrzeżeń dla UMP; ocena treści wyróżnika należy do urzędnika."""
 
     word = models.CharField(max_length=5, unique=True)
     note = models.CharField(max_length=200, blank=True)
@@ -515,7 +511,7 @@ class IntegrationJob(models.Model):
         return {
             "SEND": "Wysyłka pisma",
             "REGISTER": "Zapis dokumentu",
-            "DECISION_NOTICE": "Powiadomienie autora o decyzji",
+            "DECISION_NOTICE": "Powiadomienie autora o rozpatrzeniu wniosku",
         }.get(self.operation, self.operation)
 
     @property

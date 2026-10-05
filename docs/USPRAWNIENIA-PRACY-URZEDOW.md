@@ -52,11 +52,9 @@ pozostają bez zmian i bez potwierdzenia u operatora.
 
 ## Pule
 
-- Lista ma filtr modułu i urzędu, sortowanie po wykorzystaniu i oznaczenie
-  progu `POOL_ALERT_PERCENT` (80%). Wykorzystanie liczy jedno zapytanie.
-- Przekroczenie progu wysyła jeden e-mail na adresy kontaktowe urzędu i UMP.
-- **Cofnięcie omyłkowego wydania** numeru: urząd puli albo UMP, z powodem;
-  historia zachowuje numer sprawy i datę cofniętego wydania.
+- Lista ma filtr modułu i urzędu.
+- Od 05.10.2026 wykorzystania puli nie śledzimy (licznik, próg 80%, alert e-mail
+  i cofanie wydań usunięto) — zob. `UWAGI-UMP-20261005.md`.
 
 ## Przegląd województwa i eksporty
 

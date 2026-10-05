@@ -186,7 +186,9 @@ class PoolForm(forms.Form):
 
 
 class DecisionForm(forms.Form):
-    decision = forms.ChoiceField(label="Decyzja", choices=[("approve", "Akceptuję"), ("reject", "Odrzucam")])
+    decision = forms.ChoiceField(
+        label="Stanowisko UMP", choices=[("approve", "Akceptuję"), ("reject", "Odrzucam")]
+    )
     reason = forms.CharField(
         label="Uzasadnienie (obowiązkowe przy odmowie)",
         required=False,
@@ -277,8 +279,43 @@ class RecordForm(forms.ModelForm):
                 if field not in COUNTY_FIELDS + ["reason", "version"]:
                     del self.fields[field]
         elif Request.objects.filter(record=self.instance, status__in=["DRAFT", "SENT"]).exists():
-            # Status wpisu z otwartym wnioskiem zmienia decyzja albo wycofanie, nie korekta.
+            # Status wpisu z otwartym wnioskiem zmienia rozpatrzenie albo wycofanie, nie korekta.
             del self.fields["status"]
+
+
+class TransferForm(forms.Form):
+    """Zbyty pojazd przechodzi do innego urzędu; numer pozostaje zajęty."""
+
+    office = forms.ModelChoiceField(label="Nowy urząd prowadzący", queryset=Office.objects.none())
+    owner = forms.CharField(label="Nowy właściciel", max_length=180)
+    address = forms.CharField(label="Adres nowego właściciela", max_length=300, required=False)
+    registration_date = forms.DateField(
+        label="Data rejestracji w nowym urzędzie",
+        required=False,
+        help_text="Pozostaw puste, jeśli pojazd nie jest jeszcze zarejestrowany w nowym urzędzie.",
+        widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
+    )
+    reason = forms.CharField(label="Podstawa przeniesienia", widget=forms.Textarea(attrs={"rows": 2}))
+    version = forms.IntegerField(widget=forms.HiddenInput)
+
+    def __init__(self, *args, record, **kwargs):
+        kwargs.setdefault("prefix", "transfer")
+        super().__init__(*args, **kwargs)
+        self.fields["office"].queryset = (
+            Office.objects.filter(active=True).exclude(kind="MAIN").exclude(pk=record.office_id)
+        )
+        self.fields["owner"].initial = record.buyer
+        self.fields["version"].initial = record.version
+
+
+class ReleaseForm(forms.Form):
+    reason = forms.CharField(label="Powód zwolnienia numeru", widget=forms.Textarea(attrs={"rows": 2}))
+    version = forms.IntegerField(widget=forms.HiddenInput)
+
+    def __init__(self, *args, record, **kwargs):
+        kwargs.setdefault("prefix", "release")
+        super().__init__(*args, **kwargs)
+        self.fields["version"].initial = record.version
 
 
 class OfficeForm(forms.ModelForm):
@@ -371,7 +408,7 @@ class FlaggedWordForm(forms.ModelForm):
         fields = ["word", "note"]
         labels = {"word": "Ciąg liter (2–5)", "note": "Uwaga dla urzędnika UMP"}
         help_texts = {
-            "word": "Wniosek o wyróżnik zawierający ten ciąg dostanie ostrzeżenie. Nie blokuje decyzji.",
+            "word": "Wniosek o wyróżnik zawierający ten ciąg dostanie ostrzeżenie. Nie blokuje rozpatrzenia wniosku.",
         }
 
     def clean_word(self):

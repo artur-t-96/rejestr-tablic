@@ -1,4 +1,4 @@
-"""Informacyjne e-maile robocze: przypomnienie o rezerwacji i alert wykorzystania puli.
+"""Informacyjne e-maile robocze: przypomnienie o rezerwacji i przeniesienie wpisu do innego urzędu.
 
 Nie zawierają danych właściciela ani pojazdu i nie zastępują pism. Wynik wysyłki
 trafia do audytu; nieudana próba nie jest ponawiana automatycznie.
@@ -14,7 +14,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from .demo_mail import deliver
-from .models import Office, PlateRecord, Pool, Request
+from .models import Office, PlateRecord, Request
 from .services import audit
 
 
@@ -83,7 +83,7 @@ def send_reservation_reminders():
         body = (
             f"Rezerwacja numeru {record.display_number} do wniosku {req.reference} wygasa {until}.\n"
             + (
-                "Wniosek czeka na decyzję UMP. UMP może go rozpatrzyć albo przedłużyć rezerwację.\n"
+                "Wniosek czeka na rozpatrzenie przez UMP. UMP może go rozpatrzyć albo przedłużyć rezerwację.\n"
                 if waiting
                 else "Wniosek jest szkicem. Złóż go do UMP przed tym terminem, inaczej numer zostanie zwolniony.\n"
             )
@@ -102,21 +102,18 @@ def send_reservation_reminders():
     return count
 
 
-def send_pool_alert(pool_pk):
-    pool = Pool.objects.select_related("office").get(pk=pool_pk)
-    first, last = pool.slots.first(), pool.slots.last()
+def send_transfer_notice(record_pk):
+    record = PlateRecord.objects.select_related("office").get(pk=record_pk)
     body = (
-        f"Pula {pool.get_kind_display()} urzędu {pool.office.name} "
-        f"({first.number}–{last.number}) jest wykorzystana w {pool.percent}% "
-        f"({pool.used} z {pool.total} numerów).\n"
-        "Urząd może złożyć wniosek o kolejną pulę; UMP może ją przydzielić.\n"
-        f"\nPula: {panel_url('pool_detail', pool.uuid)}\n"
+        f"UMP przeniósł do urzędu {record.office.name} wpis numeru {record.display_number}.\n"
+        "Pojazd zmienił właściciela i urząd prowadzący. Numer pozostaje zajęty; "
+        "nie wrócił do puli wolnych numerów.\n"
+        f"\nWpis: {panel_url('record_detail', record.uuid)}\n"
     )
     return send_notice(
-        [pool.office.email, main_office_email()],
-        f"Pula {first.number}–{last.number}: wykorzystano {pool.percent}% — Dyna Rejestr Tablic",
+        [record.office.email],
+        f"Przeniesiono wpis {record.display_number} do Twojego urzędu — Dyna Rejestr Tablic",
         body,
-        obj=pool,
-        action="pool.alert",
-        details={"percent": pool.percent},
+        obj=record,
+        action="plate.transfer_notice",
     )

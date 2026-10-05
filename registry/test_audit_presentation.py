@@ -46,7 +46,7 @@ class AuditPresentationTests(TestCase):
         self.client.force_login(self.a)
         page = self.client.get(reverse("request_detail", args=[self.req.uuid]))
         self.assertContains(page, "Złożono wniosek do UMP")
-        self.assertContains(page, "Oczekuje na decyzję")
+        self.assertContains(page, "Oczekuje na rozpatrzenie")
         self.assertContains(page, "Wniosek w toku")
         self.assertContains(page, 'scope="col"')
         self.assertContains(page, 'datetime="')

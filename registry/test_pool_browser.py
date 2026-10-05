@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import date
 
 from django.test import TestCase
 from django.urls import reverse
@@ -32,38 +32,38 @@ class PoolBrowserTests(TestCase):
         self.assertEqual(len(first.context["slots"]), 100)
         self.assertContains(first, 'aria-label="Strony numerów puli"')
         self.assertContains(first, 'href="?page=6"')
-        self.assertContains(first, "Numer sprawy wydania P001")
-        self.assertNotContains(first, "Numer sprawy wydania P501")
+        self.assertContains(first, '<li class="number">P001</li>', html=True)
+        self.assertNotContains(first, ">P501<")
         last = self.client.get(self.url, {"page": "6"})
         self.assertEqual([slot.number for slot in last.context["slots"]], ["P501"])
-        self.assertContains(last, "Numer sprawy wydania P501")
+        self.assertContains(last, '<li class="number">P501</li>', html=True)
         self.assertContains(last, "Numery 501–501 z 501")
 
-    def test_issue_and_error_preserve_page_and_duplicate_is_rejected(self):
-        slot = self.pool.slots.last()
-        error = self.client.post(self.url + "?page=6", {"slot": slot.pk, "case_number": ""})
-        self.assertContains(error, "Podaj numer sprawy wydania.")
-        self.assertEqual(error.context["slots"].number, 6)
-        result = self.client.post(self.url + "?page=6", {"slot": slot.pk, "case_number": "TEST/501"})
-        self.assertRedirects(result, self.url + "?page=6")
-        slot.refresh_from_db()
-        self.assertEqual(slot.case_number, "TEST/501")
-        self.assertEqual(slot.issued_by, self.a)
-        duplicate = self.client.post(self.url + "?page=6", {"slot": slot.pk, "case_number": "TEST/DUP"})
-        self.assertContains(duplicate, "Ten numer został już wydany.")
-        self.assertEqual(duplicate.context["slots"].number, 6)
-        slot.refresh_from_db()
-        self.assertEqual(slot.case_number, "TEST/501")
-        self.assertEqual(AuditLog.objects.filter(action="pool.number_issued").count(), 1)
+    def test_pool_shows_allocated_range_and_date_without_usage_tracking(self):
+        page = self.client.get(self.url)
+        self.assertContains(page, "501 numerów")
+        self.assertContains(page, "Data przydziału")
+        self.assertContains(page, timezone.localdate().strftime("%d.%m.%Y"))
+        for usage in ("wydanych", "Wydaj", "Numer sprawy wydania", "Cofnij", "wykorzyst"):
+            self.assertNotContains(page, usage)
+        listing = self.client.get(reverse("pools_list"))
+        self.assertContains(listing, "Liczba numerów")
+        self.assertContains(listing, "Data przydziału")
+        self.assertNotContains(listing, "<progress")
+        self.assertNotContains(listing, "Wykorzystanie")
+        self.assertNotContains(listing, "Najbardziej wykorzystane")
 
-    def test_foreign_office_cannot_read_or_issue_last_page(self):
-        self.client.force_login(self.b)
-        self.assertEqual(self.client.get(self.url, {"page": "6"}).status_code, 404)
+    def test_pool_page_does_not_record_issuance(self):
         slot = self.pool.slots.last()
-        response = self.client.post(self.url + "?page=6", {"slot": slot.pk, "case_number": "TEST/FOREIGN"})
-        self.assertEqual(response.status_code, 404)
+        response = self.client.post(self.url + "?page=6", {"slot": slot.pk, "case_number": "TEST/501"})
+        self.assertEqual(response.status_code, 405)
         slot.refresh_from_db()
         self.assertIsNone(slot.issued_at)
+        self.assertFalse(AuditLog.objects.filter(action="pool.number_issued").exists())
+
+    def test_foreign_office_cannot_read_last_page(self):
+        self.client.force_login(self.b)
+        self.assertEqual(self.client.get(self.url, {"page": "6"}).status_code, 404)
 
     def test_invalid_page_values_are_safe_and_bounded(self):
         for value, expected in (("bad", 1), ("99999999999999", 6), ("0", 6)):
@@ -79,13 +79,3 @@ class PoolBrowserTests(TestCase):
                 page = form(initial={"valid_from": date(2026, 10, 3), "valid_until": date(2026, 12, 31)})
                 self.assertIn('value="2026-10-03"', str(page["valid_from"]))
                 self.assertIn('value="2026-12-31"', str(page["valid_until"]))
-
-    def test_outside_validity_cannot_issue(self):
-        self.pool.valid_from = timezone.localdate() + timedelta(days=1)
-        self.pool.save(update_fields=["valid_from"])
-        slot = self.pool.slots.last()
-        result = self.client.post(self.url + "?page=6", {"slot": slot.pk, "case_number": "TEST/FUTURE"})
-        self.assertContains(result, "Pula nie obowiązuje w dniu wydania.")
-        self.assertEqual(result.context["slots"].number, 6)
-        slot.refresh_from_db()
-        self.assertIsNone(slot.issued_at)

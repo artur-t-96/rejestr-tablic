@@ -162,7 +162,7 @@ class DecisionNoticeTests(TestCase):
         job = self.approve()
         url = reverse("request_detail", args=[self.req.uuid])
         self.client.force_login(self.author)
-        self.assertContains(self.client.get(url), "Powiadomienie autora o decyzji")
+        self.assertContains(self.client.get(url), "Powiadomienie autora o rozpatrzeniu wniosku")
         self.assertContains(self.client.get(url), "W kolejce")
         with (
             tempfile.TemporaryDirectory() as temp,

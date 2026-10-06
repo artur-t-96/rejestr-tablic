@@ -36,6 +36,7 @@ ACTION_LABELS = {
     "pool.allocated": "Przydzielono pulę numerów",
     "pool.number_issued": "Wydano numer z puli",
     "pool.number_issue_revoked": "Cofnięto wydanie numeru z puli",
+    "pool.demo_removed": "Usunięto dawną pulę pokazową",
     "pool.alert": "Wysłano alert o wykorzystaniu puli",
     "pool.alert_failed": "Nie udało się wysłać alertu o wykorzystaniu puli",
     "pool.alert_skipped": "Pominięto alert o wykorzystaniu puli: brak adresu e-mail",

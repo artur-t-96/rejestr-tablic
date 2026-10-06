@@ -310,6 +310,50 @@ class DemoProvisioningTests(DemoBase):
         for name in ("ezdrp.json", "edor.json", "signing.json"):
             self.assertEqual((Path(self.settings_dir()) / name).stat().st_mode & 0o777, 0o600)
 
+    def pool(self, user, office, start, end):
+        from django.utils import timezone
+
+        from .services import allocate_pool
+
+        data = {"kind": "II", "office": office, "prefix": "P", "start": start, "end": end}
+        return allocate_pool(user, {**data, "valid_from": timezone.localdate()})
+
+    def test_legacy_demo_pool_is_merged_without_leaving_a_numbering_gap(self):
+        from .integrations import enqueue
+        from .number_checks import suggest_pool_range
+
+        # Stan instancji Render: dawna pula 30, potem pule 1000 dołożone przez prepare_demo.
+        legacy = self.pool(self.demo["ump"], "gni", 1, 30)
+        enqueue(self.demo["ump"], legacy.letters.get(), "SMTP")
+        big = self.pool(self.demo["ump"], "gni", 31, 1030)
+        pila = self.pool(self.demo["ump"], "pil", 1031, 2030)
+        prepare()
+        self.assertFalse(Pool.objects.filter(pk__in=[legacy.pk, big.pk]).exists())
+        merged = Pool.objects.get(office_id="gni", kind="II")
+        self.assertEqual((merged.start, merged.end, merged.slots.count()), (1, 1030, 1030))
+        self.assertEqual(merged.letters.filter(kind="POOL").count(), 1)
+        self.assertTrue(Pool.objects.filter(pk=pila.pk).exists())
+        self.assertEqual(AuditLog.objects.filter(action="pool.demo_removed").count(), 2)
+        # UMP nadal przydziela kolejne pule modułu II bez blokady kolejności układów.
+        span = suggest_pool_range("II", "P", 50)
+        self.pool(self.demo["ump"], "pil", *span)
+        prepare()
+        self.assertEqual(AuditLog.objects.filter(action="pool.demo_removed").count(), 2)
+
+    def test_last_legacy_pool_is_removed_and_real_pools_stay(self):
+        real = self.pool(self.ump, "gni", 1, 30)
+        legacy = self.pool(self.demo["ump"], "gni", 31, 60)
+        prepare()
+        self.assertFalse(Pool.objects.filter(pk=legacy.pk).exists())
+        self.assertTrue(Pool.objects.filter(pk=real.pk).exists())
+
+    def test_legacy_pool_followed_by_real_pool_is_left_alone(self):
+        legacy = self.pool(self.demo["ump"], "gni", 1, 30)
+        self.pool(self.ump, "pil", 31, 60)
+        prepare()
+        self.assertTrue(Pool.objects.filter(pk=legacy.pk).exists())
+        self.assertFalse(AuditLog.objects.filter(action="pool.demo_removed").exists())
+
     def test_demo_pools_have_realistic_size_and_a_sold_vehicle_awaits_ump(self):
         from django.db.models import Count
 

@@ -335,9 +335,104 @@ def purge_old():
     SimulatorObject.objects.filter(created_at__lt=limit).exclude(kind="EZD_CASE").delete()
 
 
+# Dawna pula pokazowa (30 numerów) sprzed przejścia na pule w realnej skali.
+LEGACY_POOL_SIZE = 30
+
+
+def demo_pools(**filters):
+    """Pule modułu II bez wniosku, przydzielone przez konto demo UMP (nie przez konto rzeczywiste)."""
+    from django.db.models import Count
+
+    from .models import AuditLog
+
+    pools = []
+    for pool in (
+        Pool.objects.select_for_update()
+        .filter(kind="II", request__isnull=True, **filters)
+        .annotate(size=Count("slots"))
+        .order_by("start")
+    ):
+        if AuditLog.objects.filter(
+            action="pool.allocated",
+            object_type="Pool",
+            object_id=str(pool.pk),
+            actor__email=f"ump@{demo.DOMAIN}",
+        ).exists():
+            pools.append(pool)
+    return pools
+
+
+def drop_pool(pool):
+    """Usuwa pulę pokazową z jej pismami i zadaniami wysyłki; dziennik zachowuje historię."""
+    from .models import DeliveryEvidence, EZDIncomingDocument, IntegrationJob, Letter, PoolSlot
+
+    letters = Letter.objects.filter(pool=pool)
+    DeliveryEvidence.objects.filter(job__letter__in=letters).delete()
+    IntegrationJob.objects.filter(letter__in=letters).delete()
+    EZDIncomingDocument.objects.filter(letter__in=letters).update(letter=None)
+    letters.update(replaces=None)
+    letters.delete()
+    PoolSlot.objects.filter(pool=pool).delete()
+    Pool.objects.filter(pk=pool.pk).delete()
+
+
+@transaction.atomic
+def remove_legacy_pool(ump):
+    """Usuwa dawną pulę pokazową 30 numerów Gniezna bez zostawiania luki w numeracji.
+
+    Moduł II wymaga ciągłego wykorzystania układów, więc zwykłe usunięcie pozycji z początku
+    zablokowałoby kolejne przydziały. Gdy tuż za dawną pulą leży pula pokazowa Gniezna,
+    obie zastępujemy jedną ciągłą pulą z nowym pismem. Gdy za dawną pulą nic nie ma, po prostu
+    ją usuwamy. W innym układzie (np. pula konta rzeczywistego za nią) nic nie zmieniamy.
+    Pule kont rzeczywistych i pule z wniosku nigdy nie są ruszane.
+    """
+    from .models import PoolSlot
+    from .services import allocate_pool, audit
+
+    pools = demo_pools(office_id="gni")
+    legacy = next((pool for pool in pools if pool.size == LEGACY_POOL_SIZE), None)
+    if legacy is None:
+        return 0
+    following = PoolSlot.objects.filter(
+        pool__kind="II", number__startswith=legacy.prefix, ordinal__gt=legacy.end
+    )
+    neighbour = next((pool for pool in pools if pool.start == legacy.end + 1), None)
+    if (
+        neighbour is not None
+        and following.exclude(pool=neighbour).filter(ordinal__lte=neighbour.end).exists()
+    ):
+        neighbour = None
+    if neighbour is None and following.exists():
+        return 0
+    removed = [legacy] + ([neighbour] if neighbour else [])
+    for pool in removed:
+        audit(
+            None,
+            "pool.demo_removed",
+            pool,
+            before={"kind": pool.kind, "start": pool.start, "end": pool.end, "count": pool.size},
+            reason="Dawna pula pokazowa 30 numerów zastąpiona pulą w realnej skali",
+        )
+        drop_pool(pool)
+    if neighbour is not None:
+        allocate_pool(
+            ump,
+            {
+                "kind": "II",
+                "office": "gni",
+                "prefix": legacy.prefix,
+                "start": legacy.start,
+                "end": neighbour.end,
+                "valid_from": min(legacy.valid_from, neighbour.valid_from),
+            },
+        )
+    return len(removed)
+
+
 def prepare():
     users = ensure_accounts()
     write_profiles()
     ensure_access_code()
     purge_old()
+    remove_legacy_pool(users["ump"])
     return seed_cases(users) + seed_pools(users)

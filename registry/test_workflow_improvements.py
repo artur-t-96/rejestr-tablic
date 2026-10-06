@@ -33,7 +33,6 @@ from .services import (
     issue_slot,
     record_postal_dispatch,
     restore_expired_request,
-    revoke_slot_issue,
     send_request,
     update_record,
 )
@@ -79,7 +78,7 @@ class Base(TestCase):
 class StatusGuardTests(Base):
     def test_correction_cannot_replace_decision_while_request_is_open(self):
         req = self.sent()
-        with self.assertRaisesRegex(ValidationError, "decyzja albo wycofanie"):
+        with self.assertRaisesRegex(ValidationError, "rozpatrzenie albo wycofanie"):
             update_record(self.ump, req.record.uuid, {"status": "ALLOCATED"}, "Skrót", req.record.version)
         req.refresh_from_db()
         self.assertEqual((req.status, req.record.status), ("SENT", "SENT"))
@@ -260,29 +259,14 @@ class NotificationTests(Base):
         decide_request(self.ump, req.uuid, True)
         self.assertEqual(send_reservation_reminders(), 0)
 
-    def test_pool_alert_is_sent_once_when_threshold_is_crossed(self):
+    def test_pool_usage_is_not_tracked_and_sends_no_alert(self):
         pool = self.small_pool()
-        slots = list(pool.slots.all())
         with self.captureOnCommitCallbacks(execute=True):
-            for slot in slots[:3]:
+            for slot in pool.slots.all():
                 issue_slot(self.a, pool.uuid, slot.pk, "S/1")
         self.assertEqual(len(mail.outbox), 0)
-        # Każde wydanie to osobne żądanie i osobny commit.
-        for slot, case in ((slots[3], "S/4"), (slots[4], "S/5")):
-            with self.captureOnCommitCallbacks(execute=True):
-                issue_slot(self.a, pool.uuid, slot.pk, case)
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(sorted(mail.outbox[0].to), ["a-kontakt@test.invalid", "ump-kontakt@test.invalid"])
-        self.assertIn("80%", mail.outbox[0].subject)
-        self.assertTrue(AuditLog.objects.filter(action="pool.alert", object_id=str(pool.pk)).exists())
-
-    def test_missing_contact_address_is_recorded_not_hidden(self):
-        Office.objects.update(email="")
-        pool = self.small_pool(end=1)
-        with self.captureOnCommitCallbacks(execute=True):
-            issue_slot(self.a, pool.uuid, pool.slots.get().pk, "S/1")
-        self.assertEqual(len(mail.outbox), 0)
-        self.assertTrue(AuditLog.objects.filter(action="pool.alert_skipped").exists())
+        self.assertFalse(AuditLog.objects.filter(action__startswith="pool.alert").exists())
+        self.assertIsNone(Pool.objects.get(pk=pool.pk).alerted_at)
 
 
 @override_settings(EMAIL_BACKEND=LOCMEM)
@@ -438,7 +422,7 @@ class ListsAndExportsTests(Base):
         page = self.client.get(reverse("requests_list"), {"office": "b"})
         self.assertEqual(list(page.context["requests"]), [])
 
-    def test_pool_list_filters_sorts_and_marks_threshold(self):
+    def test_pool_list_filters_and_shows_range_without_usage(self):
         pool = self.small_pool()
         for slot in pool.slots.all()[:4]:
             issue_slot(self.a, pool.uuid, slot.pk, "S")
@@ -454,15 +438,18 @@ class ListsAndExportsTests(Base):
             },
         )
         self.client.force_login(self.ump)
-        page = self.client.get(reverse("pools_list"), {"sort": "usage"})
+        page = self.client.get(reverse("pools_list"))
         self.assertEqual([p.pk for p in page.context["pools"]], [pool.pk, other.pk])
-        self.assertEqual(page.context["pools"][0].usage_percent, 80)
-        self.assertContains(page, "czas na kolejną pulę")
+        self.assertNotContains(page, "czas na kolejną pulę")
+        self.assertNotContains(page, "<progress")
         page = self.client.get(reverse("pools_list"), {"office": "b"})
         self.assertEqual([p.pk for p in page.context["pools"]], [other.pk])
         self.assertEqual(
             (page.context["pools"][0].first_number, page.context["pools"][0].last_number), ("P006", "P009")
         )
+        self.assertEqual(page.context["pools"][0].slot_total, 4)
+        dashboard = self.client.get(reverse("dashboard"))
+        self.assertNotContains(dashboard, "wykorzystano")
 
     def test_exports_follow_scope_and_role(self):
         mine, foreign = self.sent(), self.sent(self.b, "P1TEST")
@@ -473,12 +460,18 @@ class ListsAndExportsTests(Base):
         self.assertNotIn(foreign.reference, body)
         self.assertNotIn("Osoba Fikcyjna", body)
         body = self.client.get(reverse("export_records"), {"co": "pule"}).content.decode()
-        self.assertIn("II;a;P001;P005;5;0;0", body)
+        header, row = body.lstrip("\ufeff").splitlines()[:2]
+        self.assertEqual(
+            header,
+            "kind;office_id;first_number;last_number;total;valid_from;valid_until;station;allocated_at",
+        )
+        self.assertTrue(row.startswith(f"II;a;P001;P005;5;{timezone.localdate().isoformat()};;;"))
         self.assertEqual(self.client.get(reverse("export_records"), {"co": "urzedy"}).status_code, 403)
         self.assertEqual(self.client.get(reverse("export_records"), {"co": "inne"}).status_code, 404)
         self.client.force_login(self.ump)
         body = self.client.get(reverse("export_records"), {"co": "urzedy"}).content.decode()
-        self.assertIn("a;Urząd A;1;1;0;5;0;0;0", body)
+        self.assertIn("a;Urząd A;1;1;0;5;0", body)
+        self.assertNotIn("issued", body)
         self.assertEqual(
             AuditLog.objects.filter(action="registry.exported", after__scope="urzedy").count(), 1
         )
@@ -514,41 +507,6 @@ class ListsAndExportsTests(Base):
         self.assertContains(page, "Pojazdy zbyte")
         self.client.force_login(self.a)
         self.assertNotContains(self.client.get(reverse("dashboard")), "Pojazdy zbyte")
-
-
-class SlotRevokeTests(Base):
-    def test_office_revokes_mistaken_issue_with_reason(self):
-        pool = self.small_pool()
-        slots = list(pool.slots.all())
-        for slot in slots[:4]:
-            issue_slot(self.a, pool.uuid, slot.pk, "S/1")
-        self.assertIsNotNone(Pool.objects.get(pk=pool.pk).alerted_at)
-        url = reverse("pool_detail", args=[pool.uuid])
-        self.client.force_login(self.a)
-        response = self.client.post(
-            url, {"action": "revoke", "slot": slots[0].pk, "reason": " "}, follow=True
-        )
-        self.assertContains(response, "Podaj powód cofnięcia wydania")
-        self.client.post(url, {"action": "revoke", "slot": slots[0].pk, "reason": "Pomyłka numeru"})
-        slot = pool.slots.get(pk=slots[0].pk)
-        self.assertEqual((slot.issued_at, slot.issued_by, slot.case_number), (None, None, ""))
-        self.assertIsNone(Pool.objects.get(pk=pool.pk).alerted_at)
-        event = AuditLog.objects.get(action="pool.number_issue_revoked")
-        self.assertEqual((event.before["case_number"], event.reason), ("S/1", "Pomyłka numeru"))
-        issue_slot(self.a, pool.uuid, slot.pk, "S/2")
-
-    def test_unissued_and_foreign_slots_are_refused(self):
-        pool = self.small_pool()
-        slot = pool.slots.first()
-        with self.assertRaisesRegex(ValidationError, "nie jest oznaczony jako wydany"):
-            revoke_slot_issue(self.a, pool.uuid, slot.pk, "Powód")
-        issue_slot(self.a, pool.uuid, slot.pk, "S/1")
-        self.client.force_login(self.b)
-        response = self.client.post(
-            reverse("pool_detail", args=[pool.uuid]), {"action": "revoke", "slot": slot.pk, "reason": "Obcy"}
-        )
-        self.assertEqual(response.status_code, 404)
-        self.assertIsNotNone(pool.slots.get(pk=slot.pk).issued_at)
 
 
 @override_settings(EMAIL_BACKEND=LOCMEM)

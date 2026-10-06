@@ -72,7 +72,7 @@ def import_pools(request):
                     request.session.pop(SESSION_KEY, None)
                     messages.success(
                         request,
-                        f"Zaimportowano historyczny wykaz. Liczba pul: {len(pools)}; liczba numerów: {saved['row_count']}. Nie utworzono nowych decyzji ani pism.",
+                        f"Zaimportowano historyczny wykaz. Liczba pul: {len(pools)}; liczba numerów: {saved['row_count']}. Nie utworzono nowych przydziałów ani pism.",
                     )
                     return redirect("pools_list")
                 except ValidationError as error:

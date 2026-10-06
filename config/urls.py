@@ -27,6 +27,8 @@ urlpatterns = [
         v.reservation_extend,
         name="reservation_extend",
     ),
+    path("panel/ewidencja/<uuid:uuid>/przeniesienie/", v.record_transfer, name="record_transfer"),
+    path("panel/ewidencja/<uuid:uuid>/zwolnienie/", v.record_release, name="record_release"),
     path("panel/eksport/", v.export_records, name="export_records"),
     path("panel/urzedy/", v.offices_overview, name="offices_overview"),
     path("panel/import/", import_records, name="import_records"),

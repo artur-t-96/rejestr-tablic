@@ -324,7 +324,7 @@ def decide_request(user, req_id, approve, reason="", pool_data=None, ip=None):
     req = lock_request(Request.objects.all(), req_id)
     require_current_reservation(req.record)
     if req.status != "SENT":
-        raise ValidationError("Wniosek nie oczekuje na decyzję lub rezerwacja wygasła.")
+        raise ValidationError("Wniosek nie oczekuje na rozpatrzenie lub rezerwacja wygasła.")
     if not approve and not reason.strip():
         raise ValidationError("Odmowa wymaga uzasadnienia.")
     if approve and req.record:
@@ -461,7 +461,7 @@ def scalar(value):
 
 
 @transaction.atomic
-def update_record(user, record_id, data, reason, version, ip=None):
+def update_record(user, record_id, data, reason, version, ip=None, action="plate.updated"):
     record = visible(user, PlateRecord.objects.select_for_update()).get(uuid=record_id)
     if record.version != int(version):
         raise ValidationError(
@@ -488,12 +488,12 @@ def update_record(user, record_id, data, reason, version, ip=None):
     open_request = Request.objects.filter(record=record, status__in=["DRAFT", "SENT"]).exists()
     if status == "RELEASED" and open_request:
         raise ValidationError(
-            "Nie można zwolnić numeru z aktywnym wnioskiem; wycofaj wniosek lub podejmij decyzję."
+            "Nie można zwolnić numeru z aktywnym wnioskiem; wycofaj wniosek albo rozpatrz go."
         )
     if status != record.status and open_request:
-        # Korekta nie może zastąpić decyzji: wniosek zostałby bez rozstrzygnięcia i pisma.
+        # Korekta nie może zastąpić rozpatrzenia: wniosek zostałby bez rozstrzygnięcia i pisma.
         raise ValidationError(
-            "Status wpisu z otwartym wnioskiem zmienia decyzja albo wycofanie wniosku, nie korekta."
+            "Status wpisu z otwartym wnioskiem zmienia rozpatrzenie albo wycofanie wniosku, nie korekta."
         )
     if (
         record.status == "RELEASED"
@@ -532,7 +532,49 @@ def update_record(user, record_id, data, reason, version, ip=None):
         raise ValidationError("Numer jest już zajęty przez inny aktywny wpis.") from exc
     after = {k: scalar(getattr(record, k)) for k in data}
     after["status"] = record.status
-    audit(user, "plate.updated", record, before, after, reason, ip)
+    audit(user, action, record, before, after, reason, ip)
+    return record
+
+
+TRANSFER_STATUSES = {"ALLOCATED", "ISSUED", "SOLD"}
+
+
+@transaction.atomic
+def transfer_record(user, record_id, data, reason, version, ip=None):
+    """Pojazd przechodzi do innego urzędu: wpis zmienia urząd prowadzący, a numer pozostaje zajęty.
+
+    To nie jest zwolnienie numeru. Zbycie zostaje w historii wpisu, a nowy urząd prowadzi
+    wpis dalej z nowym właścicielem.
+    """
+    if user.role != "MAIN":
+        raise PermissionDenied("Przeniesienie wpisu do innego urzędu wykonuje UMP.")
+    record = visible(user, PlateRecord.objects.select_for_update()).get(uuid=record_id)
+    if record.status not in TRANSFER_STATUSES:
+        raise ValidationError("Przenieść można tylko wpis przydzielony, wydany albo z pojazdem zbytym.")
+    office_id = data.get("office_id")
+    if office_id == record.office_id:
+        raise ValidationError("Wybierz urząd inny niż obecny urząd prowadzący.")
+    if not Office.objects.filter(pk=office_id, active=True).exclude(kind="MAIN").exists():
+        raise ValidationError("Wybierz aktywny urząd wnioskujący (starostwo lub miasto).")
+    owner = (data.get("owner") or record.buyer or "").strip()
+    if not owner:
+        raise ValidationError("Podaj nowego właściciela pojazdu.")
+    fields = {
+        "office_id": office_id,
+        "owner": owner,
+        "address": (data.get("address") or "").strip(),
+        # Numer zostaje w użyciu u nowego właściciela; zbycie jest już rozliczone przeniesieniem,
+        # a jego dane zachowuje historia wpisu.
+        "status": "ISSUED" if record.status == "SOLD" else record.status,
+        "sale_date": None,
+        "buyer": "",
+    }
+    if data.get("registration_date"):
+        fields["registration_date"] = data["registration_date"]
+    record = update_record(user, record_id, fields, reason, version, ip, action="plate.transferred")
+    from .notifications import send_transfer_notice
+
+    transaction.on_commit(lambda: send_transfer_notice(record.pk))
     return record
 
 
@@ -562,39 +604,6 @@ def issue_slot(user, pool_id, slot_id, case_number, ip=None):
         after={"number": slot.number, "case_number": case_number},
         ip=ip,
     )
-    if pool.alerted_at is None and pool.percent >= settings.POOL_ALERT_PERCENT:
-        from .notifications import send_pool_alert
-
-        pool.alerted_at = timezone.now()
-        pool.save(update_fields=["alerted_at"])
-        transaction.on_commit(lambda: send_pool_alert(pool.pk))
-    return slot
-
-
-@transaction.atomic
-def revoke_slot_issue(user, pool_id, slot_id, reason, ip=None):
-    """Cofa omyłkowo odnotowane wydanie; numer wraca do puli tego samego urzędu."""
-    pool = visible(user, Pool.objects.select_for_update()).get(uuid=pool_id)
-    if type(slot_id) is not int or slot_id < 1:
-        raise ValidationError("Wskaż numer puli przez dodatni identyfikator całkowity.")
-    if not isinstance(reason, str) or not reason.strip():
-        raise ValidationError("Podaj powód cofnięcia wydania.")
-    slot = pool.slots.select_for_update().get(pk=slot_id)
-    if not slot.issued_at:
-        raise ValidationError("Ten numer nie jest oznaczony jako wydany.")
-    before = {
-        "number": slot.number,
-        "case_number": slot.case_number,
-        "issued_at": slot.issued_at.isoformat(),
-    }
-    slot.issued_at = None
-    slot.issued_by = None
-    slot.case_number = ""
-    slot.save()
-    if pool.alerted_at and pool.percent < settings.POOL_ALERT_PERCENT:
-        pool.alerted_at = None
-        pool.save(update_fields=["alerted_at"])
-    audit(user, "pool.number_issue_revoked", pool, before, {"number": slot.number}, reason, ip)
     return slot
 
 

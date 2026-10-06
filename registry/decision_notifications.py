@@ -1,4 +1,4 @@
-"""Trwałe powiadomienie autora o decyzji; nie zastępuje doręczenia pisma urzędowi."""
+"""Trwałe powiadomienie autora o rozpatrzeniu wniosku; nie zastępuje doręczenia pisma urzędowi."""
 
 import hashlib
 import json
@@ -27,7 +27,7 @@ def enqueue_decision_notice(user, req, letter, *, ip=None):
         or letter.office_id != user.office_id
         or letter.kind != (approval_kind if req.status == "APPROVED" else "REJECTION")
     ):
-        raise ValidationError("Powiadomienie wymaga zapisanej decyzji i właściwego pisma.")
+        raise ValidationError("Powiadomienie wymaga zapisanego stanowiska UMP i właściwego pisma.")
     key = f"SMTP:{req.uuid}:DECISION_NOTICE"
     existing = IntegrationJob.objects.filter(key=key).first()
     if existing:
@@ -36,10 +36,10 @@ def enqueue_decision_notice(user, req, letter, *, ip=None):
         "version": 1,
         "to": req.author.email,
         "from": settings.DEFAULT_FROM_EMAIL,
-        "subject": f"Decyzja w sprawie {req.reference} — Dyna Rejestr Tablic",
+        "subject": f"Odpowiedź UMP w sprawie {req.reference} — Dyna Rejestr Tablic",
         "body": (
             f"UMP rozpatrzył wniosek {req.reference}.\n"
-            f"Decyzja: {req.get_status_display()}.\n\n"
+            f"Stanowisko UMP: {req.get_status_display()}.\n\n"
             f"Szczegóły i pismo zwrotne są dostępne po zalogowaniu:\n{document_link(letter)}\n\n"
             "To powiadomienie informacyjne. Doręczenie pisma urzędowi jest osobną operacją.\n"
         ),
@@ -85,7 +85,7 @@ def send_decision_notice(job):
     from .microsoft_mail import BACKEND, SMTP_BACKEND, configuration_ready
 
     if settings.EMAIL_BACKEND in (BACKEND, SMTP_BACKEND) and not configuration_ready():
-        raise ConnectorError("Brak konfiguracji poczty dla powiadomienia o decyzji.", state="CONFIG_ERROR")
+        raise ConnectorError("Brak konfiguracji poczty dla powiadomienia o rozpatrzeniu wniosku.", state="CONFIG_ERROR")
     email = EmailMessage(
         message["subject"],
         message["body"],

@@ -33,6 +33,9 @@ urzędów i ochrona logowania:
 [USPRAWNIENIA-PRACY-URZEDOW.md](docs/USPRAWNIENIA-PRACY-URZEDOW.md).
 Wejście demonstracyjne bez konta, symulatory EZD RP i e-Doręczeń, podpis demo:
 [TRYB-DEMO-I-SYMULATORY.md](docs/TRYB-DEMO-I-SYMULATORY.md).
+Uwagi UMP po prezentacji (słownictwo bez „decyzji”, przeniesienie wpisu do innego
+urzędu, pule bez śledzenia wykorzystania, pule demo po 1000 numerów):
+[UWAGI-UMP-20261005.md](docs/UWAGI-UMP-20261005.md).
 
 System wdrożono na Renderze. Przebiegi trzech modułów i lokalne testy dokumentów, importów,
 uprawnień oraz kopii opisują powyższe raporty. CAPTCHA ukończono w rzeczywistym
@@ -67,7 +70,7 @@ Lokalne wiadomości są zapisywane do `var/mail`. Po zamówieniu kodu w przeglą
 
 Konta mają nieużywalne hasła; logowanie odbywa się wyłącznie kodem. Przy ponownym uruchomieniu dane pokazowe nie są usuwane.
 
-Lokalny skrypt uruchamia też automatyczne powiadomienia autora o decyzjach.
+Lokalny skrypt uruchamia też automatyczne powiadomienia autora o rozpatrzeniu wniosku.
 Przy ręcznym starcie serwera uruchom osobno `manage.py process_integrations
 --watch --interval 30 --provider SMTP --operation DECISION_NOTICE`.
 Okres puli, odbiór powiadomień, migracja 0009 i ograniczenia transportu:

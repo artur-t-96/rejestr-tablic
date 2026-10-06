@@ -1,7 +1,7 @@
 {% extends 'registry/base.html' %}
 {% block title %}Import ewidencji indywidualnej · Dyna Rejestr Tablic{% endblock %}
 {% block content %}
-<div class="page-head"><div><p class="eyebrow">Migracja danych · moduł I</p><h1>Import ewidencji indywidualnej</h1><p class="muted">Wczytaj historyczne wpisy, sprawdź wszystkie pola i zatwierdź konkretny wykaz. Import nie jest nową decyzją.</p></div></div>
+<div class="page-head"><div><p class="eyebrow">Migracja danych · moduł I</p><h1>Import ewidencji indywidualnej</h1><p class="muted">Wczytaj historyczne wpisy, sprawdź wszystkie pola i zatwierdź konkretny wykaz. Import nie jest nowym rozpatrzeniem wniosku.</p></div></div>
 <section class="card"><h2>Wykaz źródłowy</h2>
 <p>CSV UTF-8 ze średnikiem lub XLSX, do 500 wpisów i 2 MB. Obowiązkowe kolumny: number, owner, office_id. Obsługiwane statusy: ALLOCATED (przydzielony), ISSUED (wydany), SOLD (pojazd zbyty), RELEASED (zwolniony). Pusty status oznacza ALLOCATED.</p>
 <p>XLSX: pierwszy wiersz zawiera nagłówki wzoru; identyfikatory i pozostałe teksty zapisz jako tekst. Daty mogą być datami Excela bez godzin albo tekstem RRRR-MM-DD. Formuły, makra, ukryte wiersze/kolumny i scalone komórki wymagają przygotowania źródła.</p><p>Daty: RRRR-MM-DD. Wydany lub zbyty wpis wymaga VIN i daty rejestracji; zbyty także daty zbycia i nabywcy. Zwolniony wpis zachowuje historię i nie zwalnia innego aktywnego wpisu tego numeru.</p>

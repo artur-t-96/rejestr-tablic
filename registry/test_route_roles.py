@@ -163,6 +163,23 @@ def role_cases(obj):
         "POST",
         {"days": 7, "reason": "Fikcyjne przedłużenie"},
     )
+    add(
+        f"/panel/ewidencja/{obj.approved.record.uuid}/przeniesienie/",
+        (302, 403, 302, 403, 403),
+        "POST",
+        {
+            "transfer-office": obj.other.office_id,
+            "transfer-owner": "Fikcyjny nabywca",
+            "transfer-reason": "Fikcyjne przeniesienie",
+            "transfer-version": obj.approved.record.version,
+        },
+    )
+    add(
+        f"/panel/ewidencja/{obj.approved.record.uuid}/zwolnienie/",
+        (302, 403, 302, 403, 403),
+        "POST",
+        {"release-reason": "Fikcyjne zwolnienie", "release-version": obj.approved.record.version},
+    )
     add("/panel/eksport/", business_list)
     for scope in ("wnioski", "pule"):
         add(f"/panel/eksport/?co={scope}", business_list)

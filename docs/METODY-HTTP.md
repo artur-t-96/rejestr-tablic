@@ -70,12 +70,14 @@ Poniższa tabela jest spisem kontraktu użytego w rzeczywistym teście.
 | `/panel/ewidencja/` | GET |
 | `/panel/ewidencja/<uuid:uuid>/` | GET, POST |
 | `/panel/ewidencja/<uuid:uuid>/przedluz/` | POST |
+| `/panel/ewidencja/<uuid:uuid>/przeniesienie/` | POST |
+| `/panel/ewidencja/<uuid:uuid>/zwolnienie/` | POST |
 | `/panel/eksport/` | GET |
 | `/panel/import/` | GET, POST |
 | `/panel/import/pule/` | GET, POST |
 | `/panel/pule/` | GET |
 | `/panel/pule/nowa/` | GET, POST |
-| `/panel/pule/<uuid:uuid>/` | GET, POST |
+| `/panel/pule/<uuid:uuid>/` | GET |
 | `/panel/pisma/` | GET |
 | `/panel/pisma/<uuid:uuid>/pdf/` | GET |
 | `/panel/pisma/<uuid:uuid>/podpis/` | GET, POST |

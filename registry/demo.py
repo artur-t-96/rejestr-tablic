@@ -8,7 +8,7 @@ OFFICES = ("ump", "gni", "pil")
 ACCOUNTS = (
     ("powiat-gniezno", "COUNTY", "gni", "Grażyna", "Demo-Gniezno", "Urzędnik powiatu — Gniezno"),
     ("powiat-pila", "COUNTY", "pil", "Paweł", "Demo-Piła", "Urzędnik powiatu — Piła"),
-    ("ump", "MAIN", "ump", "Urszula", "Demo-UMP", "Urzędnik UMP — decyzje, całe województwo"),
+    ("ump", "MAIN", "ump", "Urszula", "Demo-UMP", "Urzędnik UMP — rozpatrywanie wniosków, całe województwo"),
     ("administrator", "ADMIN", None, "Adam", "Demo-Administrator", "Administrator — konta demonstracyjne"),
 )
 SEEDED = frozenset(f"{key}@{DOMAIN}" for key, *_ in ACCOUNTS)

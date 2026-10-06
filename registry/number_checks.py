@@ -1,4 +1,4 @@
-"""Pomoc dla UMP przy decyzji: historia numeru, ostrzeżenia o treści, wolny zakres puli."""
+"""Pomoc dla UMP przy rozpatrywaniu wniosku: historia numeru, ostrzeżenia o treści, wolny zakres puli."""
 
 from django.core.exceptions import ValidationError
 from django.db.models import Max

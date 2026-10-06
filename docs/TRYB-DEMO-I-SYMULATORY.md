@@ -38,7 +38,7 @@ Konta rzeczywiste logują się kodem e-mail jak dotąd.
 - Każde konto demo zamiast imienia, nazwiska i adresu konta rzeczywistego (także zamkniętego
   i autora importu) widzi „Konto urzędowe"; nie widzi adresów IP ani identyfikatorów kont w historii;
   dziennik audytowy pokazuje mu tylko zdarzenia kont demo i systemowe niedotyczące kont.
-- „Skrzynka demo": cała korespondencja obiegu (powiadomienie o decyzji, przypomnienie, alert puli,
+- „Skrzynka demo": cała korespondencja obiegu (powiadomienie o rozpatrzeniu wniosku, przypomnienie, informacja o przeniesieniu wpisu,
   pismo wysłane e-mailem) zostaje w aplikacji i nie wychodzi prawdziwą pocztą — także na rzeczywisty
   adres kontaktowy urzędu, bo jej treść mogą wpisać konta demo. Skrzynkę widzi każde zalogowane konto
   (swoje wiadomości i urzędu). Prawdziwą pocztą idą tylko kody logowania i zaproszenia do kont

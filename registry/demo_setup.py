@@ -341,16 +341,12 @@ LEGACY_POOL_SIZE = 30
 
 def demo_pools(**filters):
     """Pule modułu II bez wniosku, przydzielone przez konto demo UMP (nie przez konto rzeczywiste)."""
-    from django.db.models import Count
-
     from .models import AuditLog
 
     pools = []
+    # Blokada bez agregacji: PostgreSQL nie łączy FOR UPDATE z GROUP BY.
     for pool in (
-        Pool.objects.select_for_update()
-        .filter(kind="II", request__isnull=True, **filters)
-        .annotate(size=Count("slots"))
-        .order_by("start")
+        Pool.objects.select_for_update().filter(kind="II", request__isnull=True, **filters).order_by("start")
     ):
         if AuditLog.objects.filter(
             action="pool.allocated",
@@ -358,6 +354,7 @@ def demo_pools(**filters):
             object_id=str(pool.pk),
             actor__email=f"ump@{demo.DOMAIN}",
         ).exists():
+            pool.size = pool.slots.count()
             pools.append(pool)
     return pools
 

@@ -50,6 +50,7 @@ ACTION_LABELS = {
     "auth.login": "Zalogowano użytkownika",
     "auth.demo_login": "Wejście demonstracyjne na fikcyjne konto",
     "demo.code_rotated": "Zmieniono kod dostępu demo",
+    "demo.reset": "Wyczyszczono dane demo",
     "auth.mail_failed": "Nie udało się wysłać kodu logowania",
     "auth.session_extended": "Przedłużono sesję użytkownika",
     "admin.office_saved": "Zapisano ustawienia urzędu",

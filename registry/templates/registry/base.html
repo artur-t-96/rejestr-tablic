@@ -1,5 +1,5 @@
 {% load static %}<!doctype html>
-<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{% block title %}Dyna Rejestr Tablic{% endblock %}</title><link rel="stylesheet" href="{% static 'registry/app.css' %}?v=11"><script src="{% static 'registry/app.js' %}?v=5" defer></script>{% if user.is_authenticated %}<script src="{% static 'registry/session.js' %}?v=5" defer></script>{% endif %}{% block head %}{% endblock %}</head>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{% block title %}Dyna Rejestr Tablic{% endblock %}</title><link rel="stylesheet" href="{% static 'registry/app.css' %}?v=12"><script src="{% static 'registry/app.js' %}?v=6" defer></script>{% if user.is_authenticated %}<script src="{% static 'registry/session.js' %}?v=5" defer></script>{% endif %}{% block head %}{% endblock %}</head>
 <body><a class="skip" href="#main">Przejdź do treści</a>
 {% if local_mode %}<div class="environment">Środowisko lokalne · dane fikcyjne · integracje zewnętrzne wymagają konfiguracji</div>{% endif %}
 {% if demo_mode %}<div class="environment demo">Instancja demonstracyjna · dane fikcyjne · EZD RP, e-Doręczenia i podpis są symulowane{% if demo_user %} · <a href="{% url 'demo_login' %}">Zmień rolę</a>{% endif %}</div>{% endif %}

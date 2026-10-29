@@ -17,6 +17,7 @@ METHODS = {
     "demo_login": ("GET", "POST"),
     "demo_inbox": ("GET",),
     "demo_code_rotate": ("POST",),
+    "demo_reset": ("POST",),
     "logout_view": ("POST",),
     "dashboard": ("GET",),
     "requests_list": ("GET",),

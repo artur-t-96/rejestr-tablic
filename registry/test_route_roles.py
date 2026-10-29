@@ -144,6 +144,7 @@ def role_cases(obj):
     add("/logowanie/demo/", (404, 404, 404, 404, 404))
     add("/panel/demo/poczta/", (302, 404, 404, 404, 404))
     add("/panel/administracja/demo/kod/", (302, 404, 403, 403, 403), "POST")
+    add("/panel/administracja/demo/reset/", (302, 404, 403, 403, 403), "POST")
     add("/wyloguj/", (302, 302, 302, 302, 302), "POST")
     add("/panel/", (302, 302, 200, 200, 200))
     add("/panel/wnioski/", business_list)

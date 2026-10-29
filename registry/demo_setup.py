@@ -17,6 +17,7 @@ from cryptography.x509.oid import NameOID
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import transaction
+from django.db.models import Q
 from django.utils import timezone as django_timezone
 
 from . import demo
@@ -405,6 +406,64 @@ def remove_legacy_pool(ump):
             },
         )
     return len(removed)
+
+
+@transaction.atomic
+def reset_data(admin, reason, ip=None):
+    """Czyści sprawy, pisma, integracje, skrzynkę i dziennik instancji demo, potem wgrywa dane pokazowe.
+
+    Zostają urzędy, konta rzeczywiste, cztery konta demo, kod dostępu, wzory pism i słownik
+    ostrzeżeń. Dodatkowe konta demo założone przez administratora demo są usuwane.
+    Liczniki numerów (wnioski, pisma, bloki pul) startują od nowa.
+    """
+    from .models import (
+        AccountInvitation,
+        AuditLog,
+        DeliveryEvidence,
+        EZDCaseLink,
+        EZDIncomingDocument,
+        IntegrationJob,
+        Letter,
+        NumberSequence,
+        PoolSlot,
+        Request,
+    )
+    from .services import audit
+
+    if not settings.DEMO_MODE:
+        raise ValidationError("Czyszczenie danych działa tylko w trybie demo.")
+    extra = User.objects.filter(email__iendswith="@" + demo.DOMAIN).exclude(email__in=demo.SEEDED)
+    demo_users = User.objects.filter(email__iendswith="@" + demo.DOMAIN)
+    counts = {
+        "records": PlateRecord.objects.count(),
+        "requests": Request.objects.count(),
+        "pools": Pool.objects.count(),
+        "letters": Letter.objects.count(),
+        "jobs": IntegrationJob.objects.count(),
+        "messages": DemoMessage.objects.count(),
+        "audit": AuditLog.objects.count(),
+        "extra_accounts": extra.count(),
+    }
+    # Kolejność odwrotna do kluczy obcych (PROTECT); dziennik demo czyścimy w całości.
+    DeliveryEvidence.objects.all().delete()
+    IntegrationJob.objects.all().delete()
+    EZDIncomingDocument.objects.all().delete()
+    EZDCaseLink.objects.all().delete()
+    Letter.objects.update(replaces=None)
+    Letter.objects.all().delete()
+    PoolSlot.objects.all().delete()
+    Pool.objects.all().delete()
+    Request.objects.all().delete()
+    PlateRecord.objects.all().delete()
+    NumberSequence.objects.all().delete()
+    DemoMessage.objects.all().delete()
+    SimulatorObject.objects.all().delete()
+    AuditLog.objects.all().delete()
+    AccountInvitation.objects.filter(Q(user__in=demo_users) | Q(created_by__in=demo_users)).delete()
+    extra.delete()
+    audit(admin, "demo.reset", admin, after=counts, reason=reason, ip=ip)
+    counts["seeded"] = prepare()
+    return counts
 
 
 def prepare():

@@ -54,6 +54,7 @@ urlpatterns = [
     path("panel/pisma/<uuid:uuid>/dowody/<int:evidence_pk>/", v.delivery_evidence, name="delivery_evidence"),
     path("panel/administracja/", v.admin_panel, name="admin_panel"),
     path("panel/administracja/demo/kod/", v.demo_code_rotate, name="demo_code_rotate"),
+    path("panel/administracja/demo/reset/", v.demo_reset, name="demo_reset"),
     path("panel/demo/poczta/", v.demo_inbox, name="demo_inbox"),
     path(
         "panel/administracja/konta/<int:user_pk>/zaproszenia/",

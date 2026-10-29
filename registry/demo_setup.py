@@ -409,7 +409,7 @@ def remove_legacy_pool(ump):
 
 
 @transaction.atomic
-def reset_data(admin, reason, ip=None):
+def reset_data(admin, reason, ip=None, token=""):
     """Czyści sprawy, pisma, integracje, skrzynkę i dziennik instancji demo, potem wgrywa dane pokazowe.
 
     Zostają urzędy, konta rzeczywiste, cztery konta demo, kod dostępu, wzory pism i słownik
@@ -444,6 +444,8 @@ def reset_data(admin, reason, ip=None):
         "audit": AuditLog.objects.count(),
         "extra_accounts": extra.count(),
     }
+    if token:
+        counts["token"] = token
     # Kolejność odwrotna do kluczy obcych (PROTECT); dziennik demo czyścimy w całości.
     DeliveryEvidence.objects.all().delete()
     IntegrationJob.objects.all().delete()
@@ -461,9 +463,18 @@ def reset_data(admin, reason, ip=None):
     AuditLog.objects.all().delete()
     AccountInvitation.objects.filter(Q(user__in=demo_users) | Q(created_by__in=demo_users)).delete()
     extra.delete()
-    audit(admin, "demo.reset", admin, after=counts, reason=reason, ip=ip)
+    # Wpis dotyczy całej instancji demo, więc wskazuje jej kod dostępu (reset przy starcie nie ma autora).
+    audit(admin, "demo.reset", ensure_access_code(), after=counts, reason=reason, ip=ip)
     counts["seeded"] = prepare()
     return counts
+
+
+def reset_pending():
+    """Czy wartość DYNA_DEMO_RESET nie została jeszcze użyta (znacznik zostaje we wpisie demo.reset)."""
+    from .models import AuditLog
+
+    token = settings.DEMO_RESET_TOKEN
+    return bool(token) and not AuditLog.objects.filter(action="demo.reset", after__token=token).exists()
 
 
 def prepare():

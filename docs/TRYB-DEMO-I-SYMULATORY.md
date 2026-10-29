@@ -110,7 +110,7 @@ Takie konto nie podpisuje pism podpisem demo (profil demo wymienia tylko konta d
 
 ## Czyszczenie danych demo (29.10.2026)
 
-Rzeczywisty administrator (nie konto demo) ma w panelu „Urzędy, konta i szablony” przycisk
+Rzeczywisty administrator i administrator demo (od 29.10.2026, decyzja Artura: recenzent czyści dane sam) mają w panelu „Urzędy, konta i szablony” przycisk
 **Wyczyść dane demo** (`POST /panel/administracja/demo/reset/`, wymagany powód i potwierdzenie).
 Usuwa wpisy, rezerwacje, wnioski, pule, pisma, operacje integracji i dowody, wpływy EZD, stan
 symulatorów, skrzynkę demo, dodatkowe konta demo z ich zaproszeniami oraz cały dziennik audytowy;
@@ -118,3 +118,7 @@ liczniki wniosków, pism i bloków pul startują od nowa (pule od M001 i M00001)
 dane pokazowe jak `prepare_demo`. Zostają urzędy, konta rzeczywiste, cztery konta demo, kod
 dostępu, wzory pism i słownik ostrzeżeń. Pierwszym wpisem nowego dziennika jest `demo.reset`
 z liczbą usuniętych pozycji, autorem, powodem i adresem IP. Bez `DYNA_DEMO` trasa zwraca 404.
+
+Reset bez logowania: nowa wartość zmiennej `DYNA_DEMO_RESET` w Render (np. data) czyści dane
+raz, przy najbliższym starcie usługi (`prepare_demo`); wpis `demo.reset` bez autora zapamiętuje
+wartość, więc kolejne restarty z tą samą wartością nic nie usuwają.

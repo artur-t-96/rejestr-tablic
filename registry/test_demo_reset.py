@@ -1,5 +1,8 @@
-"""Czyszczenie danych instancji demonstracyjnej przez rzeczywistego administratora."""
+"""Czyszczenie danych instancji demonstracyjnej: przycisk administratora i reset przy starcie."""
 
+from io import StringIO
+
+from django.core.management import call_command
 from django.test import Client, override_settings
 from django.urls import reverse
 
@@ -88,18 +91,46 @@ class DemoResetTests(DemoBase):
         self.assertContains(response, "Dane demo wyczyszczone")
         self.assertFalse(PlateRecord.objects.filter(number="P1RAFAL").exists())
 
-    def test_only_real_admin_in_demo_mode_may_reset(self):
+    def test_demo_admin_resets_but_other_roles_and_flag_off_cannot(self):
         self.dirty()
         url = reverse("demo_reset")
         payload = {"reason": "Próba", "confirm": "1"}
         self.client.force_login(self.ump)
         self.assertEqual(self.client.post(url, payload).status_code, 403)
-        visitor = Client()
-        self.enter("administrator", visitor)
-        self.assertEqual(visitor.post(url, payload).status_code, 404)
         self.client.force_login(self.admin)
         self.assertEqual(self.client.get(url).status_code, 405)
         with override_settings(DEMO_MODE=False):
             self.assertEqual(self.client.post(url, payload).status_code, 404)
         self.assertTrue(PlateRecord.objects.filter(number="P1RAFAL").exists())
         self.assertFalse(AuditLog.objects.filter(action="demo.reset").exists())
+        visitor = Client()
+        self.enter("administrator", visitor)
+        panel = visitor.get(reverse("admin_panel"))
+        self.assertContains(panel, "Wyczyść dane demo")
+        self.assertNotContains(panel, self.code)
+        response = visitor.post(url, {"reason": "Przed prezentacją", "confirm": "1"}, follow=True)
+        self.assertContains(response, "Dane demo wyczyszczone")
+        self.assertFalse(PlateRecord.objects.filter(number="P1RAFAL").exists())
+        event = AuditLog.objects.get(action="demo.reset")
+        self.assertEqual(event.actor, self.demo["administrator"])
+        # Konto demo administratora zostaje, a sesja recenzenta działa dalej.
+        self.assertEqual(visitor.get(reverse("admin_panel")).status_code, 200)
+
+    def test_startup_token_resets_once(self):
+        self.dirty()
+        with override_settings(DEMO_RESET_TOKEN="2026-10-29"):
+            out = StringIO()
+            call_command("prepare_demo", stdout=out)
+            self.assertIn("Dane demo wyczyszczone przy starcie", out.getvalue())
+            self.assertFalse(PlateRecord.objects.filter(number="P1RAFAL").exists())
+            event = AuditLog.objects.get(action="demo.reset")
+            self.assertIsNone(event.actor)
+            self.assertEqual(event.after["token"], "2026-10-29")
+            create_request(self.demo["powiat-gniezno"], data("P1NOWY"))
+            out = StringIO()
+            call_command("prepare_demo", stdout=out)
+            self.assertIn("Tryb demo gotowy", out.getvalue())
+            self.assertTrue(PlateRecord.objects.filter(number="P1NOWY").exists())
+        with override_settings(DEMO_RESET_TOKEN=""):
+            call_command("prepare_demo", stdout=StringIO())
+            self.assertEqual(AuditLog.objects.filter(action="demo.reset").count(), 1)

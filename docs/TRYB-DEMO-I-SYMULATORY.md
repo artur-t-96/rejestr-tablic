@@ -107,3 +107,14 @@ Takie konto nie podpisuje pism podpisem demo (profil demo wymienia tylko konta d
   `enqueue_ezd`), trasy demo w macierzy ról i kontrakcie metod.
 - Lokalnie w przeglądarce (`DYNA_DEMO=1`): wejście kodem, trzy role, podpis, wysyłka z dowodami,
   odczyt wpływu z linkiem do wniosku, panel administratora demo, skrzynka demo.
+
+## Czyszczenie danych demo (29.10.2026)
+
+Rzeczywisty administrator (nie konto demo) ma w panelu „Urzędy, konta i szablony” przycisk
+**Wyczyść dane demo** (`POST /panel/administracja/demo/reset/`, wymagany powód i potwierdzenie).
+Usuwa wpisy, rezerwacje, wnioski, pule, pisma, operacje integracji i dowody, wpływy EZD, stan
+symulatorów, skrzynkę demo, dodatkowe konta demo z ich zaproszeniami oraz cały dziennik audytowy;
+liczniki wniosków, pism i bloków pul startują od nowa (pule od M001 i M00001). Następnie wgrywa
+dane pokazowe jak `prepare_demo`. Zostają urzędy, konta rzeczywiste, cztery konta demo, kod
+dostępu, wzory pism i słownik ostrzeżeń. Pierwszym wpisem nowego dziennika jest `demo.reset`
+z liczbą usuniętych pozycji, autorem, powodem i adresem IP. Bez `DYNA_DEMO` trasa zwraca 404.

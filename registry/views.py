@@ -309,6 +309,28 @@ def demo_code_rotate(request):
     return redirect("admin_panel")
 
 
+@login_required
+@require_POST
+def demo_reset(request):
+    """Rzeczywisty administrator czyści dane instancji demo, np. przed kolejną prezentacją."""
+    require_role(request.user, "ADMIN")
+    if not settings.DEMO_MODE or demo_viewer(request.user):
+        raise Http404
+    reason = request.POST.get("reason", "").strip()
+    if not reason or request.POST.get("confirm") != "1":
+        messages.error(request, "Podaj powód i potwierdź, że dane demo mają zostać usunięte.")
+        return redirect("admin_panel")
+    from .demo_setup import reset_data
+
+    counts = reset_data(request.user, reason[:1000], ip(request))
+    messages.success(
+        request,
+        f"Dane demo wyczyszczone: usunięto {counts['requests']} wniosków, {counts['records']} wpisów "
+        f"i {counts['pools']} pul; wgrano dane pokazowe od nowa.",
+    )
+    return redirect("admin_panel")
+
+
 @require_http_methods(["GET", "POST"])
 def login_code(request):
     form = LoginCodeForm(request.POST or None)

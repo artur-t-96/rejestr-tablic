@@ -267,13 +267,19 @@ def withdraw_request(user, req_id, reason, ip=None):
 
 
 @transaction.atomic
-def allocate_pool(user, data, req=None, ip=None, *, automatic=False):
-    """Zapis puli o wskazanym zakresie; interfejs i API korzystają z `allocate_block`."""
+def allocate_pool(user, data, req=None, ip=None, *, slots=None):
+    """Zapis puli o wskazanym zakresie; interfejs i API korzystają z `allocate_block`.
+
+    `slots` (pary pozycja, numer) przekazuje tylko `allocate_block`: wolne numery bloku.
+    """
     require_role(user, "MAIN")
     office = Office.objects.get(pk=data["office"], active=True)
     kind, start, end = data["kind"], data["start"], data["end"]
     prefix = data.get("prefix", "P" if kind == "II" else "P0")
-    numbers = pool_numbers(kind, prefix, start, end)
+    automatic = slots is not None
+    if slots is None:
+        slots = list(enumerate(pool_numbers(kind, prefix, start, end), start))
+    numbers = [number for _, number in slots]
     if req and (req.office_id != office.pk or req.kind != kind):
         raise ValidationError("Pula musi odpowiadać urzędowi i rodzajowi z wniosku.")
     pool = Pool(
@@ -293,15 +299,18 @@ def allocate_pool(user, data, req=None, ip=None, *, automatic=False):
         raise ValidationError(
             f"Kolizja numeru {collision.number} z pulą urzędu: {collision.pool.office.name}."
         )
-    from .pool_capacity import require_capacity_order
+    if not automatic:
+        from .pool_capacity import require_capacity_order
 
-    require_capacity_order(kind, prefix, start, end, first_letter_rule=not automatic)
+        # Bloki automatyczne idą kolejno i biorą wszystkie wolne numery bloku,
+        # więc nie zostawiają luk; prefiks M wynika z decyzji UMP, nie z wyczerpania P.
+        require_capacity_order(kind, prefix, start, end)
     try:
         with transaction.atomic():
             pool.save()
             PoolSlot.objects.bulk_create(
                 sorted(
-                    [PoolSlot(pool=pool, number=n, ordinal=start + i) for i, n in enumerate(numbers)],
+                    [PoolSlot(pool=pool, number=n, ordinal=ordinal) for ordinal, n in slots],
                     key=lambda slot: slot.number,
                 )
             )
@@ -339,21 +348,24 @@ def pool_capacity(kind):
 
 
 def next_block(kind, after=0):
-    """Pierwszy wolny blok po `after`; zwraca (indeks, początek, koniec, numery) albo None."""
+    """Pierwszy blok po `after` z wolnymi numerami: (indeks, początek, koniec, [(pozycja, numer)]).
+
+    Numery zajęte wcześniej (np. z importu historycznego) zostają pominięte, ale reszta bloku
+    jest nadawana, więc kolejne układy numeracji nie czekają na brakujące pozycje.
+    """
     prefix = settings.POOL_BLOCKS[kind]["prefix"]
     capacity = pool_capacity(kind)
-    taken = PoolSlot.objects.filter(pool__kind=kind, pool__prefix=prefix)
-    last = taken.order_by("-ordinal").values_list("ordinal", flat=True).first() or 0
-    size = settings.POOL_BLOCKS[kind]["size"]
-    index = max(after, last // size) + 1 if last else after + 1
+    index = after + 1
     while True:
         start, end = block_span(kind, index)
         if start > capacity:
             return None
         end = min(end, capacity)
         numbers = pool_numbers(kind, prefix, start, end)
-        if not PoolSlot.objects.filter(number__in=numbers).exists():
-            return index, start, end, numbers
+        taken = set(PoolSlot.objects.filter(number__in=numbers).values_list("number", flat=True))
+        free = [(ordinal, number) for ordinal, number in enumerate(numbers, start) if number not in taken]
+        if free:
+            return index, start, end, free
         index += 1
 
 
@@ -364,7 +376,7 @@ def preview_block(kind):
     prefix = settings.POOL_BLOCKS[kind]["prefix"]
     counter = NumberSequence.objects.filter(scope=f"POOL.{kind}.{prefix}", year=1).first()
     found = next_block(kind, counter.last_value if counter else 0)
-    return (found[3][0], found[3][-1]) if found else None
+    return (found[3][0][1], found[3][-1][1]) if found else None
 
 
 @transaction.atomic
@@ -382,7 +394,7 @@ def allocate_block(user, kind, office_id, *, req=None, ip=None):
     found = next_block(kind, counter.last_value)
     if found is None:
         raise ValidationError("Pojemność numeracji tego rodzaju puli została wyczerpana.")
-    index, start, end, _numbers = found
+    index, start, end, slots = found
     pool = allocate_pool(
         user,
         {
@@ -397,7 +409,7 @@ def allocate_block(user, kind, office_id, *, req=None, ip=None):
         },
         req=req,
         ip=ip,
-        automatic=True,
+        slots=slots,
     )
     counter.last_value = index
     counter.save(update_fields=["last_value"])

@@ -14,7 +14,6 @@ from .forms import PoolForm, RequestForm
 from .models import AuditLog, NumberSequence, Office, Pool, PoolSlot, Request
 from .services import (
     allocate_block,
-    allocate_pool,
     create_request,
     decide_request,
     preview_block,
@@ -55,21 +54,34 @@ class PoolBlockTests(TestCase):
             self.assertEqual(pool.valid_from, timezone.localdate())
             self.assertIsNone(pool.request)
 
-    def test_block_skips_numbers_already_taken_by_earlier_pools(self):
-        allocate_pool(
-            self.ump,
-            {
-                "kind": "III",
-                "office": "a",
-                "prefix": "M0",
-                "start": 150,
-                "end": 160,
-                "valid_from": "2026-01-01",
-            },
-            automatic=True,
+    def historical(self, kind, prefix, ordinal, number):
+        pool = Pool.objects.create(
+            kind=kind, office_id="a", prefix=prefix, start=ordinal, end=ordinal, valid_from="2025-01-01"
         )
+        PoolSlot.objects.create(pool=pool, number=number, ordinal=ordinal)
+
+    def test_partly_taken_block_gets_only_its_free_numbers(self):
+        self.historical("III", "M0", 150, "M00150")
+        allocate_block(self.ump, "III", "a")
+        pool = allocate_block(self.ump, "III", "b")
+        self.assertEqual((span(pool), pool.total), (("M00100", "M00199"), 99))
+        self.assertFalse(pool.slots.filter(number="M00150").exists())
         self.assertEqual(preview_block("III"), ("M00200", "M00299"))
-        self.assertEqual(span(allocate_block(self.ump, "III", "b")), ("M00200", "M00299"))
+
+    def test_historical_number_does_not_block_later_layouts(self):
+        # Numer spoza bloków nie zostawia luki, która zatrzymałaby przejście M999 → M01A.
+        self.historical("II", "M", 50, "M050")
+        self.historical("II", "M", 950, "M950")
+        pools = [allocate_block(self.ump, "II", "a") for _ in range(11)]
+        self.assertEqual((span(pools[0]), pools[0].total), (("M001", "M099"), 98))
+        self.assertEqual(span(pools[9]), ("M900", "M999"))
+        self.assertEqual(pools[10].slots.first().ordinal, 1000)
+        self.assertEqual(PoolSlot.objects.filter(pool__kind="II", ordinal__lte=999).count(), 999)
+
+    def test_historical_letter_number_does_not_move_first_temporary_block(self):
+        self.historical("III", "M0", 10000, "M0001A")
+        self.assertEqual(preview_block("III"), ("M00001", "M00099"))
+        self.assertEqual(span(allocate_block(self.ump, "III", "a")), ("M00001", "M00099"))
 
     def test_preview_shows_next_block_without_reserving_it(self):
         self.assertEqual(preview_block("II"), ("M001", "M099"))

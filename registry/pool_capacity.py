@@ -69,9 +69,8 @@ def require_small_layout_order(prefix, start, end):
             )
 
 
-def require_capacity_order(kind, prefix, start, end, *, first_letter_rule=True):
-    # Automatyczne bloki z prefiksem modułu (decyzja UMP) nie czekają na wyczerpanie pojemności P.
-    if first_letter_rule and prefix.startswith("M"):
+def require_capacity_order(kind, prefix, start, end):
+    if prefix.startswith("M"):
         first_prefix = "P" if kind == "II" else "P[0-9]"
         required = len(SMALL_SUFFIXES) if kind == "II" else 10 * TEMPORARY_CAPACITY
         occupied = occupied_capacity(kind, first_prefix)

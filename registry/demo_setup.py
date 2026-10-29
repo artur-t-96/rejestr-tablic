@@ -279,7 +279,7 @@ def seed_pools(users):
     from django.db.models import Count
 
     from .number_checks import suggest_pool_range
-    from .services import allocate_pool, create_request, decide_request, send_request
+    from .services import allocate_pool
 
     ump = users["ump"]
     created = 0
@@ -297,30 +297,11 @@ def seed_pools(users):
             continue
         today = django_timezone.localdate()
         pool_data = {"prefix": prefix, "start": span[0], "end": span[1], "valid_from": today}
+        if kind == "III":
+            pool_data["station"] = "Stacja kontroli pojazdów (dane pokazowe)"
         try:
             with transaction.atomic():
-                if kind == "II":
-                    allocate_pool(ump, {**pool_data, "kind": kind, "office": author.office_id})
-                else:
-                    # Moduł III zawsze zaczyna wniosek urzędu.
-                    req = create_request(
-                        author,
-                        {
-                            "kind": kind,
-                            "case_number": f"DEMO/PULA-{kind}/{author.office_id.upper()}",
-                            "count": DEMO_POOL_SIZE,
-                            "station": "Stacja kontroli pojazdów (dane pokazowe)",
-                            "justification": "Dane pokazowe",
-                        },
-                    )
-                    send_request(author, req.uuid)
-                    decide_request(
-                        ump,
-                        req.uuid,
-                        True,
-                        "Dane pokazowe",
-                        {**pool_data, "valid_until": today.replace(year=today.year + 1)},
-                    )
+                allocate_pool(ump, {**pool_data, "kind": kind, "office": author.office_id})
                 created += 1
         except ValidationError:
             # Zakres zajęty przez wcześniejsze dane instancji; pule pokazowe nie są warunkiem działania.

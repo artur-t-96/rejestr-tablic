@@ -6,7 +6,6 @@ from unittest.mock import patch
 from django.core.exceptions import ValidationError
 from django.db import close_old_connections, transaction
 from django.test import TestCase, TransactionTestCase, skipUnlessDBFeature
-from django.urls import reverse
 from django.utils import timezone
 
 from .models import AuditLog, IntegrationJob, Letter, NumberSequence, Pool, PoolSlot, User
@@ -134,16 +133,16 @@ class SmallLayoutOrderTests(TestCase):
         self.assertEqual(req.status, "SENT")
         self.assertEqual(self.snapshot(), before)
 
-    def test_api_and_html_reject_jump_with_field_error_without_saving(self):
+    def test_api_refuses_ranges_and_service_rejects_jump_without_saving(self):
         self.client.force_login(self.ump)
         proposal = self.proposal(1000)
         before = self.snapshot()
-        response = self.client.post("/api/pools/", proposal, content_type="application/json")
+        api_proposal = {**proposal, "valid_from": proposal["valid_from"].isoformat()}
+        response = self.client.post("/api/pools/", api_proposal, content_type="application/json")
         self.assertEqual(response.status_code, 400)
-        self.assertIn("wcześniejszy układ", response.json()["error"])
-        response = self.client.post(reverse("pool_new"), proposal)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "wcześniejszy układ")
+        self.assertIn("nadaje system", response.json()["error"])
+        with self.assertRaisesMessage(ValidationError, "wcześniejszy układ"):
+            allocate_pool(self.ump, proposal)
         self.assertEqual(self.snapshot(), before)
 
     def test_historical_letter_number_remains_issuable_without_reallocating_or_filling_gaps(self):

@@ -260,8 +260,8 @@ class PlateRecord(models.Model):
 class Request(models.Model):
     class Kind(models.TextChoices):
         INDIVIDUAL = "I", "Tablica indywidualna"
-        SMALL = "II", "Pula tablic zmniejszonych"
-        RESEARCH = "III", "Pula tablic do badań"
+        SMALL = "II", "Pula tablic wąskich"
+        RESEARCH = "III", "Pula tablic tymczasowych"
 
     class Status(models.TextChoices):
         DRAFT = "DRAFT", "Szkic"
@@ -338,17 +338,8 @@ class Pool(models.Model):
                 condition=Q(valid_until__isnull=True) | Q(valid_until__gte=models.F("valid_from")),
                 name="pool_dates",
             ),
-            models.CheckConstraint(
-                condition=~Q(kind="III") | Q(valid_until__isnull=False),
-                name="pool_iii_finite_period",
-            ),
         ]
         ordering = ["kind", "start"]
-
-    def clean(self):
-        super().clean()
-        if self.kind == "III" and self.valid_until is None:
-            raise ValidationError({"valid_until": "Podaj termin końca puli modułu III."})
 
     @property
     def total(self):

@@ -116,8 +116,6 @@ def preview_pool_import(text):
                     raise ValidationError("Historyczna pula musi mieć datę początku nie późniejszą niż dziś.")
                 if row["kind"] not in ("II", "III"):
                     raise ValidationError("Rodzaj puli musi być II lub III.")
-                if row["kind"] == "III" and not dates["valid_until"]:
-                    raise ValidationError("Podaj termin końca puli modułu III.")
                 if dates["valid_until"] and dates["valid_until"] < dates["valid_from"]:
                     raise ValidationError("Koniec puli nie może poprzedzać początku.")
                 if bool(row["issued_on"]) != bool(row["case_number"]):

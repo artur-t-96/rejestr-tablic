@@ -1,5 +1,9 @@
 # Serie i wyczerpanie pojemności pul
 
+> Od 29.10.2026 nowe pule nadaje system automatycznie z prefiksem M (decyzja UMP),
+> bez warunku wyczerpania P — zob. `UWAGI-UMP-20261029.md`. Warunek opisany niżej
+> dotyczy już tylko ręcznego zapisu zakresu (dane pokazowe, import).
+
 Stan 03.10.2026. Implementacja lokalna i dowody fikcyjnych scenariuszy; pełny
 odbiór systemu i klasyfikacja modułu III przez urząd pozostają otwarte.
 

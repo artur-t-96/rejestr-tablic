@@ -2,7 +2,6 @@ from unittest.mock import patch
 
 from django.test import TestCase
 from django.urls import reverse
-from django.utils import timezone
 
 from .models import AuditLog, Letter, Request
 from .services import create_request, send_request
@@ -74,7 +73,7 @@ class LetterAuditIpTests(TestCase):
                 )
 
     def test_pool_decisions_keep_address_through_nested_allocation(self):
-        for kind, prefix in (("II", "P"), ("III", "P0")):
+        for kind in ("II", "III"):
             with self.subTest(kind=kind):
                 req = create_request(
                     self.county,
@@ -89,16 +88,7 @@ class LetterAuditIpTests(TestCase):
                 self.client.force_login(self.ump)
                 response = self.client.post(
                     f"/api/requests/{req.uuid}/decide/",
-                    {
-                        "approve": True,
-                        "pool": {
-                            "prefix": prefix,
-                            "start": 1,
-                            "end": 2,
-                            "valid_from": timezone.localdate().isoformat(),
-                            "valid_until": timezone.localdate().isoformat(),
-                        },
-                    },
+                    {"approve": True},
                     content_type="application/json",
                     REMOTE_ADDR="192.0.2.20",
                 )
@@ -109,14 +99,7 @@ class LetterAuditIpTests(TestCase):
         self.client.force_login(self.ump)
         response = self.client.post(
             "/api/pools/",
-            {
-                "kind": "II",
-                "office": self.county.office_id,
-                "prefix": "P",
-                "start": 1,
-                "end": 2,
-                "valid_from": timezone.localdate().isoformat(),
-            },
+            {"kind": "II", "office": self.county.office_id},
             content_type="application/json",
             REMOTE_ADDR="192.0.2.30",
         )

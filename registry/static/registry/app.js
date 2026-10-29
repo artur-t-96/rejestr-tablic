@@ -11,17 +11,26 @@ if (kind && document.querySelector('#id_owner')) {
         field.disabled = kind.value !== 'I';
       }
     });
-    ['count', 'station', 'justification'].forEach(name => {
+    ['station', 'justification'].forEach(name => {
       const field = document.querySelector('#id_' + name);
       if (field) {
         field.closest('div').hidden = kind.value === 'I';
         field.disabled = kind.value === 'I';
-        if (name === 'count') field.required = kind.value !== 'I';
       }
     });
   };
   kind.addEventListener('change', toggle);
   toggle();
+}
+
+const poolPreview = document.querySelector('#pool-preview');
+if (kind && poolPreview) {
+  // Formularz przydziału pokazuje tylko zakres wybranego rodzaju puli.
+  const showPreview = () => poolPreview.querySelectorAll('[data-pool-kind]').forEach(line => {
+    line.hidden = line.dataset.poolKind !== kind.value;
+  });
+  kind.addEventListener('change', showPreview);
+  showPreview();
 }
 
 const errorSummary = document.querySelector('[data-focus-errors]');

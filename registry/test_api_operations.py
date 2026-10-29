@@ -1,5 +1,3 @@
-from datetime import timedelta
-
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.utils import timezone
@@ -123,39 +121,34 @@ class ApiOperationValidationTests(TestCase):
             for value in (None, [], {}, True, 1):
                 with self.subTest(field=field, value=value):
                     self.rejected("/api/requests/", {**data(), field: value})
-        for count in (True, 1.0, "1", None, {}, [], 0, -1, 10001):
+        for count in (True, 1.0, "1", None, {}, [], 0, -1):
             self.rejected("/api/requests/", {**data(), "count": count})
         for field in ("office", "office_id", "author", "status", "unknown"):
             self.rejected("/api/requests/", {**data(), field: "b"})
 
-    def test_direct_pool_and_decision_share_strict_types_and_iso_dates(self):
-        req = create_request(
-            self.county, {"kind": "II", "count": 2, "case_number": "TEST/II", "justification": "Test"}
-        )
+    def test_pool_range_and_dates_cannot_be_supplied_by_client(self):
+        req = create_request(self.county, {"kind": "II", "case_number": "TEST/II", "justification": "Test"})
         send_request(self.county, req.uuid)
         self.client.force_login(self.ump)
         pool = {"prefix": "P", "start": 1, "end": 2, "valid_from": timezone.localdate().isoformat()}
-        for field, values in (
-            ("start", (True, 1.0, "1", None, [], {}, 0)),
-            ("end", (True, 2.0, "2", None, [], {}, 0)),
-            ("prefix", (True, 1, None, [], {})),
-            ("valid_from", (True, 0, None, [], {}, "20261003", "2026-2-1", "2026-02-30", "03.10.2026")),
-            ("valid_until", (False, 0, [], {}, "2026-02-30")),
+        for field in ("prefix", "start", "end", "valid_from", "valid_until", "station", "unknown"):
+            with self.subTest(field=field):
+                self.rejected(
+                    "/api/pools/",
+                    {"kind": "II", "office": self.county.office_id, field: pool.get(field, "x")},
+                )
+        for kind, office in (
+            (None, self.county.office_id),
+            ("II", None),
+            ("I", self.county.office_id),
+            (2, "a"),
         ):
-            for value in values:
-                with self.subTest(field=field, value=value):
-                    invalid = {**pool, field: value}
-                    self.rejected("/api/pools/", {**invalid, "kind": "II", "office": self.county.office_id})
-                    self.rejected(f"/api/requests/{req.uuid}/decide/", {"approve": True, "pool": invalid})
-        for key in pool:
-            self.rejected(
-                f"/api/requests/{req.uuid}/decide/",
-                {"approve": True, "pool": {k: v for k, v in pool.items() if k != key}},
-            )
-        for extra in ("office", "kind", "station", "unknown"):
-            self.rejected(
-                f"/api/requests/{req.uuid}/decide/", {"approve": True, "pool": {**pool, extra: "b"}}
-            )
+            with self.subTest(kind=kind, office=office):
+                self.rejected("/api/pools/", {k: v for k, v in (("kind", kind), ("office", office)) if v})
+        for value in (pool, {}, "x"):
+            with self.subTest(pool=value):
+                self.rejected(f"/api/requests/{req.uuid}/decide/", {"approve": True, "pool": value})
+        self.assertFalse(Pool.objects.exists())
 
     def test_duplicate_fields_nonfinite_values_and_excessive_nesting_are_rejected(self):
         raw_bodies = (
@@ -235,13 +228,12 @@ class ApiOperationValidationTests(TestCase):
         self.assertEqual(Letter.objects.filter(request=req).count(), 2)
 
     def test_correct_pool_decisions_both_modules_and_slot_issue(self):
-        for kind, prefix in (("II", "P"), ("III", "P1")):
+        for kind in ("II", "III"):
             self.client.force_login(self.county)
             response = self.client.post(
                 "/api/requests/",
                 {
                     "kind": kind,
-                    "count": 2,
                     "case_number": f"TEST/{kind}",
                     "justification": "Test",
                     "station": "Fikcyjna stacja",
@@ -257,23 +249,16 @@ class ApiOperationValidationTests(TestCase):
                 200,
             )
             self.client.force_login(self.ump)
-            pool = {
-                "prefix": prefix,
-                "start": 1,
-                "end": 2,
-                "valid_from": timezone.localdate().isoformat(),
-                "valid_until": (timezone.localdate() + timedelta(days=30)).isoformat(),
-            }
             self.assertEqual(
                 self.client.post(
-                    f"/api/requests/{req.uuid}/decide/",
-                    {"approve": True, "pool": pool},
-                    content_type="application/json",
+                    f"/api/requests/{req.uuid}/decide/", {"approve": True}, content_type="application/json"
                 ).status_code,
                 200,
             )
             allocated = Pool.objects.get(request=req)
             self.assertEqual(allocated.station, "Fikcyjna stacja")
+            self.assertEqual(allocated.slots.first().number, {"II": "M001", "III": "M00001"}[kind])
+            self.assertIsNone(allocated.valid_until)
             self.client.force_login(self.county)
             slot = allocated.slots.first()
             response = self.client.post(

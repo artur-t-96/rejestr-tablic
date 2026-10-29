@@ -155,7 +155,6 @@ class PoolImportTests(TestCase):
             {"number": "P01Q"},
             {"kind": "III", "prefix": "P0", "number": "P0000A"},
             {"kind": "III", "prefix": "P0", "number": "P0001Q"},
-            {"kind": "III", "prefix": "P0", "number": "P00001", "valid_until": ""},
             {"kind": "I"},
             {"prefix": "M"},
             {"office_id": "unknown"},

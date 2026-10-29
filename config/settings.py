@@ -124,6 +124,20 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "rejestr@localhost")
 APP_URL = os.environ.get("APP_URL", "http://127.0.0.1:8765")
 APP_REVISION = os.environ.get("APP_REVISION", "local")
 RESERVATION_DAYS = 14
+# Pule nadawane automatycznie blokami (uzgodnienia z UMP, 29.10.2026). Prefiks i wielkość bloku
+# są parametrami modułu; licznik każdego rodzaju jest wspólny dla wszystkich urzędów.
+POOL_BLOCKS = {
+    "II": {
+        "prefix": os.environ.get("POOL_NARROW_PREFIX", "M"),
+        "size": int(os.environ.get("POOL_NARROW_BLOCK", "100")),
+    },
+    "III": {
+        "prefix": os.environ.get("POOL_TEMPORARY_PREFIX", "M0"),
+        "size": int(os.environ.get("POOL_TEMPORARY_BLOCK", "100")),
+    },
+}
+if not all(10 <= block["size"] <= 10000 for block in POOL_BLOCKS.values()):
+    raise RuntimeError("Wielkość bloku puli musi wynosić 10–10 000 numerów.")
 RESERVATION_REMINDER_DAYS = int(os.environ.get("RESERVATION_REMINDER_DAYS", "3"))
 if not 0 < RESERVATION_REMINDER_DAYS < RESERVATION_DAYS:
     raise RuntimeError("Niepoprawny próg przypomnienia o rezerwacji.")

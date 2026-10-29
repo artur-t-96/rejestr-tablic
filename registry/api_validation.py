@@ -68,19 +68,17 @@ def request_values(payload):
     return typed_values(
         payload,
         text=("kind", "number", "owner", "address", "vin", "case_number", "station", "justification"),
+        # Pole zostaje dla zgodności klientów i jest pomijane: akceptacja wniosku o pulę nadaje jeden blok.
         positive=("count",),
     )
 
 
-def pool_values(payload, *, decision=False):
-    return typed_values(
-        payload,
-        text=("prefix",) if decision else ("kind", "office", "prefix", "station"),
-        positive=("start", "end"),
-        dates=("valid_from",),
-        optional_dates=("valid_until",),
-        required=("prefix", "start", "end", "valid_from") if decision else (),
-    )
+def pool_values(payload):
+    """Przydział puli przez API: tylko rodzaj i urząd; zakres wylicza serwer."""
+    extra = set(payload) - {"kind", "office"} if isinstance(payload, dict) else set()
+    if extra:
+        raise ValidationError("Zakres i daty puli nadaje system. Podaj wyłącznie pola kind i office.")
+    return typed_values(payload, text=("kind", "office"), required=("kind", "office"))
 
 
 def decision_values(payload, kind):
@@ -91,11 +89,9 @@ def decision_values(payload, kind):
         text=("reason",),
         required=("approve",),
     )
-    if kind == "I" or not values["approve"]:
-        if pool is not None:
-            raise ValidationError("To rozpatrzenie nie przydziela puli; pomiń pole pool.")
-        return values, None
-    return values, pool_values(pool, decision=True)
+    if pool is not None:
+        raise ValidationError("Zakres puli nadaje system przy akceptacji wniosku; pomiń pole pool.")
+    return values, None
 
 
 def record_patch(payload, role):

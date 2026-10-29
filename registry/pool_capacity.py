@@ -61,7 +61,7 @@ def require_small_layout_order(prefix, start, end):
         proposed = max(0, min(end, last) - max(start, first) + 1)
         if occupied + proposed != count:
             raise ValidationError(
-                f"Najpierw przydziel cały wcześniejszy układ modułu II: {label} "
+                f"Najpierw przydziel cały wcześniejszy układ tablic wąskich: {label} "
                 f"(prefiks {prefix}, pozycje {first}–{last}). "
                 f"W ewidencji jest {occupied} z {count} numerów tego układu; "
                 "nowy zakres nie uzupełnia wszystkich brakujących. "
@@ -76,7 +76,8 @@ def require_capacity_order(kind, prefix, start, end):
         occupied = occupied_capacity(kind, first_prefix)
         if occupied != required:
             raise ValidationError(
-                f"Nie można przydzielić puli z M: pojemność P w module {kind} "
+                f"Nie można przydzielić puli z M: pojemność P "
+                f"{'tablic wąskich' if kind == 'II' else 'tablic tymczasowych'} "
                 f"nie jest wyczerpana ({occupied} z {required} numerów w ewidencji). "
                 "Wcześniejsze przydziały spoza systemu wymagają wprowadzenia do ewidencji."
             )

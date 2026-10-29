@@ -16,14 +16,13 @@ POST pul i issue; korekty PATCH opisuje `API-KOREKTY.md`.
   uzasadnienia wynikają z procesu. Nieobsługiwane pola nie są ignorowane.
 - Decide: approve jest obowiązkową wartością logiczną JSON, reason tekstem.
   Odmowa wymaga niepustego powodu. Decyzję wykonuje wyłącznie UMP.
-- Akceptacja II/III wymaga obiektu pool z prefix, start, end, valid_from;
-  valid_until jest opcjonalnym polem kontraktu, obowiązkowym biznesowo dla
-  III. Prefix jest tekstem; start/end dodatnimi liczbami całkowitymi.
-  Urząd, moduł i stacja wynikają z wniosku. Odmowa i moduł I nie przyjmują
-  niepustej konfiguracji pool (null oznacza jej brak).
+- Akceptacja II/III nadaje kolejny blok numerów wyliczony przez serwer
+  (`UWAGI-UMP-20261029.md`); decide nie przyjmuje niepustego obiektu pool
+  (null oznacza jego brak). Urząd, rodzaj i stacja wynikają z wniosku.
 - Bezpośrednie POST pul jest dostępne wyłącznie UMP. Dopuszczone pola:
-  kind, office, prefix, station jako teksty; start/end jako liczby całkowite;
-  valid_from i valid_until jako daty. III nadal wymaga zatwierdzenia wniosku.
+  wyłącznie kind i office (teksty). Zakres, prefiks i daty nadaje system;
+  odpowiedź zawiera first_number i last_number. Tablice tymczasowe (III)
+  można przydzielać bez wniosku.
 - Daty: istniejący dzień kalendarzowy w formacie RRRR-MM-DD. Opcjonalny
   valid_until może mieć null/pusty tekst; valid_from nie może.
 - Issue: obowiązkowe slot (dodatnia liczba całkowita JSON) i case_number

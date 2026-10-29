@@ -312,9 +312,9 @@ def demo_code_rotate(request):
 @login_required
 @require_POST
 def demo_reset(request):
-    """Rzeczywisty administrator czyści dane instancji demo, np. przed kolejną prezentacją."""
+    """Administrator (także demo) czyści dane instancji demo, np. przed kolejną prezentacją."""
     require_role(request.user, "ADMIN")
-    if not settings.DEMO_MODE or demo_viewer(request.user):
+    if not settings.DEMO_MODE:
         raise Http404
     reason = request.POST.get("reason", "").strip()
     if not reason or request.POST.get("confirm") != "1":
@@ -1077,6 +1077,7 @@ def admin_panel(request):
             "demo_admin": demo_admin,
             "demo_seeded": DEMO_SEEDED,
             "demo_code": DemoAccessCode.objects.first() if settings.DEMO_MODE and not demo_admin else None,
+            "demo_mode": settings.DEMO_MODE,
         },
     )
 

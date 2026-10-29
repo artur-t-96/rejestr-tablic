@@ -149,6 +149,8 @@ DEMO_MODE = os.environ.get("DYNA_DEMO", "").strip().lower() not in ("", "0", "fa
 DEMO_DAILY_REQUESTS = 200
 DEMO_DAILY_MESSAGES = 300
 DEMO_KEEP_DAYS = 30
+# Nowa wartość czyści dane demo raz, przy najbliższym starcie usługi (prepare_demo).
+DEMO_RESET_TOKEN = os.environ.get("DYNA_DEMO_RESET", "").strip()[:100]
 DEMO_DIR = DATA_DIR / "demo"
 # W demo brak własnej konfiguracji oznacza profile symulatora przygotowane przez `prepare_demo`.
 EZDRP_CONFIG_FILE = os.environ.get("EZDRP_CONFIG_FILE") or (str(DEMO_DIR / "ezdrp.json") if DEMO_MODE else "")

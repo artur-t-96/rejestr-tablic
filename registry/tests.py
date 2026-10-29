@@ -15,6 +15,7 @@ from pypdf import PdfReader
 from .imports import apply_import, preview_import
 from .models import AuditLog, LoginCode, Office, PlateRecord, Pool, PoolSlot, User
 from .services import (
+    allocate_block,
     allocate_pool,
     availability,
     create_request,
@@ -211,43 +212,24 @@ class CoreTests(TestCase):
         with self.assertRaises(IntegrityError), transaction.atomic():
             PoolSlot.objects.create(pool=p, number=slot.number, ordinal=99)
 
-    def test_module_three_requires_request_and_matches_count(self):
-        with self.assertRaises(ValidationError):
-            allocate_pool(
-                self.ump,
-                {
-                    "kind": "III",
-                    "office": "a",
-                    "prefix": "P0",
-                    "start": 1,
-                    "end": 2,
-                    "valid_from": timezone.localdate(),
-                },
-            )
+    def test_temporary_pool_can_be_allocated_directly_and_by_request(self):
+        direct = allocate_block(self.ump, "III", "a")
+        self.assertIsNone(direct.request)
         req = create_request(
             self.a,
             {
                 "kind": "III",
                 "case_number": "III/1",
-                "count": 2,
                 "justification": "Potrzeba testowa",
                 "station": "Stacja Testowa",
             },
         )
         send_request(self.a, req.uuid)
-        decide_request(
-            self.ump,
-            req.uuid,
-            True,
-            pool_data={
-                "prefix": "P0",
-                "start": 1,
-                "end": 2,
-                "valid_from": timezone.localdate(),
-                "valid_until": timezone.localdate() + timedelta(days=90),
-            },
-        )
-        self.assertEqual(Pool.objects.get(request=req).total, 2)
+        decide_request(self.ump, req.uuid, True)
+        pool = Pool.objects.get(request=req)
+        self.assertEqual((pool.slots.first().number, pool.slots.last().number), ("M00100", "M00199"))
+        self.assertEqual(pool.station, "Stacja Testowa")
+        self.assertIsNone(pool.valid_until)
 
     def test_actual_pdf_contains_polish_text_and_reference(self):
         req = create_request(self.a, data())

@@ -129,20 +129,24 @@ class DecisionNoticeTests(TestCase):
         self.assertEqual(Letter.objects.count(), letters)
         self.assertEqual(AuditLog.objects.count(), audits)
 
-    def test_missing_and_reversed_periods_leave_request_pending_and_no_notice(self):
-        for end in (None, timezone.localdate() - timedelta(days=1)):
-            with self.subTest(end=end), self.assertRaises(ValidationError):
-                decide_request(self.ump, self.req.uuid, True, pool_data={**period_data(), "valid_until": end})
-            self.req.refresh_from_db()
-            self.assertEqual(self.req.status, "SENT")
-            self.assertFalse(Pool.objects.exists())
-            self.assertFalse(IntegrationJob.objects.exists())
+    def test_reversed_period_leaves_request_pending_and_no_notice(self):
+        end = timezone.localdate() - timedelta(days=1)
+        with self.assertRaises(ValidationError):
+            decide_request(self.ump, self.req.uuid, True, pool_data={**period_data(), "valid_until": end})
+        self.req.refresh_from_db()
+        self.assertEqual(self.req.status, "SENT")
+        self.assertFalse(Pool.objects.exists())
+        self.assertFalse(IntegrationJob.objects.exists())
 
-    def test_iii_database_constraint_cannot_be_bypassed_by_update(self):
-        job = self.approve()
-        with self.assertRaises(IntegrityError), transaction.atomic():
-            Pool.objects.filter(request=self.req).update(valid_until=None)
-        self.assertEqual(job.letter.pool.valid_until, period_data()["valid_until"])
+    def test_approval_without_range_allocates_open_ended_temporary_block(self):
+        decide_request(self.ump, self.req.uuid, True)
+        pool = Pool.objects.get(request=self.req)
+        self.assertEqual((pool.slots.first().number, pool.slots.last().number), ("M00001", "M00099"))
+        self.assertIsNone(pool.valid_until)
+        self.assertEqual(pool.valid_from, timezone.localdate())
+        self.req.refresh_from_db()
+        self.assertEqual(self.req.count, 99)
+        self.assertTrue(IntegrationJob.objects.filter(operation="DECISION_NOTICE").exists())
 
     def test_both_validity_boundaries_are_inclusive_and_outside_dates_block_issue(self):
         self.approve()
@@ -218,20 +222,19 @@ class DecisionNoticeTests(TestCase):
         self.req.refresh_from_db()
         self.assertEqual(self.req.status, "APPROVED")
 
-    def test_form_reports_end_date_error_on_field_and_rejection_and_module_two_still_work(self):
-        values = {**period_data(), "valid_until": "", "decision": "approve"}
-        form = DecisionForm(values, kind="III")
-        self.assertFalse(form.is_valid())
-        self.assertIn("valid_until", form.errors)
-        self.assertTrue(DecisionForm({"decision": "reject", "reason": "Odmowa"}, kind="III").is_valid())
-        self.assertTrue(DecisionForm(values, kind="II").is_valid())
-        self.assertFalse(PoolForm({**values, "kind": "III", "office": "a"}).is_valid())
+    def test_decision_form_asks_only_for_stance_and_html_approval_allocates_block(self):
+        self.assertEqual(list(DecisionForm(kind="III").fields), ["decision", "reason"])
+        self.assertEqual(list(PoolForm().fields), ["kind", "office"])
         self.client.force_login(self.ump)
-        page = self.client.post(reverse("request_detail", args=[self.req.uuid]), values)
-        self.assertContains(page, "Podaj termin końca puli modułu III.")
-        self.req.refresh_from_db()
-        self.assertEqual(self.req.status, "SENT")
-        self.assertFalse(IntegrationJob.objects.exists())
+        url = reverse("request_detail", args=[self.req.uuid])
+        page = self.client.get(url)
+        self.assertContains(page, "Po akceptacji zostanie przydzielona pula")
+        self.assertContains(page, "M00001 – M00099")
+        self.assertNotContains(page, 'name="valid_until"')
+        self.client.post(url, {"decision": "approve", "valid_until": "2020-01-01", "start": 7})
+        pool = Pool.objects.get(request=self.req)
+        self.assertEqual(pool.start, 1)
+        self.assertIsNone(pool.valid_until)
 
 
 class NoticeBackupTests(TransactionTestCase):

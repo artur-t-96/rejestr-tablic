@@ -379,22 +379,18 @@ class DecisionAidTests(Base):
         self.assertContains(page, "Fikcyjny wpis słownika")
         decide_request(self.ump, req.uuid, True)
 
-    def test_first_free_range_is_suggested_for_pool_decision(self):
+    def test_next_block_is_previewed_for_pool_decision(self):
         self.assertEqual(suggest_pool_range("II", "P", 4), (1, 4))
         self.small_pool()
         req = pool_request(self.b, count=3)
         send_request(self.b, req.uuid)
         self.client.force_login(self.ump)
         page = self.client.get(reverse("request_detail", args=[req.uuid]))
-        self.assertEqual(page.context["suggested"], (6, 8))
-        self.assertEqual((page.context["form"]["start"].value(), page.context["form"]["end"].value()), (6, 8))
-        self.assertContains(page, "pierwsze wolne pozycje tego prefiksu to 6–8")
-        decide_request(
-            self.ump,
-            req.uuid,
-            True,
-            pool_data={"prefix": "P", "start": 6, "end": 8, "valid_from": timezone.localdate()},
-        )
+        self.assertEqual(page.context["suggested"], ("M001", "M099"))
+        self.assertContains(page, "Po akceptacji zostanie przydzielona pula")
+        self.assertNotIn("start", page.context["form"].fields)
+        decide_request(self.ump, req.uuid, True)
+        self.assertEqual(Pool.objects.get(request=req).slots.first().number, "M001")
         self.assertIsNone(suggest_pool_range("III", "P0", 30000))
 
 

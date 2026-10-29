@@ -36,6 +36,8 @@ Wejście demonstracyjne bez konta, symulatory EZD RP i e-Doręczeń, podpis demo
 Uwagi UMP po prezentacji (słownictwo bez „decyzji”, przeniesienie wpisu do innego
 urzędu, pule bez śledzenia wykorzystania, pule demo po 1000 numerów):
 [UWAGI-UMP-20261005.md](docs/UWAGI-UMP-20261005.md).
+Tablice wąskie i tymczasowe, automatyczne bloki po 100 numerów (M001–M099, M100–M199…),
+pule bezterminowe: [UWAGI-UMP-20261029.md](docs/UWAGI-UMP-20261029.md).
 
 System wdrożono na Renderze. Przebiegi trzech modułów i lokalne testy dokumentów, importów,
 uprawnień oraz kopii opisują powyższe raporty. CAPTCHA ukończono w rzeczywistym
@@ -100,7 +102,7 @@ Kontynuacja serii tymczasowej po 9999 i kontrola wyczerpania P przed nową pulą
 `docs/POJEMNOSCI-PUL.md`. Import historycznych wykazów II/III:
 `docs/IMPORT-PUL.md`. Kategoria III i rzeczywiste dane historyczne nadal
 wymagają uzgodnienia przed wdrożeniem urzędowym.
-Kontrola wszystkich przejść układów tablic zmniejszonych i odbiór równoczesnego
+Kontrola wszystkich przejść układów tablic wąskich i odbiór równoczesnego
 przydziału na granicy: `docs/KOLEJNOSC-PUL-II.md`.
 
 Import ewidencji indywidualnej: `docs/IMPORT-EWIDENCJI.md`. Podgląd wszystkich

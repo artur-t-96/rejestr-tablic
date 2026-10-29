@@ -66,7 +66,6 @@ from .pagination import PAGE_SIZE, list_context, list_page, page_url
 from .security import rate_limit
 from .services import (
     TRANSFER_STATUSES,
-    allocate_pool,
     audit,
     availability,
     create_request,
@@ -512,39 +511,23 @@ def request_detail(request, uuid):
         ),
         uuid=uuid,
     )
-    prefix = "P" if req.kind == "II" else "P0"
     suggested = None
     if req.kind != "I" and req.status == "SENT" and request.user.role == "MAIN":
-        from .number_checks import suggest_pool_range
+        from .services import preview_block
 
-        suggested = suggest_pool_range(req.kind, prefix, req.count)
-    form = DecisionForm(
-        request.POST or None,
-        kind=req.kind,
-        initial={
-            "prefix": prefix,
-            "valid_from": timezone.localdate(),
-            "start": suggested[0] if suggested else 1,
-            "end": suggested[1] if suggested else req.count,
-        },
-    )
+        suggested = preview_block(req.kind)
+    form = DecisionForm(request.POST or None, kind=req.kind)
     if request.method == "POST":
         require_role(request.user, "MAIN")
         if form.is_valid():
             data = form.cleaned_data
             try:
-                if (
-                    data["decision"] == "approve"
-                    and req.kind != "I"
-                    and (not data["start"] or not data["end"] or not data["valid_from"])
-                ):
-                    raise ValidationError("Podaj zakres i datę obowiązywania puli.")
                 decide_request(
                     request.user,
                     uuid,
                     data["decision"] == "approve",
                     data["reason"],
-                    data,
+                    None,
                     ip(request),
                 )
                 messages.success(request, "Uzasadnienie zapisane. Pismo zwrotne jest dostępne poniżej.")
@@ -849,12 +832,19 @@ def pool_rows(request):
 @require_http_methods(["GET", "POST"])
 def pool_new(request):
     require_role(request.user, "MAIN")
-    form = PoolForm(request.POST or None, initial={"kind": "II", "valid_from": timezone.localdate()})
+    from .services import allocate_block, preview_block
+
+    form = PoolForm(request.POST or None, initial={"kind": "II"})
     if request.method == "POST" and form.is_valid():
-        data = {**form.cleaned_data, "office": form.cleaned_data["office"].pk}
         try:
-            pool = allocate_pool(request.user, data, ip=ip(request))
-            messages.success(request, "Pula przydzielona. Pismo informujące jest gotowe.")
+            pool = allocate_block(
+                request.user, form.cleaned_data["kind"], form.cleaned_data["office"].pk, ip=ip(request)
+            )
+            messages.success(
+                request,
+                f"Przydzielono pulę {pool.slots.first().number} – {pool.slots.last().number}. "
+                "Pismo informujące jest gotowe.",
+            )
             return redirect("pool_detail", uuid=pool.uuid)
         except ValidationError as error:
             form_errors(form, error)
@@ -863,9 +853,11 @@ def pool_new(request):
         "registry/form.html",
         {
             "form": form,
-            "title": "Przydział puli",
-            "description": "Moduł III wymaga wcześniejszego wniosku urzędu. Zakres oznacza pozycje w uporządkowanej pojemności numeracyjnej.",
+            "title": "Przydziel pulę",
+            "description": "Wybierz rodzaj puli i urząd. System nadaje kolejny wolny blok numerów, "
+            "bezterminowo, i zapisuje datę przydziału.",
             "submit": "Przydziel pulę",
+            "pool_previews": [(kind, label, preview_block(kind)) for kind, label in Request.Kind.choices[1:]],
         },
     )
 
@@ -1819,12 +1811,23 @@ def api_pools(request):
         from .api_validation import pool_values
 
         require_role(request.user, "MAIN")
+        from .services import allocate_block
+
         form = PoolForm(pool_values(request.data))
         if not form.is_valid():
             return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
-        data = {**form.cleaned_data, "office": form.cleaned_data["office"].pk}
-        pool = allocate_pool(request.user, data, ip=ip(request))
-        return JsonResponse({"id": str(pool.uuid), "total": pool.total}, status=201)
+        pool = allocate_block(
+            request.user, form.cleaned_data["kind"], form.cleaned_data["office"].pk, ip=ip(request)
+        )
+        return JsonResponse(
+            {
+                "id": str(pool.uuid),
+                "total": pool.total,
+                "first_number": pool.slots.first().number,
+                "last_number": pool.slots.last().number,
+            },
+            status=201,
+        )
     return JsonResponse(
         {
             "items": [

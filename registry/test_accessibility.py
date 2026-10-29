@@ -62,7 +62,7 @@ class AccessibilityTests(TestCase):
                 [
                     ("records_list", "Ewidencja województwa"),
                     ("import_records", "Import"),
-                    ("pool_new", "Przydział"),
+                    ("pool_new", "Przydziel pulę"),
                     ("ezd_incoming", "Wpływy"),
                     ("edor_search", "Wyszukiwanie"),
                 ],
@@ -138,23 +138,17 @@ class AccessibilityTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Request.objects.count(), 1)
 
-    def test_pool_forms_still_require_valid_count_and_justification(self):
+    def test_pool_forms_require_justification_and_ignore_count(self):
         for kind in ["II", "III"]:
-            for count in ["", "0", "10001", "abc"]:
-                with self.subTest(kind=kind, count=count):
-                    form = RequestForm(data={"kind": kind, "case_number": "TEST", "count": count})
-                    self.assertFalse(form.is_valid())
-                    self.assertIn("count", form.errors)
-                    self.assertIn("justification", form.errors)
-            valid = RequestForm(
-                data={
-                    "kind": kind,
-                    "case_number": "TEST",
-                    "count": 2,
-                    "justification": "Fikcyjne zapotrzebowanie",
-                }
-            )
-            self.assertTrue(valid.is_valid(), valid.errors)
+            with self.subTest(kind=kind):
+                form = RequestForm(data={"kind": kind, "case_number": "TEST"})
+                self.assertFalse(form.is_valid())
+                self.assertIn("justification", form.errors)
+                self.assertNotIn("count", form.fields)
+                valid = RequestForm(
+                    data={"kind": kind, "case_number": "TEST", "justification": "Fikcyjne zapotrzebowanie"}
+                )
+                self.assertTrue(valid.is_valid(), valid.errors)
 
     def test_pool_confirmation_does_not_claim_individual_number_reservation(self):
         self.client.force_login(self.a)
@@ -173,7 +167,8 @@ class AccessibilityTests(TestCase):
             self.assertNotContains(response, "Wyróżnik zarezerwowany")
             req = Request.objects.get(kind=kind)
             self.assertIsNone(req.record_id)
-            self.assertEqual(req.count, 2)
+            # Urząd prosi o kolejny blok; liczbę wyznacza konfiguracja, nie formularz.
+            self.assertEqual(req.count, 100)
 
     def test_titles_of_request_record_pool_and_signature_identify_document_without_owner(self):
         req = create_request(self.a, data())

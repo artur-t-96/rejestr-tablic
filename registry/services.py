@@ -190,7 +190,8 @@ def create_request(user, data, ip=None):
         )
     elif not data.get("justification", "").strip():
         raise ValidationError("Wniosek o pulę wymaga uzasadnienia.")
-    count = int(data.get("count", 1))
+    # Wniosek o pulę dotyczy jednego bloku; liczbę ustala konfiguracja, nie urząd.
+    count = int(data.get("count", 1)) if kind == "I" else settings.POOL_BLOCKS[kind]["size"]
     if not 1 <= count <= 10000:
         raise ValidationError("Liczba numerów musi wynosić 1–10 000.")
     from .numbering import request_number
@@ -266,16 +267,15 @@ def withdraw_request(user, req_id, reason, ip=None):
 
 
 @transaction.atomic
-def allocate_pool(user, data, req=None, ip=None):
+def allocate_pool(user, data, req=None, ip=None, *, automatic=False):
+    """Zapis puli o wskazanym zakresie; interfejs i API korzystają z `allocate_block`."""
     require_role(user, "MAIN")
     office = Office.objects.get(pk=data["office"], active=True)
     kind, start, end = data["kind"], data["start"], data["end"]
     prefix = data.get("prefix", "P" if kind == "II" else "P0")
     numbers = pool_numbers(kind, prefix, start, end)
-    if req and (req.office_id != office.pk or req.kind != kind or req.count != len(numbers)):
-        raise ValidationError("Zakres musi odpowiadać urzędowi, rodzajowi i liczbie numerów z wniosku.")
-    if kind == "III" and req is None:
-        raise ValidationError("Moduł III wymaga zatwierdzanego wniosku urzędu.")
+    if req and (req.office_id != office.pk or req.kind != kind):
+        raise ValidationError("Pula musi odpowiadać urzędowi i rodzajowi z wniosku.")
     pool = Pool(
         kind=kind,
         office=office,
@@ -295,7 +295,7 @@ def allocate_pool(user, data, req=None, ip=None):
         )
     from .pool_capacity import require_capacity_order
 
-    require_capacity_order(kind, prefix, start, end)
+    require_capacity_order(kind, prefix, start, end, first_letter_rule=not automatic)
     try:
         with transaction.atomic():
             pool.save()
@@ -311,10 +311,96 @@ def allocate_pool(user, data, req=None, ip=None):
         user,
         "pool.allocated",
         pool,
-        after={"kind": kind, "prefix": prefix, "start": start, "end": end},
+        after={
+            "kind": kind,
+            "prefix": prefix,
+            "start": start,
+            "end": end,
+            "first_number": numbers[0],
+            "last_number": numbers[-1],
+            "automatic": automatic,
+        },
         ip=ip,
     )
     make_letter(user, "POOL", req=req, pool=pool, ip=ip)
+    return pool
+
+
+def block_span(kind, index):
+    """Pozycje bloku `index` (od 1): blok pierwszy kończy się na 99, kolejne mają po `size` numerów."""
+    size = settings.POOL_BLOCKS[kind]["size"]
+    return max(1, (index - 1) * size), index * size - 1
+
+
+def pool_capacity(kind):
+    from .validation import SMALL_SUFFIXES, TEMPORARY_CAPACITY
+
+    return len(SMALL_SUFFIXES) if kind == "II" else TEMPORARY_CAPACITY
+
+
+def next_block(kind, after=0):
+    """Pierwszy wolny blok po `after`; zwraca (indeks, początek, koniec, numery) albo None."""
+    prefix = settings.POOL_BLOCKS[kind]["prefix"]
+    capacity = pool_capacity(kind)
+    taken = PoolSlot.objects.filter(pool__kind=kind, pool__prefix=prefix)
+    last = taken.order_by("-ordinal").values_list("ordinal", flat=True).first() or 0
+    size = settings.POOL_BLOCKS[kind]["size"]
+    index = max(after, last // size) + 1 if last else after + 1
+    while True:
+        start, end = block_span(kind, index)
+        if start > capacity:
+            return None
+        end = min(end, capacity)
+        numbers = pool_numbers(kind, prefix, start, end)
+        if not PoolSlot.objects.filter(number__in=numbers).exists():
+            return index, start, end, numbers
+        index += 1
+
+
+def preview_block(kind):
+    """Zakres, który dostanie najbliższy przydział; informacja, bez rezerwacji."""
+    from .models import NumberSequence
+
+    prefix = settings.POOL_BLOCKS[kind]["prefix"]
+    counter = NumberSequence.objects.filter(scope=f"POOL.{kind}.{prefix}", year=1).first()
+    found = next_block(kind, counter.last_value if counter else 0)
+    return (found[3][0], found[3][-1]) if found else None
+
+
+@transaction.atomic
+def allocate_block(user, kind, office_id, *, req=None, ip=None):
+    """Nadaje urzędowi kolejny wolny blok numerów; zakres wylicza serwer pod blokadą licznika."""
+    from .models import NumberSequence
+
+    require_role(user, "MAIN")
+    if kind not in settings.POOL_BLOCKS:
+        raise ValidationError("Nieznany rodzaj puli.")
+    prefix = settings.POOL_BLOCKS[kind]["prefix"]
+    # Licznik bloków bez roku (rok techniczny 1); blokada wiersza serializuje równoczesne przydziały.
+    counter, _ = NumberSequence.objects.get_or_create(scope=f"POOL.{kind}.{prefix}", year=1)
+    counter = NumberSequence.objects.select_for_update().get(pk=counter.pk)
+    found = next_block(kind, counter.last_value)
+    if found is None:
+        raise ValidationError("Pojemność numeracji tego rodzaju puli została wyczerpana.")
+    index, start, end, _numbers = found
+    pool = allocate_pool(
+        user,
+        {
+            "kind": kind,
+            "office": office_id,
+            "prefix": prefix,
+            "start": start,
+            "end": end,
+            "valid_from": timezone.localdate(),
+            "valid_until": None,
+            "station": req.station if req else "",
+        },
+        req=req,
+        ip=ip,
+        automatic=True,
+    )
+    counter.last_value = index
+    counter.save(update_fields=["last_value"])
     return pool
 
 
@@ -349,14 +435,15 @@ def decide_request(user, req_id, approve, reason="", pool_data=None, ip=None):
             ip,
         )
     elif approve:
-        if not pool_data:
-            raise ValidationError("Wskaż zakres puli.")
-        pool = allocate_pool(
-            user,
-            {**pool_data, "office": req.office_id, "kind": req.kind},
-            req=req,
-            ip=ip,
+        # Akceptacja wniosku o pulę nadaje jeden kolejny blok; zakres podany jawnie służy
+        # wyłącznie wewnętrznym danym pokazowym i testom.
+        pool = (
+            allocate_pool(user, {**pool_data, "office": req.office_id, "kind": req.kind}, req=req, ip=ip)
+            if pool_data
+            else allocate_block(user, req.kind, req.office_id, req=req, ip=ip)
         )
+        # Wniosek prosi o kolejny blok; po przydziale liczba odpowiada faktycznej puli.
+        req.count = pool.total
     req.status = "APPROVED" if approve else "REJECTED"
     req.reason = reason
     req.decided_by = user

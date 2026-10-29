@@ -114,10 +114,9 @@ class RequestForm(forms.Form):
     address = forms.CharField(label="Adres właściciela", required=False, max_length=300)
     vin = forms.CharField(label="VIN, jeśli znany", required=False, max_length=17)
     case_number = forms.CharField(label="Numer sprawy w urzędzie", max_length=100)
-    count = forms.IntegerField(
-        label="Liczba numerów (pule)", min_value=1, max_value=10000, initial=1, required=False
+    station = forms.CharField(
+        label="Stacja / przeznaczenie (tablice tymczasowe)", required=False, max_length=180
     )
-    station = forms.CharField(label="Stacja / przeznaczenie (moduł III)", required=False, max_length=180)
     justification = forms.CharField(
         label="Uzasadnienie / uwagi",
         required=False,
@@ -130,7 +129,6 @@ class RequestForm(forms.Form):
             self.fields["kind"].choices = [(Request.Kind.INDIVIDUAL, Request.Kind.INDIVIDUAL.label)]
             self.initial["kind"] = Request.Kind.INDIVIDUAL
             self.fields["number"].help_text = "Np. P0 KOWAL."
-            del self.fields["count"]
             del self.fields["station"]
 
     def clean(self):
@@ -145,44 +143,17 @@ class RequestForm(forms.Form):
             if not data.get("owner"):
                 self.add_error("owner", "Podaj właściciela.")
         elif data.get("kind") in {"II", "III"}:
-            if data.get("count") is None and "count" not in self.errors:
-                self.add_error("count", "Podaj liczbę numerów.")
+            # Akceptacja wniosku nadaje jeden blok numerów; urząd nie podaje liczby.
             if not data.get("justification"):
                 self.add_error("justification", "Podaj uzasadnienie zapotrzebowania.")
         return data
 
 
 class PoolForm(forms.Form):
-    kind = forms.ChoiceField(label="Moduł", choices=Request.Kind.choices[1:])
-    office = forms.ModelChoiceField(label="Urząd", queryset=Office.objects.filter(active=True))
-    prefix = forms.CharField(
-        label="Prefiks",
-        initial="P",
-        max_length=2,
-        help_text="II: P lub M. III: P0–P9 / M0–M9. M wymaga wyczerpania pojemności P.",
-    )
-    start = forms.IntegerField(label="Od pozycji", min_value=1)
-    end = forms.IntegerField(
-        label="Do pozycji",
-        min_value=1,
-        help_text="II: kolejny układ wymaga wyczerpania wcześniejszych. III: 1–9999 to cyfry, dalej 001A–999Y (do 29979).",
-    )
-    valid_from = forms.DateField(
-        label="Obowiązuje od", widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d")
-    )
-    valid_until = forms.DateField(
-        label="Obowiązuje do",
-        required=False,
-        help_text="Dla modułu III podaj obowiązkowy termin końca puli.",
-        widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
-    )
-    station = forms.CharField(label="Stacja / przeznaczenie", required=False)
+    """Przydział puli: zakres i datę wylicza serwer (`services.allocate_block`)."""
 
-    def clean(self):
-        data = super().clean()
-        if data.get("kind") == "III" and not data.get("valid_until") and "valid_until" not in self.errors:
-            self.add_error("valid_until", "Podaj termin końca puli modułu III.")
-        return data
+    kind = forms.ChoiceField(label="Rodzaj puli", choices=Request.Kind.choices[1:])
+    office = forms.ModelChoiceField(label="Urząd", queryset=Office.objects.filter(active=True))
 
 
 class DecisionForm(forms.Form):
@@ -194,41 +165,10 @@ class DecisionForm(forms.Form):
         required=False,
         widget=forms.Textarea(attrs={"rows": 3}),
     )
-    prefix = forms.CharField(label="Prefiks puli", required=False)
-    start = forms.IntegerField(label="Pula od pozycji", required=False, min_value=1)
-    end = forms.IntegerField(
-        label="Pula do pozycji",
-        required=False,
-        min_value=1,
-        help_text="II: kolejny układ wymaga wyczerpania wcześniejszych. III: litery od pozycji 10000 wymagają wcześniejszych 9999 numerów.",
-    )
-    valid_from = forms.DateField(
-        label="Pula obowiązuje od",
-        required=False,
-        widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
-    )
-    valid_until = forms.DateField(
-        label="Pula obowiązuje do",
-        required=False,
-        widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
-    )
 
     def __init__(self, *args, kind="I", **kwargs):
         super().__init__(*args, **kwargs)
         self.kind = kind
-        if kind == "III":
-            self.fields["valid_until"].help_text = "Wymagane przy akceptacji puli modułu III."
-
-    def clean(self):
-        data = super().clean()
-        if (
-            self.kind == "III"
-            and data.get("decision") == "approve"
-            and not data.get("valid_until")
-            and "valid_until" not in self.errors
-        ):
-            self.add_error("valid_until", "Podaj termin końca puli modułu III.")
-        return data
 
 
 class RecordForm(forms.ModelForm):

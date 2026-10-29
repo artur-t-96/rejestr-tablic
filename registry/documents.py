@@ -138,7 +138,7 @@ def letter_content(kind, req, pool, sender, recipient):
     subject = (
         req.record.display_number
         if req and req.record
-        else (f"{req.get_kind_display()} - {req.count} numerów" if req else "")
+        else (f"{req.get_kind_display()} - kolejny blok numerów" if req else "")
     )
     if pool:
         subject = f"{pool.get_kind_display()}: {pool.slots.first().number} - {pool.slots.last().number} ({pool.total} numerów)"
@@ -159,7 +159,7 @@ def letter_content(kind, req, pool, sender, recipient):
         "request_url": f"{settings.APP_URL}/panel/wnioski/{req.uuid}/" if req else "-",
         "period": f"od {pool.valid_from:%d.%m.%Y} do {pool.valid_until:%d.%m.%Y}"
         if pool and pool.valid_until
-        else (f"od {pool.valid_from:%d.%m.%Y}, bezterminowo" if pool else "Nie dotyczy"),
+        else ("bezterminowo" if pool else "Nie dotyczy"),
         "station": (pool.station or "Nie podano")
         if pool
         else (req.station or "Nie podano" if req and req.kind != "I" else "Nie dotyczy"),

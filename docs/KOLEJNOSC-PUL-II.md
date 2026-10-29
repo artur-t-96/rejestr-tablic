@@ -1,4 +1,8 @@
-# Kolejność układów tablic zmniejszonych — 03.10.2026
+# Kolejność układów tablic wąskich — 03.10.2026
+
+> Od 29.10.2026 nowe pule nadaje system automatycznie z prefiksem M (decyzja UMP),
+> bez warunku wyczerpania P — zob. `UWAGI-UMP-20261029.md`. Warunek opisany niżej
+> dotyczy już tylko ręcznego zapisu zakresu (dane pokazowe, import).
 
 Nowy przydział modułu II sprawdza, czy wcześniejsze układy numeracji są
 wyczerpane. Dotychczas system generował układy w poprawnym porządku, lecz

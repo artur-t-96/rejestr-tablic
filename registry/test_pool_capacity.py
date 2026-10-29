@@ -195,7 +195,7 @@ class PoolCapacityTests(TestCase):
         self.assertEqual(occupied_capacity("III", "P0"), 0)
         self.assertEqual(occupied_capacity("III", "P[0-9]"), 1)
 
-    def test_http_api_enforces_m_gate_without_creating_pool_or_letter(self):
+    def test_http_api_rejects_manual_m_range_without_creating_pool_or_letter(self):
         self.client.force_login(self.ump)
         before = self.counts()
         response = self.client.post(
@@ -211,5 +211,5 @@ class PoolCapacityTests(TestCase):
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 400)
-        self.assertIn("pojemność P", response.json()["error"])
+        self.assertIn("nadaje system", response.json()["error"])
         self.assertEqual(self.counts(), before)

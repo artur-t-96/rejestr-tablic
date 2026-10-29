@@ -1,8 +1,7 @@
-from datetime import date
 
 from django.test import TestCase
 from django.urls import reverse
-from django.utils import timezone, translation
+from django.utils import timezone
 
 from .forms import DecisionForm, PoolForm
 from .models import AuditLog
@@ -73,9 +72,7 @@ class PoolBrowserTests(TestCase):
                 self.assertEqual(response.context["slots"].number, expected)
                 self.assertLessEqual(len(response.context["slots"]), 100)
 
-    def test_native_date_widgets_use_iso_even_in_polish_locale(self):
-        with translation.override("pl"):
-            for form in (PoolForm, DecisionForm):
-                page = form(initial={"valid_from": date(2026, 10, 3), "valid_until": date(2026, 12, 31)})
-                self.assertIn('value="2026-10-03"', str(page["valid_from"]))
-                self.assertIn('value="2026-12-31"', str(page["valid_until"]))
+    def test_pool_forms_have_no_date_or_range_fields(self):
+        for form in (PoolForm(), DecisionForm()):
+            for name in ("prefix", "start", "end", "valid_from", "valid_until"):
+                self.assertNotIn(name, form.fields)

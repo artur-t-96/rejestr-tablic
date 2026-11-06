@@ -64,19 +64,15 @@ class RecordActionTests(TestCase):
             self.assertNotContains(response, 'name="owner"')
             self.assertNotContains(response, 'name="status"')
 
-    def test_main_can_correct_every_status_but_extend_only_live_reservations(self):
+    def test_main_can_correct_every_status_and_no_reservation_is_offered(self):
         self.client.force_login(self.ump)
         for status in PlateRecord.Status.values:
             self.record.status = status
-            self.record.reservation_until = timezone.now() + timedelta(days=1)
-            self.record.save(update_fields=["status", "reservation_until"])
+            self.record.save(update_fields=["status"])
             response = self.client.get(self.url)
             self.assertContains(response, "Zapisz zmianę")
             self.assertContains(response, 'name="owner"')
-            if status in ("RESERVED", "SENT"):
-                self.assertContains(response, "Przedłuż rezerwację")
-            else:
-                self.assertNotContains(response, "Przedłuż rezerwację")
+            self.assertNotContains(response, "rezerwac")
         self.record.status = "SENT"
         self.record.reservation_until = timezone.now() - timedelta(seconds=1)
         self.record.save(update_fields=["status", "reservation_until"])

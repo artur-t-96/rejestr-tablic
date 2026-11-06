@@ -30,7 +30,6 @@ def main():
             print("UWAGA: prepare_demo zakończone błędem; tryb demo może być niepełny.", flush=True)
     commands = [
         [sys.executable, "-m", "gunicorn", "config.wsgi:application", "--config", "deploy/render-gunicorn.py"],
-        [sys.executable, "manage.py", "expire_reservations", "--watch"],
         [sys.executable, "manage.py", "process_integrations", "--watch"],
         [sys.executable, "manage.py", "process_account_invitations", "--watch"],
     ]

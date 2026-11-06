@@ -1,4 +1,4 @@
-# Dyna Rejestr Tablic
+# Sprawdź Tablicę (dawniej Dyna Rejestr Tablic)
 
 System wojewódzki dla Wielkopolski. Dokument źródłowy: `Specyfikacja_flow_tablice.html`. Interfejs referencyjny: `Demo_Rejestr_Tablic.html`. Pliki źródłowe są zachowane.
 
@@ -38,6 +38,9 @@ urzędu, pule bez śledzenia wykorzystania, pule demo po 1000 numerów):
 [UWAGI-UMP-20261005.md](docs/UWAGI-UMP-20261005.md).
 Tablice wąskie i tymczasowe, automatyczne bloki po 100 numerów (M001–M099, M100–M199…),
 pule bezterminowe: [UWAGI-UMP-20261029.md](docs/UWAGI-UMP-20261029.md).
+Nazwa „Sprawdź Tablicę”, tablice zmniejszone, wniosek bez danych właściciela i numeru
+sprawy, pula 10–100 numerów, brak rezerwacji, wyszukiwarka numerów, administrator powiatu:
+[UWAGI-UMP-20261106.md](docs/UWAGI-UMP-20261106.md).
 
 System wdrożono na Renderze. Przebiegi trzech modułów i lokalne testy dokumentów, importów,
 uprawnień oraz kopii opisują powyższe raporty. CAPTCHA ukończono w rzeczywistym
@@ -78,11 +81,9 @@ Przy ręcznym starcie serwera uruchom osobno `manage.py process_integrations
 Okres puli, odbiór powiadomień, migracja 0009 i ograniczenia transportu:
 `docs/POWIADOMIENIA-DECYZJI.md`.
 
-Skrypt uruchamia również wygaszanie rezerwacji co 30 sekund. Przy ręcznym
-starcie serwera uruchom osobno `manage.py expire_reservations --watch
---interval 30`. Rezerwacja trwa 14 dni; UMP przedłuża ją z uzasadnieniem.
-Odmowa, przedłużenie, wygasanie bez wejścia do panelu, zachowanie dokumentów
-i dowody odbioru: `docs/REZERWACJE-I-ODMOWA.md`.
+Od 06.11.2026 wniosek o tablicę indywidualną nie ma terminu rezerwacji: numer pozostaje
+zajęty do rozpatrzenia albo wycofania wniosku, bez procesu wygaszania. Dawny opis:
+`docs/REZERWACJE-I-ODMOWA.md` (archiwalny).
 
 ## Architektura
 

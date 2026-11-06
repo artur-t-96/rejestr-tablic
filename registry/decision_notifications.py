@@ -36,12 +36,12 @@ def enqueue_decision_notice(user, req, letter, *, ip=None):
         "version": 1,
         "to": req.author.email,
         "from": settings.DEFAULT_FROM_EMAIL,
-        "subject": f"Odpowiedź UMP w sprawie {req.reference} — Dyna Rejestr Tablic",
+        "subject": f"Odpowiedź UMP w sprawie {req.reference} — Sprawdź Tablicę",
         "body": (
             f"UMP rozpatrzył wniosek {req.reference}.\n"
             f"Stanowisko UMP: {req.get_status_display()}.\n\n"
             f"Szczegóły i pismo zwrotne są dostępne po zalogowaniu:\n{document_link(letter)}\n\n"
-            "To powiadomienie informacyjne. Doręczenie pisma urzędowi jest osobną operacją.\n"
+            "To powiadomienie informacyjne. Pismo do urzędu wysyła się osobno.\n"
         ),
     }
     payload = json.dumps(message, ensure_ascii=False, sort_keys=True).encode("utf-8")

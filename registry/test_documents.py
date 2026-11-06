@@ -38,7 +38,6 @@ class DocumentTests(TestCase):
         ]
         self.assertEqual(uris, [document_link(letter)])
         self.assertTrue(uris[0].endswith("/"))
-        self.assertNotIn(req.record.owner, uris[0])
         self.assertIn(str(req.uuid), text(bytes(letter.pdf)))
         self.assertNotIn("Uzasadnienie: .", letter.body)
         self.assertNotIn("Urząd Urząd", letter.body)
@@ -55,8 +54,7 @@ class DocumentTests(TestCase):
             self.a,
             {
                 **data(),
-                "owner": "Fikcyjny <b>Żółw & Łąka</b>",
-                "justification": '<link href="https://foreign.invalid">literalny tekst</link>',
+                "justification": 'Fikcyjny <b>Żółw & Łąka</b> <link href="https://foreign.invalid">literalny tekst</link>',
             },
         )
         reader = PdfReader(BytesIO(bytes(req.letters.get().pdf)))
@@ -127,7 +125,7 @@ class DocumentTests(TestCase):
         migration.update_defaults(apps, None)
         migration.update_defaults(apps, None)
         self.assertEqual(
-            LetterTemplate.objects.get(kind="APPLICATION").body, DEFAULT_TEMPLATES["APPLICATION"][1]
+            LetterTemplate.objects.get(kind="APPLICATION").body, migration.UPDATED["APPLICATION"][1]
         )
         self.assertEqual(LetterTemplate.objects.get(kind="APPLICATION").revision, 2)
         self.assertEqual(LetterTemplate.objects.get(kind="APPROVAL").title, "Własny tytuł urzędu")
@@ -141,3 +139,42 @@ class DocumentTests(TestCase):
         )
         letter.refresh_from_db()
         self.assertEqual(bytes(letter.pdf), archived)
+
+
+class WithoutOwnerTemplateMigrationTests(TestCase):
+    """Migracja 0016: wzory bez właściciela, numeru sprawy i stacji; własne wzory urzędu zostają."""
+
+    def setUp(self):
+        self.admin, self.ump, self.a, self.b = fixtures()
+
+    def test_only_unchanged_defaults_are_updated_and_restored(self):
+        migration = import_module("registry.migrations.0016_uwagi_ump_20261106")
+        for kind, body in migration.PREVIOUS.items():
+            LetterTemplate.objects.create(kind=kind, title=DEFAULT_TEMPLATES[kind][0], body=body)
+        LetterTemplate.objects.filter(kind="POOL").update(body="Własny wzór urzędu ${subject}")
+        migration.update_defaults(apps, None)
+        for kind in ("APPLICATION", "APPROVAL", "REJECTION"):
+            row = LetterTemplate.objects.get(kind=kind)
+            self.assertEqual((row.body, row.revision), (DEFAULT_TEMPLATES[kind][1], 2))
+        self.assertEqual(LetterTemplate.objects.get(kind="POOL").body, "Własny wzór urzędu ${subject}")
+        for body in DEFAULT_TEMPLATES.values():
+            for removed in ("owner", "case_number", "station", "vehicle"):
+                self.assertNotIn(removed, body[1])
+        migration.restore_defaults(apps, None)
+        self.assertEqual(LetterTemplate.objects.get(kind="APPLICATION").body, migration.PREVIOUS["APPLICATION"])
+
+    def test_pool_counter_becomes_last_position(self):
+        migration = import_module("registry.migrations.0016_uwagi_ump_20261106")
+        NumberSequence.objects.create(scope="POOL.II.M", year=1, last_value=3)
+        NumberSequence.objects.create(scope="POOL.III.M0", year=1, last_value=0)
+        migration.counters_to_positions(apps, None)
+        self.assertEqual(NumberSequence.objects.get(scope="POOL.II.M").last_value, 299)
+        self.assertEqual(NumberSequence.objects.get(scope="POOL.III.M0").last_value, 0)
+        migration.positions_to_counters(apps, None)
+        self.assertEqual(NumberSequence.objects.get(scope="POOL.II.M").last_value, 3)
+
+    def test_new_application_letter_has_no_owner_case_or_station(self):
+        req = create_request(self.a, data())
+        body = req.letters.get().body
+        for old in ("Wnioskodawca", "Znak sprawy", "Dane pojazdu", "Stacja"):
+            self.assertNotIn(old, body)

@@ -20,8 +20,6 @@ from .services import (
     availability,
     create_request,
     decide_request,
-    expire_reservations,
-    extend_reservation,
     issue_slot,
     send_request,
     update_record,
@@ -48,7 +46,7 @@ def fixtures():
 
 
 def data(number="P0TEST"):
-    return {"kind": "I", "number": number, "owner": "Osoba Fikcyjna", "case_number": "TEST/1", "count": 1}
+    return {"kind": "I", "number": number, "count": 1}
 
 
 class CoreTests(TestCase):
@@ -151,26 +149,7 @@ class CoreTests(TestCase):
         with self.assertRaises(ValidationError):
             update_record(self.ump, rec.uuid, {"note": "Druga zmiana"}, "Korekta", version)
 
-    def test_expiry_releases_reservation_and_expires_request(self):
-        req = create_request(self.a, data())
-        send_request(self.a, req.uuid)
-        PlateRecord.objects.filter(pk=req.record_id).update(
-            reservation_until=timezone.now() - timedelta(seconds=1)
-        )
-        self.assertEqual(expire_reservations(), 1)
-        req.refresh_from_db()
-        self.assertEqual(req.status, "EXPIRED")
-        self.assertTrue(availability("TEST")["digits"][0]["available"])
-        with self.assertRaises(ValidationError):
-            decide_request(self.ump, req.uuid, True)
 
-    def test_ump_can_extend_and_county_cannot(self):
-        req = create_request(self.a, data())
-        until = req.record.reservation_until
-        with self.assertRaises(PermissionDenied):
-            extend_reservation(self.a, req.record.uuid, 14, "Przedłużenie")
-        rec = extend_reservation(self.ump, req.record.uuid, 14, "Przedłużenie")
-        self.assertEqual(rec.reservation_until, until + timedelta(days=14))
 
     def test_withdrawal_releases_and_retains_history(self):
         req = create_request(self.a, data())
@@ -213,22 +192,17 @@ class CoreTests(TestCase):
             PoolSlot.objects.create(pool=p, number=slot.number, ordinal=99)
 
     def test_temporary_pool_can_be_allocated_directly_and_by_request(self):
-        direct = allocate_block(self.ump, "III", "a")
+        direct = allocate_block(self.ump, "III", "a", 100)
         self.assertIsNone(direct.request)
         req = create_request(
             self.a,
-            {
-                "kind": "III",
-                "case_number": "III/1",
-                "justification": "Potrzeba testowa",
-                "station": "Stacja Testowa",
-            },
+            {"kind": "III", "count": 10, "justification": "Potrzeba testowa"},
         )
         send_request(self.a, req.uuid)
         decide_request(self.ump, req.uuid, True)
         pool = Pool.objects.get(request=req)
-        self.assertEqual((pool.slots.first().number, pool.slots.last().number), ("M00100", "M00199"))
-        self.assertEqual(pool.station, "Stacja Testowa")
+        self.assertEqual((pool.slots.first().number, pool.slots.last().number), ("M00101", "M00110"))
+        self.assertEqual(pool.station, "")
         self.assertIsNone(pool.valid_until)
 
     def test_actual_pdf_contains_polish_text_and_reference(self):
@@ -253,7 +227,8 @@ class CoreTests(TestCase):
 
     def test_csv_export_filters_scope_and_escapes_formulas(self):
         create_request(self.a, data())
-        create_request(self.b, {**data("P1TEST"), "owner": '=HYPERLINK("bad")'})
+        other = create_request(self.b, data("P1TEST"))
+        PlateRecord.objects.filter(pk=other.record_id).update(owner='=HYPERLINK("bad")')
         self.client.force_login(self.a)
         response = self.client.get("/panel/eksport/")
         self.assertContains(response, "P0TEST")

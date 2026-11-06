@@ -81,9 +81,9 @@ def matched_letter(office_id, payload, digest, request_id):
     try:
         expected = document_payload(letter, original=digest == letter.sha256)
     except ValidationError:
-        return None, "Archiwalny dokument Dyna wymaga kontroli integralności."
+        return None, "Archiwalny dokument serwisu wymaga kontroli integralności."
     if payload != expected:
-        return None, "Treść dokumentu nie odpowiada archiwum Dyna."
+        return None, "Treść dokumentu nie odpowiada archiwum serwisu."
     return letter, ""
 
 

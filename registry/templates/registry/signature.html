@@ -1,4 +1,4 @@
-{% extends 'registry/base.html' %}{% load audit_history %}{% block title %}Podpis pisma {{ letter.number }} · Dyna Rejestr Tablic{% endblock %}{% block content %}
+{% extends 'registry/base.html' %}{% load audit_history %}{% block title %}Podpis pisma {{ letter.number }} · Sprawdź Tablicę{% endblock %}{% block content %}
 <div class="page-head"><div><p class="eyebrow">Dokumenty</p><h1>Podpis pisma</h1><p class="muted">{{ letter.number }} · {{ letter.title }}</p></div></div>
 <section class="card form-card">
 <p><strong>{{ letter.signature_label }}</strong></p>{% if letter.replaces_id %}<p>Nowa wersja pisma {{ letter.replaces.number }}.</p>{% endif %}

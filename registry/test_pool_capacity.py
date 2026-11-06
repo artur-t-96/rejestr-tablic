@@ -82,7 +82,7 @@ class PoolCapacityTests(TestCase):
             batch_size=1000,
         )
 
-    def pending(self, count=1):
+    def pending(self, count=10):
         req = create_request(
             self.author,
             {
@@ -122,7 +122,7 @@ class PoolCapacityTests(TestCase):
     def test_last_numeric_and_first_letter_numbers_can_be_allocated_together(self):
         old = self.raw_pool(end=9997)
         self.insert_numbers(old, (f"P0{i:04d}" for i in range(1, 9998)))
-        req = self.pending(4)
+        req = self.pending(40)
         decide_request(self.ump, req.uuid, True, pool_data=self.decision_data(start=9998, end=10001))
         pool = Pool.objects.get(request=req)
         self.assertEqual(
@@ -150,7 +150,7 @@ class PoolCapacityTests(TestCase):
     def test_continuation_with_missing_old_number_is_blocked_even_if_maximum_is_present(self):
         old = self.raw_pool()
         self.insert_numbers(old, ["P09997", "P09998", "P09999"])
-        req = self.pending(2)
+        req = self.pending(20)
         before = self.counts()
         with self.assertRaisesMessage(ValidationError, "3 z 9999"):
             decide_request(self.ump, req.uuid, True, pool_data=self.decision_data(start=10000, end=10001))

@@ -1,5 +1,5 @@
 {% extends 'registry/base.html' %}
-{% block title %}Wpływy z EZD · Dyna{% endblock %}
+{% block title %}Wpływy z EZD · Sprawdź Tablicę{% endblock %}
 {% block content %}
 <div class="page-head"><div><p class="eyebrow">Korespondencja wpływająca · Twój urząd</p><h1>Wpływy z EZD</h1><p>Pobierz przesyłkę po numerze RPW. System sprawdzi dokumenty i powiąże zgodne pisma z wnioskami.</p></div></div>
 <section class="card"><h2>Nowe wpływy</h2><p>Odczytuje z rejestru przesyłek wpływających (RPW) pozycje z ostatnich 7 dni, których urząd jeszcze nie pobrał, i wiąże zgodne pisma z wnioskami.</p><form method="post">{% csrf_token %}<input type="hidden" name="action" value="sync"><button type="submit">Odczytaj nowe wpływy</button></form></section>

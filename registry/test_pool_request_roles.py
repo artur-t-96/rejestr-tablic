@@ -18,8 +18,7 @@ class PoolRequestRoleTests(TestCase):
     def pool_data(self, kind):
         return {
             "kind": kind,
-            "count": 2,
-            "case_number": f"ROLE/{kind}",
+            "count": 10,
             "justification": "Fikcyjny odbiór uprawnień do wniosku o pulę",
         }
 
@@ -75,8 +74,9 @@ class PoolRequestRoleTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             [value for value, _label in response.context["form"].fields["kind"].choices],
-            ["I", "II", "III"],
+            ["I", "II", "III", "SLUZBY"],
         )
+        self.assertContains(response, 'value="SLUZBY" disabled title="Funkcja w przygotowaniu"')
         self.assertEqual(response.context["form"]["kind"].value(), "III")
         response = self.client.get(reverse("pools_list"))
         self.assertContains(response, "Wniosek o pulę")
@@ -104,15 +104,14 @@ class PoolRequestRoleTests(TestCase):
             for api in (False, True):
                 with self.subTest(kind=kind, api=api):
                     self.client.force_login(self.county)
-                    values = self.pool_data(kind)
-                    values["case_number"] += f"/{api}"
+                    values = {**self.pool_data(kind), "justification": f"Fikcyjne {kind} {api}"}
                     response = self.client.post(
                         "/api/requests/" if api else reverse("request_new"),
                         values,
                         **({"content_type": "application/json"} if api else {}),
                     )
                     self.assertEqual(response.status_code, 201 if api else 302, response.content)
-                    req = Request.objects.get(case_number=values["case_number"])
+                    req = Request.objects.get(justification=values["justification"])
                     self.assertEqual((req.office_id, req.author_id), (self.county.office_id, self.county.pk))
                     send_request(self.county, req.uuid)
                     start = 3 if api else 1

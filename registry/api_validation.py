@@ -67,18 +67,20 @@ def typed_values(payload, *, text=(), positive=(), booleans=(), dates=(), option
 def request_values(payload):
     return typed_values(
         payload,
-        text=("kind", "number", "owner", "address", "vin", "case_number", "station", "justification"),
-        # Pole zostaje dla zgodności klientów i jest pomijane: akceptacja wniosku o pulę nadaje jeden blok.
+        text=("kind", "number", "justification"),
+        # Liczba tablic w puli: 10, 20, …, 100 (sprawdza formularz i `services.require_pool_count`).
         positive=("count",),
     )
 
 
 def pool_values(payload):
-    """Przydział puli przez API: tylko rodzaj i urząd; zakres wylicza serwer."""
-    extra = set(payload) - {"kind", "office"} if isinstance(payload, dict) else set()
+    """Przydział puli przez API: rodzaj, urząd i opcjonalna liczba (domyślnie 100); zakres wylicza serwer."""
+    extra = set(payload) - {"kind", "office", "count"} if isinstance(payload, dict) else set()
     if extra:
-        raise ValidationError("Zakres i daty puli nadaje system. Podaj wyłącznie pola kind i office.")
-    return typed_values(payload, text=("kind", "office"), required=("kind", "office"))
+        raise ValidationError("Zakres i daty puli nadaje system. Podaj wyłącznie pola kind, office i count.")
+    values = typed_values(payload, text=("kind", "office"), positive=("count",), required=("kind", "office"))
+    values.setdefault("count", 100)
+    return values
 
 
 def decision_values(payload, kind):

@@ -58,19 +58,19 @@ def document_payload(letter, *, original=False):
 DEFAULT_TEMPLATES = {
     "APPLICATION": (
         "Wniosek o przydział",
-        "${sender} składa wniosek o przydział: ${subject}.\nZnak sprawy: ${case_number}\nWnioskodawca: ${owner}\nAdres wnioskodawcy: ${owner_address}\nDane pojazdu: ${vehicle}\nStacja / przeznaczenie: ${station}\nUzasadnienie: ${justification}",
+        "${sender} składa wniosek o przydział: ${subject}.\nUzasadnienie: ${justification}",
     ),
     "APPROVAL": (
         "Potwierdzenie możliwości wydania tablic indywidualnych",
-        "W odpowiedzi na wniosek ${reference}, znak sprawy ${case_number}, potwierdzamy możliwość wydania tablic ${subject}.\nWnioskodawca: ${owner}\nUzasadnienie: ${reason}",
+        "W odpowiedzi na wniosek ${reference} potwierdzamy możliwość wydania tablic ${subject}.\nUzasadnienie: ${reason}",
     ),
     "REJECTION": (
         "Odmowa przydziału",
-        "W odpowiedzi na wniosek ${reference}, znak sprawy ${case_number}, odmawiamy przydziału: ${subject}.\nUzasadnienie: ${reason}",
+        "W odpowiedzi na wniosek ${reference} odmawiamy przydziału: ${subject}.\nUzasadnienie: ${reason}",
     ),
     "POOL": (
         "Informacja o przydziale puli numerów",
-        "Adresat otrzymuje pulę: ${subject}.\nOkres obowiązywania: ${period}\nStacja / przeznaczenie: ${station}",
+        "Adresat otrzymuje pulę: ${subject}.\nOkres obowiązywania: ${period}",
     ),
 }
 
@@ -146,8 +146,8 @@ def letter_content(kind, req, pool, sender, recipient):
         "sender": sender.name,
         "recipient": recipient.name,
         "subject": subject,
-        "case_number": req.case_number if req else "-",
-        "owner": req.record.owner if req and req.record else "Wniosek urzędu",
+        "case_number": (req.case_number or "Nie podano") if req else "-",
+        "owner": (req.record.owner or "Nie podano") if req and req.record else "Wniosek urzędu",
         "owner_address": req.record.address or "Nie podano"
         if req and req.record
         else "Nie dotyczy - wniosek o pulę",
@@ -301,7 +301,7 @@ def render_pdf(letter):
     def footer(canvas, document):
         canvas.setFont("DynaSans", 8)
         canvas.setFillColor(colors.HexColor("#526372"))
-        foot = Paragraph(escape(f"Dyna Rejestr Tablic | {letter.number}"), link_style)
+        foot = Paragraph(escape(f"Sprawdź Tablicę | {letter.number}"), link_style)
         foot.wrap(145 * mm, 12 * mm)
         foot.drawOn(canvas, 22 * mm, 12 * mm)
         canvas.drawRightString(188 * mm, 14 * mm, f"Strona {document.page}")

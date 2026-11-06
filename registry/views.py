@@ -19,6 +19,7 @@ from django.db import IntegrityError, transaction
 from django.db.models import Count, OuterRef, Prefetch, Q, Subquery
 from django.http import Http404, HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods, require_POST
 
@@ -70,12 +71,9 @@ from .services import (
     availability,
     create_request,
     decide_request,
-    expire_reservations,
-    extend_reservation,
     issue_slot,
     record_postal_dispatch,
     require_role,
-    restore_expired_request,
     scalar,
     send_request,
     transfer_record,
@@ -208,7 +206,7 @@ def login_email(request):
                 request.session["login_code_id"] = token.pk
             try:
                 send_mail(
-                    "Kod logowania - Dyna Rejestr Tablic",
+                    "Kod logowania - Sprawdź Tablicę",
                     f"Kod: {code}\nWażny przez 10 minut. Nie przekazuj go innym osobom.\n{settings.APP_URL}",
                     settings.DEFAULT_FROM_EMAIL,
                     [user.email],
@@ -410,7 +408,6 @@ def logout_view(request):
 def dashboard(request):
     if request.user.role == "ADMIN":
         return redirect("admin_panel")
-    expire_reservations()
     reqs = visible(request.user, Request.objects.select_related("office", "record"))
     records = visible(request.user, PlateRecord.objects.all())
     pools = visible(request.user, Pool.objects.all())
@@ -449,7 +446,6 @@ def pools_with_range(pools):
 @login_required
 @require_http_methods(["GET"])
 def requests_list(request):
-    expire_reservations()
     # Kolejka do rozpatrzenia: sprawy czekające najdłużej na górze.
     ordering = ("sent_at", "pk") if request.GET.get("status") == "SENT" else ("-created_at", "-pk")
     return render(
@@ -476,6 +472,7 @@ def request_queryset(request):
         reqs = reqs.filter(office_id=request.GET["office"])
     if q:
         reqs = reqs.filter(
+            # Numer sprawy nie jest już wpisywany; zostaje w wyszukiwaniu dla wniosków historycznych.
             Q(case_number__icontains=q)
             | Q(record__number__icontains=q.replace(" ", ""))
             | Q(office__name__icontains=q)
@@ -502,7 +499,7 @@ def request_new(request):
             req = create_request(request.user, form.cleaned_data, ip(request))
             messages.success(
                 request,
-                "Wniosek zapisany. Wyróżnik zarezerwowany; pismo PDF jest gotowe."
+                "Wniosek zapisany; pismo PDF jest gotowe."
                 if req.kind == "I"
                 else "Wniosek o pulę zapisany; pismo PDF jest gotowe.",
             )
@@ -515,7 +512,7 @@ def request_new(request):
         {
             "form": form,
             "title": "Nowy wniosek",
-            "description": "Utworzenie wniosku o tablicę indywidualną rezerwuje numer na 14 dni.",
+            "description": "Wniosek o tablicę indywidualną albo o pulę tablic zmniejszonych lub tymczasowych.",
             "submit": "Zapisz wniosek",
         },
     )
@@ -525,7 +522,6 @@ def request_new(request):
 @require_http_methods(["GET", "POST"])
 def request_detail(request, uuid):
     require_role(request.user, "COUNTY", "MAIN")
-    expire_reservations()
     req = get_object_or_404(
         visible(
             request.user,
@@ -537,7 +533,7 @@ def request_detail(request, uuid):
     if req.kind != "I" and req.status == "SENT" and request.user.role == "MAIN":
         from .services import preview_block
 
-        suggested = preview_block(req.kind)
+        suggested = preview_block(req.kind, req.count)
     form = DecisionForm(request.POST or None, kind=req.kind)
     if request.method == "POST":
         require_role(request.user, "MAIN")
@@ -624,15 +620,6 @@ def request_action(request, uuid, action):
         elif action == "withdraw":
             withdraw_request(request.user, uuid, request.POST.get("reason", ""), ip(request))
             messages.success(request, "Wniosek wycofany; numer zwolniony.")
-        elif action == "restore":
-            restore_expired_request(
-                request.user,
-                uuid,
-                int(request.POST.get("days") or 0),
-                request.POST.get("reason", ""),
-                ip(request),
-            )
-            messages.success(request, "Wniosek przywrócony; numer ponownie zarezerwowany.")
         elif action == "renotify":
             from .integrations import requeue_mail
 
@@ -654,6 +641,77 @@ def request_action(request, uuid, action):
     return redirect("request_detail", uuid=uuid)
 
 
+NUMBER_SEARCH_LIMIT = 50
+
+
+def number_search_results(user, query):
+    """Numery przyznane urzędowi (UMP: wszystkim urzędom) pasujące do fragmentu, z wnioskiem źródłowym.
+
+    Obejmuje tablice indywidualne z ewidencji i numery z pul tablic zmniejszonych i tymczasowych.
+    """
+    fragment = "".join(query.split()).upper()
+    if not fragment:
+        return []
+    results = []
+    records = (
+        visible(user, PlateRecord.objects.select_related("office"))
+        .exclude(status="RELEASED")
+        .filter(number__icontains=fragment)
+        .order_by("number")[:NUMBER_SEARCH_LIMIT]
+    )
+    requests_by_record = {
+        r.record_id: r for r in Request.objects.filter(record__in=list(records)).select_related("office")
+    }
+    for record in records:
+        req = requests_by_record.get(record.pk)
+        results.append(
+            {
+                "number": record.display_number,
+                "kind": Request.Kind.INDIVIDUAL.label,
+                "office": record.office.name,
+                "status": record.get_status_display(),
+                "request": req,
+                "url": reverse("request_detail", args=[req.uuid])
+                if req
+                else reverse("record_detail", args=[record.uuid]),
+            }
+        )
+    pool_scope = Pool.objects.all() if user.role == "MAIN" else Pool.objects.filter(office_id=user.office_id)
+    slots = (
+        PoolSlot.objects.filter(pool__in=pool_scope, number__icontains=fragment)
+        .select_related("pool__office", "pool__request")
+        .order_by("number")[:NUMBER_SEARCH_LIMIT]
+    )
+    for slot in slots:
+        req = slot.pool.request
+        results.append(
+            {
+                "number": slot.number,
+                "kind": slot.pool.get_kind_display(),
+                "office": slot.pool.office.name,
+                "status": "Przydzielony w puli",
+                "request": req,
+                "url": reverse("request_detail", args=[req.uuid])
+                if req
+                else reverse("pool_detail", args=[slot.pool.uuid]),
+            }
+        )
+    return results[:NUMBER_SEARCH_LIMIT]
+
+
+@login_required
+@require_http_methods(["GET"])
+def number_search(request):
+    require_role(request.user, "COUNTY", "MAIN")
+    query = request.GET.get("q", "").strip()[:20]
+    results = number_search_results(request.user, query)
+    return render(
+        request,
+        "registry/number_search.html",
+        {"query": query, "results": results, "limit": NUMBER_SEARCH_LIMIT},
+    )
+
+
 def record_queryset(request):
     records = visible(request.user, PlateRecord.objects.select_related("office"))
     if request.GET.get("q"):
@@ -671,7 +729,6 @@ def record_queryset(request):
 @login_required
 @require_http_methods(["GET"])
 def records_list(request):
-    expire_reservations()
     return render(
         request,
         "registry/records.html",
@@ -687,7 +744,6 @@ def records_list(request):
 @require_http_methods(["GET", "POST"])
 def record_detail(request, uuid):
     require_role(request.user, "COUNTY", "MAIN")
-    expire_reservations()
     record = get_object_or_404(visible(request.user, PlateRecord.objects.select_related("office")), uuid=uuid)
     can_edit = request.user.role == "MAIN" or record.status in {"ALLOCATED", "ISSUED", "SOLD"}
     if request.method == "POST" and not can_edit:
@@ -726,10 +782,6 @@ def record_detail(request, uuid):
             "can_edit": can_edit,
             "transfer_form": TransferForm(record=record) if can_close else None,
             "release_form": ReleaseForm(record=record) if can_close else None,
-            "can_extend": request.user.role == "MAIN"
-            and record.status in {"RESERVED", "SENT"}
-            and record.reservation_until is not None
-            and record.reservation_until > timezone.now(),
             "import_event": AuditLog.objects.filter(
                 object_type="PlateRecord", object_id=str(record.pk), action="plate.imported"
             )
@@ -740,25 +792,6 @@ def record_detail(request, uuid):
             ),
         },
     )
-
-
-@login_required
-@require_POST
-def reservation_extend(request, uuid):
-    try:
-        extend_reservation(
-            request.user,
-            uuid,
-            int(request.POST.get("days", 0)),
-            request.POST.get("reason", ""),
-            ip(request),
-        )
-        messages.success(request, "Rezerwacja przedłużona.")
-    except PlateRecord.DoesNotExist:
-        raise Http404
-    except (ValidationError, ValueError) as error:
-        messages.error(request, str(error))
-    return redirect("record_detail", uuid=uuid)
 
 
 @login_required
@@ -860,7 +893,11 @@ def pool_new(request):
     if request.method == "POST" and form.is_valid():
         try:
             pool = allocate_block(
-                request.user, form.cleaned_data["kind"], form.cleaned_data["office"].pk, ip=ip(request)
+                request.user,
+                form.cleaned_data["kind"],
+                form.cleaned_data["office"].pk,
+                form.cleaned_data["count"],
+                ip=ip(request),
             )
             messages.success(
                 request,
@@ -876,10 +913,12 @@ def pool_new(request):
         {
             "form": form,
             "title": "Przydziel pulę",
-            "description": "Wybierz rodzaj puli i urząd. System nadaje kolejny wolny blok numerów, "
-            "bezterminowo, i zapisuje datę przydziału.",
+            "description": "Wybierz rodzaj puli, urząd i liczbę tablic. System nadaje kolejne wolne "
+            "numery, bezterminowo, i zapisuje datę przydziału.",
             "submit": "Przydziel pulę",
-            "pool_previews": [(kind, label, preview_block(kind)) for kind, label in Request.Kind.choices[1:]],
+            "pool_previews": [
+                (kind, label, preview_block(kind, 10)) for kind, label in Request.Kind.choices[1:]
+            ],
         },
     )
 
@@ -1228,15 +1267,13 @@ def export_records(request):
     """Eksport CSV: ewidencja (domyślnie), wnioski, pule albo zestawienie urzędów."""
     what = request.GET.get("co", "ewidencja")
     if what == "wnioski":
-        expire_reservations()
-        header = ["reference", "kind", "office_id", "case_number", "number", "count", "status"]
+        header = ["reference", "kind", "office_id", "number", "count", "status"]
         header += ["created_at", "sent_at", "decided_at"]
         rows = [
             [
                 r.reference,
                 r.kind,
                 r.office_id,
-                r.case_number,
                 r.record.number if r.record_id else "",
                 r.count,
                 r.status,
@@ -1248,7 +1285,7 @@ def export_records(request):
         ]
     elif what == "pule":
         header = ["kind", "office_id", "first_number", "last_number", "total"]
-        header += ["valid_from", "valid_until", "station", "allocated_at"]
+        header += ["valid_from", "valid_until", "allocated_at"]
         rows = [
             [
                 p.kind,
@@ -1258,7 +1295,6 @@ def export_records(request):
                 p.slot_total,
                 scalar(p.valid_from),
                 scalar(p.valid_until),
-                p.station,
                 p.created_at.isoformat(),
             ]
             for p in pool_rows(request)
@@ -1749,7 +1785,6 @@ def api_requests(request):
             {"id": str(req.uuid), "reference": req.reference, "status": req.status},
             status=201,
         )
-    expire_reservations()
     page = list_page(request, request_queryset(request))
     return JsonResponse(
         {
@@ -1802,7 +1837,6 @@ def api_request_action(request, uuid, action):
 
 @api_endpoint(methods=("GET", "PATCH"))
 def api_record(request, uuid):
-    expire_reservations()
     record = visible(request.user, PlateRecord.objects.all()).get(uuid=uuid)
     if request.method == "PATCH":
         from .api_validation import record_patch
@@ -1840,7 +1874,11 @@ def api_pools(request):
         if not form.is_valid():
             return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
         pool = allocate_block(
-            request.user, form.cleaned_data["kind"], form.cleaned_data["office"].pk, ip=ip(request)
+            request.user,
+            form.cleaned_data["kind"],
+            form.cleaned_data["office"].pk,
+            form.cleaned_data["count"],
+            ip=ip(request),
         )
         return JsonResponse(
             {

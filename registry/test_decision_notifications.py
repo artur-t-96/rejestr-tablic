@@ -31,7 +31,7 @@ def pending_request(author, kind="III"):
         {
             "kind": kind,
             "case_number": "TEST/NOTICE/1",
-            "count": 2,
+            "count": 10,
             "justification": "Fikcyjne zapotrzebowanie",
             "station": "Stacja Fikcyjna",
         },
@@ -141,11 +141,11 @@ class DecisionNoticeTests(TestCase):
     def test_approval_without_range_allocates_open_ended_temporary_block(self):
         decide_request(self.ump, self.req.uuid, True)
         pool = Pool.objects.get(request=self.req)
-        self.assertEqual((pool.slots.first().number, pool.slots.last().number), ("M00001", "M00099"))
+        self.assertEqual((pool.slots.first().number, pool.slots.last().number), ("M00001", "M00010"))
         self.assertIsNone(pool.valid_until)
         self.assertEqual(pool.valid_from, timezone.localdate())
         self.req.refresh_from_db()
-        self.assertEqual(self.req.count, 99)
+        self.assertEqual(self.req.count, 10)
         self.assertTrue(IntegrationJob.objects.filter(operation="DECISION_NOTICE").exists())
 
     def test_both_validity_boundaries_are_inclusive_and_outside_dates_block_issue(self):
@@ -166,7 +166,9 @@ class DecisionNoticeTests(TestCase):
         job = self.approve()
         url = reverse("request_detail", args=[self.req.uuid])
         self.client.force_login(self.author)
-        self.assertContains(self.client.get(url), "Powiadomienie autora o rozpatrzeniu wniosku")
+        page = self.client.get(url)
+        self.assertContains(page, "Powiadomienie o rozpatrzeniu wniosku")
+        self.assertContains(page, "Autor wniosku otrzyma e-mail z informacją o rozpatrzeniu.")
         self.assertContains(self.client.get(url), "W kolejce")
         with (
             tempfile.TemporaryDirectory() as temp,
@@ -175,7 +177,10 @@ class DecisionNoticeTests(TestCase):
             ),
         ):
             self.assertEqual(process_job(job).status, "LOCAL_SAVED")
-        self.assertContains(self.client.get(url), "bez wysyłki do adresata")
+        page = self.client.get(url)
+        self.assertContains(page, "wiadomość nie została wysłana")
+        for old in ("lokalnej skrzynce", "zapisana lokalnie", "Zapisano lokalnie"):
+            self.assertNotContains(page, old)
         self.client.force_login(self.other)
         self.assertEqual(self.client.get(url).status_code, 404)
         self.assertNotContains(self.client.get(reverse("integrations")), job.letter.number)
@@ -224,12 +229,12 @@ class DecisionNoticeTests(TestCase):
 
     def test_decision_form_asks_only_for_stance_and_html_approval_allocates_block(self):
         self.assertEqual(list(DecisionForm(kind="III").fields), ["decision", "reason"])
-        self.assertEqual(list(PoolForm().fields), ["kind", "office"])
+        self.assertEqual(list(PoolForm().fields), ["kind", "office", "count"])
         self.client.force_login(self.ump)
         url = reverse("request_detail", args=[self.req.uuid])
         page = self.client.get(url)
         self.assertContains(page, "Po akceptacji zostanie przydzielona pula")
-        self.assertContains(page, "M00001 – M00099")
+        self.assertContains(page, "M00001 – M00010")
         self.assertNotContains(page, 'name="valid_until"')
         self.client.post(url, {"decision": "approve", "valid_until": "2020-01-01", "start": 7})
         pool = Pool.objects.get(request=self.req)

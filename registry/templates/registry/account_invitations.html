@@ -1,7 +1,7 @@
 {% extends 'registry/base.html' %}
-{% block title %}Zaproszenia do konta · Dyna Rejestr Tablic{% endblock %}
+{% block title %}Zaproszenia do konta · Sprawdź Tablicę{% endblock %}
 {% block content %}
-<div class="page-head"><div><p class="eyebrow">Administracja</p><h1>Zaproszenia do konta</h1><p>{{ account.email }} · {{ account.get_role_display }} · {{ account.office.name|default:'Administracja systemu' }}</p></div><a class="button secondary" href="{% url 'admin_panel' %}">Wróć do administracji</a></div>
+<div class="page-head"><div><p class="eyebrow">Administracja</p><h1>Zaproszenia do konta</h1><p>{{ account.email }} · {{ account.role_label }} · {{ account.office.name|default:'Administracja systemu' }}</p></div><a class="button secondary" href="{% url 'admin_panel' %}">Wróć do administracji</a></div>
 <section class="card"><h2>{% if item %}Operacja na zaproszeniu{% else %}Nowe zaproszenie{% endif %}</h2>
 <p>Wiadomość informuje o dostępie utworzonym przez administratora. Logowanie wymaga osobnego kodu OTP. W profilu lokalnym poczta jest zapisywana do pliku.</p>
 {% if item %}<p><strong>{{ item.status_label }}</strong> · {{ item.created_at }} · próby wysyłki: {{ item.attempts }}</p>{% if item.error %}<p class="notice">{{ item.error }}</p>{% endif %}{% endif %}

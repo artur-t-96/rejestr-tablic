@@ -110,14 +110,14 @@ class AvailabilityReservationTests(TestCase):
                 api = self.client.get("/api/availability/", {"part": "TEST"})
                 self.assertEqual(api.status_code, 200)
                 digits = api.json()["digits"]
-                self.assertEqual({item["number"] for item in digits if item["reservation_pending"]}, pending)
+                self.assertEqual({item["number"] for item in digits if item["request_pending"]}, pending)
                 self.assertEqual(
                     {item["number"] for item in digits if not item["available"]},
                     {"P0TEST", "P1TEST", "P2TEST", "P3TEST"},
                 )
                 page = self.client.post("/", {"part": "TEST", "prefix": "P"})
                 self.assertEqual(page.context["result"]["digits"], digits)
-                self.assertContains(page, "Zarezerwowany – wniosek w toku", count=len(pending))
+                self.assertContains(page, "Zajęty – wniosek w toku", count=len(pending))
                 for response in (page, api):
                     self.assertNotContains(response, "Osoba Fikcyjna")
                     for req in (self.draft, self.sent, self.allocated, self.foreign):
@@ -137,8 +137,8 @@ class AvailabilityReservationTests(TestCase):
                 self.assertEqual(api.status_code, 200)
                 self.assertTrue(all(set(item) == {"number", "available"} for item in api.json()["digits"]))
                 page = self.client.post("/", {"part": "TEST", "prefix": "P"})
-                self.assertNotContains(page, "Zarezerwowany – wniosek w toku")
-                self.assertNotContains(api, "reservation_pending")
+                self.assertNotContains(page, "Zajęty – wniosek w toku")
+                self.assertNotContains(api, "request_pending")
 
     def test_other_county_does_not_distinguish_foreign_reservation_and_allocation(self):
         self.client.force_login(self.b)
@@ -147,22 +147,24 @@ class AvailabilityReservationTests(TestCase):
                 response = self.client.get("/api/availability/", {"part": "TEST", "digit": digit})
                 self.assertEqual(
                     response.json()["digits"],
-                    [{"number": f"P{digit}TEST", "available": False, "reservation_pending": False}],
+                    [{"number": f"P{digit}TEST", "available": False, "request_pending": False}],
                 )
 
-    def test_withdrawn_and_expired_reservations_become_available(self):
+    def test_withdrawn_number_becomes_available_and_pending_one_never_expires(self):
         withdraw_request(self.a, self.draft.uuid, "Wycofanie testowe")
+        # Dawny termin w bazie niczego nie zwalnia: numer pozostaje zajęty do rozpatrzenia.
         PlateRecord.objects.filter(pk=self.sent.record_id).update(
-            reservation_until=timezone.now() - timedelta(seconds=1)
+            reservation_until=timezone.now() - timedelta(days=30)
         )
         self.client.force_login(self.a)
         response = self.client.get("/api/availability/", {"part": "TEST"})
         self.assertEqual(response.status_code, 200)
-        for item in response.json()["digits"][:2]:
-            self.assertTrue(item["available"])
-            self.assertFalse(item["reservation_pending"])
+        first, second = response.json()["digits"][:2]
+        self.assertTrue(first["available"])
+        self.assertFalse(second["available"])
+        self.assertTrue(second["request_pending"])
         self.sent.refresh_from_db()
-        self.assertEqual(self.sent.status, "EXPIRED")
+        self.assertEqual(self.sent.status, "SENT")
         self.assertNotIn("P2TEST", response.json()["suggestions"])
 
     def test_service_does_not_enrich_inactive_accounts_or_offices(self):

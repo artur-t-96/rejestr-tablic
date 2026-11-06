@@ -9,7 +9,7 @@ def app_context(request):
         "local_mode": settings.LOCAL,
         "demo_mode": settings.DEMO_MODE,
         "demo_user": demo_viewer(request.user),
-        "app_name": "Dyna Rejestr Tablic",
+        "app_name": "Sprawdź Tablicę",
     }
     if request.user.is_authenticated:
         context.update(

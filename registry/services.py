@@ -20,6 +20,25 @@ def require_role(user, *roles):
         raise PermissionDenied("Urząd jest nieaktywny.")
 
 
+def require_account_manager(actor, target=None):
+    """Konta zarządza administrator centralny albo administrator powiatu — tylko w swoim urzędzie.
+
+    Administrator powiatu nie zmienia innego administratora powiatu ani kont spoza swojego urzędu.
+    """
+    if getattr(actor, "role", None) == "ADMIN":
+        require_role(actor, "ADMIN")
+        return
+    require_role(actor, "COUNTY")
+    if not actor.county_admin:
+        raise PermissionDenied("Kontami urzędu zarządza administrator powiatu.")
+    if target is not None and (
+        target.office_id != actor.office_id
+        or target.role != "COUNTY"
+        or (target.county_admin and target.pk != actor.pk)
+    ):
+        raise PermissionDenied("Administrator powiatu zarządza wyłącznie kontami urzędników swojego urzędu.")
+
+
 def visible(user, queryset):
     require_role(user, "COUNTY", "MAIN")
     return queryset.filter(office_id=user.office_id) if user.role == "COUNTY" else queryset
@@ -39,50 +58,8 @@ def audit(actor, action, obj, before=None, after=None, reason="", ip=None):
     )
 
 
-@transaction.atomic
-def expire_reservations():
-    records = (
-        PlateRecord.objects.select_for_update()
-        .filter(status__in=["RESERVED", "SENT"], reservation_until__lte=timezone.now())
-        .order_by("pk")
-    )
-    count = 0
-    for record in records:
-        previous = record.status
-        record.status = "RELEASED"
-        record.version += 1
-        record.save(update_fields=["status", "version"])
-        requests = (
-            Request.objects.select_for_update()
-            .filter(record=record, status__in=["DRAFT", "SENT"])
-            .order_by("pk")
-        )
-        for req in requests:
-            old_status = req.status
-            req.status = "EXPIRED"
-            req.save(update_fields=["status"])
-            audit(
-                None,
-                "request.expired",
-                req,
-                {"status": old_status, "reservation_until": record.reservation_until.isoformat()},
-                {"status": "EXPIRED"},
-                "Upłynął termin rezerwacji",
-            )
-        audit(
-            None,
-            "reservation.expired",
-            record,
-            {"status": previous, "reservation_until": record.reservation_until.isoformat()},
-            {"status": "RELEASED"},
-            "Upłynął termin rezerwacji",
-        )
-        count += 1
-    return count
-
-
 def lock_request(queryset, req_id):
-    """W transakcji: zawsze rezerwacja → wniosek, również przy wygaszaniu."""
+    """W transakcji: zawsze wpis numeru → wniosek."""
     snapshot = queryset.values("pk", "record_id").get(uuid=req_id)
     record = (
         PlateRecord.objects.select_for_update().get(pk=snapshot["record_id"])
@@ -97,13 +74,10 @@ def lock_request(queryset, req_id):
     return req
 
 
-def require_current_reservation(record):
-    if record and (
-        record.status not in {"RESERVED", "SENT"}
-        or record.reservation_until is None
-        or record.reservation_until <= timezone.now()
-    ):
-        raise ValidationError("Rezerwacja wygasła lub nie jest już aktywna.")
+def require_open_record(record):
+    """Numer z wniosku pozostaje zajęty do rozpatrzenia albo wycofania; nie ma terminu."""
+    if record and record.status not in {"RESERVED", "SENT"}:
+        raise ValidationError("Numer z wniosku nie jest już zajęty przez ten wniosek.")
 
 
 def availability(part, prefix="P", digit=None, *, viewer=None):
@@ -112,7 +86,6 @@ def availability(part, prefix="P", digit=None, *, viewer=None):
         digit is not None and (not isinstance(digit, int) or not 0 <= digit <= 9)
     ):
         raise ValidationError("Niepoprawny prefiks lub cyfra.")
-    expire_reservations()
     occupied = set(PlateRecord.objects.exclude(status="RELEASED").values_list("number", flat=True))
     choices = [
         {
@@ -134,7 +107,7 @@ def availability(part, prefix="P", digit=None, *, viewer=None):
                 ).values_list("number", flat=True)
             )
             for item in choices:
-                item["reservation_pending"] = item["number"] in pending
+                item["request_pending"] = item["number"] in pending
     return {
         "part": part,
         "prefix": prefix,
@@ -152,9 +125,6 @@ def create_request(user, data, ip=None):
     if kind in ["II", "III"]:
         require_role(user, "COUNTY")
     office = user.office
-    if not data.get("case_number", "").strip():
-        raise ValidationError("Podaj numer sprawy.")
-    expire_reservations()
     if demo_viewer(user) and (
         Request.objects.filter(
             author__email__endswith="@" + DEMO_DOMAIN, created_at__gte=timezone.now() - timedelta(days=1)
@@ -166,18 +136,11 @@ def create_request(user, data, ip=None):
     record = None
     if kind == "I":
         number = validate_number(data.get("number", ""))
-        owner = data.get("owner", "").strip()
-        if not owner:
-            raise ValidationError("Podaj właściciela.")
         try:
             with transaction.atomic():
                 record = PlateRecord.objects.create(
                     number=number,
                     office=office,
-                    owner=owner,
-                    address=data.get("address", ""),
-                    vin=validate_vin(data.get("vin", "")),
-                    reservation_until=timezone.now() + timedelta(days=settings.RESERVATION_DAYS),
                 )
         except IntegrityError as exc:
             raise ValidationError("Ten wyróżnik został już zajęty. Wybierz inny numer.") from exc
@@ -190,10 +153,7 @@ def create_request(user, data, ip=None):
         )
     elif not data.get("justification", "").strip():
         raise ValidationError("Wniosek o pulę wymaga uzasadnienia.")
-    # Wniosek o pulę dotyczy jednego bloku; liczbę ustala konfiguracja, nie urząd.
-    count = int(data.get("count", 1)) if kind == "I" else settings.POOL_BLOCKS[kind]["size"]
-    if not 1 <= count <= 10000:
-        raise ValidationError("Liczba numerów musi wynosić 1–10 000.")
+    count = 1 if kind == "I" else require_pool_count(data.get("count"))
     from .numbering import request_number
 
     reference, reference_year, reference_ordinal = request_number()
@@ -205,9 +165,7 @@ def create_request(user, data, ip=None):
         office=office,
         author=user,
         record=record,
-        case_number=data["case_number"],
         count=count,
-        station=data.get("station", ""),
         justification=data.get("justification", ""),
     )
     audit(user, "request.created", req, after={"status": req.status, "kind": kind}, ip=ip)
@@ -220,7 +178,7 @@ def send_request(user, req_id, ip=None):
     req = lock_request(visible(user, Request.objects.all()), req_id)
     if req.kind in ["II", "III"]:
         require_role(user, "COUNTY")
-    require_current_reservation(req.record)
+    require_open_record(req.record)
     if req.status != "DRAFT":
         raise ValidationError("Można złożyć tylko aktualny szkic wniosku.")
     if req.record:
@@ -241,7 +199,7 @@ def send_request(user, req_id, ip=None):
 @transaction.atomic
 def withdraw_request(user, req_id, reason, ip=None):
     req = lock_request(visible(user, Request.objects.all()), req_id)
-    require_current_reservation(req.record)
+    require_open_record(req.record)
     if req.status not in ["DRAFT", "SENT"] or not reason.strip():
         raise ValidationError("Wycofanie wymaga aktywnego wniosku i uzasadnienia.")
     old = req.status
@@ -291,7 +249,7 @@ def allocate_pool(user, data, req=None, ip=None, *, slots=None):
         end=end,
         valid_from=data["valid_from"],
         valid_until=data.get("valid_until") or None,
-        station=req.station if req else data.get("station", ""),
+        station=data.get("station", ""),
     )
     pool.full_clean()
     collision = PoolSlot.objects.filter(number__in=numbers).select_related("pool__office").first()
@@ -335,10 +293,14 @@ def allocate_pool(user, data, req=None, ip=None, *, slots=None):
     return pool
 
 
-def block_span(kind, index):
-    """Pozycje bloku `index` (od 1): blok pierwszy kończy się na 99, kolejne mają po `size` numerów."""
-    size = settings.POOL_BLOCKS[kind]["size"]
-    return max(1, (index - 1) * size), index * size - 1
+# Uwagi UMP z 06.11.2026: urząd wybiera liczbę numerów puli z listy 10, 20, …, 100.
+POOL_COUNTS = tuple(range(10, 101, 10))
+
+
+def require_pool_count(count):
+    if type(count) is not int or count not in POOL_COUNTS:
+        raise ValidationError("Liczba tablic w puli: wybierz 10, 20, 30, 40, 50, 60, 70, 80, 90 albo 100.")
+    return count
 
 
 def pool_capacity(kind):
@@ -347,71 +309,72 @@ def pool_capacity(kind):
     return len(SMALL_SUFFIXES) if kind == "II" else TEMPORARY_CAPACITY
 
 
-def next_block(kind, after=0):
-    """Pierwszy blok po `after` z wolnymi numerami: (indeks, początek, koniec, [(pozycja, numer)]).
+def next_numbers(kind, after, count):
+    """Kolejne `count` wolnych numerów po pozycji `after`: (początek, koniec, [(pozycja, numer)]).
 
-    Numery zajęte wcześniej (np. z importu historycznego) zostają pominięte, ale reszta bloku
-    jest nadawana, więc kolejne układy numeracji nie czekają na brakujące pozycje.
+    Numery zajęte wcześniej (np. z importu historycznego) zostają pominięte, więc kolejne
+    układy numeracji nie czekają na brakujące pozycje. Brak tylu wolnych numerów zwraca None.
     """
     prefix = settings.POOL_BLOCKS[kind]["prefix"]
     capacity = pool_capacity(kind)
-    index = after + 1
-    while True:
-        start, end = block_span(kind, index)
-        if start > capacity:
-            return None
-        end = min(end, capacity)
-        numbers = pool_numbers(kind, prefix, start, end)
+    position, free = after + 1, []
+    while len(free) < count and position <= capacity:
+        end = min(position + count - len(free) - 1, capacity)
+        numbers = pool_numbers(kind, prefix, position, end)
         taken = set(PoolSlot.objects.filter(number__in=numbers).values_list("number", flat=True))
-        free = [(ordinal, number) for ordinal, number in enumerate(numbers, start) if number not in taken]
-        if free:
-            return index, start, end, free
-        index += 1
+        free += [(ordinal, number) for ordinal, number in enumerate(numbers, position) if number not in taken]
+        position = end + 1
+    if len(free) < count:
+        return None
+    return free[0][0], free[-1][0], free
 
 
-def preview_block(kind):
-    """Zakres, który dostanie najbliższy przydział; informacja, bez rezerwacji."""
+def pool_counter_scope(kind):
+    return f"POOL.{kind}.{settings.POOL_BLOCKS[kind]['prefix']}"
+
+
+def preview_block(kind, count):
+    """Zakres, który dostanie najbliższy przydział; informacja, bez zajmowania numerów."""
     from .models import NumberSequence
 
-    prefix = settings.POOL_BLOCKS[kind]["prefix"]
-    counter = NumberSequence.objects.filter(scope=f"POOL.{kind}.{prefix}", year=1).first()
-    found = next_block(kind, counter.last_value if counter else 0)
-    return (found[3][0][1], found[3][-1][1]) if found else None
+    counter = NumberSequence.objects.filter(scope=pool_counter_scope(kind), year=1).first()
+    found = next_numbers(kind, counter.last_value if counter else 0, count)
+    return (found[2][0][1], found[2][-1][1]) if found else None
 
 
 @transaction.atomic
-def allocate_block(user, kind, office_id, *, req=None, ip=None):
-    """Nadaje urzędowi kolejny wolny blok numerów; zakres wylicza serwer pod blokadą licznika."""
+def allocate_block(user, kind, office_id, count, *, req=None, ip=None):
+    """Nadaje urzędowi `count` kolejnych wolnych numerów; zakres wylicza serwer pod blokadą licznika."""
     from .models import NumberSequence
 
     require_role(user, "MAIN")
     if kind not in settings.POOL_BLOCKS:
         raise ValidationError("Nieznany rodzaj puli.")
-    prefix = settings.POOL_BLOCKS[kind]["prefix"]
-    # Licznik bloków bez roku (rok techniczny 1); blokada wiersza serializuje równoczesne przydziały.
-    counter, _ = NumberSequence.objects.get_or_create(scope=f"POOL.{kind}.{prefix}", year=1)
+    require_pool_count(count)
+    # Licznik ostatniej nadanej pozycji, bez roku (rok techniczny 1); blokada wiersza
+    # serializuje równoczesne przydziały wszystkich urzędów.
+    counter, _ = NumberSequence.objects.get_or_create(scope=pool_counter_scope(kind), year=1)
     counter = NumberSequence.objects.select_for_update().get(pk=counter.pk)
-    found = next_block(kind, counter.last_value)
+    found = next_numbers(kind, counter.last_value, count)
     if found is None:
-        raise ValidationError("Pojemność numeracji tego rodzaju puli została wyczerpana.")
-    index, start, end, slots = found
+        raise ValidationError("Pojemność numeracji tego rodzaju puli nie wystarcza na tyle numerów.")
+    start, end, slots = found
     pool = allocate_pool(
         user,
         {
             "kind": kind,
             "office": office_id,
-            "prefix": prefix,
+            "prefix": settings.POOL_BLOCKS[kind]["prefix"],
             "start": start,
             "end": end,
             "valid_from": timezone.localdate(),
             "valid_until": None,
-            "station": req.station if req else "",
         },
         req=req,
         ip=ip,
         slots=slots,
     )
-    counter.last_value = index
+    counter.last_value = end
     counter.save(update_fields=["last_value"])
     return pool
 
@@ -420,9 +383,9 @@ def allocate_block(user, kind, office_id, *, req=None, ip=None):
 def decide_request(user, req_id, approve, reason="", pool_data=None, ip=None):
     require_role(user, "MAIN")
     req = lock_request(Request.objects.all(), req_id)
-    require_current_reservation(req.record)
+    require_open_record(req.record)
     if req.status != "SENT":
-        raise ValidationError("Wniosek nie oczekuje na rozpatrzenie lub rezerwacja wygasła.")
+        raise ValidationError("Wniosek nie oczekuje na rozpatrzenie.")
     if not approve and not reason.strip():
         raise ValidationError("Odmowa wymaga uzasadnienia.")
     if approve and req.record:
@@ -431,7 +394,7 @@ def decide_request(user, req_id, approve, reason="", pool_data=None, ip=None):
     if req.record:
         record = req.record
         if record.status != "SENT":
-            raise ValidationError("Nieaktualny stan rezerwacji.")
+            raise ValidationError("Nieaktualny stan wpisu numeru.")
         record.status = "ALLOCATED" if approve else "RELEASED"
         record.allocated_at = timezone.now() if approve else None
         record.reservation_until = None
@@ -447,14 +410,13 @@ def decide_request(user, req_id, approve, reason="", pool_data=None, ip=None):
             ip,
         )
     elif approve:
-        # Akceptacja wniosku o pulę nadaje jeden kolejny blok; zakres podany jawnie służy
-        # wyłącznie wewnętrznym danym pokazowym i testom.
+        # Akceptacja wniosku o pulę nadaje kolejne wolne numery w liczbie z wniosku; zakres
+        # podany jawnie służy wyłącznie wewnętrznym danym pokazowym i testom.
         pool = (
             allocate_pool(user, {**pool_data, "office": req.office_id, "kind": req.kind}, req=req, ip=ip)
             if pool_data
-            else allocate_block(user, req.kind, req.office_id, req=req, ip=ip)
+            else allocate_block(user, req.kind, req.office_id, req.count, req=req, ip=ip)
         )
-        # Wniosek prosi o kolejny blok; po przydziale liczba odpowiada faktycznej puli.
         req.count = pool.total
     req.status = "APPROVED" if approve else "REJECTED"
     req.reason = reason
@@ -480,62 +442,6 @@ def decide_request(user, req_id, approve, reason="", pool_data=None, ip=None):
 
     enqueue_decision_notice(user, req, letter, ip=ip)
     return req
-
-
-@transaction.atomic
-def restore_expired_request(user, req_id, days, reason, ip=None):
-    """UMP przywraca wniosek, którego rezerwacja wygasła, jeśli numer nadal jest wolny."""
-    require_role(user, "MAIN")
-    req = lock_request(Request.objects.all(), req_id)
-    record = req.record
-    if req.status != "EXPIRED" or record is None or record.status != "RELEASED":
-        raise ValidationError("Przywrócić można tylko wniosek o tablicę indywidualną z wygasłą rezerwacją.")
-    if record.office_id != req.office_id:
-        # Otwarty wniosek jednego urzędu na wpisie innego jest stanem, którego pilnuje korekta.
-        raise ValidationError("Wpis prowadzi już inny urząd niż wnioskujący. Potrzebny jest nowy wniosek.")
-    if not reason.strip() or not 1 <= int(days) <= 90:
-        raise ValidationError("Podaj powód i nowy termin rezerwacji 1–90 dni.")
-    validate_number(record.number)
-    req.status = "SENT" if req.sent_at else "DRAFT"
-    record.status = "SENT" if req.sent_at else "RESERVED"
-    record.reservation_until = timezone.now() + timedelta(days=int(days))
-    record.reminded_until = None
-    record.version += 1
-    try:
-        with transaction.atomic():
-            record.save(update_fields=["status", "reservation_until", "reminded_until", "version"])
-    except IntegrityError as exc:
-        raise ValidationError(
-            "Numer zajął w międzyczasie inny wniosek lub wpis. Potrzebny jest nowy wniosek."
-        ) from exc
-    req.save(update_fields=["status"])
-    after = {"status": record.status, "reservation_until": record.reservation_until.isoformat()}
-    audit(user, "reservation.restored", record, {"status": "RELEASED"}, after, reason, ip)
-    audit(user, "request.restored", req, {"status": "EXPIRED"}, {"status": req.status}, reason, ip)
-    return req
-
-
-@transaction.atomic
-def extend_reservation(user, record_id, days, reason, ip=None):
-    require_role(user, "MAIN")
-    record = PlateRecord.objects.select_for_update().get(uuid=record_id)
-    require_current_reservation(record)
-    if record.status not in ["RESERVED", "SENT"] or not reason.strip() or not 1 <= int(days) <= 90:
-        raise ValidationError("Podaj powód i przedłużenie 1–90 dni dla aktywnej rezerwacji.")
-    before = record.reservation_until.isoformat()
-    record.reservation_until = max(record.reservation_until, timezone.now()) + timedelta(days=int(days))
-    record.version += 1
-    record.save(update_fields=["reservation_until", "version"])
-    audit(
-        user,
-        "reservation.extended",
-        record,
-        {"reservation_until": before},
-        {"reservation_until": record.reservation_until.isoformat()},
-        reason,
-        ip,
-    )
-    return record
 
 
 EDIT_FIELDS = [
@@ -583,7 +489,7 @@ def update_record(user, record_id, data, reason, version, ip=None, action="plate
         data["vin"] = validate_vin(data["vin"])
     status = data.get("status", record.status)
     if status in ["RESERVED", "SENT"] and status != record.status:
-        raise ValidationError("Rezerwację tworzy wyłącznie wniosek.")
+        raise ValidationError("Ten status tworzy wyłącznie wniosek.")
     open_request = Request.objects.filter(record=record, status__in=["DRAFT", "SENT"]).exists()
     if status == "RELEASED" and open_request:
         raise ValidationError(

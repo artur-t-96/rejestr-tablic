@@ -79,7 +79,7 @@ class LetterAuditIpTests(TestCase):
                     self.county,
                     {
                         "kind": kind,
-                        "count": 2,
+                        "count": 10,
                         "case_number": "AUDYT/1",
                         "justification": "Odbiór audytu przydziału",
                     },

@@ -31,7 +31,7 @@ class DemoResetTests(DemoBase):
         req = create_request(self.demo["powiat-gniezno"], data("P1RAFAL"))
         send_request(self.demo["powiat-gniezno"], req.uuid)
         decide_request(self.demo["ump"], req.uuid, True)
-        allocate_block(self.demo["ump"], "II", "gni")
+        allocate_block(self.demo["ump"], "II", "gni", 100)
         DemoMessage.objects.create(recipient=f"ump@{DOMAIN}", subject="Stara", body="Treść")
         FlaggedWord.objects.create(word="ABC")
         extra = User.objects.create_user(
@@ -59,7 +59,7 @@ class DemoResetTests(DemoBase):
         # Liczniki od nowa: pierwsza pula automatyczna po resecie znów zaczyna się od M001.
         self.assertFalse(Pool.objects.filter(prefix="M").exists())
         self.assertFalse(NumberSequence.objects.filter(scope__startswith="POOL.").exists())
-        self.assertEqual(allocate_block(self.demo["ump"], "II", "gni").slots.first().number, "M001")
+        self.assertEqual(allocate_block(self.demo["ump"], "II", "gni", 100).slots.first().number, "M001")
         # Dane pokazowe są wgrane ponownie, a pierwszy wpis dziennika opisuje reset.
         self.assertTrue(Request.objects.exists())
         self.assertTrue(Pool.objects.filter(prefix="P").exists())

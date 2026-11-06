@@ -64,7 +64,7 @@ def pool_numbers(kind, prefix, start, end, scheme="NUMERIC"):
         raise ValidationError("Nieobsługiwany schemat numeracji puli.")
     if kind == "II":
         if prefix not in ("P", "M") or end > len(SMALL_SUFFIXES):
-            raise ValidationError("Niepoprawny prefiks lub zakres tablic wąskich.")
+            raise ValidationError("Niepoprawny prefiks lub zakres tablic zmniejszonych.")
         return [prefix + SMALL_SUFFIXES[n - 1] for n in range(start, end + 1)]
     if kind == "III":
         # Robocza klasyfikacja jako tablice tymczasowe, do potwierdzenia przez UMP.

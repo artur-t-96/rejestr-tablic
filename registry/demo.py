@@ -7,10 +7,20 @@ OFFICES = ("ump", "gni", "pil")
 # klucz, rola, urząd, imię, nazwisko, opis na ekranie wejścia
 ACCOUNTS = (
     ("powiat-gniezno", "COUNTY", "gni", "Grażyna", "Demo-Gniezno", "Urzędnik powiatu — Gniezno"),
+    (
+        "admin-gniezno",
+        "COUNTY",
+        "gni",
+        "Gabriela",
+        "Demo-Admin-Gniezno",
+        "Administrator powiatu — Gniezno, wnioski i konta urzędników urzędu",
+    ),
     ("powiat-pila", "COUNTY", "pil", "Paweł", "Demo-Piła", "Urzędnik powiatu — Piła"),
     ("ump", "MAIN", "ump", "Urszula", "Demo-UMP", "Urzędnik UMP — rozpatrywanie wniosków, całe województwo"),
     ("administrator", "ADMIN", None, "Adam", "Demo-Administrator", "Administrator — konta demonstracyjne"),
 )
+# Konta demo z rolą administratora powiatu (jedno na urząd).
+COUNTY_ADMINS = frozenset({"admin-gniezno"})
 SEEDED = frozenset(f"{key}@{DOMAIN}" for key, *_ in ACCOUNTS)
 
 

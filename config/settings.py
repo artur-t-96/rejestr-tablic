@@ -123,7 +123,6 @@ MS_MAIL_PRIVATE_KEY = os.environ.get("MS_MAIL_PRIVATE_KEY", "")
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "rejestr@localhost")
 APP_URL = os.environ.get("APP_URL", "http://127.0.0.1:8765")
 APP_REVISION = os.environ.get("APP_REVISION", "local")
-RESERVATION_DAYS = 14
 # Pule nadawane automatycznie blokami (uzgodnienia z UMP, 29.10.2026). Prefiks i wielkość bloku
 # są parametrami modułu; licznik każdego rodzaju jest wspólny dla wszystkich urzędów.
 POOL_BLOCKS = {
@@ -138,9 +137,6 @@ POOL_BLOCKS = {
 }
 if not all(10 <= block["size"] <= 10000 for block in POOL_BLOCKS.values()):
     raise RuntimeError("Wielkość bloku puli musi wynosić 10–10 000 numerów.")
-RESERVATION_REMINDER_DAYS = int(os.environ.get("RESERVATION_REMINDER_DAYS", "3"))
-if not 0 < RESERVATION_REMINDER_DAYS < RESERVATION_DAYS:
-    raise RuntimeError("Niepoprawny próg przypomnienia o rezerwacji.")
 PDF_FONT = os.environ.get("PDF_FONT", str(BASE_DIR / "registry" / "fonts" / "DejaVuSans.ttf"))
 # Tryb demonstracyjny: wejście bez kodu e-mail dla fikcyjnych kont i wbudowane symulatory
 # operatorów. Wyłącznie na instancji z danymi fikcyjnymi; profil urzędowy odmawia startu z tą flagą.

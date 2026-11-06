@@ -664,6 +664,9 @@ def number_search_results(user, query):
     }
     for record in records:
         req = requests_by_record.get(record.pk)
+        if req and req.office_id != record.office_id and user.role != "MAIN":
+            # Wpis przeniesiony z innego urzędu: wniosek źródłowy należy do poprzedniego urzędu.
+            req = None
         results.append(
             {
                 "number": record.display_number,

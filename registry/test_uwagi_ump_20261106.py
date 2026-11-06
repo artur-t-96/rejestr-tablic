@@ -116,6 +116,12 @@ class NumberSearchTests(TestCase):
         self.assertContains(page, reverse("pool_detail", args=[self.foreign_pool.uuid]))
         self.assertContains(self.search(self.ump, "P1 SZUK"), "P1 SZUK")
 
+    def test_transferred_record_links_to_record_not_foreign_request(self):
+        PlateRecord.objects.filter(pk=self.foreign.record_id).update(office_id="a", status="ALLOCATED")
+        page = self.search(self.a, "P1SZUK")
+        self.assertContains(page, reverse("record_detail", args=[self.foreign.record.uuid]))
+        self.assertNotContains(page, self.foreign.reference)
+
     def test_admin_and_anonymous_have_no_access(self):
         self.assertEqual(self.client.get(reverse("number_search")).status_code, 302)
         self.client.force_login(self.admin)

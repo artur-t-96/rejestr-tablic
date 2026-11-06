@@ -12,10 +12,9 @@ from django.utils import timezone
 from .connectors.ezdrp import ConnectorError, EZDRPClient, load_profile, opaque_id, simulated
 from .demo_mail import deliver, demo_only
 from .documents import document_payload, lock_letter
-from .models import EZDCaseLink, IntegrationJob, Letter, Office
 from .microsoft_mail import configuration_ready, transport_name
+from .models import EZDCaseLink, IntegrationJob, Letter, Office
 from .services import audit, require_role
-
 
 SIMULATOR_MODE = "Symulator wbudowany — bez połączenia z operatorem"
 
@@ -141,10 +140,10 @@ def ezd_scope(letter):
         return (
             "REQUEST",
             letter.request.uuid,
-            f"Dyna Rejestr Tablic | {letter.request.reference} | {letter.request.uuid}",
+            f"Sprawdź Tablicę | {letter.request.reference} | {letter.request.uuid}",
         )
     if letter.pool_id:
-        return "POOL", letter.pool.uuid, f"Dyna Rejestr Tablic | pula | {letter.pool.uuid}"
+        return "POOL", letter.pool.uuid, f"Sprawdź Tablicę | pula | {letter.pool.uuid}"
     raise ValidationError("Pismo nie jest powiązane z wnioskiem ani pulą.")
 
 

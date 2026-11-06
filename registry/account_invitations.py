@@ -11,9 +11,9 @@ from django.db import transaction
 from django.utils import timezone
 
 from .demo_mail import deliver, demo_only
-from .models import AccountInvitation, User
 from .microsoft_mail import configuration_ready
-from .services import audit, require_role
+from .models import AccountInvitation, User
+from .services import audit, require_account_manager, require_role
 
 PENDING = {"QUEUED", "SENDING", "REVIEW_REQUIRED", "CONFIG_ERROR"}
 
@@ -44,10 +44,11 @@ def content_hash(invitation):
 
 @transaction.atomic
 def enqueue_invitation(actor, user_id, reason, ip=None, expected_context=None):
-    require_role(actor, "ADMIN")
+    require_account_manager(actor)
     if not reason.strip() or len(reason) > 1000:
         raise ValidationError("Podaj podstawę zaproszenia do 1000 znaków.")
     user = User.objects.select_for_update(of=("self",), no_key=True).select_related("office").get(pk=user_id)
+    require_account_manager(actor, user)
     if expected_context is not None and expected_context != context(user):
         raise ValidationError("Konto zmieniło się. Otwórz ponownie formularz zaproszenia.")
     if not user.access_allowed:
@@ -63,8 +64,8 @@ def enqueue_invitation(actor, user_id, reason, ip=None, expected_context=None):
         created_by=actor,
         email=user.email,
         account_context=snap,
-        subject="Zaproszenie do Dyna Rejestr Tablic",
-        body=f"Administrator utworzył dla Ciebie konto w Dyna Rejestr Tablic.\n"
+        subject="Zaproszenie do serwisu Sprawdź Tablicę",
+        body=f"Administrator utworzył dla Ciebie konto w serwisie Sprawdź Tablicę.\n"
         f"Rola: {user.get_role_display()}\nUrząd: {user.office.name if user.office_id else 'Administracja systemu'}\n"
         f"Otwórz {settings.APP_URL.rstrip('/')}/logowanie/ i wpisz swój adres e-mail. "
         "Otrzymasz osobny kod ważny 10 minut. Ta wiadomość nie jest kodem logowania.\n"

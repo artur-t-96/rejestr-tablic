@@ -123,7 +123,7 @@ class SmallLayoutOrderTests(TestCase):
     def test_failed_request_decision_keeps_request_letter_queue_and_sequence_unchanged(self):
         req = create_request(
             self.author,
-            {"kind": "II", "count": 1, "case_number": "FIKCYJNE/II/01", "justification": "Fikcyjna pula"},
+            {"kind": "II", "count": 10, "justification": "Fikcyjna pula"},
         )
         send_request(self.author, req.uuid)
         before = self.snapshot()

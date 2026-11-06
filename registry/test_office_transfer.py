@@ -5,7 +5,7 @@ from django.test import TestCase, TransactionTestCase, skipUnlessDBFeature
 from django.urls import reverse
 from django.utils import timezone
 
-from .models import AuditLog
+from .models import AuditLog, PlateRecord
 from .services import create_request, decide_request, send_request, update_record
 from .tests import data, fixtures
 
@@ -14,7 +14,9 @@ class OfficeTransferTests(TestCase):
     def setUp(self):
         self.admin, self.ump, self.a, self.b = fixtures()
         self.req = create_request(self.a, data())
+        PlateRecord.objects.filter(pk=self.req.record_id).update(owner="Osoba Fikcyjna")
         self.record = self.req.record
+        self.record.refresh_from_db()
         self.original_application_pdf = bytes(self.req.letters.get(kind="APPLICATION").pdf)
 
     def approve(self):

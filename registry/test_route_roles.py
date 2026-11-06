@@ -16,7 +16,7 @@ from config.urls import urlpatterns
 from .account_invitations import enqueue_invitation
 from .authentication import session_owner
 from .documents import DEFAULT_TEMPLATES
-from .models import DeliveryEvidence, EZDIncomingDocument, IntegrationJob, LetterTemplate, Pool
+from .models import DeliveryEvidence, EZDIncomingDocument, IntegrationJob, LetterTemplate, PlateRecord, Pool
 from .services import allocate_pool, create_request, decide_request, send_request
 from .test_http_methods import METHODS
 from .tests import data, fixtures
@@ -33,6 +33,8 @@ def role_objects(admin, main, county, other):
     approved = create_request(county, data("P8ROLE"))
     send_request(county, approved.uuid)
     decide_request(main, approved.uuid, True, "Fikcyjna decyzja macierzy ról")
+    # Wniosek nie zawiera właściciela; dane uzupełnia ewidencja.
+    PlateRecord.objects.filter(pk=approved.record_id).update(owner="Osoba Fikcyjna")
     approved.refresh_from_db()
     approved.record.refresh_from_db()
     start = (Pool.objects.filter(kind="II", prefix="P").aggregate(end=Max("end"))["end"] or 0) + 1
@@ -51,9 +53,7 @@ def role_objects(admin, main, county, other):
         county,
         {
             "kind": "III",
-            "count": 2,
-            "case_number": "ROLE/III",
-            "station": "Fikcyjna stacja macierzy",
+            "count": 10,
             "justification": "Fikcyjny test ról",
         },
     )
@@ -156,14 +156,12 @@ def role_cases(obj):
         "POST",
         {"reason": "Fikcyjne wycofanie macierzy"},
     )
+    add("/panel/szukaj/?q=ROLE", business_list)
+    # Konta powiatu prowadzi wyłącznie administrator powiatu; zwykły urzędnik i UMP dostają 403.
+    for path in ("/panel/powiat/konta/", "/panel/powiat/konta/nowe/", f"/panel/powiat/konta/{obj.county.pk}/"):
+        add(path, (302, 404, 403, 403, 403))
     add("/panel/ewidencja/", business_list)
     add(f"/panel/ewidencja/{obj.approved.record.uuid}/", business_object)
-    add(
-        f"/panel/ewidencja/{obj.draft.record.uuid}/przedluz/",
-        (302, 403, 302, 403, 403),
-        "POST",
-        {"days": 7, "reason": "Fikcyjne przedłużenie"},
-    )
     add(
         f"/panel/ewidencja/{obj.approved.record.uuid}/przeniesienie/",
         (302, 403, 302, 403, 403),

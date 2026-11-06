@@ -117,7 +117,7 @@ class PoolImportTests(TestCase):
         )
         self.apply(csv_text([row("P09998", kind="III", prefix="P0"), row("P09999", kind="III", prefix="P0")]))
         req = create_request(
-            self.a, {"kind": "III", "count": 1, "case_number": "TEST/NOWA", "justification": "Fikcyjne"}
+            self.a, {"kind": "III", "count": 10, "justification": "Fikcyjne"}
         )
         send_request(self.a, req.uuid)
         decide_request(

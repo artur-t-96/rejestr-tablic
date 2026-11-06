@@ -67,7 +67,7 @@ class ApiOperationValidationTests(TestCase):
 
     def test_fractional_pool_decision_cannot_truncate_positions(self):
         req = create_request(
-            self.county, {"kind": "II", "count": 2, "case_number": "TEST/II", "justification": "Test"}
+            self.county, {"kind": "II", "count": 10, "justification": "Test"}
         )
         send_request(self.county, req.uuid)
         self.client.force_login(self.ump)
@@ -127,7 +127,7 @@ class ApiOperationValidationTests(TestCase):
             self.rejected("/api/requests/", {**data(), field: "b"})
 
     def test_pool_range_and_dates_cannot_be_supplied_by_client(self):
-        req = create_request(self.county, {"kind": "II", "case_number": "TEST/II", "justification": "Test"})
+        req = create_request(self.county, {"kind": "II", "count": 10, "justification": "Test"})
         send_request(self.county, req.uuid)
         self.client.force_login(self.ump)
         pool = {"prefix": "P", "start": 1, "end": 2, "valid_from": timezone.localdate().isoformat()}
@@ -234,9 +234,8 @@ class ApiOperationValidationTests(TestCase):
                 "/api/requests/",
                 {
                     "kind": kind,
-                    "case_number": f"TEST/{kind}",
+                    "count": 20,
                     "justification": "Test",
-                    "station": "Fikcyjna stacja",
                 },
                 content_type="application/json",
             )
@@ -256,7 +255,7 @@ class ApiOperationValidationTests(TestCase):
                 200,
             )
             allocated = Pool.objects.get(request=req)
-            self.assertEqual(allocated.station, "Fikcyjna stacja")
+            self.assertEqual(allocated.station, "")
             self.assertEqual(allocated.slots.first().number, {"II": "M001", "III": "M00001"}[kind])
             self.assertIsNone(allocated.valid_until)
             self.client.force_login(self.county)

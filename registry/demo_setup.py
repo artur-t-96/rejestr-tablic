@@ -125,9 +125,9 @@ def write_profiles(directory=None):
             "metadata": {
                 name: {"key": f"dyna_{name}", "name": label}
                 for name, label in (
-                    ("request_id", "Identyfikator wniosku Dyna"),
-                    ("request_url", "Link do wniosku Dyna"),
-                    ("letter_number", "Numer pisma Dyna"),
+                    ("request_id", "Identyfikator wniosku w serwisie Sprawdź Tablicę"),
+                    ("request_url", "Link do wniosku w serwisie Sprawdź Tablicę"),
+                    ("letter_number", "Numer pisma w serwisie Sprawdź Tablicę"),
                     ("payload_sha256", "SHA-256 dokumentu"),
                 )
             },
@@ -179,7 +179,7 @@ def write_profiles(directory=None):
 
 @transaction.atomic
 def ensure_accounts():
-    """Urzędy pokazowe aktywne, z fikcyjnym ADE i kontaktem, oraz cztery konta demo."""
+    """Urzędy pokazowe aktywne, z fikcyjnym ADE i kontaktem, oraz konta demo."""
     for index, office_id in enumerate(demo.OFFICES, start=1):
         name, kind, city = OFFICE_DEFAULTS[office_id]
         office, _ = Office.objects.get_or_create(
@@ -199,6 +199,7 @@ def ensure_accounts():
         if user.removed_at is None:
             user.first_name, user.last_name, user.is_active = first, last, True
             user.role, user.office_id = role, office_id
+            user.county_admin = key in demo.COUNTY_ADMINS
             user.full_clean(exclude=["password"])
             user.save()
         users[key] = user
@@ -234,11 +235,11 @@ def seed_cases(users):
                     {
                         "kind": "I",
                         "number": number,
-                        "owner": owner,
-                        "case_number": "DEMO/" + number,
                         "count": 1,
                     },
                 )
+                # Wniosek nie zawiera właściciela; ewidencja pokazowa ma go uzupełnionego.
+                PlateRecord.objects.filter(pk=req.record_id).update(owner=owner)
                 if step != "draft":
                     send_request(author, req.uuid)
                 if step in ("approve", "sold"):
@@ -298,8 +299,6 @@ def seed_pools(users):
             continue
         today = django_timezone.localdate()
         pool_data = {"prefix": prefix, "start": span[0], "end": span[1], "valid_from": today}
-        if kind == "III":
-            pool_data["station"] = "Stacja kontroli pojazdów (dane pokazowe)"
         try:
             with transaction.atomic():
                 allocate_pool(ump, {**pool_data, "kind": kind, "office": author.office_id})
@@ -412,7 +411,7 @@ def remove_legacy_pool(ump):
 def reset_data(admin, reason, ip=None, token=""):
     """Czyści sprawy, pisma, integracje, skrzynkę i dziennik instancji demo, potem wgrywa dane pokazowe.
 
-    Zostają urzędy, konta rzeczywiste, cztery konta demo, kod dostępu, wzory pism i słownik
+    Zostają urzędy, konta rzeczywiste, stałe konta demo, kod dostępu, wzory pism i słownik
     ostrzeżeń. Dodatkowe konta demo założone przez administratora demo są usuwane.
     Liczniki numerów (wnioski, pisma, bloki pul) startują od nowa.
     """

@@ -6,7 +6,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from .forms import RequestForm
-from .models import Request
+from .models import PlateRecord, Request
 from .services import allocate_pool, create_request
 from .tests import data, fixtures
 
@@ -115,8 +115,6 @@ class AccessibilityTests(TestCase):
             reverse("request_new"),
             {
                 **data("INVALID"),
-                "owner": "",
-                "vin": "BAD",
                 "count": "",
             },
         )
@@ -125,7 +123,7 @@ class AccessibilityTests(TestCase):
         elements = {attrs["id"]: attrs for _, attrs in page.elements if "id" in attrs}
         self.assertEqual(elements["form-errors"]["tabindex"], "-1")
         links = {attrs.get("href") for tag, attrs in page.elements if tag == "a"}
-        for name in ["number", "vin", "owner"]:
+        for name in ["number"]:
             self.assertIn("#id_" + name, links)
             self.assertEqual(elements["id_" + name]["aria-invalid"], "true")
             self.assertIn("id_" + name + "_error", elements["id_" + name]["aria-describedby"])
@@ -138,15 +136,15 @@ class AccessibilityTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Request.objects.count(), 1)
 
-    def test_pool_forms_require_justification_and_ignore_count(self):
+    def test_pool_forms_require_justification_and_count(self):
         for kind in ["II", "III"]:
             with self.subTest(kind=kind):
-                form = RequestForm(data={"kind": kind, "case_number": "TEST"})
+                form = RequestForm(data={"kind": kind})
                 self.assertFalse(form.is_valid())
                 self.assertIn("justification", form.errors)
-                self.assertNotIn("count", form.fields)
+                self.assertIn("count", form.errors)
                 valid = RequestForm(
-                    data={"kind": kind, "case_number": "TEST", "justification": "Fikcyjne zapotrzebowanie"}
+                    data={"kind": kind, "count": "50", "justification": "Fikcyjne zapotrzebowanie"}
                 )
                 self.assertTrue(valid.is_valid(), valid.errors)
 
@@ -157,21 +155,21 @@ class AccessibilityTests(TestCase):
                 reverse("request_new"),
                 {
                     "kind": kind,
-                    "case_number": "TEST/" + kind,
-                    "count": 2,
+                    "count": 20,
                     "justification": "Fikcyjne zapotrzebowanie",
                 },
                 follow=True,
             )
             self.assertContains(response, "Wniosek o pulę zapisany; pismo PDF jest gotowe.")
-            self.assertNotContains(response, "Wyróżnik zarezerwowany")
+            self.assertNotContains(response, "zarezerwowany")
             req = Request.objects.get(kind=kind)
             self.assertIsNone(req.record_id)
-            # Urząd prosi o kolejny blok; liczbę wyznacza konfiguracja, nie formularz.
-            self.assertEqual(req.count, 100)
+            self.assertEqual(req.count, 20)
 
     def test_titles_of_request_record_pool_and_signature_identify_document_without_owner(self):
         req = create_request(self.a, data())
+        PlateRecord.objects.filter(pk=req.record_id).update(owner="Osoba Fikcyjna")
+        req.record.refresh_from_db()
         pool = allocate_pool(
             self.ump,
             {"kind": "II", "office": "a", "prefix": "P", "start": 1, "end": 2, "valid_from": "2026-10-03"},

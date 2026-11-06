@@ -1,11 +1,11 @@
-"""Automatyczne pule tablic wąskich i tymczasowych (uwagi UMP z 29.10.2026)."""
+"""Pule tablic zmniejszonych i tymczasowych: kolejne wolne numery w liczbie 10–100 (uwagi UMP 06.11.2026)."""
 
 from concurrent.futures import ThreadPoolExecutor
 from threading import Barrier
 
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import close_old_connections
-from django.test import TestCase, TransactionTestCase, override_settings, skipUnlessDBFeature
+from django.test import TestCase, TransactionTestCase, skipUnlessDBFeature
 from django.urls import reverse
 from django.utils import timezone
 
@@ -26,30 +26,39 @@ def span(pool):
     return pool.slots.first().number, pool.slots.last().number
 
 
+def pool_request(author, kind="II", count=30):
+    return create_request(author, {"kind": kind, "count": count, "justification": "Fikcyjne zapotrzebowanie"})
+
+
 class PoolBlockTests(TestCase):
     def setUp(self):
         self.admin, self.ump, self.a, self.b = fixtures()
 
-    def test_narrow_blocks_follow_one_counter_for_all_offices(self):
-        pools = [allocate_block(self.ump, "II", office) for office in ("a", "b", "a")]
+    def test_pools_follow_one_counter_for_all_offices(self):
+        pools = [allocate_block(self.ump, "II", office, count) for office, count in (("a", 10), ("b", 100), ("a", 20))]
         self.assertEqual(
-            [span(pool) for pool in pools], [("M001", "M099"), ("M100", "M199"), ("M200", "M299")]
+            [span(pool) for pool in pools], [("M001", "M010"), ("M011", "M110"), ("M111", "M130")]
         )
-        self.assertEqual([pool.total for pool in pools], [99, 100, 100])
-        self.assertEqual(NumberSequence.objects.get(scope="POOL.II.M").last_value, 3)
+        self.assertEqual([pool.total for pool in pools], [10, 100, 20])
+        self.assertEqual(NumberSequence.objects.get(scope="POOL.II.M").last_value, 130)
 
-    def test_temporary_blocks_have_their_own_counter(self):
-        allocate_block(self.ump, "II", "a")
-        allocate_block(self.ump, "II", "a")
-        first = allocate_block(self.ump, "III", "b")
-        second = allocate_block(self.ump, "III", "a")
-        self.assertEqual(span(first), ("M00001", "M00099"))
-        self.assertEqual(span(second), ("M00100", "M00199"))
-        self.assertEqual(span(allocate_block(self.ump, "II", "b")), ("M200", "M299"))
+    def test_temporary_pools_have_their_own_counter(self):
+        allocate_block(self.ump, "II", "a", 50)
+        first = allocate_block(self.ump, "III", "b", 10)
+        second = allocate_block(self.ump, "III", "a", 40)
+        self.assertEqual(span(first), ("M00001", "M00010"))
+        self.assertEqual(span(second), ("M00011", "M00050"))
+        self.assertEqual(span(allocate_block(self.ump, "II", "b", 10)), ("M051", "M060"))
+
+    def test_count_outside_list_is_refused_without_writes(self):
+        for count in (0, 5, 15, 110, 1000, "10", None):
+            with self.subTest(count=count), self.assertRaises(ValidationError):
+                allocate_block(self.ump, "II", "a", count)
+        self.assertFalse(Pool.objects.exists())
 
     def test_new_pools_are_open_ended_and_dated_today(self):
         for kind in ("II", "III"):
-            pool = allocate_block(self.ump, kind, "a")
+            pool = allocate_block(self.ump, kind, "a", 10)
             self.assertIsNone(pool.valid_until)
             self.assertEqual(pool.valid_from, timezone.localdate())
             self.assertIsNone(pool.request)
@@ -60,100 +69,105 @@ class PoolBlockTests(TestCase):
         )
         PoolSlot.objects.create(pool=pool, number=number, ordinal=ordinal)
 
-    def test_partly_taken_block_gets_only_its_free_numbers(self):
-        self.historical("III", "M0", 150, "M00150")
-        allocate_block(self.ump, "III", "a")
-        pool = allocate_block(self.ump, "III", "b")
-        self.assertEqual((span(pool), pool.total), (("M00100", "M00199"), 99))
-        self.assertFalse(pool.slots.filter(number="M00150").exists())
-        self.assertEqual(preview_block("III"), ("M00200", "M00299"))
+    def test_taken_numbers_are_skipped_and_pool_keeps_requested_count(self):
+        self.historical("III", "M0", 5, "M00005")
+        pool = allocate_block(self.ump, "III", "b", 10)
+        self.assertEqual((span(pool), pool.total), (("M00001", "M00011"), 10))
+        self.assertFalse(pool.slots.filter(number="M00005").exists())
+        self.assertEqual(preview_block("III", 10), ("M00012", "M00021"))
 
     def test_historical_number_does_not_block_later_layouts(self):
-        # Numer spoza bloków nie zostawia luki, która zatrzymałaby przejście M999 → M01A.
+        # Numer zajęty wcześniej nie zostawia luki, która zatrzymałaby przejście M999 → M01A.
         self.historical("II", "M", 50, "M050")
         self.historical("II", "M", 950, "M950")
-        pools = [allocate_block(self.ump, "II", "a") for _ in range(11)]
-        self.assertEqual((span(pools[0]), pools[0].total), (("M001", "M099"), 98))
-        self.assertEqual(span(pools[9]), ("M900", "M999"))
-        self.assertEqual(pools[10].slots.first().ordinal, 1000)
+        pools = [allocate_block(self.ump, "II", "a", 100) for _ in range(10)]
+        self.assertEqual(span(pools[0]), ("M001", "M101"))
+        self.assertEqual(pools[9].slots.last().ordinal, 1002)
         self.assertEqual(PoolSlot.objects.filter(pool__kind="II", ordinal__lte=999).count(), 999)
 
-    def test_historical_letter_number_does_not_move_first_temporary_block(self):
-        self.historical("III", "M0", 10000, "M0001A")
-        self.assertEqual(preview_block("III"), ("M00001", "M00099"))
-        self.assertEqual(span(allocate_block(self.ump, "III", "a")), ("M00001", "M00099"))
-
-    def test_preview_shows_next_block_without_reserving_it(self):
-        self.assertEqual(preview_block("II"), ("M001", "M099"))
-        self.assertEqual(preview_block("II"), ("M001", "M099"))
+    def test_preview_shows_next_range_without_taking_it(self):
+        self.assertEqual(preview_block("II", 20), ("M001", "M020"))
+        self.assertEqual(preview_block("II", 20), ("M001", "M020"))
         self.assertFalse(Pool.objects.exists())
-        allocate_block(self.ump, "II", "a")
-        self.assertEqual(preview_block("II"), ("M100", "M199"))
-
-    @override_settings(POOL_BLOCKS={"II": {"prefix": "M", "size": 50}, "III": {"prefix": "P0", "size": 20}})
-    def test_prefix_and_block_size_come_from_configuration(self):
-        self.assertEqual(span(allocate_block(self.ump, "II", "a")), ("M001", "M049"))
-        self.assertEqual(span(allocate_block(self.ump, "II", "a")), ("M050", "M099"))
-        self.assertEqual(span(allocate_block(self.ump, "III", "a")), ("P00001", "P00019"))
+        allocate_block(self.ump, "II", "a", 20)
+        self.assertEqual(preview_block("II", 100), ("M021", "M120"))
 
     def test_only_ump_allocates_and_inactive_office_is_refused(self):
         with self.assertRaises(PermissionDenied):
-            allocate_block(self.a, "II", "a")
+            allocate_block(self.a, "II", "a", 10)
         Office.objects.filter(pk="b").update(active=False)
         with self.assertRaises(Office.DoesNotExist):
-            allocate_block(self.ump, "II", "b")
+            allocate_block(self.ump, "II", "b", 10)
         self.assertFalse(Pool.objects.exists())
         self.assertFalse(NumberSequence.objects.filter(scope="POOL.II.M", last_value__gt=0).exists())
 
     def test_audit_records_who_office_and_range(self):
-        pool = allocate_block(self.ump, "II", "b", ip="192.0.2.5")
+        pool = allocate_block(self.ump, "II", "b", 30, ip="192.0.2.5")
         event = AuditLog.objects.get(action="pool.allocated", object_id=str(pool.pk))
         self.assertEqual(event.actor, self.ump)
         self.assertEqual(event.office_id, "b")
         self.assertEqual(event.ip, "192.0.2.5")
-        self.assertEqual((event.after["first_number"], event.after["last_number"]), ("M001", "M099"))
+        self.assertEqual((event.after["first_number"], event.after["last_number"]), ("M001", "M030"))
         self.assertTrue(event.after["automatic"])
 
-    def test_letter_states_open_ended_period(self):
-        pool = allocate_block(self.ump, "II", "a")
+    def test_letter_states_open_ended_period_without_station(self):
+        pool = allocate_block(self.ump, "II", "a", 40)
         _, body, _ = letter_content("POOL", None, pool, self.ump.office, pool.office)
         self.assertIn("Okres obowiązywania: bezterminowo", body)
-        self.assertIn("Pula tablic wąskich: M001 - M099 (99 numerów)", body)
+        self.assertIn("Pula tablic zmniejszonych: M001 - M040 (40 numerów)", body)
+        self.assertNotIn("Stacja", body)
 
-    def test_request_approval_allocates_next_block(self):
-        allocate_block(self.ump, "II", "a")
-        req = create_request(self.b, {"kind": "II", "case_number": "PULA/1", "justification": "Test"})
-        self.assertEqual(req.count, 100)
+    def test_request_approval_allocates_requested_count(self):
+        allocate_block(self.ump, "II", "a", 10)
+        req = pool_request(self.b, count=70)
+        self.assertEqual(req.count, 70)
         send_request(self.b, req.uuid)
         decide_request(self.ump, req.uuid, True)
         pool = Pool.objects.get(request=req)
-        self.assertEqual((span(pool), pool.office_id), (("M100", "M199"), "b"))
-        req.refresh_from_db()
-        self.assertEqual(req.count, 100)
+        self.assertEqual((span(pool), pool.total, pool.office_id), (("M011", "M080"), 70, "b"))
 
-    def test_forms_ask_only_for_kind_and_office(self):
-        self.assertEqual(list(PoolForm().fields), ["kind", "office"])
+    def test_request_count_must_come_from_list(self):
+        for count in (None, 0, 15, 110, 101):
+            with self.subTest(count=count), self.assertRaises(ValidationError):
+                create_request(self.a, {"kind": "II", "count": count, "justification": "Test"})
+        for count in ("15", "110", ""):
+            form = RequestForm({"kind": "III", "count": count, "justification": "Test"}, user=self.a)
+            self.assertFalse(form.is_valid())
+            self.assertIn("count", form.errors)
+        form = RequestForm({"kind": "III", "count": "100", "justification": "Test"}, user=self.a)
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["count"], 100)
+        self.assertFalse(Request.objects.exists())
+
+    def test_county_form_lists_counts_ten_to_hundred(self):
+        self.client.force_login(self.a)
+        page = self.client.get(reverse("request_new"))
+        field = RequestForm(user=self.a).fields["count"]
+        self.assertEqual([value for value, _ in field.widget.choices][1:], [str(n) for n in range(10, 101, 10)])
+        self.assertContains(page, "Liczba tablic w puli")
+        self.assertNotContains(page, "Stacja")
+        self.assertNotIn("count", RequestForm(user=self.ump).fields)
+
+    def test_forms_ask_for_kind_office_and_count(self):
+        self.assertEqual(list(PoolForm().fields), ["kind", "office", "count"])
         self.assertEqual(PoolForm().fields["kind"].label, "Rodzaj puli")
-        self.assertNotIn("count", RequestForm().fields)
 
     def test_pool_form_shows_preview_and_allocates_with_server_range(self):
         self.client.force_login(self.ump)
         page = self.client.get(reverse("pool_new"))
-        self.assertContains(page, 'zostanie przydzielona pula <strong class="number">M001 – M099</strong>')
-        self.assertContains(
-            page, 'zostanie przydzielona pula <strong class="number">M00001 – M00099</strong>'
-        )
+        self.assertContains(page, 'pula zacznie się od numeru <strong class="number">M001</strong>')
+        self.assertContains(page, 'pula zacznie się od numeru <strong class="number">M00001</strong>')
         for name in ("prefix", "start", "end", "valid_from", "valid_until"):
             self.assertNotContains(page, f'name="{name}"')
         response = self.client.post(
-            reverse("pool_new"), {"kind": "II", "office": "a", "start": 500, "end": 900}, follow=True
+            reverse("pool_new"), {"kind": "II", "office": "a", "count": "50", "start": 500}, follow=True
         )
-        self.assertContains(response, "Przydzielono pulę M001 – M099.")
-        self.assertEqual(span(Pool.objects.get()), ("M001", "M099"))
+        self.assertContains(response, "Przydzielono pulę M001 – M050.")
+        self.assertEqual(span(Pool.objects.get()), ("M001", "M050"))
         self.assertContains(self.client.get(reverse("pools_list")), "bezterminowo")
         self.client.force_login(self.a)
         self.assertEqual(
-            self.client.post(reverse("pool_new"), {"kind": "II", "office": "a"}).status_code, 403
+            self.client.post(reverse("pool_new"), {"kind": "II", "office": "a", "count": "10"}).status_code, 403
         )
 
     def test_api_allocates_block_and_returns_range(self):
@@ -164,13 +178,21 @@ class PoolBlockTests(TestCase):
         self.assertEqual(response.status_code, 201, response.content)
         self.assertEqual(
             (response.json()["first_number"], response.json()["last_number"], response.json()["total"]),
-            ("M00001", "M00099", 99),
+            ("M00001", "M00100", 100),
         )
+        response = self.client.post(
+            "/api/pools/", {"kind": "III", "office": "b", "count": 20}, content_type="application/json"
+        )
+        self.assertEqual(response.json()["total"], 20)
+        response = self.client.post(
+            "/api/pools/", {"kind": "III", "office": "b", "count": 15}, content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 400)
 
     def test_old_names_do_not_appear_in_labels_or_pages(self):
-        allocate_block(self.ump, "II", "a")
-        allocate_block(self.ump, "III", "a")
-        self.assertEqual(dict(Request.Kind.choices)["II"], "Pula tablic wąskich")
+        allocate_block(self.ump, "II", "a", 10)
+        allocate_block(self.ump, "III", "a", 10)
+        self.assertEqual(dict(Request.Kind.choices)["II"], "Pula tablic zmniejszonych")
         self.assertEqual(dict(Request.Kind.choices)["III"], "Pula tablic tymczasowych")
         pages = []
         self.client.force_login(self.ump)
@@ -179,9 +201,9 @@ class PoolBlockTests(TestCase):
         pages += [self.client.get(reverse("request_new")), self.client.get(reverse("pools_list"))]
         for page in pages:
             text = page.content.decode().lower()
-            for old in ("zmniejsz", "do badań"):
+            for old in ("wąsk", "do badań", "stacja / przeznaczenie"):
                 self.assertNotIn(old, text)
-        self.assertContains(pages[0], "Pula tablic wąskich")
+        self.assertContains(pages[0], "Pula tablic zmniejszonych")
         self.assertContains(pages[0], "Pula tablic tymczasowych")
 
 
@@ -195,13 +217,13 @@ class PoolBlockConcurrencyTests(TransactionTestCase):
             close_old_connections()
             try:
                 barrier.wait()
-                return span(allocate_block(ump, "II", office))
+                return span(allocate_block(ump, "II", office, 100))
             finally:
                 close_old_connections()
 
         with ThreadPoolExecutor(max_workers=4) as executor:
             spans = list(executor.map(allocate, ["a", "b", "a", "b"]))
         self.assertEqual(
-            sorted(spans), [("M001", "M099"), ("M100", "M199"), ("M200", "M299"), ("M300", "M399")]
+            sorted(spans), [("M001", "M100"), ("M101", "M200"), ("M201", "M300"), ("M301", "M400")]
         )
-        self.assertEqual(PoolSlot.objects.count(), 99 + 300)
+        self.assertEqual(PoolSlot.objects.count(), 400)

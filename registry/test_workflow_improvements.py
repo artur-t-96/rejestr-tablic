@@ -4,7 +4,7 @@ import re
 from datetime import timedelta
 
 from django.core import mail
-from django.core.exceptions import PermissionDenied, ValidationError
+from django.core.exceptions import ValidationError
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -22,17 +22,13 @@ from .models import (
     Request,
     User,
 )
-from .notifications import send_reservation_reminders
 from .number_checks import content_warnings, suggest_pool_range
 from .services import (
     allocate_pool,
     create_request,
     decide_request,
-    expire_reservations,
-    extend_reservation,
     issue_slot,
     record_postal_dispatch,
-    restore_expired_request,
     send_request,
     update_record,
 )
@@ -41,10 +37,10 @@ from .tests import data, fixtures
 LOCMEM = "django.core.mail.backends.locmem.EmailBackend"
 
 
-def pool_request(author, kind="II", count=3):
+def pool_request(author, kind="II", count=10):
     return create_request(
         author,
-        {"kind": kind, "case_number": "PULA/1", "count": count, "justification": "Fikcyjne zapotrzebowanie"},
+        {"kind": kind, "count": count, "justification": "Fikcyjne zapotrzebowanie"},
     )
 
 
@@ -114,83 +110,6 @@ class StatusGuardTests(Base):
         self.assertEqual(record.status, "ALLOCATED")
 
 
-class RestoreExpiredTests(Base):
-    def expired(self, submit=True):
-        req = create_request(self.a, data())
-        if submit:
-            send_request(self.a, req.uuid)
-        PlateRecord.objects.filter(pk=req.record_id).update(
-            reservation_until=timezone.now() - timedelta(seconds=1)
-        )
-        self.assertEqual(expire_reservations(), 1)
-        return Request.objects.get(pk=req.pk)
-
-    def test_ump_restores_submitted_request_and_can_decide(self):
-        req = self.expired()
-        self.assertEqual(req.status, "EXPIRED")
-        restore_expired_request(self.ump, req.uuid, 7, "Opóźnienie po stronie UMP")
-        req.refresh_from_db()
-        self.assertEqual((req.status, req.record.status), ("SENT", "SENT"))
-        self.assertGreater(req.record.reservation_until, timezone.now() + timedelta(days=6))
-        decide_request(self.ump, req.uuid, True)
-        self.assertTrue(AuditLog.objects.filter(action="request.restored", reason__contains="UMP").exists())
-
-    def test_draft_returns_as_draft(self):
-        req = self.expired(submit=False)
-        restore_expired_request(self.ump, req.uuid, 3, "Szkic na prośbę urzędu")
-        req.refresh_from_db()
-        self.assertEqual((req.status, req.record.status), ("DRAFT", "RESERVED"))
-
-    def test_number_taken_meanwhile_is_not_restored(self):
-        req = self.expired()
-        create_request(self.b, data())
-        with self.assertRaisesRegex(ValidationError, "Numer zajął"):
-            restore_expired_request(self.ump, req.uuid, 7, "Za późno")
-        req.refresh_from_db()
-        self.assertEqual((req.status, req.record.status), ("EXPIRED", "RELEASED"))
-
-    def test_entry_moved_to_another_office_is_not_restored(self):
-        req = self.expired()
-        update_record(self.ump, req.record.uuid, {"office_id": "b"}, "Przeniesienie", req.record.version)
-        with self.assertRaisesRegex(ValidationError, "inny urząd"):
-            restore_expired_request(self.ump, req.uuid, 7, "Po przeniesieniu")
-        req.refresh_from_db()
-        self.assertEqual((req.status, req.record.status), ("EXPIRED", "RELEASED"))
-
-    def test_only_ump_with_reason_and_bounded_days(self):
-        req = self.expired()
-        with self.assertRaises(PermissionDenied):
-            restore_expired_request(self.a, req.uuid, 7, "Powiat")
-        for days, reason in ((0, "x"), (91, "x"), (7, " ")):
-            with self.subTest(days=days, reason=reason), self.assertRaises(ValidationError):
-                restore_expired_request(self.ump, req.uuid, days, reason)
-        active = self.sent(number="P1TEST")
-        with self.assertRaisesRegex(ValidationError, "wygasłą rezerwacją"):
-            restore_expired_request(self.ump, active.uuid, 7, "Nie wygasł")
-
-    def test_view_action_and_form(self):
-        req = self.expired()
-        self.client.force_login(self.a)
-        page = self.client.get(reverse("request_detail", args=[req.uuid]))
-        self.assertNotContains(page, "Przywróć wygasły wniosek")
-        response = self.client.post(
-            reverse("request_action", args=[req.uuid, "restore"]), {"days": 7, "reason": "Powiat"}
-        )
-        self.assertEqual(response.status_code, 403)
-        self.client.force_login(self.ump)
-        self.assertContains(
-            self.client.get(reverse("request_detail", args=[req.uuid])), "Przywróć wygasły wniosek"
-        )
-        response = self.client.post(
-            reverse("request_action", args=[req.uuid, "restore"]),
-            {"days": "", "reason": "Brak dni"},
-            follow=True,
-        )
-        self.assertContains(response, "nowy termin rezerwacji 1–90 dni")
-        self.client.post(
-            reverse("request_action", args=[req.uuid, "restore"]), {"days": 7, "reason": "Zgoda"}
-        )
-        self.assertEqual(Request.objects.get(pk=req.pk).status, "SENT")
 
 
 @override_settings(EMAIL_BACKEND=LOCMEM)
@@ -214,50 +133,9 @@ class NotificationTests(Base):
         self.assertEqual(kinds, {"APPROVAL", "REJECTION", "POOL"})
         self.assertEqual(IntegrationJob.objects.filter(operation="DECISION_NOTICE").count(), 3)
 
-    def test_reminder_goes_once_per_deadline_without_personal_data(self):
-        req = create_request(self.a, data())
-        self.assertEqual(send_reservation_reminders(), 0)
-        PlateRecord.objects.filter(pk=req.record_id).update(
-            reservation_until=timezone.now() + timedelta(days=2)
-        )
-        self.assertEqual(send_reservation_reminders(), 1)
-        message = mail.outbox[0]
-        self.assertEqual(message.to, [self.a.email])
-        self.assertIn(req.reference, message.body)
-        self.assertIn("szkicem", message.body)
-        self.assertNotIn("Osoba Fikcyjna", message.body)
-        self.assertEqual(send_reservation_reminders(), 0)
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertTrue(AuditLog.objects.filter(action="reservation.reminder").exists())
 
-    def test_extension_allows_new_reminder_and_submitted_request_reaches_ump(self):
-        req = self.sent()
-        PlateRecord.objects.filter(pk=req.record_id).update(
-            reservation_until=timezone.now() + timedelta(days=1)
-        )
-        self.assertEqual(send_reservation_reminders(), 1)
-        self.assertEqual(sorted(mail.outbox[0].to), sorted([self.a.email, "ump-kontakt@test.invalid"]))
-        extend_reservation(self.ump, req.record.uuid, 30, "Analiza")
-        self.assertEqual(send_reservation_reminders(), 0)
-        PlateRecord.objects.filter(pk=req.record_id).update(
-            reservation_until=timezone.now() + timedelta(hours=5)
-        )
-        self.assertEqual(send_reservation_reminders(), 1)
 
-    def test_unsent_reminder_is_not_counted_as_sent(self):
-        req = create_request(self.a, data())
-        User.objects.filter(pk=self.a.pk).update(is_active=False)
-        PlateRecord.objects.filter(pk=req.record_id).update(
-            reservation_until=timezone.now() + timedelta(days=1)
-        )
-        self.assertEqual(send_reservation_reminders(), 0)
-        self.assertEqual(len(mail.outbox), 0)
-        self.assertTrue(AuditLog.objects.filter(action="reservation.reminder_skipped").exists())
 
-    def test_expired_and_decided_reservations_get_no_reminder(self):
-        req = self.sent()
-        decide_request(self.ump, req.uuid, True)
-        self.assertEqual(send_reservation_reminders(), 0)
 
     def test_pool_usage_is_not_tracked_and_sends_no_alert(self):
         pool = self.small_pool()
@@ -382,11 +260,11 @@ class DecisionAidTests(Base):
     def test_next_block_is_previewed_for_pool_decision(self):
         self.assertEqual(suggest_pool_range("II", "P", 4), (1, 4))
         self.small_pool()
-        req = pool_request(self.b, count=3)
+        req = pool_request(self.b, count=30)
         send_request(self.b, req.uuid)
         self.client.force_login(self.ump)
         page = self.client.get(reverse("request_detail", args=[req.uuid]))
-        self.assertEqual(page.context["suggested"], ("M001", "M099"))
+        self.assertEqual(page.context["suggested"], ("M001", "M030"))
         self.assertContains(page, "Po akceptacji zostanie przydzielona pula")
         self.assertNotIn("start", page.context["form"].fields)
         decide_request(self.ump, req.uuid, True)
@@ -459,9 +337,9 @@ class ListsAndExportsTests(Base):
         header, row = body.lstrip("\ufeff").splitlines()[:2]
         self.assertEqual(
             header,
-            "kind;office_id;first_number;last_number;total;valid_from;valid_until;station;allocated_at",
+            "kind;office_id;first_number;last_number;total;valid_from;valid_until;allocated_at",
         )
-        self.assertTrue(row.startswith(f"II;a;P001;P005;5;{timezone.localdate().isoformat()};;;"))
+        self.assertTrue(row.startswith(f"II;a;P001;P005;5;{timezone.localdate().isoformat()};;"))
         self.assertEqual(self.client.get(reverse("export_records"), {"co": "urzedy"}).status_code, 403)
         self.assertEqual(self.client.get(reverse("export_records"), {"co": "inne"}).status_code, 404)
         self.client.force_login(self.ump)

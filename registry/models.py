@@ -66,9 +66,20 @@ class User(AbstractUser):
     office = models.ForeignKey(Office, null=True, blank=True, on_delete=models.PROTECT)
     # Konto zamknięte przez administratora: zostaje w historii bez adresu e-mail i bez dostępu.
     removed_at = models.DateTimeField(null=True, blank=True)
+    # Administrator powiatu (uwagi UMP 06.11.2026): urzędnik powiatu, który dodatkowo zarządza
+    # kontami urzędników swojego urzędu. Najwyżej jeden na urząd; nadaje go administrator centralny.
+    county_admin = models.BooleanField(default=False)
 
     class Meta:
         constraints = [
+            models.UniqueConstraint(
+                fields=["office"],
+                condition=Q(county_admin=True, removed_at__isnull=True),
+                name="one_county_admin_per_office",
+            ),
+            models.CheckConstraint(
+                condition=Q(county_admin=False) | Q(role="COUNTY"), name="county_admin_is_county_role"
+            ),
             models.CheckConstraint(
                 condition=(
                     Q(role="ADMIN", office__isnull=True)
@@ -77,6 +88,10 @@ class User(AbstractUser):
                 name="account_office_required",
             )
         ]
+
+    @property
+    def role_label(self):
+        return "Administrator powiatu" if self.county_admin else self.get_role_display()
 
     @property
     def is_demo_removed(self):
@@ -115,6 +130,15 @@ class User(AbstractUser):
             raise ValidationError("Urzędnik musi mieć przypisany urząd.")
         if self.office_id and ((self.role == "MAIN") != (self.office.kind == "MAIN")):
             raise ValidationError("Rola urzędnika nie odpowiada rodzajowi urzędu.")
+        if self.county_admin:
+            if self.role != "COUNTY":
+                raise ValidationError("Administratorem powiatu może być wyłącznie urzędnik powiatowy.")
+            if (
+                User.objects.filter(office_id=self.office_id, county_admin=True, removed_at__isnull=True)
+                .exclude(pk=self.pk)
+                .exists()
+            ):
+                raise ValidationError("Ten urząd ma już administratora powiatu. Może być tylko jeden.")
         if self.office_id:
             try:
                 self.office.clean()
@@ -214,7 +238,7 @@ class NumberSequence(models.Model):
 
 class PlateRecord(models.Model):
     class Status(models.TextChoices):
-        RESERVED = "RESERVED", "Zarezerwowany"
+        RESERVED = "RESERVED", "Wniosek w przygotowaniu"
         SENT = "SENT", "Wniosek w toku"
         ALLOCATED = "ALLOCATED", "Przydzielony"
         ISSUED = "ISSUED", "Wydany"
@@ -225,7 +249,7 @@ class PlateRecord(models.Model):
     number = models.CharField(max_length=10)
     status = models.CharField(max_length=12, choices=Status.choices, default=Status.RESERVED)
     office = models.ForeignKey(Office, on_delete=models.PROTECT)
-    owner = models.CharField(max_length=180)
+    owner = models.CharField(max_length=180, blank=True)
     address = models.CharField(max_length=300, blank=True)
     vin = models.CharField(max_length=17, blank=True)
     make = models.CharField(max_length=80, blank=True)
@@ -234,8 +258,8 @@ class PlateRecord(models.Model):
     sale_date = models.DateField(null=True, blank=True)
     buyer = models.CharField(max_length=180, blank=True)
     allocated_at = models.DateTimeField(null=True, blank=True)
+    # Dawny termin rezerwacji i przypomnienia (do 06.11.2026). Nieużywane; zostają dla historii wpisów.
     reservation_until = models.DateTimeField(null=True, blank=True)
-    # Termin rezerwacji, dla którego wysłano już przypomnienie (przedłużenie pozwala na kolejne).
     reminded_until = models.DateTimeField(null=True, blank=True)
     letter_number = models.CharField(max_length=100, blank=True)
     note = models.TextField(blank=True)
@@ -260,7 +284,7 @@ class PlateRecord(models.Model):
 class Request(models.Model):
     class Kind(models.TextChoices):
         INDIVIDUAL = "I", "Tablica indywidualna"
-        SMALL = "II", "Pula tablic wąskich"
+        SMALL = "II", "Pula tablic zmniejszonych"
         RESEARCH = "III", "Pula tablic tymczasowych"
 
     class Status(models.TextChoices):
@@ -269,7 +293,7 @@ class Request(models.Model):
         APPROVED = "APPROVED", "Zaakceptowany"
         REJECTED = "REJECTED", "Odrzucony"
         WITHDRAWN = "WITHDRAWN", "Wycofany"
-        EXPIRED = "EXPIRED", "Rezerwacja wygasła"
+        EXPIRED = "EXPIRED", "Wygasły"
 
     uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     reference_number = models.CharField(max_length=40, unique=True, null=True, editable=False)
@@ -279,7 +303,7 @@ class Request(models.Model):
     office = models.ForeignKey(Office, on_delete=models.PROTECT)
     author = models.ForeignKey(User, on_delete=models.PROTECT, related_name="authored_requests")
     record = models.OneToOneField(PlateRecord, null=True, blank=True, on_delete=models.PROTECT)
-    case_number = models.CharField(max_length=100)
+    case_number = models.CharField(max_length=100, blank=True)
     count = models.PositiveIntegerField(default=1)
     station = models.CharField(max_length=180, blank=True)
     justification = models.TextField(blank=True)
@@ -498,6 +522,16 @@ class IntegrationJob(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     @property
+    def notice_recipient(self):
+        """Adres z zapisanej treści powiadomienia e-mail (bez ponownego odczytu konta autora)."""
+        import json
+
+        try:
+            return json.loads(bytes(self.payload or b"{}")).get("to", "")
+        except (ValueError, TypeError, AttributeError):
+            return ""
+
+    @property
     def operation_label(self):
         return {
             "SEND": "Wysyłka pisma",
@@ -517,7 +551,7 @@ class IntegrationJob(models.Model):
             "RETRY_EXHAUSTED": "Wyczerpano próby",
             "REGISTERED": "Zapisano w EZD",
             "ACCEPTED": "Przyjęto przez serwer pocztowy",
-            "LOCAL_SAVED": "Zapisano w lokalnej skrzynce",
+            "LOCAL_SAVED": "Nie wysłano — tryb demonstracyjny lub testowy",
             "MONITORING": "Oczekuje na status lub dowody",
             "EDOR_DELIVERED": "Doręczona — dowód zarchiwizowany",
             "EDOR_DEEMED": "Uznana za doręczoną — dowód zarchiwizowany",

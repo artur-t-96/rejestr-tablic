@@ -1,6 +1,6 @@
 from django.urls import path
 
-from registry import account_invitation_views, session_views
+from registry import account_invitation_views, county_account_views, session_views
 from registry import views as v
 from registry.pool_import_views import import_pools
 from registry.record_import_views import import_records
@@ -20,13 +20,14 @@ urlpatterns = [
         v.request_action,
         name="request_action",
     ),
+    path("panel/szukaj/", v.number_search, name="number_search"),
+    path("panel/powiat/konta/", county_account_views.county_accounts, name="county_accounts"),
+    path("panel/powiat/konta/nowe/", county_account_views.county_account_edit, name="county_account_new"),
+    path(
+        "panel/powiat/konta/<int:pk>/", county_account_views.county_account_edit, name="county_account_edit"
+    ),
     path("panel/ewidencja/", v.records_list, name="records_list"),
     path("panel/ewidencja/<uuid:uuid>/", v.record_detail, name="record_detail"),
-    path(
-        "panel/ewidencja/<uuid:uuid>/przedluz/",
-        v.reservation_extend,
-        name="reservation_extend",
-    ),
     path("panel/ewidencja/<uuid:uuid>/przeniesienie/", v.record_transfer, name="record_transfer"),
     path("panel/ewidencja/<uuid:uuid>/zwolnienie/", v.record_release, name="record_release"),
     path("panel/eksport/", v.export_records, name="export_records"),

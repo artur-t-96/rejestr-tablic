@@ -7,7 +7,7 @@ from django.utils import timezone
 
 from .demo import demo_viewer, is_demo_email
 from .models import AccountInvitation, LoginCode, User
-from .services import audit, require_role
+from .services import audit, require_account_manager
 
 REMOVED_DOMAIN = "usuniete.invalid"
 
@@ -30,8 +30,9 @@ def account_label(user, *, viewer=None, with_email=False):
 def remove_account(actor, user_pk, version, reason, ip=None):
     from .forms import account_settings_snapshot
 
-    require_role(actor, "ADMIN")
+    require_account_manager(actor)
     user = User.objects.select_for_update(of=("self",)).get(pk=user_pk)
+    require_account_manager(actor, user)
     if user.removed_at:
         raise ValidationError("To konto jest już usunięte.")
     if user.pk == actor.pk:

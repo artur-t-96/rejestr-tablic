@@ -36,7 +36,7 @@ class AuditPresentationTests(TestCase):
         self.assertContains(page, "Fikcyjna korekta danych")
         self.assertContains(page, "Szczegóły techniczne zdarzenia")
         self.assertContains(page, "plate.updated")
-        self.assertContains(page, "Zarezerwowany")
+        self.assertContains(page, "Wniosek w przygotowaniu")
         self.assertContains(page, "Wniosek w toku")
         self.assertContains(page, "Przydzielony")
         self.assertEqual(list(AuditLog.objects.values()), before)
@@ -163,7 +163,7 @@ class AuditPresentationTests(TestCase):
     def test_transport_and_signature_states_use_event_meaning_instead_of_object_type(self):
         letter = self.req.letters.get()
         event = audit(None, "integration.result", letter, after={"status": "LOCAL_SAVED"})
-        self.assertEqual(present_event(event)["changes"][0]["after"], "Zapisano w lokalnej skrzynce")
+        self.assertEqual(present_event(event)["changes"][0]["after"], "Nie wysłano — tryb demonstracyjny lub testowy")
         event = audit(None, "account.invitation_state", self.a, after={"status": "QUEUED"})
         self.assertEqual(present_event(event)["changes"][0]["after"], "Oczekuje na wysyłkę")
         event = audit(None, "letter.signed", letter, after={"status": "TEST_SIGNED"})

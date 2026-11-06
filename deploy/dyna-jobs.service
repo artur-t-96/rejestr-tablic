@@ -1,5 +1,5 @@
 [Unit]
-Description=Dyna Rejestr Tablic - kolejka i wygasanie rezerwacji
+Description=Dyna Rejestr Tablic - kolejki
 After=network-online.target
 Wants=network-online.target
 
@@ -10,7 +10,6 @@ Group=dyna
 WorkingDirectory=/opt/dyna/current
 EnvironmentFile=/etc/dyna/runtime.env
 Environment=PYTHONDONTWRITEBYTECODE=1
-ExecStart=/opt/dyna/current/.venv/bin/python manage.py expire_reservations
 ExecStart=/opt/dyna/current/.venv/bin/python manage.py process_integrations
 ExecStart=/opt/dyna/current/.venv/bin/python manage.py process_account_invitations
 TimeoutStartSec=30min

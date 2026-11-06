@@ -1,6 +1,5 @@
 """Interleaving rzeczywistych transakcji; bez kontenerów i zewnętrznych usług."""
 
-import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 from threading import Barrier, Event
@@ -8,19 +7,17 @@ from unittest.mock import patch
 
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
-from django.db import close_old_connections, connection, transaction
+from django.db import close_old_connections, transaction
 from django.test import TestCase, TransactionTestCase, skipUnlessDBFeature
 from django.utils import timezone
 
 from .documents import lock_letter
 from .integrations import enqueue, process_job
-from .models import AuditLog, IntegrationJob, LoginCode, PlateRecord, User
+from .models import AuditLog, IntegrationJob, LoginCode, User
 from .services import (
     allocate_pool,
     create_request,
     decide_request,
-    expire_reservations,
-    extend_reservation,
     issue_slot,
     send_request,
     withdraw_request,
@@ -32,29 +29,6 @@ class ReservationDeadlineTests(TestCase):
     def setUp(self):
         self.admin, self.ump, self.a, self.b = fixtures()
 
-    def test_expired_reservation_cannot_be_extended_sent_or_decided(self):
-        req = create_request(self.a, data())
-        send_request(self.a, req.uuid)
-        past = timezone.now() - timedelta(seconds=1)
-        PlateRecord.objects.filter(pk=req.record_id).update(reservation_until=past)
-        with self.assertRaises(ValidationError):
-            extend_reservation(self.ump, req.record.uuid, 14, "Za późno")
-        with self.assertRaises(ValidationError):
-            decide_request(self.ump, req.uuid, True)
-        with self.assertRaises(ValidationError):
-            withdraw_request(self.a, req.uuid, "Za późno")
-        second = create_request(self.a, data("P1TEST"))
-        PlateRecord.objects.filter(pk=second.record_id).update(reservation_until=past)
-        with self.assertRaises(ValidationError):
-            send_request(self.a, second.uuid)
-        self.assertEqual(expire_reservations(), 1)
-        for request in (req, second):
-            request.refresh_from_db()
-            request.record.refresh_from_db()
-            self.assertEqual(request.status, "EXPIRED")
-            self.assertEqual(request.record.status, "RELEASED")
-            self.assertEqual(request.record.reservation_until, past)
-        self.assertFalse(AuditLog.objects.filter(action="reservation.extended").exists())
 
     def test_otp_for_administrator_without_office(self):
         token = LoginCode.objects.create(
@@ -107,78 +81,6 @@ class DatabaseConcurrencyTests(TransactionTestCase):
                 resume.set()
             first.result(timeout=5)
 
-    @skipUnlessDBFeature("has_select_for_update")
-    def test_expiry_with_waiting_withdrawal_has_no_deadlock(self):
-        # Wygaszanie zatrzymane po blokadzie tablicy, przed UPDATE wniosku.
-        # Drugi proces musi już czekać na bazie. Stara kolejność wniosek →
-        # tablica powodowała wtedy rzeczywisty deadlock PostgreSQL.
-        req = create_request(self.a, data())
-        PlateRecord.objects.filter(pk=req.record_id).update(
-            reservation_until=timezone.now() - timedelta(seconds=1)
-        )
-        expiry_locked, resume_expiry, withdrawal_started = Event(), Event(), Event()
-        worker_pid = []
-
-        def expire():
-            close_old_connections()
-
-            def pause(execute, sql, params, many, context):
-                if sql.startswith('UPDATE "registry_request"'):
-                    expiry_locked.set()
-                    if not resume_expiry.wait(5):
-                        raise TimeoutError("Nie wznowiono wygaszania w teście.")
-                return execute(sql, params, many, context)
-
-            try:
-                with connection.execute_wrapper(pause):
-                    return expire_reservations()
-            finally:
-                close_old_connections()
-
-        def withdraw():
-            close_old_connections()
-            try:
-                user = User.objects.get(pk=self.a.pk)
-                with connection.cursor() as cursor:
-                    cursor.execute("SELECT pg_backend_pid()")
-                    worker_pid.append(cursor.fetchone()[0])
-                withdrawal_started.set()
-                try:
-                    withdraw_request(user, req.uuid, "Test współbieżności")
-                    return "withdrawn"
-                except ValidationError:
-                    return "expired"
-            finally:
-                close_old_connections()
-
-        with ThreadPoolExecutor(max_workers=2) as executor:
-            first = executor.submit(expire)
-            try:
-                self.assertTrue(expiry_locked.wait(5))
-                second = executor.submit(withdraw)
-                self.assertTrue(withdrawal_started.wait(5))
-                waiting = False
-                until = time.monotonic() + 3
-                while time.monotonic() < until:
-                    with connection.cursor() as cursor:
-                        cursor.execute(
-                            "SELECT wait_event_type FROM pg_stat_activity WHERE pid = %s", worker_pid
-                        )
-                        state = cursor.fetchone()
-                    if state and state[0] == "Lock":
-                        waiting = True
-                        break
-                    time.sleep(0.02)
-                self.assertTrue(waiting, "Nie potwierdzono oczekiwania na blokadę PostgreSQL.")
-            finally:
-                resume_expiry.set()
-            self.assertEqual(first.result(timeout=5), 1)
-            self.assertEqual(second.result(timeout=5), "expired")
-        req.refresh_from_db()
-        req.record.refresh_from_db()
-        self.assertEqual((req.status, req.record.status), ("EXPIRED", "RELEASED"))
-        self.assertEqual(AuditLog.objects.filter(action="reservation.expired").count(), 1)
-        self.assertFalse(AuditLog.objects.filter(action="request.withdrawn").exists())
 
     def test_decision_and_withdrawal_leave_consistent_request_and_plate(self):
         req = create_request(self.a, data())

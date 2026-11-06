@@ -4,7 +4,7 @@ from django import forms
 
 from .models import FlaggedWord, LetterTemplate, Office, PlateRecord, Request, User
 from .services import COUNTY_FIELDS
-from .validation import validate_number, validate_part, validate_vin
+from .validation import validate_number, validate_part
 
 
 class LoginEmailForm(forms.Form):
@@ -103,19 +103,41 @@ class EDorSearchForm(forms.Form):
     offset = forms.IntegerField(label="Strona wyników (od 0)", min_value=0, max_value=10000, initial=0)
 
 
+# Uwagi UMP z 06.11.2026 (pkt 11): rodzaj widoczny w formularzu, ale jeszcze niedostępny.
+SERVICES_KIND = "SLUZBY"
+PREPARING = "Funkcja w przygotowaniu"
+
+
+class KindSelect(forms.Select):
+    """Lista rodzajów wniosku z wyszarzoną opcją funkcji w przygotowaniu."""
+
+    def create_option(self, name, value, *args, **kwargs):
+        option = super().create_option(name, value, *args, **kwargs)
+        if value == SERVICES_KIND:
+            option["attrs"].update({"disabled": True, "title": PREPARING})
+        return option
+
+
+POOL_COUNT_CHOICES = [(str(n), str(n)) for n in range(10, 101, 10)]
+
+
 class RequestForm(forms.Form):
-    kind = forms.ChoiceField(label="Rodzaj wniosku", choices=Request.Kind.choices)
+    kind = forms.ChoiceField(
+        label="Rodzaj wniosku",
+        choices=Request.Kind.choices + [(SERVICES_KIND, f"Tablice dla służb — {PREPARING.lower()}")],
+        widget=KindSelect,
+    )
     number = forms.CharField(
         label="Pełny numer tablicy indywidualnej",
         required=False,
         help_text="Np. P0 KOWAL. Dla wniosku o pulę pozostaw puste.",
     )
-    owner = forms.CharField(label="Właściciel / nazwa firmy", required=False, max_length=180)
-    address = forms.CharField(label="Adres właściciela", required=False, max_length=300)
-    vin = forms.CharField(label="VIN, jeśli znany", required=False, max_length=17)
-    case_number = forms.CharField(label="Numer sprawy w urzędzie", max_length=100)
-    station = forms.CharField(
-        label="Stacja / przeznaczenie (tablice tymczasowe)", required=False, max_length=180
+    # Lista 10–100 obowiązuje tylko wniosek o pulę, dlatego sprawdza ją `clean`, nie pole.
+    count = forms.IntegerField(
+        label="Liczba tablic w puli",
+        required=False,
+        widget=forms.Select(choices=[("", "Wybierz liczbę")] + POOL_COUNT_CHOICES),
+        help_text="Dotyczy wniosku o pulę tablic zmniejszonych lub tymczasowych. Najwięcej 100.",
     )
     justification = forms.CharField(
         label="Uzasadnienie / uwagi",
@@ -129,21 +151,21 @@ class RequestForm(forms.Form):
             self.fields["kind"].choices = [(Request.Kind.INDIVIDUAL, Request.Kind.INDIVIDUAL.label)]
             self.initial["kind"] = Request.Kind.INDIVIDUAL
             self.fields["number"].help_text = "Np. P0 KOWAL."
-            del self.fields["station"]
+            del self.fields["count"]
 
     def clean(self):
         data = super().clean()
-        if data.get("kind") == "I":
+        if data.get("kind") == SERVICES_KIND:
+            self.add_error("kind", f"Tablice dla służb: {PREPARING.lower()}.")
+        elif data.get("kind") == "I":
             data["count"] = 1
-            for name, validator in [("number", validate_number), ("vin", validate_vin)]:
-                try:
-                    data[name] = validator(data.get(name, ""))
-                except forms.ValidationError as exc:
-                    self.add_error(name, exc)
-            if not data.get("owner"):
-                self.add_error("owner", "Podaj właściciela.")
+            try:
+                data["number"] = validate_number(data.get("number", ""))
+            except forms.ValidationError as exc:
+                self.add_error("number", exc)
         elif data.get("kind") in {"II", "III"}:
-            # Akceptacja wniosku nadaje jeden blok numerów; urząd nie podaje liczby.
+            if data.get("count") not in range(10, 101, 10):
+                self.add_error("count", "Wybierz liczbę tablic w puli: 10, 20, …, 100.")
             if not data.get("justification"):
                 self.add_error("justification", "Podaj uzasadnienie zapotrzebowania.")
         return data
@@ -154,6 +176,9 @@ class PoolForm(forms.Form):
 
     kind = forms.ChoiceField(label="Rodzaj puli", choices=Request.Kind.choices[1:])
     office = forms.ModelChoiceField(label="Urząd", queryset=Office.objects.filter(active=True))
+    count = forms.TypedChoiceField(
+        label="Liczba tablic w puli", choices=POOL_COUNT_CHOICES, coerce=int, initial="100"
+    )
 
 
 class DecisionForm(forms.Form):
@@ -312,14 +337,19 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ["email", "first_name", "last_name", "role", "office", "is_active"]
+        fields = ["email", "first_name", "last_name", "role", "office", "county_admin", "is_active"]
         labels = {
             "email": "E-mail",
             "first_name": "Imię",
             "last_name": "Nazwisko",
             "role": "Rola",
             "office": "Urząd",
+            "county_admin": "Administrator powiatu",
             "is_active": "Aktywne konto",
+        }
+        help_texts = {
+            "county_admin": "Tylko dla urzędnika powiatowego. Jeden na urząd; zarządza kontami urzędników "
+            "swojego urzędu.",
         }
 
     def clean_email(self):
@@ -447,3 +477,17 @@ class EZDRegisterForm(forms.Form):
             if not values.get("reason", "").strip():
                 self.add_error("reason", "Podaj uzasadnienie powiązania dokumentu ze sprawą EZD.")
         return values
+
+
+class CountyUserForm(UserForm):
+    """Konto urzędnika zakładane przez administratora powiatu: rola i urząd są stałe."""
+
+    class Meta(UserForm.Meta):
+        fields = ["email", "first_name", "last_name", "is_active"]
+
+    def __init__(self, *args, office, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.instance.pk:
+            # Walidacja modelu (domeny e-mail urzędu) potrzebuje roli i urzędu przed zapisem.
+            self.instance.role, self.instance.office, self.instance.county_admin = User.Role.COUNTY, office, False
+        self.fields["is_active"].label = "Aktywne konto (odznacz, aby zablokować dostęp)"

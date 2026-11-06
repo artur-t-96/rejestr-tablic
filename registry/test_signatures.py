@@ -185,7 +185,7 @@ class SignatureTests(TestCase):
             {
                 "kind": "III",
                 "case_number": "TEST/SIGN/III",
-                "count": 2,
+                "count": 10,
                 "justification": "Fikcyjne zapotrzebowanie",
             },
         )

@@ -883,7 +883,8 @@ def pool_rows(request):
         pools = pools.filter(kind=request.GET["kind"])
     if request.GET.get("office"):
         pools = pools.filter(office_id=request.GET["office"])
-    return pools_with_range(pools)
+    # Jawna kolejność: zapytanie z agregacją na PostgreSQL nie gwarantuje porządku z Meta.
+    return pools_with_range(pools.order_by("kind", "start", "pk"))
 
 
 @login_required

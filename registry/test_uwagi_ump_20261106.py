@@ -1,10 +1,13 @@
 """Uwagi UMP z 06.11.2026: nazwa, wniosek bez zbędnych pól, bez rezerwacji, wyszukiwarka,
 administrator powiatu i funkcje w przygotowaniu."""
 
+from io import BytesIO
+
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import IntegrityError, transaction
 from django.test import TestCase
 from django.urls import reverse
+from pypdf import PdfReader
 
 from .accounts import remove_account
 from .forms import account_settings_snapshot
@@ -73,6 +76,33 @@ class NoReservationTests(TestCase):
         withdraw_request(self.a, req.uuid, "Rezygnacja")
         self.assertEqual(PlateRecord.objects.get(pk=req.record_id).status, "RELEASED")
         self.assertTrue(create_request(self.b, data()).record_id)
+
+    def test_no_reservation_wording_while_request_in_progress(self):
+        # Prezentacja dla urzędów 18.11.2026: system weryfikuje unikalność, nie „rezerwuje” numerów.
+        req = create_request(self.a, data())
+        checker = {"part": "TEST", "prefix": "P", "digit": ""}
+        # Szkic widzi tylko powiat; po złożeniu wniosek widzi też UMP.
+        for stage, users in (("szkic", [(self.a, "powiat")]), ("złożony", [(self.a, "powiat"), (self.ump, "UMP")])):
+            if stage == "złożony":
+                send_request(self.a, req.uuid)
+            self.client.logout()
+            pages = {"publiczna sprawdzarka": self.client.post(reverse("public"), checker)}
+            self.assertContains(pages["publiczna sprawdzarka"], "Niedostępny")
+            for user, label in users:
+                self.client.force_login(user)
+                pages[f"sprawdzarka {label}"] = self.client.post(reverse("public"), checker)
+                pages[f"wnioski {label}"] = self.client.get(reverse("requests_list"))
+                pages[f"wniosek {label}"] = self.client.get(reverse("request_detail", args=[req.uuid]))
+                pages[f"karta wpisu {label}"] = self.client.get(reverse("record_detail", args=[req.record.uuid]))
+                pages[f"szukaj {label}"] = self.client.get(reverse("number_search"), {"q": "TEST"})
+            self.assertContains(pages["sprawdzarka powiat"], "wniosek w toku")
+            for name, page in pages.items():
+                self.assertEqual(page.status_code, 200, f"{stage}: {name}")
+                self.assertNotIn("rezerw", page.content.decode().lower(), f"{stage}: {name}")
+        letter = PdfReader(BytesIO(bytes(req.letters.get().pdf)))
+        text = "\n".join(p.extract_text() for p in letter.pages)
+        self.assertIn("P0 TEST", text)
+        self.assertNotIn("rezerw", text.lower())
 
     def test_new_request_page_does_not_mention_reservation(self):
         self.client.force_login(self.a)

@@ -263,6 +263,11 @@ class PlateRecord(models.Model):
     reminded_until = models.DateTimeField(null=True, blank=True)
     letter_number = models.CharField(max_length=100, blank=True)
     note = models.TextField(blank=True)
+    # Wniosek o serię numerów (uwagi UMP 15.11.2026): wszystkie wpisy serii, łącznie z pierwszym
+    # (`Request.record`), wskazują wniosek. Pojedynczy numer nie ma tego powiązania.
+    series_request = models.ForeignKey(
+        "Request", null=True, blank=True, on_delete=models.PROTECT, related_name="series_records"
+    )
     version = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -338,6 +343,22 @@ class Request(models.Model):
     @property
     def reference(self):
         return self.reference_number or f"W/{self.created_at.year}/{self.pk:05d}"
+
+    @property
+    def plate_records(self):
+        """Wpisy numerów z wniosku: cała seria albo pojedynczy wpis; pusta lista dla puli."""
+        if not self.record_id:
+            return []
+        series = sorted(self.series_records.all(), key=lambda record: record.number)
+        return series or [self.record]
+
+    @property
+    def subject_numbers(self):
+        """Numer albo zakres serii w zapisie jak na tablicy, np. „P1 MAJA1 – P1 MAJA9”."""
+        records = self.plate_records
+        if len(records) > 1:
+            return f"{records[0].display_number} – {records[-1].display_number}"
+        return records[0].display_number if records else ""
 
 
 class Pool(models.Model):

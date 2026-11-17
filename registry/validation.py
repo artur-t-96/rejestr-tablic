@@ -31,6 +31,34 @@ def validate_number(value):
     return number
 
 
+# Uwagi UMP z 15.11.2026: jeden wniosek o serię numerów, np. P1MAJA1 – P1MAJA9.
+SERIES_MAX = 99
+
+
+def series_numbers(first, last):
+    """Kolejne numery serii różniące się wyłącznie końcowymi cyframi; obie granice włącznie."""
+    first, last = validate_number(first), validate_number(last)
+    head, digits = re.fullmatch(r"(.*?)(\d*)", first).groups()
+    last_head, last_digits = re.fullmatch(r"(.*?)(\d*)", last).groups()
+    if (
+        len(head) < 3
+        or not digits
+        or head != last_head
+        or len(digits) != len(last_digits)
+        or int(last_digits) <= int(digits)
+    ):
+        raise ValidationError(
+            "Seria: numery muszą różnić się tylko końcowymi cyframi, rosnąco, np. P1 MAJA1 – P1 MAJA9."
+        )
+    width = len(digits)
+    numbers = [f"{head}{n:0{width}d}" for n in range(int(digits), int(last_digits) + 1)]
+    if len(numbers) > SERIES_MAX:
+        raise ValidationError(f"Seria może liczyć najwyżej {SERIES_MAX} numerów.")
+    for number in numbers:
+        validate_number(number)
+    return numbers
+
+
 SMALL_LETTERS = "ACEFGHJKLMNPRSTUVWXY"
 
 

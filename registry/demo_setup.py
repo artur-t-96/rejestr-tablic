@@ -214,6 +214,7 @@ def ensure_access_code():
 def seed_cases(users):
     """Kilka fikcyjnych spraw, żeby każda rola miała co obejrzeć; pomijane, gdy numer już istnieje."""
     from .services import create_request, decide_request, send_request, update_record
+    from .signatures import sign_letter
 
     gniezno, pila, ump = users["powiat-gniezno"], users["powiat-pila"], users["ump"]
     created = 0
@@ -241,6 +242,8 @@ def seed_cases(users):
                 # Wniosek nie zawiera właściciela; ewidencja pokazowa ma go uzupełnionego.
                 PlateRecord.objects.filter(pk=req.record_id).update(owner=owner)
                 if step != "draft":
+                    # Do UMP trafia wyłącznie wniosek podpisany (podpis symulatora demo).
+                    sign_letter(author, req.letters.get(kind="APPLICATION"), reason="Dane pokazowe")
                     send_request(author, req.uuid)
                 if step in ("approve", "sold"):
                     decide_request(ump, req.uuid, True, "Dane pokazowe")

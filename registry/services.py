@@ -4,13 +4,14 @@ from datetime import timedelta
 from django.conf import settings
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import IntegrityError, transaction
+from django.db.models import Q
 from django.utils import timezone
 
 from .demo import DOMAIN as DEMO_DOMAIN
 from .demo import demo_viewer
 from .models import AuditLog, Letter, Office, PlateRecord, Pool, PoolSlot, Request
 from .suggestions import free_suggestions
-from .validation import pool_numbers, validate_number, validate_part, validate_vin
+from .validation import pool_numbers, series_numbers, validate_number, validate_part, validate_vin
 
 
 def require_role(user, *roles):
@@ -66,18 +67,55 @@ def lock_request(queryset, req_id):
         if snapshot["record_id"]
         else None
     )
+    # Pozostałe numery serii blokujemy w stałej kolejności, przed wnioskiem.
+    series = list(
+        PlateRecord.objects.select_for_update().filter(series_request_id=snapshot["pk"]).order_by("pk")
+    )
     req = queryset.select_for_update().get(pk=snapshot["pk"])
     if req.record_id != snapshot["record_id"]:
         raise ValidationError("Powiązanie wniosku zmieniło się. Odśwież dane.")
     if record:
         req.record = record
+    req.locked_records = sorted(
+        [item for item in series if item.pk != getattr(record, "pk", None)] + ([record] if record else []),
+        key=lambda item: item.number,
+    )
     return req
+
+
+def requests_of_record(record):
+    """Wnioski, których dotyczy wpis: pojedynczy numer albo dowolny numer serii."""
+    condition = Q(record=record)
+    if record.series_request_id:
+        condition |= Q(pk=record.series_request_id)
+    return Request.objects.filter(condition)
+
+
+def require_signed_application(req):
+    """Wniosek trafia do UMP wyłącznie z podpisanym pismem (uwagi UMP 15.11.2026)."""
+    if not settings.SIGNED_APPLICATION_REQUIRED:
+        return
+    letter = req.letters.filter(kind="APPLICATION").order_by("-created_at", "-pk").first()
+    if letter is None or not letter.signed_pdf:
+        raise ValidationError(
+            "Najpierw podpisz wniosek podpisem elektronicznym. Niepodpisanego wniosku nie można złożyć do UMP."
+        )
 
 
 def require_open_record(record):
     """Numer z wniosku pozostaje zajęty do rozpatrzenia albo wycofania; nie ma terminu."""
     if record and record.status not in {"RESERVED", "SENT"}:
         raise ValidationError("Numer z wniosku nie jest już zajęty przez ten wniosek.")
+
+
+def occupied_message(numbers):
+    from .validation import display_number
+
+    shown = ", ".join(display_number(n) for n in numbers[:5]) + (" …" if len(numbers) > 5 else "")
+    return (
+        f"Numer zajęty: {shown}. Wniosek można złożyć tylko o wolny numer — "
+        "sprawdź dostępność w „Sprawdź tablicę”."
+    )
 
 
 def availability(part, prefix="P", digit=None, *, viewer=None):
@@ -133,27 +171,37 @@ def create_request(user, data, ip=None):
     ):
         # Wspólna instancja pokazowa: ograniczamy przyrost bazy powodowany przez konta demo.
         raise ValidationError("Dzienny limit wniosków w trybie demonstracyjnym został wyczerpany.")
-    record = None
+    records = []
     if kind == "I":
-        number = validate_number(data.get("number", ""))
-        try:
-            with transaction.atomic():
-                record = PlateRecord.objects.create(
-                    number=number,
-                    office=office,
-                )
-        except IntegrityError as exc:
-            raise ValidationError("Ten wyróżnik został już zajęty. Wybierz inny numer.") from exc
-        audit(
-            user,
-            "plate.reserved",
-            record,
-            after={"number": number, "status": "RESERVED"},
-            ip=ip,
+        numbers = (
+            series_numbers(data["number"], data["number_to"])
+            if data.get("number_to")
+            else [validate_number(data.get("number", ""))]
         )
+        taken = list(
+            PlateRecord.objects.filter(number__in=numbers)
+            .exclude(status="RELEASED")
+            .values_list("number", flat=True)
+        )
+        if taken:
+            raise ValidationError(occupied_message(sorted(taken)))
+        for number in numbers:
+            try:
+                with transaction.atomic():
+                    record = PlateRecord.objects.create(number=number, office=office)
+            except IntegrityError as exc:
+                raise ValidationError(occupied_message([number])) from exc
+            records.append(record)
+            audit(
+                user,
+                "plate.reserved",
+                record,
+                after={"number": number, "status": "RESERVED"},
+                ip=ip,
+            )
     elif not data.get("justification", "").strip():
         raise ValidationError("Wniosek o pulę wymaga uzasadnienia.")
-    count = 1 if kind == "I" else require_pool_count(data.get("count"))
+    count = 1 if kind == "I" else require_pool_count(data.get("count"))  # seria: liczba numerów niżej
     from .numbering import request_number
 
     reference, reference_year, reference_ordinal = request_number()
@@ -164,11 +212,21 @@ def create_request(user, data, ip=None):
         kind=kind,
         office=office,
         author=user,
-        record=record,
+        record=records[0] if records else None,
         count=count,
         justification=data.get("justification", ""),
     )
-    audit(user, "request.created", req, after={"status": req.status, "kind": kind}, ip=ip)
+    if len(records) > 1:
+        PlateRecord.objects.filter(pk__in=[r.pk for r in records]).update(series_request=req)
+        req.count = len(records)
+        req.save(update_fields=["count"])
+    audit(
+        user,
+        "request.created",
+        req,
+        after={"status": req.status, "kind": kind, **({"numbers": len(records)} if len(records) > 1 else {})},
+        ip=ip,
+    )
     make_letter(user, "APPLICATION", req=req, ip=ip)
     return req
 
@@ -178,20 +236,24 @@ def send_request(user, req_id, ip=None):
     req = lock_request(visible(user, Request.objects.all()), req_id)
     if req.kind in ["II", "III"]:
         require_role(user, "COUNTY")
-    require_open_record(req.record)
+    if req.office_id != user.office_id:
+        raise PermissionDenied("Wniosek składa urząd, który go przygotował.")
+    for record in req.locked_records:
+        require_open_record(record)
     if req.status != "DRAFT":
         raise ValidationError("Można złożyć tylko aktualny szkic wniosku.")
-    if req.record:
-        validate_number(req.record.number)
+    require_signed_application(req)
+    for record in req.locked_records:
+        validate_number(record.number)
     req.status = "SENT"
     req.sent_at = timezone.now()
     req.save(update_fields=["status", "sent_at"])
-    if req.record:
-        previous = req.record.status
-        req.record.status = "SENT"
-        req.record.version += 1
-        req.record.save(update_fields=["status", "version"])
-        audit(user, "plate.submitted", req.record, {"status": previous}, {"status": "SENT"}, ip=ip)
+    for record in req.locked_records:
+        previous = record.status
+        record.status = "SENT"
+        record.version += 1
+        record.save(update_fields=["status", "version"])
+        audit(user, "plate.submitted", record, {"status": previous}, {"status": "SENT"}, ip=ip)
     audit(user, "request.submitted", req, {"status": "DRAFT"}, {"status": "SENT"}, ip=ip)
     return req
 
@@ -199,19 +261,23 @@ def send_request(user, req_id, ip=None):
 @transaction.atomic
 def withdraw_request(user, req_id, reason, ip=None):
     req = lock_request(visible(user, Request.objects.all()), req_id)
-    require_open_record(req.record)
+    if req.office_id != user.office_id:
+        # Uwagi UMP z 15.11.2026: rozpatrujący nie wycofuje cudzego wniosku.
+        raise PermissionDenied("Wniosek wycofuje wyłącznie urząd, który go złożył.")
+    for record in req.locked_records:
+        require_open_record(record)
     if req.status not in ["DRAFT", "SENT"] or not reason.strip():
         raise ValidationError("Wycofanie wymaga aktywnego wniosku i uzasadnienia.")
     old = req.status
     req.status = "WITHDRAWN"
     req.reason = reason
     req.save(update_fields=["status", "reason"])
-    if req.record:
-        previous = req.record.status
-        req.record.status = "RELEASED"
-        req.record.version += 1
-        req.record.save(update_fields=["status", "version"])
-        audit(user, "plate.withdrawn", req.record, {"status": previous}, {"status": "RELEASED"}, reason, ip)
+    for record in req.locked_records:
+        previous = record.status
+        record.status = "RELEASED"
+        record.version += 1
+        record.save(update_fields=["status", "version"])
+        audit(user, "plate.withdrawn", record, {"status": previous}, {"status": "RELEASED"}, reason, ip)
     audit(
         user,
         "request.withdrawn",
@@ -383,18 +449,20 @@ def allocate_block(user, kind, office_id, count, *, req=None, ip=None):
 def decide_request(user, req_id, approve, reason="", pool_data=None, ip=None):
     require_role(user, "MAIN")
     req = lock_request(Request.objects.all(), req_id)
-    require_open_record(req.record)
+    for record in req.locked_records:
+        require_open_record(record)
     if req.status != "SENT":
         raise ValidationError("Wniosek nie oczekuje na rozpatrzenie.")
     if not approve and not reason.strip():
         raise ValidationError("Odmowa wymaga uzasadnienia.")
-    if approve and req.record:
-        validate_number(req.record.number)
+    if approve:
+        for record in req.locked_records:
+            validate_number(record.number)
     pool = None
-    if req.record:
-        record = req.record
-        if record.status != "SENT":
-            raise ValidationError("Nieaktualny stan wpisu numeru.")
+    if any(record.status != "SENT" for record in req.locked_records):
+        raise ValidationError("Nieaktualny stan wpisu numeru.")
+    # Seria jest rozpatrywana jednym stanowiskiem: wszystkie numery naraz.
+    for record in req.locked_records:
         record.status = "ALLOCATED" if approve else "RELEASED"
         record.allocated_at = timezone.now() if approve else None
         record.reservation_until = None
@@ -409,7 +477,7 @@ def decide_request(user, req_id, approve, reason="", pool_data=None, ip=None):
             reason,
             ip,
         )
-    elif approve:
+    if not req.record_id and approve:
         # Akceptacja wniosku o pulę nadaje kolejne wolne numery w liczbie z wniosku; zakres
         # podany jawnie służy wyłącznie wewnętrznym danym pokazowym i testom.
         pool = (
@@ -435,7 +503,9 @@ def decide_request(user, req_id, approve, reason="", pool_data=None, ip=None):
     if not pool:
         letter = make_letter(user, "APPROVAL" if approve else "REJECTION", req=req, ip=ip)
         if req.record and approve:
-            PlateRecord.objects.filter(pk=req.record_id).update(letter_number=letter.number)
+            PlateRecord.objects.filter(pk__in=[r.pk for r in req.locked_records]).update(
+                letter_number=letter.number
+            )
     else:
         letter = pool.letters.get(kind="POOL")
     from .decision_notifications import enqueue_decision_notice
@@ -478,7 +548,7 @@ def update_record(user, record_id, data, reason, version, ip=None, action="plate
     if set(data) - set(allowed):
         raise PermissionDenied("Próba zmiany pola poza zakresem uprawnień.")
     if "office_id" in data and data["office_id"] != record.office_id:
-        if Request.objects.filter(record=record, status__in=["DRAFT", "SENT"]).exists():
+        if requests_of_record(record).filter(status__in=["DRAFT", "SENT"]).exists():
             raise ValidationError("Nie można zmienić urzędu, gdy wniosek czeka na rozpatrzenie.")
         if not Office.objects.filter(pk=data["office_id"], active=True).exists():
             raise ValidationError("Wybierz istniejący aktywny urząd prowadzący.")
@@ -490,7 +560,7 @@ def update_record(user, record_id, data, reason, version, ip=None, action="plate
     status = data.get("status", record.status)
     if status in ["RESERVED", "SENT"] and status != record.status:
         raise ValidationError("Ten status tworzy wyłącznie wniosek.")
-    open_request = Request.objects.filter(record=record, status__in=["DRAFT", "SENT"]).exists()
+    open_request = requests_of_record(record).filter(status__in=["DRAFT", "SENT"]).exists()
     if status == "RELEASED" and open_request:
         raise ValidationError(
             "Nie można zwolnić numeru z aktywnym wnioskiem; wycofaj wniosek albo rozpatrz go."
@@ -503,7 +573,7 @@ def update_record(user, record_id, data, reason, version, ip=None, action="plate
     if (
         record.status == "RELEASED"
         and status != "RELEASED"
-        and Request.objects.filter(record=record, status__in=["REJECTED", "WITHDRAWN", "EXPIRED"]).exists()
+        and requests_of_record(record).filter(status__in=["REJECTED", "WITHDRAWN", "EXPIRED"]).exists()
     ):
         raise ValidationError(
             "Ten wpis nie był przydziałem: wniosek odrzucono, wycofano albo wygasł. "
@@ -561,13 +631,12 @@ def transfer_record(user, record_id, data, reason, version, ip=None):
         raise ValidationError("Wybierz urząd inny niż obecny urząd prowadzący.")
     if not Office.objects.filter(pk=office_id, active=True).exclude(kind="MAIN").exists():
         raise ValidationError("Wybierz aktywny urząd wnioskujący (starostwo lub miasto).")
-    owner = (data.get("owner") or record.buyer or "").strip()
-    if not owner:
-        raise ValidationError("Podaj nowego właściciela pojazdu.")
+    # Od 15.11.2026 formularz nie zbiera danych właściciela; zostają dane z wpisu (API może je podać).
+    owner = (data.get("owner") or record.buyer or record.owner or "").strip()
     fields = {
         "office_id": office_id,
         "owner": owner,
-        "address": (data.get("address") or "").strip(),
+        "address": (data["address"] if "address" in data else record.address or "").strip(),
         # Numer zostaje w użyciu u nowego właściciela; zbycie jest już rozliczone przeniesieniem,
         # a jego dane zachowuje historia wpisu.
         "status": "ISSUED" if record.status == "SOLD" else record.status,

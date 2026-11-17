@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
+from django.test.utils import override_settings
 from django.utils import timezone
 
 from registry.documents import DEFAULT_TEMPLATES
@@ -128,7 +129,9 @@ class Command(BaseCommand):
                         "count": 1,
                     },
                 )
-                send_request(users["gniezno"], req.uuid)
+                # Lokalne dane przykładowe: bez profilu podpisu, więc reguła podpisu jest tu wyłączona.
+                with override_settings(SIGNED_APPLICATION_REQUIRED=False):
+                    send_request(users["gniezno"], req.uuid)
                 if number != "P5ANNA":
                     decide_request(users["ump"], req.uuid, True, "Dane pokazowe")
             allocate_pool(

@@ -136,7 +136,7 @@ def letter_content(kind, req, pool, sender, recipient):
     title, body = (template.title, template.body) if template else DEFAULT_TEMPLATES[kind]
     validate_template(body)
     subject = (
-        req.record.display_number
+        req.subject_numbers + (f" (seria, {req.count} numerów)" if req.count > 1 else "")
         if req and req.record
         else (f"{req.get_kind_display()} - kolejny blok numerów" if req else "")
     )

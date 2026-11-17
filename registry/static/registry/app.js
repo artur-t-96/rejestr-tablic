@@ -2,25 +2,81 @@ document.querySelectorAll('.sidebar nav a').forEach(link => {
   if (window.location.pathname === link.getAttribute('href')) link.setAttribute('aria-current', 'page');
 });
 const kind = document.querySelector('#id_kind');
-if (kind && document.querySelector('#id_owner')) {
+if (kind && document.querySelector('#id_number')) {
+  // Uwagi UMP z 15.11.2026: rodzaj wniosku decyduje o polach — numer albo liczba tablic w puli.
   const toggle = () => {
-    ['number', 'owner', 'address', 'vin'].forEach(name => {
+    const individual = kind.value === 'I';
+    [['number', individual], ['number_to', individual], ['count', !individual]].forEach(([name, shown]) => {
       const field = document.querySelector('#id_' + name);
       if (field) {
-        field.closest('div').hidden = kind.value !== 'I';
-        field.disabled = kind.value !== 'I';
-      }
-    });
-    ['station', 'justification'].forEach(name => {
-      const field = document.querySelector('#id_' + name);
-      if (field) {
-        field.closest('div').hidden = kind.value === 'I';
-        field.disabled = kind.value === 'I';
+        field.closest('div').hidden = !shown;
+        field.disabled = !shown;
       }
     });
   };
   kind.addEventListener('change', toggle);
   toggle();
+}
+
+const numberField = document.querySelector('#id_number');
+const numberCheck = document.querySelector('[data-number-check]');
+if (numberField && numberCheck) {
+  // Podpowiedź przy wpisywaniu: czy numer (seria) jest wolny. Serwer i tak sprawdza przy zapisie.
+  const seriesEnd = document.querySelector('#id_number_to');
+  const message = document.createElement('p');
+  message.className = 'number-check';
+  message.setAttribute('aria-live', 'polite');
+  numberField.closest('div').appendChild(message);
+  let timer;
+  const check = () => {
+    clearTimeout(timer);
+    const value = numberField.value.trim();
+    if (value.length < 5) { message.textContent = ''; message.className = 'number-check'; return; }
+    timer = setTimeout(async () => {
+      const params = new URLSearchParams({ number: value, number_to: seriesEnd ? seriesEnd.value.trim() : '' });
+      try {
+        const response = await fetch(numberCheck.dataset.numberCheck + '?' + params, { credentials: 'same-origin' });
+        const result = await response.json();
+        message.textContent = result.message;
+        message.className = 'number-check ' + (result.ok ? 'ok' : 'taken');
+      } catch (error) {
+        message.textContent = '';
+      }
+    }, 350);
+  };
+  numberField.addEventListener('input', check);
+  if (seriesEnd) seriesEnd.addEventListener('input', check);
+  if (numberField.value) check();
+}
+
+const autoFilter = document.querySelector('[data-auto-filter]');
+if (autoFilter) {
+  // Uwagi UMP z 15.11.2026: wybór filtra od razu odświeża listę, bez „Filtruj”.
+  const submit = () => {
+    autoFilter.querySelectorAll('input, select').forEach(field => { field.disabled = !field.value; });
+    autoFilter.submit();
+  };
+  autoFilter.querySelectorAll('select, input[type="date"]').forEach(field => field.addEventListener('change', submit));
+  const search = autoFilter.querySelector('input[name="q"]');
+  if (search) {
+    let timer;
+    search.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        try { sessionStorage.setItem('filter-focus', 'q'); } catch (error) {}
+        submit();
+      }, 600);
+    });
+    try {
+      if (sessionStorage.getItem('filter-focus') === 'q') {
+        sessionStorage.removeItem('filter-focus');
+        search.focus();
+        search.setSelectionRange(search.value.length, search.value.length);
+      }
+    } catch (error) {}
+  }
+  const button = autoFilter.querySelector('.filter-submit');
+  if (button) button.hidden = true;
 }
 
 const poolPreview = document.querySelector('#pool-preview');

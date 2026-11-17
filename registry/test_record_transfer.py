@@ -68,8 +68,8 @@ class RecordTransferTests(TestCase):
         self.assertContains(page, "Zwolnij numer")
         self.assertContains(page, reverse("record_transfer", args=[self.record.uuid]))
         self.assertContains(page, reverse("record_release", args=[self.record.uuid]))
-        # Nabywca jest podpowiedzią nowego właściciela; obecny urząd nie jest celem przeniesienia.
-        self.assertContains(page, 'value="Nabywca Fikcyjny"')
+        # Uwagi UMP z 15.11.2026: formularz nie zbiera danych właściciela; obecny urząd nie jest celem.
+        self.assertNotContains(page, 'name="transfer-owner"')
         offices = list(page.context["transfer_form"].fields["office"].queryset.values_list("pk", flat=True))
         self.assertEqual(offices, ["b"])
         dashboard = self.client.get(reverse("dashboard"))
@@ -81,6 +81,7 @@ class RecordTransferTests(TestCase):
 
     def test_transfer_moves_record_to_new_office_and_keeps_number_taken(self):
         self.sell()
+        address = PlateRecord.objects.get(pk=self.record.pk).address
         self.client.force_login(self.ump)
         with self.captureOnCommitCallbacks(execute=True):
             response = self.post_transfer()
@@ -88,7 +89,8 @@ class RecordTransferTests(TestCase):
         self.record.refresh_from_db()
         self.assertEqual(
             (self.record.office_id, self.record.status, self.record.owner, self.record.address),
-            ("b", "ISSUED", "Nabywca Fikcyjny", "Adres w B"),
+            # Właściciel z danych nabywcy, adres bez zmian: formularz pól właściciela nie ma.
+            ("b", "ISSUED", "Nabywca Fikcyjny", address),
         )
         self.assertEqual((self.record.sale_date, self.record.buyer), (None, ""))
         self.assertEqual(self.record.vin, "WVWZZZ1JZXW000001")
@@ -107,7 +109,7 @@ class RecordTransferTests(TestCase):
         self.assertNotIn("WVWZZZ1JZXW000001", mail.outbox[0].body)
         # Nowy urząd prowadzi wpis dalej, poprzedni traci dostęp do aktualnych danych.
         self.client.force_login(self.b)
-        self.assertContains(self.client.get(self.url), "Nabywca Fikcyjny")
+        self.assertContains(self.client.get(self.url), "Urząd B")
         self.client.force_login(self.a)
         self.assertEqual(self.client.get(self.url).status_code, 404)
 
@@ -140,10 +142,6 @@ class RecordTransferTests(TestCase):
             transfer_record(self.ump, self.record.uuid, {"office_id": "b"}, " ", self.record.version)
         with self.assertRaises(PermissionDenied):
             transfer_record(self.a, self.record.uuid, {"office_id": "b"}, "Powód", self.record.version)
-        PlateRecord.objects.filter(pk=self.record.pk).update(buyer="")
-        with self.assertRaisesRegex(ValidationError, "nowego właściciela"):
-            transfer_record(self.ump, self.record.uuid, {"office_id": "b"}, "Powód", self.record.version)
-        PlateRecord.objects.filter(pk=self.record.pk).update(buyer=before["buyer"])
         self.assertEqual(PlateRecord.objects.filter(pk=self.record.pk).values().get(), before)
         self.assertFalse(AuditLog.objects.filter(action="plate.transferred").exists())
 

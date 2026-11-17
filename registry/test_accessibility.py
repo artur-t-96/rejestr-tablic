@@ -160,7 +160,7 @@ class AccessibilityTests(TestCase):
                 },
                 follow=True,
             )
-            self.assertContains(response, "Wniosek o pulę zapisany; pismo PDF jest gotowe.")
+            self.assertContains(response, "Wniosek o pulę zapisany. Podpisz pismo wniosku")
             self.assertNotContains(response, "zarezerwowany")
             req = Request.objects.get(kind=kind)
             self.assertIsNone(req.record_id)

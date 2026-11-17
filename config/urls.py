@@ -14,6 +14,7 @@ urlpatterns = [
     path("panel/", v.dashboard, name="dashboard"),
     path("panel/wnioski/", v.requests_list, name="requests_list"),
     path("panel/wnioski/nowy/", v.request_new, name="request_new"),
+    path("panel/wnioski/sprawdz-numer/", v.request_number_check, name="request_number_check"),
     path("panel/wnioski/<uuid:uuid>/", v.request_detail, name="request_detail"),
     path(
         "panel/wnioski/<uuid:uuid>/<str:action>/",

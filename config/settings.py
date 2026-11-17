@@ -1,5 +1,6 @@
 import os
 import secrets
+import sys
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -157,6 +158,12 @@ SIGNING_CONFIG_FILE = os.environ.get("SIGNING_CONFIG_FILE") or (
 # Odstępy obserwatora e-Doręczeń; w demo krótkie, żeby obieg dało się pokazać w minutę.
 EDOR_FIRST_CHECK_SECONDS = 5 if DEMO_MODE else 60
 EDOR_MONITOR_SECONDS = 15 if DEMO_MODE else 300
+
+# Uwagi UMP z 15.11.2026: wniosek trafia do UMP wyłącznie z podpisanym pismem.
+# Testy jednostkowe składają wnioski bez profilu podpisu; regułę sprawdzają testy z override_settings.
+SIGNED_APPLICATION_REQUIRED = os.environ.get(
+    "DYNA_SIGNED_APPLICATION_REQUIRED", "0" if sys.argv[1:2] == ["test"] else "1"
+).strip().lower() not in ("", "0", "false", "no")
 
 # CAPTCHA nie usuwa niezależnego limitu HTML/API; oba liczone na REMOTE_ADDR.
 PUBLIC_QUERY_LIMIT = int(os.environ.get("PUBLIC_QUERY_LIMIT", "30"))

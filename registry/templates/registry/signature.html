@@ -11,4 +11,4 @@
 {% endif %}
 {% if letter.signature_report %}<h2>Wynik weryfikacji</h2><p>Treść oryginału zachowana. Status kwalifikowany i kwalifikowany znacznik czasu: nieocenione.</p><p>Polityka unieważnienia: {{ letter.signature_report.revocation_policy }}.</p><p>Sprawdzono: {{ letter.signed_at|date:'d.m.Y H:i' }}. Użytkownik: {{ letter.signed_by|account_for:user }}.</p>
 {% for signature in letter.signature_report.signatures %}<p>{{ signature.signer_name }} · integralność i podpis poprawne · certyfikat zgodny z konfiguracją urzędu.</p><p class="muted">SHA-256 certyfikatu: {{ signature.fingerprint_sha256 }}</p>{% endfor %}{% endif %}
-<p><a href="{% url 'letter_revision' letter.uuid %}">Utwórz nową wersję pisma</a></p><p><a href="{% url 'letters_list' %}">Wróć do pism</a></p></section>{% endblock %}
+<p><a href="{% url 'letter_revision' letter.uuid %}">Utwórz nową wersję pisma</a></p><p>{% if letter.request_id %}<a class="button" href="{% url 'request_detail' letter.request.uuid %}">Wróć do wniosku {{ letter.request.reference }}</a> {% endif %}<a href="{% url 'letters_list' %}">Wróć do pism</a></p></section>{% endblock %}

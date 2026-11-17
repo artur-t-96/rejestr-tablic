@@ -41,6 +41,9 @@ pule bezterminowe: [UWAGI-UMP-20261029.md](docs/UWAGI-UMP-20261029.md).
 Nazwa „Sprawdź Tablicę”, tablice zmniejszone, wniosek bez danych właściciela i numeru
 sprawy, pula 10–100 numerów, brak rezerwacji, wyszukiwarka numerów, administrator powiatu:
 [UWAGI-UMP-20261106.md](docs/UWAGI-UMP-20261106.md).
+Uwagi z testów Gniezna i UMP (podpis przed złożeniem, wniosek o serię numerów, tylko wolny
+numer, wycofanie przez urząd wnioskujący, menu bez ewidencji, filtry wniosków):
+[UWAGI-UMP-20261115.md](docs/UWAGI-UMP-20261115.md).
 
 System wdrożono na Renderze. Przebiegi trzech modułów i lokalne testy dokumentów, importów,
 uprawnień oraz kopii opisują powyższe raporty. CAPTCHA ukończono w rzeczywistym

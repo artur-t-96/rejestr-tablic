@@ -22,6 +22,7 @@ METHODS = {
     "dashboard": ("GET",),
     "requests_list": ("GET",),
     "request_new": ("GET", "POST"),
+    "request_number_check": ("GET",),
     "request_detail": ("GET", "POST"),
     "request_action": ("POST",),
     "records_list": ("GET",),

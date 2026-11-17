@@ -152,11 +152,13 @@ def role_cases(obj):
     add(f"/panel/wnioski/{obj.sent.uuid}/", business_object)
     add(
         f"/panel/wnioski/{obj.draft.uuid}/withdraw/",
-        (302, 403, 302, 302, 404),
+        # Uwagi UMP z 15.11.2026: wycofuje wyłącznie urząd wnioskujący, nie UMP.
+        (302, 403, 403, 302, 404),
         "POST",
         {"reason": "Fikcyjne wycofanie macierzy"},
     )
     add("/panel/szukaj/?q=ROLE", business_list)
+    add("/panel/wnioski/sprawdz-numer/?number=P0ROLE", business_list)
     # Konta powiatu prowadzi wyłącznie administrator powiatu; zwykły urzędnik i UMP dostają 403.
     for path in ("/panel/powiat/konta/", "/panel/powiat/konta/nowe/", f"/panel/powiat/konta/{obj.county.pk}/"):
         add(path, (302, 404, 403, 403, 403))
@@ -230,7 +232,7 @@ def role_cases(obj):
     add("/api/requests/", (401, 403, 200, 200, 200))
     add(
         f"/api/requests/{obj.draft.uuid}/withdraw/",
-        (401, 403, 200, 200, 404),
+        (401, 403, 403, 200, 404),
         "POST",
         {"reason": "Fikcyjne wycofanie API"},
         json=True,
@@ -261,7 +263,8 @@ def role_cases(obj):
         if row["method"] != "GET" or "POST" not in METHODS[route.func.__name__]:
             continue
         expected = dict(row["statuses"])
-        if route.func.__name__ == "request_detail":
+        if route.func.__name__ in ("request_detail", "record_detail"):
+            # Rozpatruje i koryguje wpis wyłącznie UMP (od 15.11.2026 także dane wpisu).
             expected["county"] = 403
         elif route.func.__name__ == "api_requests":
             expected.update(main=400, county=400, other=400)
@@ -301,13 +304,14 @@ def role_cases(obj):
     )
     add(
         f"/panel/wnioski/{obj.draft.uuid}/submit/",
-        (302, 403, 302, 302, 404),
+        # Wniosek składa urząd, który go przygotował; UMP nie wysyła cudzego szkicu.
+        (302, 403, 403, 302, 404),
         "POST",
         label="valid HTML submit",
     )
     add(
         f"/api/requests/{obj.draft.uuid}/submit/",
-        (401, 403, 200, 200, 404),
+        (401, 403, 403, 200, 404),
         "POST",
         json=True,
         label="valid API submit",

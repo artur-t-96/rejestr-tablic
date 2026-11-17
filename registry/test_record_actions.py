@@ -1,9 +1,7 @@
 import hashlib
-from datetime import timedelta
 
 from django.test import TestCase
 from django.urls import reverse
-from django.utils import timezone
 
 from .imports import apply_source_import
 from .models import AuditLog, PlateRecord
@@ -29,21 +27,19 @@ class RecordActionTests(TestCase):
         )
         self.url = reverse("record_detail", args=[self.record.uuid])
 
-    def test_county_readonly_states_preserve_data_and_reject_direct_posts(self):
+    def test_county_sees_number_without_vehicle_data_and_cannot_post(self):
+        # Uwagi UMP z 15.11.2026: ewidencja dotyczy przyznanych numerów, nie właścicieli i pojazdów.
         self.client.force_login(self.a)
-        for status in ("RESERVED", "SENT", "RELEASED"):
+        for status in PlateRecord.Status.values:
             self.record.status = status
             self.record.save(update_fields=["status"])
             before = PlateRecord.objects.values().get(pk=self.record.pk)
             response = self.client.get(self.url)
+            self.assertContains(response, "P0 TEST")
             self.assertContains(response, "Dawna historia")
-            self.assertContains(response, "WVWZZZ1JZXW000001")
-            self.assertContains(response, "01.02.2025")
+            for hidden in ("WVWZZZ1JZXW000001", "Osoba Fikcyjna", "Nabywca Fikcyjny", "01.02.2025"):
+                self.assertNotContains(response, hidden)
             self.assertNotContains(response, "Zapisz zmianę")
-            self.assertNotContains(response, 'name="vin"')
-            self.assertContains(
-                response, "pozostają historią" if status == "RELEASED" else "po przydziale numeru"
-            )
             self.assertEqual(
                 self.client.post(
                     self.url, {"vin": "WVWZZZ1JZXW000002", "reason": "Próba", "version": 1}
@@ -53,30 +49,27 @@ class RecordActionTests(TestCase):
             self.assertEqual(PlateRecord.objects.values().get(pk=self.record.pk), before)
         self.assertFalse(AuditLog.objects.exists())
 
-    def test_county_vehicle_fields_remain_available_after_allocation(self):
-        self.client.force_login(self.a)
-        for status in ("ALLOCATED", "ISSUED", "SOLD"):
-            self.record.status = status
-            self.record.save(update_fields=["status"])
-            response = self.client.get(self.url)
-            self.assertContains(response, "Zapisz zmianę")
-            self.assertContains(response, 'name="vin"')
-            self.assertNotContains(response, 'name="owner"')
-            self.assertNotContains(response, 'name="status"')
-
-    def test_main_can_correct_every_status_and_no_reservation_is_offered(self):
+    def test_main_corrects_office_letter_and_note_only(self):
         self.client.force_login(self.ump)
         for status in PlateRecord.Status.values:
             self.record.status = status
             self.record.save(update_fields=["status"])
             response = self.client.get(self.url)
             self.assertContains(response, "Zapisz zmianę")
-            self.assertContains(response, 'name="owner"')
+            self.assertContains(response, 'name="note"')
+            hidden = ("owner", "address", "vin", "make", "registration_date", "sale_date", "buyer", "status")
+            for field in hidden:
+                self.assertNotContains(response, f'name="{field}"')
+            self.assertNotContains(response, "WVWZZZ1JZXW000001")
             self.assertNotContains(response, "rezerwac")
-        self.record.status = "SENT"
-        self.record.reservation_until = timezone.now() - timedelta(seconds=1)
-        self.record.save(update_fields=["status", "reservation_until"])
-        self.assertNotContains(self.client.get(self.url), "Przedłuż rezerwację")
+        response = self.client.post(
+            self.url,
+            {"office": "a", "letter_number": "", "note": "Nowa uwaga", "reason": "Korekta", "version": 1},
+        )
+        self.assertEqual(response.status_code, 302)
+        self.record.refresh_from_db()
+        # Dane pojazdu zostają w bazie bez zmian.
+        self.assertEqual((self.record.note, self.record.vin), ("Nowa uwaga", "WVWZZZ1JZXW000001"))
 
     def test_import_source_is_readable_for_own_county_without_editing_released_history(self):
         text = csv_text([row("M9HIST", status="RELEASED", office_id="a", note="Historyczny wpis")])

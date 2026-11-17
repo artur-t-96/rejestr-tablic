@@ -73,6 +73,9 @@ def enqueue(user, letter, provider, ip=None):
     require_role(user, "COUNTY", "MAIN")
     if user.office_id != letter.office_id:
         raise ValidationError("Pismo wysyła wyłącznie urząd nadawcy.")
+    if letter.kind == "APPLICATION" and settings.SIGNED_APPLICATION_REQUIRED and not letter.signed_pdf:
+        # Uwagi UMP z 15.11.2026: niepodpisany wniosek nie trafia do UMP żadnym kanałem.
+        raise ValidationError("Niepodpisanego wniosku nie można wysłać. Najpierw podpisz pismo wniosku.")
     if provider == "EDOR":
         from .edor_delivery import enqueue_edor
 

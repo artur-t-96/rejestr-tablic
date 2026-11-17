@@ -3,8 +3,8 @@ import re
 from django import forms
 
 from .models import FlaggedWord, LetterTemplate, Office, PlateRecord, Request, User
-from .services import COUNTY_FIELDS
-from .validation import validate_number, validate_part
+from .services import occupied_message, requests_of_record
+from .validation import series_numbers, validate_number, validate_part
 
 
 class LoginEmailForm(forms.Form):
@@ -130,7 +130,14 @@ class RequestForm(forms.Form):
     number = forms.CharField(
         label="Pełny numer tablicy indywidualnej",
         required=False,
-        help_text="Np. P0 KOWAL. Dla wniosku o pulę pozostaw puste.",
+        help_text="Np. P0 KOWAL. Tylko wolny numer — sprawdź go w „Sprawdź tablicę”.",
+    )
+    # Uwagi UMP z 15.11.2026: jeden wniosek o serię, np. P1 MAJA1 – P1 MAJA9.
+    number_to = forms.CharField(
+        label="Seria: ostatni numer (opcjonalnie)",
+        required=False,
+        help_text="Dla serii wpisz ostatni numer, np. P1 MAJA9 przy pierwszym P1 MAJA1. "
+        "Numery różnią się tylko końcowymi cyframi.",
     )
     # Lista 10–100 obowiązuje tylko wniosek o pulę, dlatego sprawdza ją `clean`, nie pole.
     count = forms.IntegerField(
@@ -150,7 +157,6 @@ class RequestForm(forms.Form):
         if user is not None and user.role == User.Role.MAIN:
             self.fields["kind"].choices = [(Request.Kind.INDIVIDUAL, Request.Kind.INDIVIDUAL.label)]
             self.initial["kind"] = Request.Kind.INDIVIDUAL
-            self.fields["number"].help_text = "Np. P0 KOWAL."
             del self.fields["count"]
 
     def clean(self):
@@ -163,6 +169,21 @@ class RequestForm(forms.Form):
                 data["number"] = validate_number(data.get("number", ""))
             except forms.ValidationError as exc:
                 self.add_error("number", exc)
+                return data
+            numbers = [data["number"]]
+            if data.get("number_to"):
+                try:
+                    numbers = series_numbers(data["number"], data["number_to"])
+                except forms.ValidationError as exc:
+                    self.add_error("number_to", exc)
+                    return data
+            taken = sorted(
+                PlateRecord.objects.filter(number__in=numbers)
+                .exclude(status="RELEASED")
+                .values_list("number", flat=True)
+            )
+            if taken:
+                self.add_error("number", occupied_message(taken))
         elif data.get("kind") in {"II", "III"}:
             if data.get("count") not in range(10, 101, 10):
                 self.add_error("count", "Wybierz liczbę tablic w puli: 10, 20, …, 100.")
@@ -197,69 +218,33 @@ class DecisionForm(forms.Form):
 
 
 class RecordForm(forms.ModelForm):
+    """Korekta wpisu przez UMP: urząd prowadzący, numer pisma, uwagi.
+
+    Uwagi UMP z 15.11.2026: ewidencja dotyczy przyznanych numerów, nie właścicieli i pojazdów.
+    Pola właściciela i pojazdu zostają w bazie (import, API, historia), ale nie w formularzu.
+    """
+
     reason = forms.CharField(label="Powód zmiany", widget=forms.Textarea(attrs={"rows": 2}))
     version = forms.IntegerField(widget=forms.HiddenInput)
 
     class Meta:
         model = PlateRecord
-        fields = [
-            "owner",
-            "address",
-            "office",
-            "status",
-            "vin",
-            "make",
-            "model",
-            "registration_date",
-            "sale_date",
-            "buyer",
-            "letter_number",
-            "note",
-        ]
-        labels = {
-            "owner": "Właściciel",
-            "address": "Adres",
-            "office": "Urząd prowadzący",
-            "status": "Status",
-            "vin": "VIN",
-            "make": "Marka",
-            "model": "Model",
-            "registration_date": "Data rejestracji",
-            "sale_date": "Data zbycia",
-            "buyer": "Nabywca",
-            "letter_number": "Numer pisma",
-            "note": "Uwagi",
-        }
-        widgets = {
-            k: forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d")
-            for k in ["registration_date", "sale_date"]
-        }
+        fields = ["office", "letter_number", "note"]
+        labels = {"office": "Urząd prowadzący", "letter_number": "Numer pisma", "note": "Uwagi"}
 
     def __init__(self, *args, user, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["version"].initial = self.instance.version
         self.fields["office"].queryset = Office.objects.filter(active=True)
-        if user.role == "COUNTY":
-            for field in list(self.fields):
-                if field not in COUNTY_FIELDS + ["reason", "version"]:
-                    del self.fields[field]
-        elif Request.objects.filter(record=self.instance, status__in=["DRAFT", "SENT"]).exists():
-            # Status wpisu z otwartym wnioskiem zmienia rozpatrzenie albo wycofanie, nie korekta.
-            del self.fields["status"]
+        if requests_of_record(self.instance).filter(status__in=["DRAFT", "SENT"]).exists():
+            # Urząd wpisu z otwartym wnioskiem zmienia rozpatrzenie albo wycofanie, nie korekta.
+            del self.fields["office"]
 
 
 class TransferForm(forms.Form):
     """Zbyty pojazd przechodzi do innego urzędu; numer pozostaje zajęty."""
 
     office = forms.ModelChoiceField(label="Nowy urząd prowadzący", queryset=Office.objects.none())
-    owner = forms.CharField(label="Nowy właściciel", max_length=180)
-    address = forms.CharField(label="Adres nowego właściciela", max_length=300, required=False)
-    registration_date = forms.DateField(
-        label="Data rejestracji w nowym urzędzie",
-        required=False,
-        help_text="Pozostaw puste, jeśli pojazd nie jest jeszcze zarejestrowany w nowym urzędzie.",
-        widget=forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
-    )
     reason = forms.CharField(label="Podstawa przeniesienia", widget=forms.Textarea(attrs={"rows": 2}))
     version = forms.IntegerField(widget=forms.HiddenInput)
 
@@ -269,7 +254,6 @@ class TransferForm(forms.Form):
         self.fields["office"].queryset = (
             Office.objects.filter(active=True).exclude(kind="MAIN").exclude(pk=record.office_id)
         )
-        self.fields["owner"].initial = record.buyer
         self.fields["version"].initial = record.version
 
 

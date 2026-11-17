@@ -73,6 +73,7 @@ from .services import (
     decide_request,
     issue_slot,
     record_postal_dispatch,
+    requests_of_record,
     require_role,
     scalar,
     send_request,
@@ -461,7 +462,12 @@ def requests_list(request):
 
 
 def request_queryset(request):
-    reqs = visible(request.user, Request.objects.select_related("office", "record", "author"))
+    from django.utils.dateparse import parse_date
+
+    reqs = visible(
+        request.user,
+        Request.objects.select_related("office", "record", "author").prefetch_related("series_records"),
+    )
     status = request.GET.get("status", "")
     q = request.GET.get("q", "").strip()
     if status:
@@ -470,12 +476,28 @@ def request_queryset(request):
         reqs = reqs.filter(kind=request.GET["kind"])
     if request.GET.get("office"):
         reqs = reqs.filter(office_id=request.GET["office"])
+    # Uwagi UMP z 15.11.2026: zakres dat złożenia (albo utworzenia szkicu) i stan podpisu.
+    date_from, date_to = parse_date(request.GET.get("od", "")), parse_date(request.GET.get("do", ""))
+    if date_from:
+        reqs = reqs.filter(created_at__date__gte=date_from)
+    if date_to:
+        reqs = reqs.filter(created_at__date__lte=date_to)
+    signed = Q(letters__kind="APPLICATION", letters__signed_pdf__isnull=False)
+    if request.GET.get("podpis") == "tak":
+        reqs = reqs.filter(pk__in=Request.objects.filter(signed).values("pk"))
+    elif request.GET.get("podpis") == "nie":
+        reqs = reqs.exclude(pk__in=Request.objects.filter(signed).values("pk"))
     if q:
+        number = q.replace(" ", "")
         reqs = reqs.filter(
             # Numer sprawy nie jest już wpisywany; zostaje w wyszukiwaniu dla wniosków historycznych.
             Q(case_number__icontains=q)
-            | Q(record__number__icontains=q.replace(" ", ""))
+            | Q(reference_number__icontains=q)
+            | Q(record__number__icontains=number)
+            | Q(pk__in=PlateRecord.objects.filter(number__icontains=number).values("series_request"))
             | Q(office__name__icontains=q)
+            | Q(author__first_name__icontains=q)
+            | Q(author__last_name__icontains=q)
         )
     return reqs
 
@@ -499,9 +521,9 @@ def request_new(request):
             req = create_request(request.user, form.cleaned_data, ip(request))
             messages.success(
                 request,
-                "Wniosek zapisany; pismo PDF jest gotowe."
+                "Wniosek zapisany. Podpisz pismo wniosku, a potem złóż wniosek do UMP."
                 if req.kind == "I"
-                else "Wniosek o pulę zapisany; pismo PDF jest gotowe.",
+                else "Wniosek o pulę zapisany. Podpisz pismo wniosku, a potem złóż wniosek do UMP.",
             )
             return redirect("request_detail", uuid=req.uuid)
         except ValidationError as error:
@@ -512,10 +534,38 @@ def request_new(request):
         {
             "form": form,
             "title": "Nowy wniosek",
-            "description": "Wniosek o tablicę indywidualną albo o pulę tablic zmniejszonych lub tymczasowych.",
+            "description": "Wniosek o tablicę indywidualną (jeden numer albo serię) "
+            "lub o pulę tablic zmniejszonych albo tymczasowych.",
             "submit": "Zapisz wniosek",
+            "number_check_url": reverse("request_number_check"),
         },
     )
+
+
+@login_required
+@require_http_methods(["GET"])
+def request_number_check(request):
+    """Podpowiedź w formularzu wniosku: czy numer (albo seria) jest wolny. Nie zajmuje numeru."""
+    from .services import occupied_message
+    from .validation import series_numbers, validate_number
+
+    require_role(request.user, "COUNTY", "MAIN")
+    if not rate_limit(f"number-check:{request.user.pk}", 120, 60):
+        return JsonResponse({"ok": False, "message": "Za dużo sprawdzeń. Spróbuj za minutę."}, status=429)
+    first, last = request.GET.get("number", "")[:20], request.GET.get("number_to", "")[:20]
+    try:
+        numbers = series_numbers(first, last) if last.strip() else [validate_number(first)]
+    except ValidationError as error:
+        return JsonResponse({"ok": False, "message": "; ".join(error.messages)})
+    taken = sorted(
+        PlateRecord.objects.filter(number__in=numbers)
+        .exclude(status="RELEASED")
+        .values_list("number", flat=True)
+    )
+    if taken:
+        return JsonResponse({"ok": False, "message": occupied_message(taken)})
+    label = "Seria wolna" if len(numbers) > 1 else "Numer wolny"
+    return JsonResponse({"ok": True, "message": f"{label} ({len(numbers)}) — możesz zapisać wniosek."})
 
 
 @login_required
@@ -579,22 +629,34 @@ def request_detail(request, uuid):
         object_id__in=[str(pk) for pk in incoming.values_list("pk", flat=True)],
     )
     history = history_context(request, AuditLog.objects.filter(event_filter))
-    check = None
+    checks = []
+    plate_records = req.plate_records
     if req.record_id and request.user.role == "MAIN":
         from .number_checks import verification
 
         # Historia numeru obejmuje wpisy innych urzędów, dlatego widzi ją tylko UMP.
-        check = verification(req.record)
+        checks = [(record, verification(record)) for record in plate_records]
+    own = req.office_id == request.user.office_id
+    application = req.letters.filter(kind="APPLICATION").order_by("-created_at", "-pk").first()
     return render(
         request,
         "registry/request_detail.html",
         {
             "req": req,
-            "check": check,
+            "checks": checks,
+            "plate_records": plate_records,
+            "application": application,
+            "signed": bool(application and application.signed_pdf),
+            "signature_required": settings.SIGNED_APPLICATION_REQUIRED,
+            # Uwagi UMP z 15.11.2026: składa i wycofuje wyłącznie urząd wnioskujący.
+            "can_submit": own
+            and req.status == "DRAFT"
+            and (request.user.role == "COUNTY" or req.kind == "I"),
+            "can_withdraw": own and req.status in ("DRAFT", "SENT"),
             "suggested": suggested,
             "author_label": account_label(req.author, viewer=request.user, with_email=True),
             "current_record": current_record,
-            "request_number": req.record.display_number if req.record_id else "",
+            "request_number": req.subject_numbers,
             "form": form,
             "letters": req.letters.all(),
             **history,
@@ -662,8 +724,12 @@ def number_search_results(user, query):
     requests_by_record = {
         r.record_id: r for r in Request.objects.filter(record__in=list(records)).select_related("office")
     }
+    series = {
+        r.pk: r
+        for r in Request.objects.filter(pk__in=[x.series_request_id for x in records if x.series_request_id])
+    }
     for record in records:
-        req = requests_by_record.get(record.pk)
+        req = requests_by_record.get(record.pk) or series.get(record.series_request_id)
         if req and req.office_id != record.office_id and user.role != "MAIN":
             # Wpis przeniesiony z innego urzędu: wniosek źródłowy należy do poprzedniego urzędu.
             req = None
@@ -748,9 +814,10 @@ def records_list(request):
 def record_detail(request, uuid):
     require_role(request.user, "COUNTY", "MAIN")
     record = get_object_or_404(visible(request.user, PlateRecord.objects.select_related("office")), uuid=uuid)
-    can_edit = request.user.role == "MAIN" or record.status in {"ALLOCATED", "ISSUED", "SOLD"}
+    # Uwagi UMP z 15.11.2026: urząd nie prowadzi tu danych pojazdu; korektę wpisu wykonuje UMP.
+    can_edit = request.user.role == "MAIN"
     if request.method == "POST" and not can_edit:
-        raise PermissionDenied("W tym statusie powiat może wyłącznie przeglądać wpis.")
+        raise PermissionDenied("Wpis koryguje UMP.")
     form = RecordForm(request.POST or None, instance=record, user=request.user) if can_edit else None
     if request.method == "POST" and form.is_valid():
         data = {k: v for k, v in form.cleaned_data.items() if k not in ["reason", "version"]}
@@ -774,7 +841,7 @@ def record_detail(request, uuid):
     can_close = (
         request.user.role == "MAIN"
         and record.status in TRANSFER_STATUSES
-        and not Request.objects.filter(record=record, status__in=["DRAFT", "SENT"]).exists()
+        and not requests_of_record(record).filter(status__in=["DRAFT", "SENT"]).exists()
     )
     return render(
         request,
@@ -783,6 +850,9 @@ def record_detail(request, uuid):
             "record": record,
             "form": form,
             "can_edit": can_edit,
+            "source_request": visible(request.user, requests_of_record(record))
+            .order_by("-created_at")
+            .first(),
             "transfer_form": TransferForm(record=record) if can_close else None,
             "release_form": ReleaseForm(record=record) if can_close else None,
             "import_event": AuditLog.objects.filter(
@@ -816,12 +886,7 @@ def record_transfer(request, uuid):
         transfer_record(
             request.user,
             uuid,
-            {
-                "office_id": data["office"].pk,
-                "owner": data["owner"],
-                "address": data["address"],
-                "registration_date": data["registration_date"],
-            },
+            {"office_id": data["office"].pk},
             data["reason"],
             data["version"],
             ip(request),
@@ -1278,7 +1343,7 @@ def export_records(request):
                 r.reference,
                 r.kind,
                 r.office_id,
-                r.record.number if r.record_id else "",
+                r.subject_numbers.replace(" ", "").replace("–", "-") if r.record_id else "",
                 r.count,
                 r.status,
                 r.created_at.isoformat(),

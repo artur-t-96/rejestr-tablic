@@ -4,6 +4,12 @@ Stan: 03.10.2026, zmiana na bazie `fa45920`. API wymaga sesji urzędnika
 oraz CSRF dla zapisu. Ten etap obejmuje POST wniosków, submit/withdraw/decide,
 POST pul i issue; korekty PATCH opisuje `API-KOREKTY.md`.
 
+Od 17.11.2026 (`UWAGI-UMP-20261115.md`): `submit` zwraca HTTP 400, dopóki najnowsze pismo
+wniosku nie jest podpisane — API nie ma podpisu, pismo podpisuje się w panelu
+(`/panel/pisma/<uuid>/podpis/`). `submit` i `withdraw` wykonuje tylko urząd wnioskujący
+(inny urząd, także UMP: HTTP 403). Wniosek o serię: opcjonalne pole tekstowe `number_to`
+(ostatni numer serii).
+
 ## Kontrakt danych
 
 - Treść jest obiektem JSON. Powtórzone klucze, także zagnieżdżone, NaN,

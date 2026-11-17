@@ -32,3 +32,14 @@ input,select,textarea{max-width:100%}.letter-item>div{min-width:0}
 .history-changes tbody th{letter-spacing:normal;text-transform:none}
 .environment.demo{background:#fff8e8;color:#6b4a0a;border-bottom-color:#e6d3a0;font-weight:600}.login-card form+form{margin-top:-12px}
 .number-list{list-style:none;padding:0;margin:0 0 14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:6px 14px}.modules{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.disabled-card{opacity:.7;cursor:not-allowed}.disabled-card:hover{border-color:var(--line);background:var(--paper)}button[disabled]{opacity:.55;cursor:not-allowed}button[disabled]:hover{background:white}
+/* Uwagi UMP z 15.11.2026: „Sprawdź tablicę” wyraźnie w menu i na przeglądzie. */
+.sidebar nav a.nav-check{background:var(--teal);color:#fff;font-weight:700;margin-bottom:10px}
+.sidebar nav a.nav-check:hover,.sidebar nav a.nav-check[aria-current]{background:#005a51;color:#fff}
+.page-head .actions{display:flex;gap:10px;flex-wrap:wrap}
+.button.check-plate{background:#fff;color:var(--teal);border:2px solid var(--teal)}
+.button.check-plate:hover{background:#e8f4f2;color:#005a51}
+.series-list{list-style:none;padding:0;margin:8px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:4px 12px}
+.submit-steps{margin-top:18px}.submit-steps ol{padding-left:1.3rem;display:grid;gap:10px}
+.number-check{margin:6px 0 0;font-weight:600}.number-check.ok{color:var(--teal)}.number-check.taken{color:var(--danger)}
+.filters .filter-actions{display:flex;gap:8px;align-items:flex-end}
+@media(forced-colors:active){.sidebar nav a.nav-check{border:2px solid CanvasText}}

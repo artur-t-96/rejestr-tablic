@@ -67,7 +67,7 @@ def typed_values(payload, *, text=(), positive=(), booleans=(), dates=(), option
 def request_values(payload):
     return typed_values(
         payload,
-        text=("kind", "number", "justification"),
+        text=("kind", "number", "number_to", "justification"),
         # Liczba tablic w puli: 10, 20, …, 100 (sprawdza formularz i `services.require_pool_count`).
         positive=("count",),
     )

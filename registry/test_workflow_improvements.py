@@ -86,12 +86,15 @@ class StatusGuardTests(Base):
         decide_request(self.ump, req.uuid, True)
         self.assertEqual(Request.objects.get(pk=req.pk).status, "APPROVED")
 
-    def test_form_hides_status_only_while_request_is_open(self):
+    def test_form_hides_office_only_while_request_is_open(self):
+        # Od 15.11.2026 formularz wpisu nie zmienia statusu (rozpatrzenie, przeniesienie, zwolnienie).
         req = self.sent()
-        self.assertNotIn("status", RecordForm(instance=req.record, user=self.ump).fields)
+        fields = RecordForm(instance=req.record, user=self.ump).fields
+        self.assertNotIn("status", fields)
+        self.assertNotIn("office", fields)
         decide_request(self.ump, req.uuid, True)
         req.record.refresh_from_db()
-        self.assertIn("status", RecordForm(instance=req.record, user=self.ump).fields)
+        self.assertIn("office", RecordForm(instance=req.record, user=self.ump).fields)
 
     def test_entry_that_never_was_an_allocation_cannot_be_reactivated(self):
         req = self.sent()
@@ -238,11 +241,13 @@ class DecisionAidTests(Base):
         page = self.client.get(reverse("request_detail", args=[second.uuid]))
         self.assertContains(page, "Ten numer wcześniej")
         self.assertContains(page, "Unikalny w województwie")
-        self.assertEqual([item.pk for item in page.context["check"]["earlier"]], [record.pk])
+        [(checked, check)] = page.context["checks"]
+        self.assertEqual(checked.pk, second.record_id)
+        self.assertEqual([item.pk for item in check["earlier"]], [record.pk])
         self.assertContains(page, "Urząd A")
         self.client.force_login(self.b)
         page = self.client.get(reverse("request_detail", args=[second.uuid]))
-        self.assertIsNone(page.context["check"])
+        self.assertEqual(page.context["checks"], [])
         self.assertNotContains(page, "Ten numer wcześniej")
         self.assertNotContains(page, "Urząd A")
 
